@@ -65,6 +65,9 @@ function themeReducer (state: ThemeType, action: ThemeDispatchAction)
 	}
 }
 
+/**
+ * Theme provider to wrap the app components so they can use a theme and be displayed
+ */
 export function ThemeProvider ({children}: {children: React.ReactNode})
 {
 	const [theme, dispatch] = useReducer (themeReducer, DEFAULT_THEME);
@@ -77,34 +80,35 @@ export function ThemeProvider ({children}: {children: React.ReactNode})
 }
 
 /**
- * Gets the current theme
- * 
- * @returns The active theme used
- */
-export function useTheme ()
-{
-	return useContext(ThemeContext).theme;
-}
-
-/**
- * Gets which mode is being used, either dark mode, light mode or set to auto. The former 2 are meant to be fixed, while "auto" is meant to represent a mode that changes with the system
- * 
- * @returns "dark", "light" or "auto"
- */
-export function useBrightnessMode ()
-{
-	return useContext(ThemeContext).theme.mode;
-}
-
-/**
- * Gets the theme variable and the dispatch function used to set this theme.
+ * Gets the current theme and the dispatch function used to change it.
  * The dispatch function takes in:
  * - an object containing the key "type" set to "set" with an object representing a part of the theme or its entirity, or
  * - an object containing the key "type" set to "reset" and nothing else, used to reset the theme to the default one.
  * 
- * @returns An object made of "theme" containing the value of the theme, as well as a "dispatch" to set the theme
+ * @returns An object made of "theme" containing the value of the active theme, as well as a "dispatch" to set the theme
  */
-export function useThemeWithDispatch ()
+export function useTheme ()
 {
-	return useContext (ThemeContext);
+	return useContext(ThemeContext);
+}
+
+function doesPreferDarkMode ()
+{
+	if (window.matchMedia("(prefers-color-scheme: dark)").matches)
+		return true;
+	return false;
+}
+
+/**
+ * Gets which mode is being used, either dark mode, light mode or set to auto. The former 2 are meant to be fixed, while "auto" is meant to represent a mode that changes with the system, and thus is affected by it.
+ * 
+ * @returns true if theme.mode is "dark", or "auto" and the system prefers dark mode, false otherwise
+ */
+export function useDarkMode ()
+{
+	const context = useContext (ThemeContext);
+	
+	if (context.theme.mode === "auto")
+		return doesPreferDarkMode();
+	return context.theme.mode === "dark";
 }
