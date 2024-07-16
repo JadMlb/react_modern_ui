@@ -40,14 +40,7 @@ const DEFAULT_THEME: ThemeType = {
 	}
 };
 
-/**
- * uses typecript mapped types to make all attributes optional
- */
-type Optional<T> = {
-	[P in keyof T]?: T[P]
-};
-
-type ThemeDispatchAction = {type: "set", values: Optional<ThemeType>} | {type: "reset"}
+type ThemeDispatchAction = {type: "set", values: Partial<ThemeType>} | {type: "reset"}
 
 type ThemeContextType = {
 	theme: ThemeType,
