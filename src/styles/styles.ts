@@ -1,4 +1,4 @@
-import theme from "./theme.json";
+import ThemeType from "../types/theme";
 
 const coloursAltNames = {
 	white: "neutral.light",
@@ -45,9 +45,9 @@ export const spacing = {
 
 type Colour = keyof typeof coloursAltNames;
 
-export function colour (role: Colour)
+export function colour (role: Colour, theme: ThemeType)
 {
 	let roleTree = coloursAltNames[role].split (".");
-	const COLOUR_TYPE = roleTree[0] as keyof typeof theme;
+	const COLOUR_TYPE = roleTree[0] as keyof Omit<ThemeType, "mode">;
 	return "#" + theme[COLOUR_TYPE][roleTree[1] as "dark" | "medium" | "light"];
 }
