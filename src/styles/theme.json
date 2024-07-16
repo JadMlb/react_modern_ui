@@ -1,0 +1,37 @@
+{
+	"primary": {
+		"dark": "123D56",
+		"medium": "2274A5",
+		"light": "DDE8EF"
+	},
+	"accent": {
+		"dark": "40260A",
+		"medium": "F2D0A9",
+		"light": "F9EDE0"
+	},
+	"neutral": {
+		"dark": "131B23",
+		"medium": "7E7F81",
+		"light": "FEFEFF"
+	},
+	"gray": {
+		"dark": "555555",
+		"medium": "AAAAAA",
+		"light": "EEEEEE"
+	},
+	"affirmative": {
+		"dark": "014A22",
+		"medium": "018E42",
+		"light": "76D4A2"
+	},
+	"error": {
+		"dark": "9A1E2F",
+		"medium": "D52941",
+		"light": "EDD0D4"
+	},
+	"alert": {
+		"dark": "A16A09",
+		"medium": "FFBF00",
+		"light": "FFF3D0"
+	}
+}
