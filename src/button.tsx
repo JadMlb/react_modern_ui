@@ -4,7 +4,7 @@ import { colour, radius, spacing } from "./styles/styles";
 import { useDarkMode, useTheme } from "./styles/theme";
 import ThemeType from "./types/theme";
 
-type ButtonRoles = "prim" | "transparent" | "alert" | "warn" | "normal";
+type ButtonRoles = "primary" | "transparent" | "alert" | "warn" | "normal";
 
 const StyledButton = styled.button<{$isDark: boolean, $theme: ThemeType, $wide? : boolean, $rounded?: boolean, $role : ButtonRoles}>
 `
