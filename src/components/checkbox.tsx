@@ -71,7 +71,7 @@ export type CheckBoxProps = {
 	onChange?: React.ChangeEventHandler<HTMLInputElement>
 };
 
-export function CheckBox ({label, isChecked, isFull, singleOption, onChange}: CheckBoxProps)
+export default function CheckBox ({label, isChecked, isFull, singleOption, onChange}: CheckBoxProps)
 {
 	const {theme} = useTheme();
 	const isDark = useDarkMode();
