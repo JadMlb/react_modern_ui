@@ -14,7 +14,7 @@ const StyledButton = styled.button<{$isDark: boolean, $theme: ThemeType, $wide? 
 	font-size: inherit;
 	background-color: ${
 		props =>
-		["prim"].includes (props.$role) ?
+		["primary"].includes (props.$role) ?
 			colour ("primary", props.$theme) :
 				props.$role === "warn" ? 
 					colour ("error", props.$theme) :
@@ -24,7 +24,7 @@ const StyledButton = styled.button<{$isDark: boolean, $theme: ThemeType, $wide? 
 	};
 	color: ${
 		props =>
-		(props.$isDark || ["prim", "warn"].includes (props.$role)) ?
+		(props.$isDark || ["primary", "warn"].includes (props.$role)) ?
 			colour ("white", props.$theme) :
 			["alert"].includes (props.$role) ?
 				colour ("error", props.$theme) :
@@ -32,7 +32,7 @@ const StyledButton = styled.button<{$isDark: boolean, $theme: ThemeType, $wide? 
 					colour ("primary", props.$theme) :
 					colour ("black", props.$theme)
 	};
-	font-weight: ${props => ["prim", "transparent", "warn"].includes (props.$role) ? "bold" : "normal"};
+	font-weight: ${props => ["primary", "transparent", "warn"].includes (props.$role) ? "bold" : "normal"};
 	${props => props.$wide && css`width: 100%;`}
 	transition: transform 0.25s ease-in-out;
 	cursor: pointer;
@@ -60,7 +60,7 @@ const StyledButton = styled.button<{$isDark: boolean, $theme: ThemeType, $wide? 
 								"errorDark" :
 								["alert"].includes (props.$role) ?
 									"error" :
-									["prim"].includes (props.$role) || props.$isDark ?
+									["primary"].includes (props.$role) || props.$isDark ?
 										"primaryDark" :
 										"primaryElevated",
 							props.$theme
@@ -73,7 +73,7 @@ const StyledButton = styled.button<{$isDark: boolean, $theme: ThemeType, $wide? 
 
 		${props => ["alert"].includes (props.$role) && css `color: ${colour ("white", props.$theme)};`}
 		${
-			props => !["alert", "warn", "prim", "transparent"].includes (props.$role) && props.$rounded &&
+			props => !["alert", "warn", "primary", "transparent"].includes (props.$role) && props.$rounded &&
 						css
 						`
 							box-sizing: border-box;
