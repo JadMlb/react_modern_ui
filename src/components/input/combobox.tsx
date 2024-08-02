@@ -1,10 +1,10 @@
 import { useState, useEffect, useRef } from "react";
 import { css, styled } from "styled-components";
-import { colour, radius, spacing } from "../styles/styles";
-import Option from "../types/Option";
+import { colour, radius, spacing } from "../../styles/styles";
+import Option from "../../types/Option";
 import Button from "./button";
-import ThemeType from "../types/theme";
-import { useDarkMode, useTheme } from "../styles/theme";
+import ThemeType from "../../types/theme";
+import { useDarkMode, useTheme } from "../../styles/theme";
 import React from "react";
 
 const Container = styled.div<{$white?: boolean, $isDark: boolean, $theme: ThemeType}>

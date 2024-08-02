@@ -1,8 +1,8 @@
 import React from "react";
 import styled, { css } from "styled-components";
-import { useDarkMode, useTheme } from "../styles/theme";
-import { colour, radius, spacing } from "../styles/styles";
-import ThemeType from "../types/theme";
+import { useDarkMode, useTheme } from "../../styles/theme";
+import { colour, radius, spacing } from "../../styles/styles";
+import ThemeType from "../../types/theme";
 
 const Label = styled.label<{$hasLabel: boolean}>
 `

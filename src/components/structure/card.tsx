@@ -1,7 +1,7 @@
 import styled from "styled-components";
-import { colour, radius, spacing } from "../styles/styles";
-import ThemeType from "../types/theme";
-import { useDarkMode, useTheme } from "../styles/theme";
+import { colour, radius, spacing } from "../../styles/styles";
+import ThemeType from "../../types/theme";
+import { useDarkMode, useTheme } from "../../styles/theme";
 import React from "react";
 
 const CardBg = styled.div<{$isDark: boolean, $theme: ThemeType}>
