@@ -1,16 +1,15 @@
 import React from "react";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { colour, radius, spacing } from "../../styles/styles";
 import { TagRole } from "../../types/Tag";
 import ThemeType from "../../types/theme";
 import { useTheme } from "../../styles/theme";
 
-const Background = styled.div<{$col: string, $whiteText?: boolean, $rounded?: boolean, $theme: ThemeType}>
+const Background = styled.div<{$col: string, $centered: boolean, $whiteText?: boolean, $rounded?: boolean, $theme: ThemeType}>
 `
 	background-color: ${props => props.$col};
 	color: ${props => colour ("black", props.$theme)};
-	text-align: center;
-	width: min-content;
+	${props => props.$centered && css `text-align: center; width: min-content;`}
 	padding: ${spacing.xsmall};
 	border-radius: ${props => props.$rounded ? radius.large : radius.small};
 	${props => props.$whiteText && "color: white;"}
@@ -19,10 +18,11 @@ const Background = styled.div<{$col: string, $whiteText?: boolean, $rounded?: bo
 type TagProps = {
 	role: TagRole,
 	rounded?: boolean,
+	centered?: boolean,
 	children: React.ReactNode
 };
 
-export default function Tag ({role = "neutral", rounded, children}: TagProps)
+export default function Tag ({role = "neutral", centered = false, rounded, children}: TagProps)
 {
 	const {theme} = useTheme();
 	
@@ -40,6 +40,7 @@ export default function Tag ({role = "neutral", rounded, children}: TagProps)
 			$col = {colour (bgCol as "affirmative" | "alert" | "error" | "gray", theme)}
 			$whiteText = {role === "warn-light" || role === "warn-severe"}
 			$rounded = {rounded}
+			$centered = {centered}
 			$theme = {theme}
 		>
 			{children}
