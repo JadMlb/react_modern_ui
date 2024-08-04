@@ -43,6 +43,9 @@ const StyledButton = styled.button<{$isDark: boolean, $theme: ThemeType, $wide? 
 					width: 30px;
 					height: 30px;
 					padding: calc(${spacing.xsmall}/2);
+					display: flex;
+					justify-content: center;
+					align-items: center;
 					border-radius: ${radius.round};
 					font-weight: bold;
 					font: inherit;
