@@ -2,12 +2,13 @@
   "name": "react-modern-ui",
   "version": "1.0.0",
   "description": "A simple UI library for react with some simple UI elements",
+  "keywords": ["react", "library", "ui", "ui/ux", "ui elements"],
   "main": "index.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "tsc"
+    "build": "./node_modules/.bin/babel src --out-file index.ts"
   },
-  "author": "",
+  "author": "JadMlb",
   "license": "MIT",
   "dependencies": {
     "@babel/cli": "^7.24.1",
