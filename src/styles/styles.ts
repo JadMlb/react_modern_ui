@@ -43,7 +43,7 @@ export const spacing = {
 	xxlarge: "10rem",
 };
 
-type Colour = keyof typeof COLOURS_ALT_NAMES;
+export type Colour = keyof typeof COLOURS_ALT_NAMES;
 
 export function colour (role: Colour, theme: ThemeType)
 {
