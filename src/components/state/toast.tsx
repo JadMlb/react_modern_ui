@@ -47,7 +47,7 @@ const ToastIcon = styled.div<{$colour: string, $isDark: boolean, $theme: ThemeTy
 	background-color: ${props => colour (props.$colour + (props.$isDark ? "Dark" : "") as Colour, props.$theme)};
 	border-radius: ${radius.round};
 	
-	color: ${props => colour (props.$isDark ? "black" : "white", props.$theme)};
+	color: ${props => colour ("white", props.$theme)};
 	font-weight: bold;
 `;
 
