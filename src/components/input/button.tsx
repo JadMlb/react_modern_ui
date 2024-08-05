@@ -99,15 +99,42 @@ const StyledButton = styled.button<{$isDark: boolean, $theme: ThemeType, $wide? 
 `;
 
 type ButtonProps = {
+	/**
+	 * The role the button will take
+	 * - `normal` (default): renders a button with gray background
+	 * - `primary`: renders a button with primary colour in its background
+	 * - `transparent`: renders a button with no background
+	 * - `alert`: renders a gray button that turns red on hover
+	 * - `warn`: renders a red button
+	 */
 	role? : ButtonRoles,
 	// icon?: string,
+	/**
+	 * Specifies if the button should occupy 100% of its parent. Defaults to `false`.
+	 */
 	wide? : boolean,
+	/**
+	 * Specifies if the button should be rounded. In this case content is centered and button will be 30px*30px. Defaults to `false`.
+	 */
 	rounded?: boolean,
-	children: React.ReactNode
+	/**
+	 * Callback function to be executed on button click
+	 */
 	onClick?: React.MouseEventHandler<HTMLButtonElement>,
+	/**
+	 * Specified if the button is disabled or not. Defaults to `false`.
+	 */
 	disabled?: boolean
+	children: React.ReactNode
 };
 
+/**
+ * Button component
+ * @param role ButtonRoles (optional) Specifies the role of the button
+ * @param wide boolean (optional) Specifies whether the button to occupy 100% of its parent
+ * @param rounded boolean (optional) Specifies whether the button to be rounded and small
+ * @param disabled boolean (optional) Disables the button
+ */
 export default function Button ({role = "normal", wide, rounded, onClick, children, disabled = false}: ButtonProps)
 {
 	const {theme} = useTheme();
