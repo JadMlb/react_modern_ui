@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { TOAST_TYPE_SYMBOL_MAP, ToastType } from "../../types/Toast";
 import { Colour, colour, radius, spacing } from "../../styles/styles";
 import ThemeType from "../../types/theme";
 import { useDarkMode, useTheme } from "../../styles/theme";
 import { Button } from "../input";
+import ProgressBar from "./progress_bar";
 
 const ToastBackground = styled.div.attrs({"aria-roledescription": "alert"})<{$type: ToastType, $isDark: boolean, $theme: ThemeType}>
 `
@@ -15,7 +16,10 @@ const ToastBackground = styled.div.attrs({"aria-roledescription": "alert"})<{$ty
 	opacity: 0.99;
 	position: relative;
 
-	display: flex;
+	overflow: hidden;
+
+	display: grid;
+	grid-template-columns: 30px 1fr 30px;
 	gap: ${spacing.small};
 	align-items: center;
 
@@ -29,7 +33,7 @@ const ToastBackground = styled.div.attrs({"aria-roledescription": "alert"})<{$ty
 		margin-top: ${spacing.small};
 	}
 
-	> :last-child
+	> button
 	{
 		margin-left: auto;
 	}
@@ -51,17 +55,56 @@ const ToastIcon = styled.div<{$colour: string, $isDark: boolean, $theme: ThemeTy
 	font-weight: bold;
 `;
 
+const ProgressBarContainer = styled.div
+`
+	position: absolute;
+	bottom: calc(-${spacing.xsmall} / 2 + 3px);
+	left: 0;
+	width: 100%;
+`;
+
 type ToastProps = {
 	key?: number | string | bigint | null
 	message: string,
 	type?: ToastType,
-	onClose?: () => void
+	onClose?: () => void,
+	/**
+	 * Determines if the toast is automatically cleared after the value of `clearAfter`, or if it sticks until the close button in clicked. Defaults to `false`.
+	 */
+	autoClear?: boolean,
+	/**
+	 * Number of seconds after which the toast will automatically diappear if `autoClear` is enabled. Defaults to 5 seconds.
+	 */
+	clearAfter?: number
 };
 
-export default function Toast ({message, type = "info", onClose}: ToastProps)
+export default function Toast ({message, type = "info", onClose, autoClear, clearAfter = 5}: ToastProps)
 {
 	const {theme} = useTheme();
 	const isDark = useDarkMode();
+
+	const [countdown, setCountdown] = useState (100);
+
+	useEffect (
+		() =>
+		{
+			function decrementCountdown ()
+			{
+				setCountdown (old => Math.max (old - 1, 0));
+			}
+
+			if (autoClear && onClose)
+			{	
+				const timeoutId = setTimeout (onClose, clearAfter * 1000);
+				const intervalId = setInterval (decrementCountdown, clearAfter * 10);
+
+				return () => {clearTimeout (timeoutId); clearInterval (intervalId);};
+			}
+
+			return () => {};
+		},
+		[]
+	);
 
 	return (
 		<ToastBackground $type = {type} $isDark = {isDark} $theme = {theme}>
@@ -73,6 +116,12 @@ export default function Toast ({message, type = "info", onClose}: ToastProps)
 				{TOAST_TYPE_SYMBOL_MAP[type].icon}
 			</ToastIcon>
 			{message}
+			{
+				autoClear &&
+					<ProgressBarContainer>
+						<ProgressBar percentage = {countdown} thin/>
+					</ProgressBarContainer>
+			}
 			<Button rounded role = "alert" onClick = {onClose}>{TOAST_TYPE_SYMBOL_MAP["fail"].icon}</Button>
 		</ToastBackground>
 	);

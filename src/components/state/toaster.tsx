@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled, { keyframes } from "styled-components";
 import { spacing } from "../../styles/styles";
 import { ToastItem } from "../../types/Toast";
@@ -52,11 +52,19 @@ const Container = styled.div<{$position: "top-left" | "top-right" | "bottom-left
 type ToasterProps = {
 	position?: "top-left" | "top-right" | "bottom-left" | "bottom-right",
 	data: ToastItem[],
-	removeToast: (position: number) => void
+	removeToast: (id: number) => void,
+	/**
+	 * Determines if the toast is automatically cleared after the value of `clearAfter`, or if it sticks until the close button in clicked. Defaults to `false`.
+	 */
+	autoClear?: boolean,
+	/**
+	 * Number of seconds after which the toast will automatically diappear if `autoClear` is enabled. Defaults to 5 seconds.
+	 */
+	clearAfter?: number
 };
 
 // code inspired by https://blog.logrocket.com/how-to-create-custom-toast-component-react/
-export default function Toaster ({position = "bottom-right", data, removeToast}: ToasterProps)
+export default function Toaster ({position = "bottom-right", data, removeToast, autoClear, clearAfter = 5}: ToasterProps)
 {
 	// reverse order of toasts if from bottom
 	const reversed = position.split("-")[0] === "bottom";
@@ -67,12 +75,14 @@ export default function Toaster ({position = "bottom-right", data, removeToast}:
 		{
 			sortedData.length > 0 &&
 				sortedData.map (
-					(toast, idx) => <Toast
-										key = {idx}
-										message = {toast.message}
-										type = {toast.type}
-										onClose = {() => removeToast (reversed ? sortedData.length - idx - 1 : idx)}	
-									/>
+					(toast) => <Toast
+									key = {toast.id}
+									message = {toast.message}
+									type = {toast.type}
+									onClose = {() => removeToast (toast.id)}	
+									autoClear = {autoClear}
+									clearAfter = {clearAfter}
+								/>
 				)
 		}
 		</Container>
