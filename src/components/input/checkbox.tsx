@@ -63,14 +63,38 @@ const HiddenInput = styled.input
 `;
 
 export type CheckBoxProps = {
+	/**
+	 * Key of the Checkbox
+	 */
 	key?: number | string | bigint | null
+	/**
+	 * The label to be displayed next to the checkbox
+	 */
 	label?: string,
+	/**
+	 * Specifies whether the checkbox is checked or not. Defaults to `false`.
+	 */
 	isChecked?: boolean,
+	/**
+	 * Specifies whether the checkbox has a tri-state or not.
+	 * - if not specified, the checkbox behaves normally with 2 states of checked/unchecked. 
+	 * - if `false`, checkbox is in tri-state mode and displays a dash if `isChecked` is set to `true`, or nothing otherwise
+	 * - if `true`, checkbox is in tri-state mode and displays a check mark if `isChecked` is set to `true`, or nothing otherwise
+	 */
 	isFull?: boolean,
+	/**
+	 * Specifies whether the checkbox should behave like a radiobutton or not. For this purpose, it is recommended to use a `RadioButtonsGroup`
+	 */
 	singleOption?: boolean,
+	/**
+	 * The change event handler to be fired when the checkbox state changes
+	 */
 	onChange?: React.ChangeEventHandler<HTMLInputElement>
 };
 
+/**
+ * Renders a Checkbox component with specified state, either in normal checked/unchecked, or in tri-state mode (check `isFull` property with `isChecked`)
+ */
 export default function CheckBox ({label, isChecked, isFull, singleOption, onChange}: CheckBoxProps)
 {
 	const {theme} = useTheme();
