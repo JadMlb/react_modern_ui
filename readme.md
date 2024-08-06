@@ -50,3 +50,43 @@ Displays a checkbox with its states and with/without a label
 	- type: `boolean` (optional)
 - `onChange`: The change event handler to be fired when the checkbox state changes
 	- type: `React.ChangeEventHandler<HTMLInputElement>`
+
+### ComboBox
+Renders a ComboBox, i.e. a drop-down list of options to select one or more options. The list of options is passed via the property `from`.
+#### Props
+![no children](https://img.shields.io/badge/Children-Not_Required-green)
+- `key`: Key of the ComboBox
+	- type: `string | number | bigint | null` (optional)
+- `label`: The label to be displayed inside of the selection panel
+	- type: `string` (optional)
+- `name`: The name of the field that contains the value of this selection. If no label is provided, the provided `name` property will be used as a label with the first letter capitalized. 
+	- type: `string`
+- `from`: The list of options to offer for selection
+	- type: `Option[]`
+	- `Option`:
+		- attributes:
+			- `id`: The id of the option
+				- type: `number`
+			- `text`: The text to be displayed for that option
+				- type: `string`
+- `values`: The active selected values, represented by a list of their IDs. Even if multiple choices is not enabled, the values should be in an array.
+	- type: `number[]`
+- `onChange`: The change event handler fired when a new value is selected. It exposes all of the selected options so they can be displayed.
+	- type: `(options: Option[]) => void`
+	- parameters:
+		- `options`: The list of all currently selected options
+- `multiple`: Specifies whether the ComboBox is in multiple selection mode, supporting multiple options.
+	- type: `boolean` (optional)
+	- default: `false`
+- `notSearchable`: Hides the search bar in the options list.
+	- type: `boolean` (optional)
+	- default: `false`
+- `compact`: Hides the label of the ComboBox.
+	- type: `boolean` (optional)
+	- default: `false`
+- `defaultFirst`: Automatically selects the first option in the options list and fires the event handler.
+	- type: `boolean` (optional)
+	- default: `false`
+- `required`: Specifies whether the value of the ComboBox is required and hides the clear button upon selection.
+	- type: `boolean` (optional)
+	- default: `false`

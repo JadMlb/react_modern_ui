@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { css, styled } from "styled-components";
 import { colour, radius, spacing } from "../../styles/styles";
-import Option from "../../types/Option";
+import {Option} from "../../types/Option";
 import Button from "./button";
 import ThemeType from "../../types/theme";
 import { useDarkMode, useTheme } from "../../styles/theme";
@@ -122,19 +122,56 @@ const Label = styled.span<{$isDark: boolean, $theme: ThemeType}>
 `;
 
 type ComboboxProps = {
+	/**
+	 * Key of the ComboBox
+	 */
 	key?: string | number | bigint | null,
+	/**
+	 * The label to be displayed inside of the selection panel
+	 */
 	label?: string,
+	/**
+	 * The name of the field that contains the value of this selection. If no label is provided, the provided `name` property will be used as a label with the first letter capitalized. 
+	 */
 	name: string,
+	/**
+	 * The list of options to offer for selection
+	 */
 	from: Option[],
+	/**
+	 * The active selected values, represented by a list of their IDs. Even if multiple choices is not enabled, the values should be in an array.
+	 */
 	values: number[],
+	/**
+	 * The change event handler fired when a new value is selected. It exposes all of the selected options so they can be displayed.
+	 * @param options The list of all currently selected options
+	 */
 	onChange: (options: Option[]) => void,
+	/**
+	 * Specifies whether the ComboBox is in multiple selection mode, supporting multiple options. Defaults to `false`.
+	 */
 	multiple?: boolean,
+	/**
+	 * Hides the search bar in the options list. Defaults to `false`.
+	 */
 	notSearchable?: boolean,
+	/**
+	 * Hides the label of the ComboBox. Defaults to `false`.
+	 */
 	compact?: boolean,
+	/**
+	 * Automatically selects the first option in the options list and fires the event handler. Defaults to `false`.
+	 */
 	defaultFirst?: boolean,
+	/**
+	 * Specifies whether the value of the ComboBox is required and hides the clear button upon selection. Defaults to `false`.
+	 */
 	required?: boolean
 };
 
+/**
+ * Renders a ComboBox, i.e. a drop-down list of options to select one or more options (`multiple` flag). The list of options is passed via the property `from`.
+ */
 export default function ComboBox ({name, label, from, multiple, values, onChange, notSearchable = false, compact, defaultFirst, required}: ComboboxProps)
 {
 	const {theme} = useTheme();
