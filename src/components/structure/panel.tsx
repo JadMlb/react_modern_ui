@@ -64,21 +64,28 @@ const ScrollArea = styled.div<{$isDark: boolean, $maxHeight?: number, $maxWidth?
 
 type PanelProps = {
 	title?: string,
+	/**
+	 * The max width in pixels for the panel to occupy
+	 */
 	maxWidth?: number,
+	/**
+	 * The max height in pixels for the panel to occupy
+	 */
 	maxHeight?: number,
-	collapsable?: boolean,
+	/**
+	 * Specify whether the panel can be collapsed or not
+	 */
+	collapsible?: boolean,
+	/**
+	 * The content of the panel
+	 */
 	children: React.ReactNode
 };
 
 /**
- * 
- * 
- * @param title 
- * @param maxWidth 
- * @param maxHeight 
- * @param collapsable 
+ * Wraps the contents inside their own division, with the ability to add a title. In the latter case, a border is shown around the panel.
  */
-export default function Panel ({title, maxWidth, maxHeight, collapsable = false, children}: PanelProps)
+export default function Panel ({title, maxWidth, maxHeight, collapsible: collapsable = false, children}: PanelProps)
 {
 	const {theme} = useTheme();
 	const isDark = useDarkMode();

@@ -138,6 +138,21 @@ Renders a field to input text, numbers, dates, emails and passwords.
 - `maxCharCount`: Sets the max number of characters in this input
 	- type: `number` (optional)
 
+## Panel
+Wraps the contents inside their own division, with the ability to add a title. In the latter case, a border is shown around the panel.
+### Props
+![children required](https://img.shields.io/badge/Children-Needed-red)
+- `title`: The title of the panel. If none provided, no border is shown.
+	- type: `string` (optional)
+- `maxWidth`: The max width in pixels for the panel to occupy
+	- type: `number` (optional)
+- `maxHeight`: The max height in pixels for the panel to occupy
+	- type: `number` (optional)
+- `collapsible`: Specify whether the panel can be collapsed or not
+	- type: `boolean` (optional)
+- `children`: The content of the panel
+	- type: `React.ReactNode`
+
 ## ProgressBar
 Renders a progress bar with a given percentage.
 ### Props
