@@ -6,28 +6,67 @@ import { useDarkMode, useTheme } from "../../styles/theme";
 import ThemeType from "../../types/theme";
 
 type InputProps = {
+	/**
+	 * The type of the input, either text, password, number, mail or datetime. For these types, the same naming is used as for the types of raw html input tag.
+	 */
 	type: "text" | "password" | "number" | "datetime-local" | "mail",
+	/**
+	 * The current value of this input
+	 */
 	value: any,
+	/**
+	 * The name of the field that contains the value of this input. If no label is provided, the provided `name` property will be used as a label with the first letter capitalized.
+	 */
 	name: string,
+	/**
+	 * The label to be displayed on this input. If no label is provided, the provided `name` property will be used as a label with the first letter capitalized.
+	 */
 	label?: string,
+	/**
+	 * Change event handler fired when typing
+	 */
 	onChange: React.ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>,
+	/**
+	 * Change event handler fired when the clear button is clicked
+	 */
 	onClear: () => void
+	/**
+	 * Hides the label of the input
+	 */
 	hideLabel?: boolean,
+	/**
+	 * Specifies whether this input should occupy 100% of its parent's width or not. Defaults to `false`.
+	 */
 	wide?: boolean,
-	long?: boolean,
+	/**
+	 * Switches to multiline mode, i.e. turns this input into a textarea. Defaults to `false`.
+	 */
+	multiline?: boolean,
+	/**
+	 * Disables editing of this input even if no value is provided. Defaults to `false`.
+	 */
 	readonly?: boolean,
+	/**
+	 * Adds "optional" to the end of the label & enables clearing the value. Defaults to `false`.
+	 */
 	optional?: boolean,
+	/**
+	 * Shows the current and the max number of characters allowed. Only works if `maxCharCount` property is set. Defaults to `false`.
+	 */
 	displayCharCount?: boolean,
+	/**
+	 * Sets the max number of characters in this input
+	 */
 	maxCharCount?: number
 };
 
-const Container = styled.div<{$long?: boolean, $wide?: boolean}>
+const Container = styled.div<{$multiline?: boolean, $wide?: boolean}>
 `
 	position: relative;
 	text-align: start;
 
 	display: flex;
-	${props => props.$long ? css `flex-direction: column-reverse;` : css `align-items: center;`}
+	${props => props.$multiline ? css `flex-direction: column-reverse;` : css `align-items: center;`}
 	${props => props.$wide && css `width: 100%;`}
 
 	> button:last-child
@@ -38,10 +77,10 @@ const Container = styled.div<{$long?: boolean, $wide?: boolean}>
 	}
 `;
 
-const Label = styled.label<{$long?: boolean, $isDark: boolean, $theme: ThemeType}>
+const Label = styled.label<{$multiline?: boolean, $isDark: boolean, $theme: ThemeType}>
 `
 	position: absolute;
-	${props => props.$long && css `top: ${spacing.xsmall};`}
+	${props => props.$multiline && css `top: ${spacing.xsmall};`}
 	left: 0;
 	margin-left: ${spacing.xsmall};
 	pointer-events: none;
@@ -191,7 +230,7 @@ const CharCounterDisplay = styled.span
 	cursor: default;
 `;
 
-export default function Input ({name, type, label, value, onChange, onClear, hideLabel, wide, long, readonly, optional, maxCharCount, displayCharCount}: InputProps)
+export default function Input ({name, type, label, value, onChange, onClear, hideLabel, wide, multiline, readonly, optional, maxCharCount, displayCharCount}: InputProps)
 {
 	const [displayType, setDisplayType] = useState (type);
 	const {theme} = useTheme();
@@ -206,9 +245,9 @@ export default function Input ({name, type, label, value, onChange, onClear, hid
 	}
 	
 	return (
-		<Container $long = {long} $wide = {wide}>
+		<Container $multiline = {multiline} $wide = {wide}>
 			{
-				long ?
+				multiline ?
 					<TextArea
 						$isDark = {isDark}
 						$theme = {theme}
@@ -233,7 +272,7 @@ export default function Input ({name, type, label, value, onChange, onClear, hid
 						maxLength = {maxCharCount}
 					/>
 			}
-			{!hideLabel && <Label $long = {long} $isDark = {isDark} $theme = {theme}>
+			{!hideLabel && <Label $multiline = {multiline} $isDark = {isDark} $theme = {theme}>
 								{label ?? (name.charAt(0).toUpperCase() + name.slice (1))}
 								<Small>{optional && !readonly && ` (optional)`}</Small>
 							</Label>}

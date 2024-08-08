@@ -90,3 +90,41 @@ Renders a ComboBox, i.e. a drop-down list of options to select one or more optio
 - `required`: Specifies whether the value of the ComboBox is required and hides the clear button upon selection.
 	- type: `boolean` (optional)
 	- default: `false`
+
+### Input
+Renders a field to input text, numbers, dates, emails and passwords.
+#### Props
+![no children](https://img.shields.io/badge/Children-Not_Required-green)
+- `type`: The type of the input, either text, password, number, mail or datetime. For these types, the same naming is used as for the types of raw html input tag.
+	- type: `"text" | "password" | "number" | "datetime-local" | "mail"` (enum)
+- `value`: The current value of this input
+	- type: `any`
+- `name`: The name of the field that contains the value of this input. If no label is provided, the provided `name` property will be used as a label with the first letter capitalized.
+	- type: `string`
+- `label`: The label to be displayed on this input. If no label is provided, the provided `name` property will be used as a label with the first letter capitalized.
+	- type: `string` (optional)
+- `onChange`: Change event handler fired when typing
+	- type: `React.ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>`,
+- `onClear`: Change event handler fired when the clear button is clicked
+	- type: `() => void`
+- `hideLabel`: Hides the label of the input
+	- type: `boolean` (optional)
+	- default: `false`
+- `wide`: Specifies whether this input should occupy 100% of its parent's width or not.
+	- type: `boolean` (optional)
+	- default: `false`
+- `multiline`: Switches to multiline mode, i.e. turns this input into a textarea.
+	- type: `boolean` (optional)
+	- default: `false`
+- `readonly`: Disables editing of this input even if no value is provided.
+	- type: `boolean` (optional)
+	- default: `false`
+- `optional`: Adds "optional" to the end of the label & enables clearing the value.
+	- type: `boolean` (optional)
+	- default: `false`
+- `displayCharCount`: Shows the current and the max number of characters allowed. Only works if `maxCharCount` property is set.
+	- type: `boolean` (optional)
+	- default: `false`
+- `maxCharCount`: Sets the max number of characters in this input
+	- type: `number` (optional)
+	

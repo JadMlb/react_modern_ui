@@ -127,7 +127,7 @@ type ComboboxProps = {
 	 */
 	key?: string | number | bigint | null,
 	/**
-	 * The label to be displayed inside of the selection panel
+	 * The label to be displayed inside of the selection panel. If no label is provided, the provided `name` property will be used as a label with the first letter capitalized.
 	 */
 	label?: string,
 	/**
