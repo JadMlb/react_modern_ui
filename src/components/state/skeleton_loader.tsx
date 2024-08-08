@@ -49,6 +49,9 @@ const SkeletonLoaderLine = styled.div<{$isDark: boolean, $width: number, $theme:
 	background-color: ${props => colour (props.$isDark ? "grayDark" : "grayLight", props.$theme)};
 `;
 
+/**
+ * Renders a loading animation mimicking lines of text
+ */
 export default function SkeletonLoader ()
 {
 	const {theme} = useTheme();

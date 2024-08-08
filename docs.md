@@ -150,3 +150,8 @@ Renders a group of radio buttons (single option selection) made of many options.
 	- type: `(newValue: string) => void` (optional)
 	- parameters:
 		- `newValue`: The label of the newly selected value
+
+## SkeletonLoader
+Renders a loading animation mimicking lines of text.
+### Props
+![no props](https://img.shields.io/badge/No_Props-green)
