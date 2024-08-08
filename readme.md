@@ -127,4 +127,18 @@ Renders a field to input text, numbers, dates, emails and passwords.
 	- default: `false`
 - `maxCharCount`: Sets the max number of characters in this input
 	- type: `number` (optional)
-	
+
+### RadioButtonsGroup
+Renders a group of radio buttons (single option selection) made of many options.
+#### Props
+![no children](https://img.shields.io/badge/Children-Not_Required-green)
+- `name`: The name of the field that contains the value of this input
+	- type: `string`
+- `optionsLabels`: The labels of the different options. Displayed in their order of appearance.
+	- type: `string[]`
+- `defaultValue`: The default value this RadioButtonsGroup should start with. Defaults to the first value. `onChange` event handler fired upon load.
+	- type: `string` (optional)
+- `onChange`: The change event handler fired when a new value is selected
+	- type: `(newValue: string) => void` (optional)
+	- parameters:
+		- `newValue`: The label of the newly selected value

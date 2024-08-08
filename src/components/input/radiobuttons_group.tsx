@@ -3,13 +3,29 @@ import CheckBox from "./checkbox"
 import { useEffect, useState } from "react";
 
 type RadioButtonsGroupProps = {
+	/**
+	 * The name of the field that contains the value of this input
+	 */
 	name: string,
-	childrenLabels: string[],
+	/**
+	 * The labels of the different options. Displayed in their order of appearance.
+	 */
+	optionsLabels: string[],
+	/**
+	 * The default value this RadioButtonsGroup should start with. Defaults to the first value. `onChange` event handler fired upon load.
+	 */
 	defaultValue?: string,
+	/**
+	 * The change event handler fired when a new value is selected
+	 * @param newValue The label of the newly selected value
+	 */
 	onChange?: (newValue: string) => void
 }
 
-export default function RadioButtonsGroup ({name, childrenLabels, defaultValue, onChange}: RadioButtonsGroupProps)
+/**
+ * Renders a group of radio buttons showing multiple options
+ */
+export default function RadioButtonsGroup ({name, optionsLabels: childrenLabels, defaultValue, onChange}: RadioButtonsGroupProps)
 {
 	const [checked, setChecked] = useState<number> (defaultValue ? childrenLabels.indexOf (defaultValue) : 0);
 
