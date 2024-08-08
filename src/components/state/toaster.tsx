@@ -50,20 +50,33 @@ const Container = styled.div<{$position: "top-left" | "top-right" | "bottom-left
 `;
 
 type ToasterProps = {
+	/**
+	 * The corner from which the toats are to appear. Any bottom corner will reverse the order of the toasts.
+	 */
 	position?: "top-left" | "top-right" | "bottom-left" | "bottom-right",
+	/**
+	 * The toasts to display
+	 */
 	data: ToastItem[],
+	/**
+	 * The handler function called to remove Toats from the list. When the `autoClear` flag is raised it is called automatically (rather than on the "close" button click).
+	 * @param id The id of the toast to remove
+	 */
 	removeToast: (id: number) => void,
 	/**
 	 * Determines if the toast is automatically cleared after the value of `clearAfter`, or if it sticks until the close button in clicked. Defaults to `false`.
 	 */
 	autoClear?: boolean,
 	/**
-	 * Number of seconds after which the toast will automatically diappear if `autoClear` is enabled. Defaults to 5 seconds.
+	 * The number of seconds after which the toast will automatically diappear if `autoClear` is enabled. Defaults to 5 seconds.
 	 */
 	clearAfter?: number
 };
 
 // code inspired by https://blog.logrocket.com/how-to-create-custom-toast-component-react/
+/**
+ * Establishes component to display toasts
+ */
 export default function Toaster ({position = "bottom-right", data, removeToast, autoClear, clearAfter = 5}: ToasterProps)
 {
 	// reverse order of toasts if from bottom

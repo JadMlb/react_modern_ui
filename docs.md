@@ -155,3 +155,36 @@ Renders a group of radio buttons (single option selection) made of many options.
 Renders a loading animation mimicking lines of text.
 ### Props
 ![no props](https://img.shields.io/badge/No_Props-green)
+
+## Toaster
+Establishes component to display toasts, i.e. floating notifications.
+### Props
+![no children](https://img.shields.io/badge/Children-Not_Required-green)
+- `position`?: The corner from which the toats are to appear. Any bottom corner will reverse the order of the toasts.
+	- type: `"top-left" | "top-right" | "bottom-left" | "bottom-right"`
+- `data`: The toasts to display
+	- type: `ToastItem[]`
+	- `ToastItem`:
+		- attributes:
+			- `id`: The id of the toast to uniquely identify each one
+				- type: `number`
+			- `message`: The displayed message
+				- type: `string`
+			- `type`: The type of the notification
+				- type: `ToastType` (enum, optional)
+				- values:
+					- `info`
+					- `warn`
+					- `success`
+					- `fail`
+				- default: `info`
+- `removeToast`: The handler function called to remove Toats from the list. When the `autoClear` flag is raised it is called automatically (rather than on the "close" button click).
+	- type: `(id: number) => void`
+	- parameters:
+		- `id`: The id of the toast to remove
+- `autoClear`?: Determines if the toast is automatically cleared after the value of `clearAfter`, or if it sticks until the close button in clicked.
+	- type: `boolean` (optional)
+	- default: `false`
+- `clearAfter`?: The number of seconds after which the toast will automatically diappear if `autoClear` is enabled.
+	- type: `number` (optional)
+	- default: `5`
