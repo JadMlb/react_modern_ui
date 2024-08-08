@@ -3,7 +3,7 @@
 ## Button
 Displays a button with styles based on role, width, roundness and avalability
 ### Props
-![children required](https://img.shields.io/badge/Children-Required-red)
+![children required](https://img.shields.io/badge/Children-Needed-red)
 - `role`: The role the button will take
 	- type: `ButtonRoles` (enum, optional)
 	- values:
@@ -24,10 +24,25 @@ Displays a button with styles based on role, width, roundness and avalability
 	- type: `boolean`
 	- default: `false`
 
+## Card
+Wraps its content in a card with a background, title & description.
+### Props
+![children not necessary](https://img.shields.io/badge/Children-Not_Required-yellow)
+- `key`: The unique identifier of this instance
+	- type: `string | number | bigint | null` (optional)
+- `title`: The title of the card displayed in bold.
+	- type: `string` (optional)
+- `description`: The description of the card. Displayed in a gray & using a smaller font size
+	- type: `string` (optional)
+- `onClick`: The event handler fired when the card is clicked
+	- type: `React.MouseEventHandler`
+- `children`: The content of the card's body
+ - type: `React.ReactNode`,
+
 ## CheckBox
 Displays a checkbox with its states and with/without a label
 ### Props
-![no children](https://img.shields.io/badge/Children-Not_Required-green)
+![no children](https://img.shields.io/badge/Children-Not_Needed-green)
 - `key`: Key of the Checkbox
 	- type: `number | string | bigint | null` (optional)
 - `label`: The label to be displayed next to the checkbox
@@ -49,7 +64,7 @@ Displays a checkbox with its states and with/without a label
 ## ComboBox
 Renders a ComboBox, i.e. a drop-down list of options to select one or more options. The list of options is passed via the property `from`.
 ### Props
-![no children](https://img.shields.io/badge/Children-Not_Required-green)
+![no children](https://img.shields.io/badge/Children-Not_Needed-green)
 - `key`: Key of the ComboBox
 	- type: `string | number | bigint | null` (optional)
 - `label`: The label to be displayed inside of the selection panel
@@ -89,7 +104,7 @@ Renders a ComboBox, i.e. a drop-down list of options to select one or more optio
 ## Input
 Renders a field to input text, numbers, dates, emails and passwords.
 ### Props
-![no children](https://img.shields.io/badge/Children-Not_Required-green)
+![no children](https://img.shields.io/badge/Children-Not_Needed-green)
 - `type`: The type of the input, either text, password, number, mail or datetime. For these types, the same naming is used as for the types of raw html input tag.
 	- type: `"text" | "password" | "number" | "datetime-local" | "mail"` (enum)
 - `value`: The current value of this input
@@ -126,7 +141,7 @@ Renders a field to input text, numbers, dates, emails and passwords.
 ## ProgressBar
 Renders a progress bar with a given percentage.
 ### Props
-![no children](https://img.shields.io/badge/Children-Not_Required-green)
+![no children](https://img.shields.io/badge/Children-Not_Needed-green)
 - percentage: The percentage from completion. This value must be a number **between 0 and 100** otherwise an error is thrown.
 	- type: `number`
 - thin: Renders a thin progress bar. In this case no percentage is shown.
@@ -139,7 +154,7 @@ Renders a progress bar with a given percentage.
 ## RadioButtonsGroup
 Renders a group of radio buttons (single option selection) made of many options.
 ### Props
-![no children](https://img.shields.io/badge/Children-Not_Required-green)
+![no children](https://img.shields.io/badge/Children-Not_Needed-green)
 - `name`: The name of the field that contains the value of this input
 	- type: `string`
 - `optionsLabels`: The labels of the different options. Displayed in their order of appearance.
@@ -159,7 +174,7 @@ Renders a loading animation mimicking lines of text.
 ## Toaster
 Establishes component to display toasts, i.e. floating notifications.
 ### Props
-![no children](https://img.shields.io/badge/Children-Not_Required-green)
+![no children](https://img.shields.io/badge/Children-Not_Needed-green)
 - `position`?: The corner from which the toats are to appear. Any bottom corner will reverse the order of the toasts.
 	- type: `"top-left" | "top-right" | "bottom-left" | "bottom-right"`
 - `data`: The toasts to display

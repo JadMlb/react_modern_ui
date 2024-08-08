@@ -28,11 +28,23 @@ const Small = styled.p<{$theme: ThemeType}>
 type CardProps = {
 	key?: string | number | bigint | null
 	title?: string,
+	/**
+	 * The description is displayed in a gray & smaller font size
+	 */
 	description?: string,
+	/**
+	 * The content of the card's body
+	 */
 	children?: React.ReactNode,
+	/**
+	 * Event handler fired when the card is clicked
+	 */
 	onClick?: React.MouseEventHandler
 };
 
+/**
+ * Renders a visible, elevated wrapper around the content with a title and a description
+ */
 export default function Card ({title, description, children, onClick}: CardProps)
 {
 	const {theme} = useTheme();
