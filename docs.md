@@ -181,6 +181,13 @@ Renders a group of radio buttons (single option selection) made of many options.
 	- parameters:
 		- `newValue`: The label of the newly selected value
 
+## Separator
+Renders a horizontal line to divide sections visually. This separator may or may not have a title.
+### Props
+![no children](https://img.shields.io/badge/Children-Not_Needed-green)
+- `title`: The title of the next section
+	- type: `string` (optional)
+
 ## SkeletonLoader
 Renders a loading animation mimicking lines of text.
 ### Props

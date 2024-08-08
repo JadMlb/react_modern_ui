@@ -5,6 +5,9 @@ import { useDarkMode, useTheme } from "../../styles/theme";
 import ThemeType from "../../types/theme";
 
 type SeparatorProps = {
+	/**
+	 * The title of the following section
+	 */
 	title?: string
 };
 
@@ -33,9 +36,7 @@ const HR = styled.hr<{$title?: string, $isDark: boolean, $theme: ThemeType}>
 `;
 
 /**
- * Draws a separator with or without a title to distinguish parts
- * 
- * @param title (optional) The title of the following section
+ * Draws a horizontal separator with or without a title to distinguish parts
  */
 export default function Separator ({title}: SeparatorProps)
 {
