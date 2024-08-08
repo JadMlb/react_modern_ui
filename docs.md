@@ -1,8 +1,10 @@
 # React Modern UI Documentation
 
-## Button
+## Components
+
+### Button
 Displays a button with styles based on role, width, roundness and avalability
-### Props
+#### Props
 ![children required](https://img.shields.io/badge/Children-Needed-red)
 - `role`: The role the button will take
 	- type: `ButtonRoles` (enum, optional)
@@ -24,9 +26,9 @@ Displays a button with styles based on role, width, roundness and avalability
 	- type: `boolean`
 	- default: `false`
 
-## Card
+### Card
 Wraps its content in a card with a background, title & description.
-### Props
+#### Props
 ![children not necessary](https://img.shields.io/badge/Children-Not_Required-yellow)
 - `key`: The unique identifier of this instance
 	- type: `string | number | bigint | null` (optional)
@@ -39,9 +41,9 @@ Wraps its content in a card with a background, title & description.
 - `children`: The content of the card's body
  - type: `React.ReactNode`,
 
-## CheckBox
+### CheckBox
 Displays a checkbox with its states and with/without a label
-### Props
+#### Props
 ![no children](https://img.shields.io/badge/Children-Not_Needed-green)
 - `key`: Key of the Checkbox
 	- type: `number | string | bigint | null` (optional)
@@ -61,9 +63,9 @@ Displays a checkbox with its states and with/without a label
 - `onChange`: The change event handler to be fired when the checkbox state changes
 	- type: `React.ChangeEventHandler<HTMLInputElement>`
 
-## ComboBox
+### ComboBox
 Renders a ComboBox, i.e. a drop-down list of options to select one or more options. The list of options is passed via the property `from`.
-### Props
+#### Props
 ![no children](https://img.shields.io/badge/Children-Not_Needed-green)
 - `key`: Key of the ComboBox
 	- type: `string | number | bigint | null` (optional)
@@ -101,9 +103,9 @@ Renders a ComboBox, i.e. a drop-down list of options to select one or more optio
 	- type: `boolean` (optional)
 	- default: `false`
 
-## Input
+### Input
 Renders a field to input text, numbers, dates, emails and passwords.
-### Props
+#### Props
 ![no children](https://img.shields.io/badge/Children-Not_Needed-green)
 - `type`: The type of the input, either text, password, number, mail or datetime. For these types, the same naming is used as for the types of raw html input tag.
 	- type: `"text" | "password" | "number" | "datetime-local" | "mail"` (enum)
@@ -138,9 +140,9 @@ Renders a field to input text, numbers, dates, emails and passwords.
 - `maxCharCount`: Sets the max number of characters in this input
 	- type: `number` (optional)
 
-## Panel
+### Panel
 Wraps the contents inside their own division, with the ability to add a title. In the latter case, a border is shown around the panel.
-### Props
+#### Props
 ![children required](https://img.shields.io/badge/Children-Needed-red)
 - `title`: The title of the panel. If none provided, no border is shown.
 	- type: `string` (optional)
@@ -153,9 +155,9 @@ Wraps the contents inside their own division, with the ability to add a title. I
 - `children`: The content of the panel
 	- type: `React.ReactNode`
 
-## ProgressBar
+### ProgressBar
 Renders a progress bar with a given percentage.
-### Props
+#### Props
 ![no children](https://img.shields.io/badge/Children-Not_Needed-green)
 - percentage: The percentage from completion. This value must be a number **between 0 and 100** otherwise an error is thrown.
 	- type: `number`
@@ -166,9 +168,9 @@ Renders a progress bar with a given percentage.
 	- type: `boolean` (optional)
 	- default: `false`
 
-## RadioButtonsGroup
+### RadioButtonsGroup
 Renders a group of radio buttons (single option selection) made of many options.
-### Props
+#### Props
 ![no children](https://img.shields.io/badge/Children-Not_Needed-green)
 - `name`: The name of the field that contains the value of this input
 	- type: `string`
@@ -181,21 +183,21 @@ Renders a group of radio buttons (single option selection) made of many options.
 	- parameters:
 		- `newValue`: The label of the newly selected value
 
-## Separator
+### Separator
 Renders a horizontal line to divide sections visually. This separator may or may not have a title.
-### Props
+#### Props
 ![no children](https://img.shields.io/badge/Children-Not_Needed-green)
 - `title`: The title of the next section
 	- type: `string` (optional)
 
-## SkeletonLoader
+### SkeletonLoader
 Renders a loading animation mimicking lines of text.
-### Props
+#### Props
 ![no props](https://img.shields.io/badge/No_Props-green)
 
-## Toaster
+### Toaster
 Establishes component to display toasts, i.e. floating notifications.
-### Props
+#### Props
 ![no children](https://img.shields.io/badge/Children-Not_Needed-green)
 - `position`?: The corner from which the toats are to appear. Any bottom corner will reverse the order of the toasts.
 	- type: `"top-left" | "top-right" | "bottom-left" | "bottom-right"`
@@ -225,3 +227,35 @@ Establishes component to display toasts, i.e. floating notifications.
 - `clearAfter`?: The number of seconds after which the toast will automatically diappear if `autoClear` is enabled.
 	- type: `number` (optional)
 	- default: `5`
+
+## Theme
+### ThemeProvider
+Context provider that wraps the application in order to use the theme context and thus extract colours to be used in the components. It is important to wrap the application in it for the components to render correctly.
+
+### ThemeType
+This is the type of the theme object that defines the colours used in the compoents. It is made of the following attributes
+- `mode`: which defines the light mode of the application
+	- type: `enum`
+	- values:
+		- `dark`: fixes the mode to dark mode
+		- `light`: fixes the mode to light mode
+		- `auto`: automatically switches the theme based on the system settings
+- `primary`, `accent`, `neutral`, `gray`, `affirmative`, `error`, `alert`: are all different and required keys that have the same value type
+	- type: `object`
+	- attributes
+		- `dark`: defines the hex value of the dark variant of this colour
+		- `medium`: defines the hex value of the normal variant of this colour
+		- `light`: defines the hex value of the light variant of this colour
+		> [!WARNING]
+		> Omit the `#` symbol from the hex values and only include the hexadecimal characters
+
+### `colour`
+`colour` is a function exposed, mainly used for internal usage, however it can be used by the developer to get a value of a colour.
+> **Pros**
+> - Colour keys are simplifed to the follwing mapping:
+> 	- `medium` keys take the name of the colour type (e.g. `primary.medium` is simplified to `primary`)
+> 	- `light` variants take the name of the colour type followed by "Elevated" (camel case) (e.g. `primary.light` is `primaryElevated`)
+> 	- `dark` variants add "Dark" to the end of the colour type (camel case) (e.g. `primary.dark` is `primaryDark`)
+
+> **Cons**
+> - The active theme must be passed on each call (e.g. `colour ("primaryDark", theme)` where `theme` can be retrieved from `useTheme()`)
