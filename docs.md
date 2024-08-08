@@ -1,4 +1,5 @@
 # React Modern UI Documentation
+
 ## Button
 Displays a button with styles based on role, width, roundness and avalability
 ### Props
@@ -121,6 +122,19 @@ Renders a field to input text, numbers, dates, emails and passwords.
 	- default: `false`
 - `maxCharCount`: Sets the max number of characters in this input
 	- type: `number` (optional)
+
+## ProgressBar
+Renders a progress bar with a given percentage.
+### Props
+![no children](https://img.shields.io/badge/Children-Not_Required-green)
+- percentage: The percentage from completion. This value must be a number **between 0 and 100** otherwise an error is thrown.
+	- type: `number`
+- thin: Renders a thin progress bar. In this case no percentage is shown.
+	- type: `boolean` (optional)
+	- default: `false`
+- showPercentage: Displays the current percentage of the progress bar only if the `thin` flag is not raised.
+	- type: `boolean` (optional)
+	- default: `false`
 
 ## RadioButtonsGroup
 Renders a group of radio buttons (single option selection) made of many options.
