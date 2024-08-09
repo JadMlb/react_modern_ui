@@ -1,5 +1,8 @@
 {
-  "name": "react-modern-ui",
+  "name": "JadMlb/react-modern-ui",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/JadMlb"
+  },
   "version": "1.0.0",
   "description": "A simple UI library for react with some simple UI elements",
   "keywords": [
