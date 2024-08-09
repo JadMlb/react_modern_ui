@@ -9,10 +9,16 @@
     "ui/ux",
     "ui elements"
   ],
-  "main": "index.ts",
+  "files": [
+    "dist"
+  ],
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "./node_modules/.bin/babel src --out-file index.ts"
+    "build": "./node_modules/.bin/babel src --out-file index.ts",
+    "rollup": "rollup -c"
   },
   "author": "JadMlb",
   "license": "MIT",
