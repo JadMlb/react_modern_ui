@@ -3,6 +3,7 @@
 ## Components
 
 ### Button
+![since v1.0.0](https://img.shields.io/badge/since-v1.0.0-lightgray)<br>
 Displays a button with styles based on role, width, roundness and avalability
 #### Props
 ![children required](https://img.shields.io/badge/Children-Needed-red)
@@ -27,6 +28,7 @@ Displays a button with styles based on role, width, roundness and avalability
 	- default: `false`
 
 ### Card
+![since v1.0.0](https://img.shields.io/badge/since-v1.0.0-lightgray)<br>
 Wraps its content in a card with a background, title & description.
 #### Props
 ![children not necessary](https://img.shields.io/badge/Children-Not_Required-yellow)
@@ -42,6 +44,7 @@ Wraps its content in a card with a background, title & description.
  - type: `React.ReactNode`,
 
 ### CheckBox
+![since v1.0.0](https://img.shields.io/badge/since-v1.0.0-lightgray)<br>
 Displays a checkbox with its states and with/without a label
 #### Props
 ![no children](https://img.shields.io/badge/Children-Not_Needed-green)
@@ -64,6 +67,7 @@ Displays a checkbox with its states and with/without a label
 	- type: `React.ChangeEventHandler<HTMLInputElement>`
 
 ### ComboBox
+![since v1.0.0](https://img.shields.io/badge/since-v1.0.0-lightgray)<br>
 Renders a ComboBox, i.e. a drop-down list of options to select one or more options. The list of options is passed via the property `from`.
 #### Props
 ![no children](https://img.shields.io/badge/Children-Not_Needed-green)
@@ -104,6 +108,7 @@ Renders a ComboBox, i.e. a drop-down list of options to select one or more optio
 	- default: `false`
 
 ### Input
+![since v1.0.0](https://img.shields.io/badge/since-v1.0.0-lightgray)<br>
 Renders a field to input text, numbers, dates, emails and passwords.
 #### Props
 ![no children](https://img.shields.io/badge/Children-Not_Needed-green)
@@ -141,6 +146,7 @@ Renders a field to input text, numbers, dates, emails and passwords.
 	- type: `number` (optional)
 
 ### Panel
+![since v1.0.0](https://img.shields.io/badge/since-v1.0.0-lightgray)<br>
 Wraps the contents inside their own division, with the ability to add a title. In the latter case, a border is shown around the panel.
 #### Props
 ![children required](https://img.shields.io/badge/Children-Needed-red)
@@ -156,19 +162,21 @@ Wraps the contents inside their own division, with the ability to add a title. I
 	- type: `React.ReactNode`
 
 ### ProgressBar
+![since v1.0.0](https://img.shields.io/badge/since-v1.0.0-lightgray)<br>
 Renders a progress bar with a given percentage.
 #### Props
 ![no children](https://img.shields.io/badge/Children-Not_Needed-green)
-- percentage: The percentage from completion. This value must be a number **between 0 and 100** otherwise an error is thrown.
+- `percentage`: The percentage from completion. This value must be a number **between 0 and 100** otherwise an error is thrown.
 	- type: `number`
-- thin: Renders a thin progress bar. In this case no percentage is shown.
+- `thin`: Renders a thin progress bar. In this case no percentage is shown.
 	- type: `boolean` (optional)
 	- default: `false`
-- showPercentage: Displays the current percentage of the progress bar only if the `thin` flag is not raised.
+- `showPercentage`: Displays the current percentage of the progress bar only if the `thin` flag is not raised.
 	- type: `boolean` (optional)
 	- default: `false`
 
 ### RadioButtonsGroup
+![since v1.0.0](https://img.shields.io/badge/since-v1.0.0-lightgray)<br>
 Renders a group of radio buttons (single option selection) made of many options.
 #### Props
 ![no children](https://img.shields.io/badge/Children-Not_Needed-green)
@@ -184,6 +192,7 @@ Renders a group of radio buttons (single option selection) made of many options.
 		- `newValue`: The label of the newly selected value
 
 ### Separator
+![since v1.0.0](https://img.shields.io/badge/since-v1.0.0-lightgray)<br>
 Renders a horizontal line to divide sections visually. This separator may or may not have a title.
 #### Props
 ![no children](https://img.shields.io/badge/Children-Not_Needed-green)
@@ -191,11 +200,13 @@ Renders a horizontal line to divide sections visually. This separator may or may
 	- type: `string` (optional)
 
 ### SkeletonLoader
+![since v1.0.0](https://img.shields.io/badge/since-v1.0.0-lightgray)<br>
 Renders a loading animation mimicking lines of text.
 #### Props
 ![no props](https://img.shields.io/badge/No_Props-green)
 
 ### Toaster
+![since v1.0.0](https://img.shields.io/badge/since-v1.0.0-lightgray)<br>
 Establishes component to display toasts, i.e. floating notifications.
 #### Props
 ![no children](https://img.shields.io/badge/Children-Not_Needed-green)
@@ -230,9 +241,11 @@ Establishes component to display toasts, i.e. floating notifications.
 
 ## Theme
 ### ThemeProvider
+![since v1.0.0](https://img.shields.io/badge/since-v1.0.0-lightgray)<br>
 Context provider that wraps the application in order to use the theme context and thus extract colours to be used in the components. It is important to wrap the application in it for the components to render correctly.
 
 ### ThemeType
+![since v1.0.0](https://img.shields.io/badge/since-v1.0.0-lightgray)<br>
 This is the type of the theme object that defines the colours used in the compoents. It is made of the following attributes
 - `mode`: which defines the light mode of the application
 	- type: `enum`
@@ -250,6 +263,7 @@ This is the type of the theme object that defines the colours used in the compoe
 		> Omit the `#` symbol from the hex values and only include the hexadecimal characters
 
 ### `colour`
+![since v1.0.0](https://img.shields.io/badge/since-v1.0.0-lightgray)<br>
 `colour` is a function exposed, mainly used for internal usage, however it can be used by the developer to get a value of a colour.
 > **Pros**
 > - Colour keys are simplifed to the follwing mapping:

@@ -3,6 +3,11 @@ React Modern UI is a small UI library created to group different components that
 
 ## Installation
 
+```bash
+npm install 
+yarn install
+```
+
 ## Usage
 ### Getting started
 1. Wrap your application in the `ThemeProvider` component, even if you don't want to use custom themes. `ThemeProvider` is important to get all of the colours of the different components.
@@ -19,7 +24,7 @@ import { ThemeProvider } from 'react-modern-ui/theme';
 2. Import your favourite components anywhere inside your application
 
 ### Using custom theme
-To use a custom theme you need to define some values for some (or all) of the following types of colours used throughout the components.
+To use a custom theme you need to define some values for some (or all) of the types of colours used throughout the components.
 1. Import and call `useTheme` hook. This hook returns an object with 2 attributes: `theme` which is the current theme and `dispatch`, the function that is used to change this theme.
 ```jsx
 import { useTheme } from 'react-modern-ui/theme';
