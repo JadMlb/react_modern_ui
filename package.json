@@ -2,7 +2,13 @@
   "name": "react-modern-ui",
   "version": "1.0.0",
   "description": "A simple UI library for react with some simple UI elements",
-  "keywords": ["react", "library", "ui", "ui/ux", "ui elements"],
+  "keywords": [
+    "react",
+    "library",
+    "ui",
+    "ui/ux",
+    "ui elements"
+  ],
   "main": "index.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -17,10 +23,15 @@
     "@babel/preset-react": "^7.24.1"
   },
   "devDependencies": {
+    "@rollup/plugin-commonjs": "^26.0.1",
+    "@rollup/plugin-node-resolve": "^15.2.3",
+    "@rollup/plugin-typescript": "^11.1.6",
     "@types/react": "^18.2.74",
     "@types/react-dom": "^18.2.24",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "rollup": "^4.20.0",
+    "rollup-plugin-dts": "^6.1.1",
     "typescript": "^5.4.4"
   },
   "peerDependencies": {
