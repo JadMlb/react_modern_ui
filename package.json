@@ -21,7 +21,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "./node_modules/.bin/babel src --out-file index.ts",
-    "rollup": "rollup -c"
+    "rollup:components": "rollup -c",
+    "rollup:theme": "rollup -c rollup.config.theme.mjs",
+    "rollup": "npm run rollup:components && npm run rollup:theme"
   },
   "author": "JadMlb",
   "license": "MIT",
