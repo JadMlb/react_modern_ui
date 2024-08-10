@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { TOAST_TYPE_SYMBOL_MAP, ToastType } from "../../types/Toast";
-import { Colour, colour, radius, spacing } from "../../styles/styles";
+import { colour, radius, spacing } from "../../styles/styles";
+import { Colour } from "../../types/Colours";
 import ThemeType from "../../types/theme";
 import { useDarkMode, useTheme } from "../../styles/theme";
 import { Button } from "../input";
