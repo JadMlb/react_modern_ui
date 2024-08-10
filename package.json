@@ -1,5 +1,5 @@
 {
-  "name": "JadMlb/react-modern-ui",
+  "name": "@jadmlb/react-modern-ui",
   "publishConfig": {
     "registry": "https://npm.pkg.github.com/JadMlb"
   },
