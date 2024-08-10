@@ -4,8 +4,8 @@ React Modern UI is a small UI library created to group different components that
 ## Installation
 
 ```bash
-npm install 
-yarn install
+npm install @JadMlb/react-modern-ui
+yarn install @JadMlb/react-modern-ui
 ```
 
 ## Usage
@@ -39,7 +39,7 @@ const {theme, dispatch} = useTheme();
 	dispatch({type: "set", {mode: "dark"}}) // turns on dark mode
 	```
 	```jsx
-	dispatch({type: "set", {primary: {medium: "ffff00"}}}) // turns on dark mode
+	dispatch({type: "set", {primary: {medium: "ffff00"}}}) // sets primary colour to #ffff00
 	```
 
 ## Documentation
