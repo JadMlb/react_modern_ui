@@ -20,6 +20,6 @@
 		"sourceMap": true,
 		"emitDeclarationOnly": true
 	},
-	"include": ["src"],
+	"include": ["src", "theme"],
 	"exclude": ["node_modules", "lib"]
 }
