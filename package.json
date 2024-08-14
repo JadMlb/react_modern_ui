@@ -3,7 +3,7 @@
   "publishConfig": {
     "registry": "https://npm.pkg.github.com/JadMlb"
   },
-  "version": "1.0.5-rc2",
+  "version": "1.0.5-rc3",
   "description": "A simple UI library for react with some simple UI elements",
   "keywords": [
     "react",
