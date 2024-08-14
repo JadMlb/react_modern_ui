@@ -19,12 +19,8 @@ export default function Table ({data, structure}: TableProps)
 					
 			let proportions = Object.entries(structure.columns).map (col => [col[0], col[1].proportion]);
 			
-			if (PROPORTIONS_SUM !== 1)
-			{
-				const SCALE_FACTOR = 1 / PROPORTIONS_SUM;
-
-				proportions.map (entry => [entry[0], (entry[1] as number) * SCALE_FACTOR])
-			}
+			const SCALE_FACTOR = 1 / PROPORTIONS_SUM;
+			proportions = proportions.map (entry => [entry[0], (entry[1] as number) * SCALE_FACTOR * 100])
 			
 			return Object.fromEntries (proportions);
 		},
@@ -32,6 +28,39 @@ export default function Table ({data, structure}: TableProps)
 	);
 
 	return (
-		<>{console.log (actualProportions)}</>
+		<table width = "100%">
+			<thead>
+				<tr>
+				{
+					Object.entries (structure.columns)
+						.map (
+							col => <th style = {{width: `${actualProportions[col[0]]}%`}}>
+										<span>{col[1].displayName ?? (col[0][0].toUpperCase() + col[0].slice (1))}</span>
+										{structure.sortingColumns?.includes (col[0]) && <span>sort</span>}
+									</th>
+						)
+				}
+				</tr>
+			</thead>
+			<tbody>
+			{
+				data.map (
+					row => <tr key = {row.id}>
+							{
+								Object.entries (structure.columns)
+									.map (
+										colDef => <td>
+													{
+														Object.keys (colDef[1].fields)
+																.map (f => <span>{row[f]}</span>)
+													}
+													</td>
+									)
+							}
+							</tr>
+				)
+			}
+			</tbody>
+		</table>
 	);
 }
