@@ -17,13 +17,13 @@ export type TableStructure = {
 			/**
 			 * Defines the proportion that this column will take relative to the table. **The total proportions must add up to 1**.
 			 */
-			proportion: number
+			proportion: number,
+			/**
+			 * Determines whether this column is able to sort the rows or not.
+			 */
+			sorting?: boolean
 		}
-	},
-	/**
-	 * Lists the keys of the columns that have a sorting button
-	 */
-	sortingColumns?: string[]
+	}
 };
 
 export type TableRowField = {
