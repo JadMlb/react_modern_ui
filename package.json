@@ -3,7 +3,7 @@
   "publishConfig": {
     "registry": "https://npm.pkg.github.com/JadMlb"
   },
-  "version": "1.0.0",
+  "version": "1.0.5",
   "description": "A simple UI library for react with some simple UI elements",
   "keywords": [
     "react",
@@ -21,7 +21,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "./node_modules/.bin/babel src --out-file index.ts",
-    "rollup": "rollup -c"
+    "rollup:components": "rollup -c",
+    "rollup:theme": "rollup -c rollup.config.theme.mjs",
+    "rollup": "npm run rollup:components && npm run rollup:theme"
   },
   "author": "JadMlb",
   "license": "MIT",
@@ -44,7 +46,7 @@
     "typescript": "^5.4.4"
   },
   "peerDependencies": {
-    "react": "^16.8.0",
-    "react-dom": "^16.8.0"
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
   }
 }

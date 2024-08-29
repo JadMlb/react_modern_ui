@@ -4,8 +4,8 @@ React Modern UI is a small UI library created to group different components that
 ## Installation
 
 ```bash
-npm install @jadmlb/react-modern-ui
-yarn install @jadmlb/react-modern-ui
+npm install @JadMlb/react-modern-ui
+yarn install @JadMlb/react-modern-ui
 ```
 
 ## Usage

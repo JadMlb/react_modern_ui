@@ -166,13 +166,17 @@ type ComboboxProps = {
 	/**
 	 * Specifies whether the value of the ComboBox is required and hides the clear button upon selection. Defaults to `false`.
 	 */
-	required?: boolean
+	required?: boolean,
+	/**
+	 * Fixes the position of the options popup no matter the position of the combobox. Default behaviour will check if there is enough space to display the options list below the combobox, and if not, above.
+	 */
+	position?: "top" | "bottom"
 };
 
 /**
  * Renders a ComboBox, i.e. a drop-down list of options to select one or more options (`multiple` flag). The list of options is passed via the property `from`.
  */
-export default function ComboBox ({name, label, from, multiple, values, onChange, notSearchable = false, compact, defaultFirst, required}: ComboboxProps)
+export default function ComboBox ({name, label, from, multiple, values, onChange, notSearchable = false, compact, defaultFirst, required, position}: ComboboxProps)
 {
 	const {theme} = useTheme();
 	const isDark = useDarkMode();
@@ -284,6 +288,9 @@ export default function ComboBox ({name, label, from, multiple, values, onChange
 
 	function isFromTop ()
 	{
+		if (position)
+			return position === "top";
+			
 		if (inputRef.current)
 		{
 			const {top} = inputRef.current.getBoundingClientRect();
