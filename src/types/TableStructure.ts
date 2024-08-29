@@ -23,7 +23,11 @@ export type TableStructure = {
 			 */
 			sorting?: boolean
 		}
-	}
+	},
+	/**
+	 * Lists the keys of the columns that can be used to sort the rows
+	 */
+	sortingColumns?: string[]
 };
 
 export type TableRowField = {

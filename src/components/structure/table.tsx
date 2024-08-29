@@ -5,6 +5,8 @@ import styled, { css } from "styled-components";
 import { colour, radius, spacing } from "../../styles/styles";
 import ThemeType from "../../types/theme";
 import { useDarkMode, useTheme } from "../../styles/theme";
+import ComboBox from "../input/combobox";
+import { Option } from "../../types/Option";
 
 const Wrapper = styled.div<{$maxHeight: number, $isDark: boolean, $theme: ThemeType}>
 `
@@ -154,6 +156,9 @@ export default function Table ({data, structure, maxHeight, alternateRowColour =
 {
 	const {theme} = useTheme();
 	const isDark = useDarkMode();
+
+	const [shownData, setShownData] = useState ([...data]);
+	const [sortingColumnIndex, setSortingColumnIndex] = useState<number | null> (null);
 	
 	const [activeIndex, setActiveIndex] = useState<number | null> (null);
 	const [tableDims, setTableDims] = useState ({width: 0, height: 0});
@@ -246,6 +251,31 @@ export default function Table ({data, structure, maxHeight, alternateRowColour =
 		[activeIndex]
 	);
 
+	function sortTable (options: Option[])
+	{
+		setSortingColumnIndex (options[0]?.id ?? null);
+
+		if (options[0]?.id !== undefined)
+		{
+			const sortingColumn = Object.keys(structure.columns[structure.sortingColumns?.[options[0]?.id ?? 0] ?? "id"].fields)[0];
+			setShownData (
+				old =>
+				old.sort (
+					(r1, r2) =>
+					{
+						if (r1[sortingColumn] > r2[sortingColumn])
+							return 1;
+						else if (r1[sortingColumn] < r2[sortingColumn])
+							return -1;
+						return 0;
+					}
+				)
+			);
+		}
+		else
+			setShownData (data);
+	}
+
 	useEffect (
 		() =>
 		{
@@ -303,72 +333,86 @@ export default function Table ({data, structure, maxHeight, alternateRowColour =
 	);
 
 	return (
-		<Wrapper $maxHeight = {availableSpace} $theme = {theme} $isDark = {isDark}>
-			<StyledTable width = "100%">
-				<Header ref = {headRef} $theme = {theme}>
-					<Row
-						key = {`header-row`}
-						$alternate = {false}
-						$isDark = {isDark}
-						$theme = {theme}
-					>
+		<>
+			<div style = {{display: "flex", gap: spacing.xsmall, alignItems: "center"}}>
+				Sort
+				<ComboBox
+					name = "sort"
+					label = "Choose a column"
+					from = {structure.sortingColumns?.map ((col, i) => ({id: i, text: col})) ?? []}
+					values = {sortingColumnIndex ? [sortingColumnIndex] : []}
+					onChange = {(options) => sortTable (options)}
+					compact
+					notSearchable
+				/>
+			</div>
+			<Wrapper $maxHeight = {availableSpace} $theme = {theme} $isDark = {isDark}>
+				<StyledTable width = "100%">
+					<Header ref = {headRef} $theme = {theme}>
+						<Row
+							key = {`header-row`}
+							$alternate = {false}
+							$isDark = {isDark}
+							$theme = {theme}
+						>
+						{
+							Object.entries (structure.columns)
+								.map (
+									(col, i) => <HeaderCell key = {`header-${col[0]}`}>
+													<CellContents
+														$containsNumber = {Object.values(col[1].fields).filter(f => f.type === "number").length > 0}
+													>
+														{col[1].displayName ?? (col[0][0].toUpperCase() + col[0].slice (1))}
+													</CellContents>
+													{col[1].sorting && <span>sort</span>}
+													{
+														i < NB_COLS - 1 && <Resizer
+																				$height = {tableDims.height}
+																				$active = {i === activeIndex}
+																				$isDark = {isDark}
+																				$theme = {theme}
+																				onMouseDown = {() => onMouseDown (i)}
+																			/>
+													}
+												</HeaderCell>
+								)
+						}
+						</Row>
+					</Header>
+					<Body ref = {bodyRef}>
 					{
-						Object.entries (structure.columns)
-							.map (
-								(col, i) => <HeaderCell key = {`header-${col[0]}`}>
-												<CellContents
-													$containsNumber = {Object.values(col[1].fields).filter(f => f.type === "number").length > 0}
-												>
-													{col[1].displayName ?? (col[0][0].toUpperCase() + col[0].slice (1))}
-												</CellContents>
-												{col[1].sorting && <span>sort</span>}
-												{
-													i < NB_COLS - 1 && <Resizer
-																			$height = {tableDims.height}
-																			$active = {i === activeIndex}
-																			$isDark = {isDark}
-																			$theme = {theme}
-																			onMouseDown = {() => onMouseDown (i)}
-																		/>
-												}
-											</HeaderCell>
-							)
+						shownData.map (
+							row => <Row
+										key = {row.id}
+										$alternate = {alternateRowColour}
+										$isDark = {isDark}
+										$theme = {theme}
+										onClick = {() => {if (onRowClick) onRowClick (row);}}
+									>
+									{
+										Object.entries (structure.columns)
+											.map (
+												colDef => <Cell key = {`row-${row.id}-${colDef[0]}`}>
+															{
+																Object.keys (colDef[1].fields)
+																		.map (
+																			f => <CellContents
+																					key = {`row-${row.id}-${colDef[0]}-${f}`}
+																					$containsNumber = {Object.values(colDef[1].fields).filter(f => f.type === "number").length > 0}
+																				>
+																					{row[f]}
+																				</CellContents>
+																		)
+															}
+															</Cell>
+											)
+									}
+									</Row>
+						)
 					}
-					</Row>
-				</Header>
-				<Body ref = {bodyRef}>
-				{
-					data.map (
-						row => <Row
-									key = {row.id}
-									$alternate = {alternateRowColour}
-									$isDark = {isDark}
-									$theme = {theme}
-									onClick = {() => {if (onRowClick) onRowClick (row);}}
-								>
-								{
-									Object.entries (structure.columns)
-										.map (
-											colDef => <Cell key = {`row-${row.id}-${colDef[0]}`}>
-														{
-															Object.keys (colDef[1].fields)
-																	.map (
-																		f => <CellContents
-																				key = {`row-${row.id}-${colDef[0]}-${f}`}
-																				$containsNumber = {Object.values(colDef[1].fields).filter(f => f.type === "number").length > 0}
-																			>
-																				{row[f]}
-																			</CellContents>
-																	)
-														}
-														</Cell>
-										)
-								}
-								</Row>
-					)
-				}
-				</Body>
-			</StyledTable>
-		</Wrapper>
+					</Body>
+				</StyledTable>
+			</Wrapper>
+		</>
 	);
 }
