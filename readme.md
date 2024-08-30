@@ -44,3 +44,8 @@ const {theme, dispatch} = useTheme();
 
 ## Documentation
 Click [here](docs.md) to read the full docs.
+
+## Change Log
+
+### v1.1.0 is out
+Check the [change log](changelog.md#v110) to see everything new
