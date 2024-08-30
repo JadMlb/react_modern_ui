@@ -205,6 +205,106 @@ Renders a loading animation mimicking lines of text.
 #### Props
 ![no props](https://img.shields.io/badge/No_Props-green)
 
+### Table
+![since v1.1.0](https://img.shields.io/badge/since-v1.1.0-lightgray)<br>
+Displays tabular data.
+#### Props
+![no children](https://img.shields.io/badge/Children-Not_Needed-green)
+
+- `data`: The list of rows to be displayed in the table
+	- type: `TableRow[]`
+	- `TableRow`:
+		- attributes:
+			- `id`:
+				- type: `number | string`
+			- `<key>`:
+				- type: `number | string`
+- `structure`: The definition of the structure of the table, what each column contains and how fields map to each column.
+	- type: `TableStructure`
+	- `TableStructure`:
+		- attributes:
+			- `columns`:
+				- type: object
+				- attributes:
+					- `<columnName>`:
+						- type: object
+						- attributes:
+							- `displayName`: The text to be displayed in this column header. If none provided, the key is taken and its first letter capitalized
+								- type: `string` (optional)
+							- `fields`:
+								- type: object
+								- attributes:
+									- `<fieldName>`:
+										- type: `object`
+										- attributes:
+											- `type`:
+												- type: enum
+												- values:
+													- `number`: The contents are numbers and will be displayed from right to left
+													- `text`: The contents are normal text and are displayed normally
+											- `isPrimary`: Specifies whether this field is important and should be displayed in bold.
+												- type: `boolean` (optional)
+							- `proportion`: Defines the proportion / fraction of the table that this column will occupy. If all of the proportions do not add up to 1, they will be rescaled accordingly.
+								- type: `number`
+								- constraints: `0 < proportions <= 1`
+			- `sortingColumns`: Describes the set of column keys that support sorting. If a column contains mutliple fields, only the first field is used to sort.
+				- type: `string[] (optional)`
+		- example:
+		```ts
+		const struct: TableStructure = {
+			columns: {
+				id: {
+					fields: {
+						id: {
+							type: "number"
+						}
+					},
+					proportion: 1
+				},
+				col1: {
+					fields: {
+						f1: {
+							type: "text"
+						}
+					},
+					proportion: 3
+				},
+				col2: {
+					fields: {
+						f2: {
+							type: "text"
+						}
+					},
+					proportion: 1
+				},
+				col3: {
+					fields: {
+						f3: {
+							type: "text"
+						}
+					},
+					proportion: 1
+				}
+			},
+			sortingColumns: ["id", "col1"]
+		};
+		```
+- `maxHeight`: The max height of the table in pixels. If no value is provided, the table will occupy the remainder of the page.
+	- type: `number` (optional)
+- `alternateRowColour`: Specifies whether each other row is to be coloured differently from the previous one, i.e. each even row is in gray or not.
+	- type: `boolean` (optional)
+	- default: `false`
+- `allowPagination`: Specifies whether pagination is enabled or not. If enabled, use prop `allowedPageSizes` to pass allowed options for page sizes.
+	- type: `boolean` (optional)
+	- default: `false`
+- `allowedPageSizes`: Specifies the options for page sizes. Only considered if `allowPagination` flag is raised.
+	- type: `number[]` (optional)
+	- default: `[5, 10]`
+- `onRowClick`: The event handler to be executed when a row is clicked
+	- type: `(row: TableRow) => void` (optional)
+	- parameters:
+		- `row`: The data contained in the clicked row
+
 ### Toaster
 ![since v1.0.0](https://img.shields.io/badge/since-v1.0.0-lightgray)<br>
 Establishes component to display toasts, i.e. floating notifications.
