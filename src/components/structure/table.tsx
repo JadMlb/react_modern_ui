@@ -380,7 +380,6 @@ export default function Table ({data, structure, maxHeight, alternateRowColour =
 													>
 														{col[1].displayName ?? (col[0][0].toUpperCase() + col[0].slice (1))}
 													</CellContents>
-													{col[1].sorting && <span>sort</span>}
 													{
 														i < NB_COLS - 1 && <Resizer
 																				$height = {tableDims.height}
