@@ -7,6 +7,7 @@ import ThemeType from "../../types/theme";
 import { useDarkMode, useTheme } from "../../styles/theme";
 import ComboBox from "../input/combobox";
 import { Option } from "../../types/Option";
+import { PaginationBar } from "./table/pagination_bar";
 
 const Wrapper = styled.div<{$maxHeight: number, $isDark: boolean, $theme: ThemeType}>
 `
@@ -145,6 +146,14 @@ type TableProps = {
 	 */
 	alternateRowColour?: boolean,
 	/**
+	 * Specifies whether pagination is enabled or not. If enabled, use prop `allowedPageSizes` to pass allowed options for page sizes. Defaults to `false`.
+	 */
+	allowPagination?: boolean,
+	/**
+	 * Specifies the options for page sizes. Only considered if `allowPagination` flag is raised. Defaults to `[5, 10]`.
+	 */
+	allowedPageSizes?: number[]
+	/**
 	 * The event handler to be executed when a row is clicked
 	 * @param row The data contained in the clicked row
 	 */
@@ -152,13 +161,16 @@ type TableProps = {
 };
 
 // resizable table inspired from the following article https://www.letsbuildui.dev/articles/resizable-tables-with-react-and-css-grid/
-export default function Table ({data, structure, maxHeight, alternateRowColour = false, onRowClick}: TableProps)
+export default function Table ({data, structure, maxHeight, alternateRowColour = false, allowPagination, allowedPageSizes = [5, 10], onRowClick}: TableProps)
 {
 	const {theme} = useTheme();
 	const isDark = useDarkMode();
 
 	const [shownData, setShownData] = useState ([...data]);
 	const [sortingColumnIndex, setSortingColumnIndex] = useState<number | null> (null);
+
+	const [fullSortedData, setFullSortedData] = useState ([...data]);
+	const [rowsPerPage, setRowsPerPage] = useState (allowPagination ? 0 : 1e10);
 	
 	const [activeIndex, setActiveIndex] = useState<number | null> (null);
 	const [tableDims, setTableDims] = useState ({width: 0, height: 0});
@@ -258,23 +270,27 @@ export default function Table ({data, structure, maxHeight, alternateRowColour =
 		if (options[0]?.id !== undefined)
 		{
 			const sortingColumn = Object.keys(structure.columns[structure.sortingColumns?.[options[0]?.id ?? 0] ?? "id"].fields)[0];
-			setShownData (
-				old =>
-				old.sort (
-					(r1, r2) =>
-					{
-						if (r1[sortingColumn] > r2[sortingColumn])
-							return 1;
-						else if (r1[sortingColumn] < r2[sortingColumn])
-							return -1;
-						return 0;
-					}
-				)
+			const sortedData = fullSortedData.sort (
+				(r1, r2) =>
+				{
+					if (r1[sortingColumn] > r2[sortingColumn])
+						return 1;
+					else if (r1[sortingColumn] < r2[sortingColumn])
+						return -1;
+					return 0;
+				}
 			);
+			setFullSortedData (sortedData);
+			setShownData (fullSortedData.slice (0, rowsPerPage));
 		}
 		else
 			setShownData (data);
 	}
+
+	useEffect (
+		() => setShownData (fullSortedData.slice (0, rowsPerPage)),
+		[rowsPerPage]
+	);
 
 	useEffect (
 		() =>
@@ -412,6 +428,17 @@ export default function Table ({data, structure, maxHeight, alternateRowColour =
 					}
 					</Body>
 				</StyledTable>
+				<>
+				{
+					allowPagination &&
+					<PaginationBar
+						nbRows = {data.length}
+						allowedPageSizes = {allowedPageSizes}
+						onPageRequest = {(pageIndex) => setShownData (fullSortedData.slice (pageIndex * rowsPerPage, rowsPerPage * (pageIndex + 1)))}
+						onPageSizeChange = {(rowsPerPage) => {console.log (rowsPerPage), setRowsPerPage (rowsPerPage)}}
+					/>
+				}
+				</>
 			</Wrapper>
 		</>
 	);
