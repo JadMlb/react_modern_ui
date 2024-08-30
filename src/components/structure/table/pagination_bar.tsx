@@ -88,6 +88,7 @@ export function PaginationBar ({allowedPageSizes, nbRows, onPageRequest, onPageS
 					notSearchable
 					required
 					defaultFirst
+					position = "top"
 				/>
 			</span>
 			{currentPageIndex * rowsPerPage + 1}-{Math.min ((currentPageIndex + 1) * rowsPerPage, nbRows)} of {nbRows}
