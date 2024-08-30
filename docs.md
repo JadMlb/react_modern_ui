@@ -106,6 +106,11 @@ Renders a ComboBox, i.e. a drop-down list of options to select one or more optio
 - `required`: Specifies whether the value of the ComboBox is required and hides the clear button upon selection.
 	- type: `boolean` (optional)
 	- default: `false`
+- `position`: Fixes the position of the options popup no matter the position of the combobox. Default behaviour will check if there is enough space to display the options list below the combobox, and if not, above. ![since v1.1.0](https://img.shields.io/badge/since-v1.1.0-lightgray)
+	- type: enum (optional)
+	- values:
+		- `top`
+		- `bottom`
 
 ### Input
 ![since v1.0.0](https://img.shields.io/badge/since-v1.0.0-lightgray)<br>
