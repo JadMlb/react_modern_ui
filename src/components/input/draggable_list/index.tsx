@@ -27,9 +27,14 @@ type DraggableListProps = {
 	 * @returns The JSX Element to be inserted in the list item
 	 */
 	mapper: (item: TableRow) => React.ReactNode
+	/**
+	 * The event handler to fire whenever the items are rearranged
+	 * @param items The new arrangement of items
+	 */
+	onChange?: (items: TableRow[]) => void
 };
 
-export default function DraggableList ({items, mapper}: DraggableListProps)
+export default function DraggableList ({items, mapper, onChange}: DraggableListProps)
 {
 	const [list, setList] = useState (items);
 	const [isDragging, setIsDragging] = useState (false);
@@ -57,6 +62,8 @@ export default function DraggableList ({items, mapper}: DraggableListProps)
 			{
 				let newList = JSON.parse (JSON.stringify (old));
 				newList.splice (draggedOverIndex.current!, 0, newList.splice(draggedIndex.current!, 1)[0])
+				if (onChange)
+					onChange (newList);
 				return newList;
 			}
 		);

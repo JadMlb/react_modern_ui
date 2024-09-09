@@ -125,6 +125,10 @@ Renders a list whose elements are sortable by dragging & dropping.
 		- `item`: The raw data of an element in the list
 			- type: `TableRow`
 	- returns: The JSX Element to be inserted in the list item
+- `onChange`: The event handler to fire whenever the items are rearranged
+	- type: `(items: TableRow[]) => void` (optional)
+	- parameters:
+		- `items`: The new arrangement of items
 
 ### Input
 ![since v1.0.0](https://img.shields.io/badge/since-v1.0.0-lightgray)<br>
