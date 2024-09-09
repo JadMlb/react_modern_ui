@@ -112,6 +112,20 @@ Renders a ComboBox, i.e. a drop-down list of options to select one or more optio
 		- `top`
 		- `bottom`
 
+### DraggableList
+![since v1.1.0](https://img.shields.io/badge/since-v1.1.0-lightgray)<br>
+Renders a list whose elements are sortable by dragging & dropping.
+#### Props
+![no children](https://img.shields.io/badge/Children-Not_Needed-green)
+- `items`: The list of items characterized by an id and key-value content
+	- type: `TableRow[]`
+- `mapper`: A mapper function that takes an item from the list provided and renders a JSX element to be the content of a list item
+	- type: `(item: TableRow) => React.ReactNode`
+	- parameters:
+		- `item`: The raw data of an element in the list
+			- type: `TableRow`
+	- returns: The JSX Element to be inserted in the list item
+
 ### Input
 ![since v1.0.0](https://img.shields.io/badge/since-v1.0.0-lightgray)<br>
 Renders a field to input text, numbers, dates, emails and passwords.

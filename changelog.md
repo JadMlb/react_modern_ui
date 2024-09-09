@@ -11,3 +11,6 @@ Added tables to the set of UI components. Tables are equipped out-of-the box wit
 
 ### Comboboxes
 - Added prop `position` to override where the options list would appear
+
+### DraggableList
+Introduced a new sortable list by dragging & dropping items around 

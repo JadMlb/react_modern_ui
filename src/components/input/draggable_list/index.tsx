@@ -17,7 +17,15 @@ const Container = styled.div
 `;
 
 type DraggableListProps = {
+	/**
+	 * The list of items characterized by an id and key-value content
+	 */
 	items: TableRow[],
+	/**
+	 * A mapper function that takes an item from the list provided and renders a JSX element
+	 * @param item The raw data of an element in the list
+	 * @returns The JSX Element to be inserted in the list item
+	 */
 	mapper: (item: TableRow) => React.ReactNode
 };
 
