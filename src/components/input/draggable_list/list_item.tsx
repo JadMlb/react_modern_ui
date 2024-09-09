@@ -1,9 +1,9 @@
 import React from "react";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { colour, radius, spacing, useDarkMode, useTheme } from "../../../styles";
 import ThemeType from "../../../types/theme";
 
-const LI = styled.li<{$isDark: boolean, $theme: ThemeType}>
+const LI = styled.li<{$dragging?: boolean, $isDark: boolean, $theme: ThemeType}>
 `
 	padding: ${spacing.xsmall};
 	border-radius: ${radius.small};
@@ -20,16 +20,27 @@ const LI = styled.li<{$isDark: boolean, $theme: ThemeType}>
 		position: absolute;
 		left: ${spacing.xsmall};
 	}
+
+	${
+		props => props.$dragging &&
+			css
+			`
+				all: unset;
+				color: transparent;
+			`
+	}
 `;
 
 type DraggableListItemProps = {
 	key?: string | number | bigint | null,
 	onDragStart: React.DragEventHandler,
-	onDragEnter?: React.DragEventHandler
+	onDragEnter: React.DragEventHandler,
+	onDragEnd: React.DragEventHandler,
+	dragging?: boolean,
 	children: React.ReactNode
 };
 
-export default function DraggableListItem ({onDragStart, onDragEnter, children}: DraggableListItemProps)
+export default function DraggableListItem ({onDragStart, onDragEnter, onDragEnd, dragging, children}: DraggableListItemProps)
 {
 	const isDark = useDarkMode();
 	const {theme} = useTheme();
@@ -40,6 +51,9 @@ export default function DraggableListItem ({onDragStart, onDragEnter, children}:
 			$theme = {theme}
 			onDragStart = {onDragStart}
 			onDragEnter = {onDragEnter}
+			onDragOver = {e => e.preventDefault()}
+			onDragEnd = {onDragEnd}
+			$dragging = {dragging}
 			draggable
 		>
 			{children}
