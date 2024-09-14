@@ -8,7 +8,13 @@ const CardBg = styled.div<{$isDark: boolean, $theme: ThemeType}>
 `
 	border-radius: ${radius.normal};
 	padding: ${spacing.small};
-	background-color: ${props => colour (props.$isDark ? "grayDark" : "grayLight", props.$theme)};
+	border: 0.5px solid ${props => colour (props.$isDark ? "grayDark" : "grayLight", props.$theme)};
+	box-shadow: 0 0 5px ${props => colour (props.$isDark ? "grayDark" : "grayLight", props.$theme)};
+
+	&:hover
+	{
+		border: 1px solid ${props => colour ("primary", props.$theme)};
+	}
 `;
 
 const Title = styled.h4
