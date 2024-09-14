@@ -17,6 +17,7 @@ const Background = styled.div<{$col: string, $centered: boolean, $whiteText?: bo
 `;
 
 type TagProps = {
+	key?: string | number | bigint | null
 	role: TagRole,
 	rounded?: boolean,
 	centered?: boolean,
