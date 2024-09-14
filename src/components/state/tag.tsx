@@ -13,6 +13,7 @@ const Background = styled.div<{$col: string, $centered: boolean, $whiteText?: bo
 	padding: ${spacing.xsmall};
 	border-radius: ${props => props.$rounded ? radius.large : radius.small};
 	${props => props.$whiteText && "color: white;"}
+	display: inline-block;
 `;
 
 type TagProps = {
