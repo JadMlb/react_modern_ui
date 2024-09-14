@@ -129,6 +129,7 @@ const Resizer = styled.div<{$height: number, $active: boolean, $isDark: boolean,
 `;
 
 type TableProps = {
+	key?: string | number | bigint | null,
 	/**
 	 * The list of rows to be displayed in the table
 	 */

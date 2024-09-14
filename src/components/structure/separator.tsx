@@ -5,6 +5,7 @@ import { useDarkMode, useTheme } from "../../styles/theme";
 import ThemeType from "../../types/theme";
 
 type SeparatorProps = {
+	key?: string | number | bigint | null,
 	/**
 	 * The title of the following section
 	 */

@@ -6,6 +6,7 @@ import { useDarkMode, useTheme } from "../../styles/theme";
 import ThemeType from "../../types/theme";
 
 type InputProps = {
+	key?: string | number | bigint | null,
 	/**
 	 * The type of the input, either text, password, number, mail or datetime. For these types, the same naming is used as for the types of raw html input tag.
 	 */

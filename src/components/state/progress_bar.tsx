@@ -41,6 +41,7 @@ const Container = styled.div<{$thin?: boolean}>
 `;
 
 type ProgressBarProps = {
+	key?: string | number | bigint | null,
 	/**
 	 * The percentage from completion. This value must be a number **between 0 and 100** otherwise an error is thrown.
 	 */

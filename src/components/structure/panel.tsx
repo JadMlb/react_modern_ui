@@ -63,6 +63,7 @@ const ScrollArea = styled.div<{$isDark: boolean, $maxHeight?: number, $maxWidth?
 `;
 
 type PanelProps = {
+	key?: string | number | bigint | null,
 	title?: string,
 	/**
 	 * The max width in pixels for the panel to occupy

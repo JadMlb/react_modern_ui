@@ -99,6 +99,7 @@ const StyledButton = styled.button<{$isDark: boolean, $theme: ThemeType, $wide? 
 `;
 
 type ButtonProps = {
+	key?: string | number | bigint | null,
 	/**
 	 * The role the button will take
 	 * - `normal` (default): renders a button with gray background

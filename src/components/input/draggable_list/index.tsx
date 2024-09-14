@@ -17,6 +17,7 @@ const Container = styled.div
 `;
 
 type DraggableListProps = {
+	key?: string | number | bigint | null,
 	/**
 	 * The list of items characterized by an id and key-value content
 	 */

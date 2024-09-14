@@ -3,6 +3,7 @@ import CheckBox from "./checkbox"
 import { useEffect, useState } from "react";
 
 type RadioButtonsGroupProps = {
+	key?: string | number | bigint | null,
 	/**
 	 * The name of the field that contains the value of this input
 	 */
