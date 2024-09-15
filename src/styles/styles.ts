@@ -10,14 +10,14 @@ export const radius = {
 };
 
 export const spacing = {
-	xxsmall: "0.3rem",
-	xsmall: "0.65rem",
-	small: "0.8rem",
-	normal: "1rem",
-	medium: "3rem",
-	large: "5rem",
-	xlarge: "7rem",
-	xxlarge: "10rem",
+	xxsmall: "2px",
+	xsmall: "5px",
+	small: "7px",
+	normal: "10px",
+	medium: "12px",
+	large: "15px",
+	xlarge: "25px",
+	xxlarge: "35px"
 };
 
 export function colour (role: Colour, theme: ThemeType)
