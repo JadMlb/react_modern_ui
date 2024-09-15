@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useReducer } from "react";
 import ThemeType from "../types/theme";
+import { COLOURS_ALT_NAMES, Colour } from "../types";
 
 const DEFAULT_THEME: ThemeType = {
 	mode: "auto",
@@ -104,4 +105,17 @@ export function useDarkMode ()
 	if (context.theme.mode === "auto")
 		return doesPreferDarkMode();
 	return context.theme.mode === "dark";
+}
+
+/**
+ * Gets the colour based on its simplified name
+ * @param role The simplified colour name to get
+ * @returns The hex value of the colour
+ */
+export function useColour (role: Colour)
+{
+	const {theme} = useContext (ThemeContext);
+	let roleTree = COLOURS_ALT_NAMES[role].split (".");
+	const COLOUR_TYPE = roleTree[0] as keyof Omit<ThemeType, "mode">;
+	return "#" + theme[COLOUR_TYPE][roleTree[1] as "dark" | "medium" | "light"];
 }
