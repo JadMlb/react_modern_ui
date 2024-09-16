@@ -1,20 +1,19 @@
 import React from "react";
-import styled, { css } from "styled-components";
+// import styled, { css } from "styled-components";
 import { colour, radius, spacing } from "../../styles/styles";
 import { TagRole } from "../../types/Tag";
-import ThemeType from "../../types/theme";
 import { useTheme } from "../../styles/theme";
 
-const Background = styled.div<{$col: string, $centered: boolean, $whiteText?: boolean, $rounded?: boolean, $theme: ThemeType}>
-`
-	background-color: ${props => props.$col};
-	color: ${props => colour ("black", props.$theme)};
-	${props => props.$centered && css `text-align: center; width: min-content;`}
-	padding: ${spacing.xsmall};
-	border-radius: ${props => props.$rounded ? radius.large : radius.small};
-	${props => props.$whiteText && "color: white;"}
-	display: inline-block;
-`;
+// const Background = styled.div<{$col: string, $centered: boolean, $whiteText?: boolean, $rounded?: boolean, $theme: ThemeType}>
+// `
+// 	background-color: ${props => props.$col};
+// 	color: ${props => colour ("black", props.$theme)};
+// 	${props => props.$centered && css `text-align: center; width: min-content;`}
+// 	padding: ${spacing.xsmall};
+// 	border-radius: ${props => props.$rounded ? radius.large : radius.small};
+// 	${props => props.$whiteText && "color: white;"}
+// 	display: inline-block;
+// `;
 
 type TagProps = {
 	key?: string | number | bigint | null
@@ -38,14 +37,18 @@ export default function Tag ({role = "neutral", centered = false, rounded, child
 	}
 	
 	return (
-		<Background
-			$col = {colour (bgCol as "affirmative" | "alert" | "error" | "gray", theme)}
-			$whiteText = {role === "warn-light" || role === "warn-severe"}
-			$rounded = {rounded}
-			$centered = {centered}
-			$theme = {theme}
+		<div
+			style = {{
+				backgroundColor: colour (bgCol as "affirmative" | "alert" | "error" | "gray", theme),
+				color: colour (role === "warn-light" || role === "warn-severe" ? "white" : "black", theme),
+				textAlign: centered ? "center" : "start",
+				width: centered ? "min-content" : "unset",
+				padding: spacing.small,
+				borderRadius: rounded ? radius.large : radius.small,
+				display: "inline-block"
+			}}
 		>
 			{children}
-		</Background>
+		</div>
 	);
 }
