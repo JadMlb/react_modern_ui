@@ -4,7 +4,6 @@ import { ComboBox } from "../../input";
 import { colour, spacing, useDarkMode, useTheme } from "../../../styles";
 import { Option } from "../../../types";
 import { PaginationBarButtons } from "./pagination_bar_buttons";
-import "./pagination.css";
 import ThemeType from "../../../types/theme";
 
 const PaginationBarDiv = styled.div<{$isDark: boolean, $theme: ThemeType}>
