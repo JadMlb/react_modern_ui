@@ -16,7 +16,7 @@ const Container = styled.div
 	gap: ${spacing.xsmall};
 `;
 
-type DraggableListProps = {
+export type DraggableListProps = {
 	key?: string | number | bigint | null,
 	/**
 	 * The list of items characterized by an id and key-value content
