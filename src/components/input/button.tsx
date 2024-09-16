@@ -8,8 +8,8 @@ type ButtonRoles = "primary" | "transparent" | "alert" | "warn" | "normal";
 
 const StyledButton = styled.button<{$isDark: boolean, $theme: ThemeType, $wide? : boolean, $rounded?: boolean, $role : ButtonRoles}>
 `
-	padding: ${props => props.$role === "transparent" ? "unset" : spacing.xsmall};
-	border-radius: ${radius.normal};
+	padding: ${props => props.$role === "transparent" ? "unset" : spacing.small};
+	border-radius: ${radius.small};
 	border: none;
 	font-size: inherit;
 	background-color: ${
