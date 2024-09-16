@@ -8,6 +8,8 @@ import { useDarkMode, useTheme } from "../../styles/theme";
 import ComboBox from "../input/combobox";
 import { Option } from "../../types/Option";
 import { PaginationBar } from "./table/pagination_bar";
+import DropDownDraggableList from "../input/draggable_list/dropdown";
+import capitalize from "../../utils/capitalizer";
 
 const Wrapper = styled.div<{$maxHeight: number, $isDark: boolean, $theme: ThemeType}>
 `
@@ -169,6 +171,7 @@ export default function Table ({data, structure, maxHeight, alternateRowColour =
 
 	const [shownData, setShownData] = useState ([...data]);
 	const [sortingColumnIndex, setSortingColumnIndex] = useState<number | null> (null);
+	const [displayOrder, setDisplayOrder] = useState (Object.keys (structure.columns));
 
 	const [fullSortedData, setFullSortedData] = useState ([...data]);
 	const [rowsPerPage, setRowsPerPage] = useState (allowPagination ? 0 : 1e10);
@@ -349,9 +352,23 @@ export default function Table ({data, structure, maxHeight, alternateRowColour =
 		[activeIndex]
 	);
 
+	const columns = Object.entries(structure.columns).map ((c, i) => ({id: i, name:c[0]}));
+
+	function changeDisplayOrder (items: TableRow[])
+	{
+		setDisplayOrder (items.map (items => items.name as string));
+	}
+
 	return (
 		<>
 			<div style = {{display: "flex", gap: spacing.xsmall, alignItems: "center"}}>
+				<DropDownDraggableList
+					label = "Rearrange"
+					items = {columns}
+					mapper = {item => <>{structure.columns[item.name].displayName ?? capitalize (item.name as string)}</>}
+					onChange = {changeDisplayOrder}
+				/>
+
 				Sort
 				<ComboBox
 					name = "sort"
@@ -373,13 +390,13 @@ export default function Table ({data, structure, maxHeight, alternateRowColour =
 							$theme = {theme}
 						>
 						{
-							Object.entries (structure.columns)
+							displayOrder
 								.map (
-									(col, i) => <HeaderCell key = {`header-${col[0]}`}>
+									(col, i) => <HeaderCell key = {`header-${col}`}>
 													<CellContents
-														$containsNumber = {Object.values(col[1].fields).filter(f => f.type === "number").length > 0}
+														$containsNumber = {Object.values(structure.columns[col].fields).filter(f => f.type === "number").length > 0}
 													>
-														{col[1].displayName ?? (col[0][0].toUpperCase() + col[0].slice (1))}
+														{structure.columns[col].displayName ?? capitalize (col)}
 													</CellContents>
 													{
 														i < NB_COLS - 1 && <Resizer
@@ -406,15 +423,15 @@ export default function Table ({data, structure, maxHeight, alternateRowColour =
 										onClick = {() => {if (onRowClick) onRowClick (row);}}
 									>
 									{
-										Object.entries (structure.columns)
+										displayOrder
 											.map (
-												colDef => <Cell key = {`row-${row.id}-${colDef[0]}`}>
+												colDef => <Cell key = {`row-${row.id}-${colDef}`}>
 															{
-																Object.keys (colDef[1].fields)
+																Object.keys (structure.columns[colDef].fields)
 																		.map (
 																			f => <CellContents
-																					key = {`row-${row.id}-${colDef[0]}-${f}`}
-																					$containsNumber = {Object.values(colDef[1].fields).filter(f => f.type === "number").length > 0}
+																					key = {`row-${row.id}-${colDef}-${f}`}
+																					$containsNumber = {Object.values(structure.columns[colDef].fields).filter(f => f.type === "number").length > 0}
 																				>
 																					{row[f]}
 																				</CellContents>
