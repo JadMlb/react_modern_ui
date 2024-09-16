@@ -58,16 +58,11 @@ export default function DraggableList ({items, mapper, onChange}: DraggableListP
 
 	function onDragEnd ()
 	{
-		setList (
-			old =>
-			{
-				let newList = JSON.parse (JSON.stringify (old));
-				newList.splice (draggedOverIndex.current!, 0, newList.splice(draggedIndex.current!, 1)[0])
-				if (onChange)
-					onChange (newList);
-				return newList;
-			}
-		);
+		let newList = JSON.parse (JSON.stringify (list));
+		newList.splice (draggedOverIndex.current!, 0, newList.splice(draggedIndex.current!, 1)[0])
+		if (onChange)
+			onChange (newList);
+		setList (newList);
 		draggedOverIndex.current = null;
 		draggedIndex.current = null;
 		setIsDragging (false);
