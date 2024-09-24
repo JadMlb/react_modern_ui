@@ -1,7 +1,8 @@
 import React from "react";
 import styled, { css } from "styled-components";
-import { colour, radius, spacing, useDarkMode, useTheme } from "../../../styles";
+import { colour, radius, spacing } from "../../../styles/styles";
 import ThemeType from "../../../types/theme";
+import { useDarkMode, useTheme } from "../../../styles/theme";
 
 const LI = styled.li<{$dragging?: boolean, $isDark: boolean, $theme: ThemeType}>
 `

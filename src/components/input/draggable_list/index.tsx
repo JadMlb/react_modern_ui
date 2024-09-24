@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
-import { spacing } from "../../../styles";
+import { spacing } from "../../../styles/styles";
 import { TableRow } from "../../../types/TableRow";
 import DraggableListItem from "./list_item";
 

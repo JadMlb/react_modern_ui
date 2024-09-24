@@ -3,7 +3,8 @@ import Button from "../button";
 import DraggableList, { DraggableListProps } from ".";
 import styled from "styled-components";
 import ThemeType from "../../../types/theme";
-import { colour, radius, useDarkMode, useTheme } from "../../../styles";
+import { colour, radius } from "../../../styles/styles";
+import { useDarkMode, useTheme } from "../../../styles/theme";
 
 const DropDownBg = styled.div<{$isDark: boolean, $theme: ThemeType}>
 `

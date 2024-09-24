@@ -1,7 +1,8 @@
 import React, { useMemo, useState } from "react";
 import { styled } from "styled-components";
 import { ComboBox } from "../../input";
-import { colour, spacing, useDarkMode, useTheme } from "../../../styles";
+import { colour, spacing } from "../../../styles/styles";
+import { useDarkMode, useTheme } from "../../../styles/theme";
 import { Option } from "../../../types";
 import { PaginationBarButtons } from "./pagination_bar_buttons";
 import ThemeType from "../../../types/theme";
