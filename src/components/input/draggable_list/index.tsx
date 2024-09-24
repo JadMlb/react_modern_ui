@@ -4,7 +4,7 @@ import { spacing } from "../../../styles";
 import { TableRow } from "../../../types/TableRow";
 import DraggableListItem from "./list_item";
 
-const Container = styled.div
+const Container = styled.ul
 `
 	padding: unset;
 	margin: unset;
