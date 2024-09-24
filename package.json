@@ -3,7 +3,7 @@
   "publishConfig": {
     "registry": "https://npm.pkg.github.com/JadMlb"
   },
-  "version": "1.1.0-beta.10",
+  "version": "1.1.0-beta.11",
   "description": "A simple UI library for react with some simple UI elements",
   "keywords": [
     "react",
@@ -31,8 +31,7 @@
     "@babel/cli": "^7.24.1",
     "@babel/core": "^7.24.4",
     "@babel/preset-env": "^7.24.4",
-    "@babel/preset-react": "^7.24.1",
-    "styled-components": "^6.1.13"
+    "@babel/preset-react": "^7.24.1"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^26.0.1",
@@ -48,6 +47,7 @@
   },
   "peerDependencies": {
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "styled-components": "^6.1.13"
   }
 }
