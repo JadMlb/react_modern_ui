@@ -30,15 +30,17 @@
   "dependencies": {
     "@babel/cli": "^7.24.1",
     "@babel/core": "^7.24.4",
-    "@babel/preset-env": "^7.24.4",
     "@babel/preset-react": "^7.24.1"
   },
   "devDependencies": {
+    "@babel/preset-env": "^7.25.4",
+    "@rollup/plugin-babel": "^6.0.4",
     "@rollup/plugin-commonjs": "^26.0.1",
     "@rollup/plugin-node-resolve": "^15.2.3",
     "@rollup/plugin-typescript": "^11.1.6",
     "@types/react": "^18.2.74",
     "@types/react-dom": "^18.2.24",
+    "babel-plugin-styled-components": "^2.1.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "rollup": "^4.20.0",
