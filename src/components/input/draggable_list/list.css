@@ -1,0 +1,41 @@
+.draggable-list-container
+{
+	padding: unset;
+	margin: unset;
+
+	list-style-type: none;
+
+	display: flex;
+	flex-direction: column;
+}
+
+.draggable-list-item
+{
+	margin-inline: unset;
+	position: relative;
+}
+
+.draggable-list-item::before
+{
+	content: "\22ee";
+	font-weight: bold;
+	position: absolute;
+	left: 5px;
+}
+
+.draggable-list-item-dragging
+{
+	all: unset;
+	color: transparent;
+}
+
+.draggable-list-dropdown-container
+{
+	position: absolute;
+	z-index: 100;
+	top: 100%;
+	right: 0;
+
+	max-height: 200px;
+	overflow-y: auto;
+}

@@ -1,36 +1,7 @@
 import React from "react";
-import styled, { css } from "styled-components";
 import { colour, radius, spacing } from "../../../styles/styles";
-import ThemeType from "../../../types/theme";
 import { useDarkMode, useTheme } from "../../../styles/theme";
-
-const LI = styled.li<{$dragging?: boolean, $isDark: boolean, $theme: ThemeType}>
-`
-	padding: ${spacing.xsmall};
-	border-radius: ${radius.small};
-	border: 1px solid ${props => colour (props.$isDark ? "grayDark" : "grayLight", props.$theme)};
-	box-shadow: 0 0 5px ${props => colour (props.$isDark ? "grayDark" : "grayLight", props.$theme)};
-	margin-inline: unset;
-	position: relative;
-	padding-left: calc(2 * ${spacing.xsmall} + 5px);
-
-	&:before
-	{
-		content: "\22ee";
-		font-weight: bold;
-		position: absolute;
-		left: ${spacing.xsmall};
-	}
-
-	${
-		props => props.$dragging &&
-			css
-			`
-				all: unset;
-				color: transparent;
-			`
-	}
-`;
+import "./list.css";
 
 type DraggableListItemProps = {
 	key?: string | number | bigint | null,
@@ -47,17 +18,22 @@ export default function DraggableListItem ({onDragStart, onDragEnter, onDragEnd,
 	const {theme} = useTheme();
 
 	return (
-		<LI
-			$isDark = {isDark}
-			$theme = {theme}
+		<li
+			className = {`draggable-list-item ${dragging ? "draggable-list-item-dragging" : ""}`}
+			style = {{
+				padding: spacing.xsmall,
+				borderRadius: radius.small,
+				border: `1px solid ${colour (isDark ? "grayDark" : "grayLight", theme)}`,
+				boxShadow: `0 0 5px ${colour (isDark ? "grayDark" : "grayLight", theme)}`,
+				paddingLeft: `calc(2 * ${spacing.xsmall} + 5px)`,
+			}}
 			onDragStart = {onDragStart}
 			onDragEnter = {onDragEnter}
 			onDragOver = {e => e.preventDefault()}
 			onDragEnd = {onDragEnd}
-			$dragging = {dragging}
 			draggable
 		>
 			{children}
-		</LI>
+		</li>
 	);
 }

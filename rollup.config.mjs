@@ -4,6 +4,7 @@ import typescript from "@rollup/plugin-typescript";
 import dts from "rollup-plugin-dts";
 import packageJson from "./package.json" assert {type: "json"};
 import babel from "@rollup/plugin-babel";
+import postcss from "rollup-plugin-postcss";
 
 export default [
 	{
@@ -31,6 +32,13 @@ export default [
 					babelHelpers: "bundled",
 					plugins: ["babel-plugin-styled-components"]
 				}
+			),
+			postcss (
+				{
+					extract: true,
+					minimize: true,
+					sourceMap: true
+			  	}
 			)
 		],
 		external: ["react", "react-dom", "styled-components"]
