@@ -10,9 +10,9 @@ const LI = styled.li<{$dragging?: boolean, $isDark: boolean, $theme: ThemeType}>
 	border-radius: ${radius.small};
 	border: 1px solid ${props => colour (props.$isDark ? "grayDark" : "grayLight", props.$theme)};
 	box-shadow: 0 0 5px ${props => colour (props.$isDark ? "grayDark" : "grayLight", props.$theme)};
-	margin-inline: none;
+	margin-inline: unset;
 	position: relative;
-	padding-left: calc(2 * ${spacing.xsmall} + 5px) !important;
+	padding-left: calc(2 * ${spacing.xsmall} + 5px);
 
 	&:before
 	{

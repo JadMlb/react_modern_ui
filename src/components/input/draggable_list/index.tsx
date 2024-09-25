@@ -38,7 +38,6 @@ export type DraggableListProps = {
 export default function DraggableList ({items, mapper, onChange}: DraggableListProps)
 {
 	const [list, setList] = useState (items);
-	const [isDragging, setIsDragging] = useState (false);
 
 	const draggedIndex = useRef<number | null> (null);
 	const draggedOverIndex = useRef<number | null> (null);
@@ -46,9 +45,6 @@ export default function DraggableList ({items, mapper, onChange}: DraggableListP
 	function onDragStart (index: number)
 	{
 		draggedIndex.current = index;
-		// introduce a slight delay so that the styling is not applied directly to the element hovered but its old place
-		// credits: asat on youtube: https://youtu.be/Q1PYQPK9TaM?si=jptC93an2cmmPw7c
-		setTimeout (() => setIsDragging (true), 0);
 	}
 
 	function onDragEnter (index: number)
@@ -65,7 +61,6 @@ export default function DraggableList ({items, mapper, onChange}: DraggableListP
 		setList (newList);
 		draggedOverIndex.current = null;
 		draggedIndex.current = null;
-		setIsDragging (false);
 	}
 
 	useEffect (
@@ -82,7 +77,7 @@ export default function DraggableList ({items, mapper, onChange}: DraggableListP
 									onDragStart = {() => onDragStart (index)}
 									onDragEnter = {() => onDragEnter (index)}
 									onDragEnd = {onDragEnd}
-									dragging = {isDragging}
+									dragging = {draggedIndex.current === index}
 								>
 									{mapper (item)}
 								</DraggableListItem>
