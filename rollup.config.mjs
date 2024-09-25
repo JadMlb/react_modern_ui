@@ -35,7 +35,7 @@ export default [
 			),
 			postcss (
 				{
-					extract: true,
+					extract: file => file.replace (/\.js$/, ".css"),
 					minimize: true,
 					sourceMap: true
 			  	}
@@ -46,6 +46,17 @@ export default [
 	{
 		input: "dist/esm/types/index.d.ts",
 		output: [{ file: "dist/index.d.ts", format: "esm" }],
-		plugins: [dts()],
+		plugins: [
+			dts (
+				{
+					respectExternal: true,
+					compilerOptions: {
+						"skipLibCheck": true,
+						"skipDefaultLibCheck": true
+					}
+				}
+			)
+		],
+		external: [/\.css$/]
 	},
 ];
