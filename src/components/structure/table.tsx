@@ -44,30 +44,28 @@ const Cell = styled.td
 
 const Row = styled.tr<{$alternate: boolean, $isDark: boolean, $theme: ThemeType}>
 `
+	&:hover > td
+	{
+		background-color: ${props => colour (props.$isDark ? "primaryDark" : "primaryElevated", props.$theme)} !important;
+	}
+
 	display: contents;
 
 	${
 		props => props.$alternate ?
-			css
 			`
-				&:not(:last-child) ${Cell}
-				{
-					border-bottom: 1px solid ${colour (props.$isDark ? "grayDark" : "grayLight", props.$theme)};
-				}
-			`
-			:
-			css
-			`
-				&:nth-child(even) ${Cell}
+				&:nth-child(even) td
 				{
 					background-color: ${colour (props.$isDark ? "grayDark" : "grayLight", props.$theme)};
 				}
 			`
-	}
-
-	&:hover
-	{
-		background-color: ${props => colour (props.$isDark ? "primaryDark" : "primaryElevated", props.$theme)};
+			:
+			`
+				&:not(:last-child) td
+				{
+					border-bottom: 1px solid ${colour (props.$isDark ? "grayDark" : "grayLight", props.$theme)};
+				}
+			`
 	}
 `;
 
@@ -75,7 +73,7 @@ const Body = styled.tbody
 `
 	display: grid;
 
-	> ${Row}
+	> tr
 	{
 		cursor: pointer;
 	}
@@ -100,16 +98,22 @@ const CellContents = styled.span<{$containsNumber?: boolean}>
 const Resizer = styled.div<{$height: number, $active: boolean, $isDark: boolean, $theme: ThemeType}>
 `
 	width: 2px;
-	height: ${props => props.$height};
+	height: ${props => props.$height}px;
 	background-color: transparent;
 	position: absolute;
 	top: 0;
 	right: 0;
 	cursor: col-resize;
 
+	&:hover, &:hover:before
+	{
+		background-color: ${props => colour (props.$active ? (props.$isDark ? "primaryDark" : "primaryElevated") : (props.$isDark ? "grayDark" : "grayLight"), props.$theme)};
+		color: ${props => colour (props.$isDark ? "white" : "black", props.$theme)};
+	}
+
 	&:before
 	{
-		content: "\22EE";
+		content: "⋮";
 		font-weight: 900;
 		display: flex;
 		align-items: center;
@@ -119,15 +123,9 @@ const Resizer = styled.div<{$height: number, $active: boolean, $isDark: boolean,
 		position: absolute;
 		color: ${props => colour ("white", props.$theme)};
 		padding: 1px;
-		top: 13px;
+		top: calc((2 * ${spacing.small} + 16pt - 17px) / 2);
 		right: -2px;
 		border-radius: ${radius.normal};
-	}
-
-	&:hover, &:hover:before
-	{
-		background-color: ${props => colour (props.$active ? (props.$isDark ? "primaryDark" : "primaryElevated") : (props.$isDark ? "grayDark" : "grayLight"), props.$theme)};
-		color: ${props => colour (props.$isDark ? "white" : "black", props.$theme)};
 	}
 `;
 
