@@ -35,8 +35,6 @@ const CheckBoxBox = styled.div<{$single?: boolean, $isDark: boolean, $theme: The
 	&:hover
 	{
 		border: 1px solid ${props => colour ("primary", props.$theme)};
-		outline: 1px solid ${props => colour ("primary", props.$theme)};
-		box-sizing: border-box;
 	}
 `;
 
