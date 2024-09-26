@@ -1,19 +1,21 @@
 import React from "react";
-// import styled, { css } from "styled-components";
+/** @jsxImportSource @emotion/react */
+import styled from "@emotion/styled";
 import { colour, radius, spacing } from "../../styles/styles";
 import { TagRole } from "../../types/Tag";
 import { useTheme } from "../../styles/theme";
+import ThemeType from "../../types/theme";
 
-// const Background = styled.div<{$col: string, $centered: boolean, $whiteText?: boolean, $rounded?: boolean, $theme: ThemeType}>
-// `
-// 	background-color: ${props => props.$col};
-// 	color: ${props => colour ("black", props.$theme)};
-// 	${props => props.$centered && css `text-align: center; width: min-content;`}
-// 	padding: ${spacing.xsmall};
-// 	border-radius: ${props => props.$rounded ? radius.large : radius.small};
-// 	${props => props.$whiteText && "color: white;"}
-// 	display: inline-block;
-// `;
+const Background = styled.div<{$col: string, $centered: boolean, $whiteText?: boolean, $rounded?: boolean, $theme: ThemeType}>
+`
+	background-color: ${props => props.$col};
+	color: ${props => colour ("black", props.$theme)};
+	${props => props.$centered && `text-align: center; width: min-content;`}
+	padding: ${spacing.xsmall};
+	border-radius: ${props => props.$rounded ? radius.large : radius.small};
+	${props => props.$whiteText && "color: white;"}
+	display: inline-block;
+`;
 
 type TagProps = {
 	key?: string | number | bigint | null
@@ -37,18 +39,26 @@ export default function Tag ({role = "neutral", centered = false, rounded, child
 	}
 	
 	return (
-		<div
-			style = {{
-				backgroundColor: colour (bgCol as "affirmative" | "alert" | "error" | "gray", theme),
-				color: colour (role === "warn-light" || role === "warn-severe" ? "white" : "black", theme),
-				textAlign: centered ? "center" : "start",
-				width: centered ? "min-content" : "unset",
-				padding: spacing.small,
-				borderRadius: rounded ? radius.large : radius.small,
-				display: "inline-block"
-			}}
+		// <div
+		// 	style = {{
+		// 		backgroundColor: colour (bgCol as "affirmative" | "alert" | "error" | "gray", theme),
+		// 		color: colour (role === "warn-light" || role === "warn-severe" ? "white" : "black", theme),
+		// 		textAlign: centered ? "center" : "start",
+		// 		width: centered ? "min-content" : "unset",
+		// 		padding: spacing.small,
+		// 		borderRadius: rounded ? radius.large : radius.small,
+		// 		display: "inline-block"
+		// 	}}
+		// >
+		// 	{children}
+		// </div>
+		<Background
+			$col = {colour (bgCol as "affirmative" | "alert" | "error" | "gray", theme)}
+			$theme = {theme}
+			$centered = {centered} 
+			$rounded = {rounded}
 		>
 			{children}
-		</div>
+		</Background>
 	);
 }

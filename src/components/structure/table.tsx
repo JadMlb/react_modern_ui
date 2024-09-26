@@ -1,7 +1,8 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { TableRow } from "../../types/TableRow";
 import { TableStructure } from "../../types/TableStructure";
-import styled, { css } from "styled-components";
+/** @jsxImportSource @emotion/react */
+import styled from "@emotion/styled";
 import { colour, radius, spacing } from "../../styles/styles";
 import ThemeType from "../../types/theme";
 import { useDarkMode, useTheme } from "../../styles/theme";

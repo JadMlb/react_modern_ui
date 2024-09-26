@@ -1,5 +1,6 @@
 import React from "react";
-import styled, { css } from "styled-components";
+/** @jsxImportSource @emotion/react */
+import styled from "@emotion/styled";
 import { colour, radius, spacing } from "../../styles/styles";
 import { useDarkMode, useTheme } from "../../styles/theme";
 import ThemeType from "../../types/theme";
@@ -33,12 +34,12 @@ const StyledButton = styled.button<{$isDark: boolean, $theme: ThemeType, $wide? 
 					colour ("black", props.$theme)
 	};
 	font-weight: ${props => ["primary", "transparent", "warn"].includes (props.$role) ? "bold" : "normal"};
-	${props => props.$wide && css`width: 100%;`}
+	${props => props.$wide && "width: 100%;"}
 	transition: transform 0.25s ease-in-out;
 	cursor: pointer;
 	${
 		props =>
-			props.$rounded && css
+			props.$rounded &&
 				`
 					width: 30px;
 					height: 30px;
@@ -55,7 +56,6 @@ const StyledButton = styled.button<{$isDark: boolean, $theme: ThemeType, $wide? 
 	{
 		${
 			props => props.$role !== "transparent" &&
-				css
 				`
 					background-color: ${
 						colour (
@@ -72,12 +72,11 @@ const StyledButton = styled.button<{$isDark: boolean, $theme: ThemeType, $wide? 
 				`
 		};
 
-		${props => ["transparent"].includes (props.$role) && css `> span {border-bottom: 2px solid ${colour ("accent", props.$theme)};}`}
+		${props => ["transparent"].includes (props.$role) && `> span {border-bottom: 2px solid ${colour ("accent", props.$theme)};}`}
 
-		${props => ["alert"].includes (props.$role) && css `color: ${colour ("white", props.$theme)};`}
+		${props => ["alert"].includes (props.$role) && `color: ${colour ("white", props.$theme)};`}
 		${
 			props => !["alert", "warn", "primary", "transparent"].includes (props.$role) && props.$rounded &&
-						css
 						`
 							box-sizing: border-box;
 							padding: calc(${spacing.xsmall} - 8px) calc(${spacing.xsmall} - 2px);

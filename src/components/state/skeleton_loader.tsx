@@ -1,5 +1,7 @@
 import React from "react";
-import styled, { keyframes } from "styled-components";
+/** @jsxImportSource @emotion/react */
+import styled from "@emotion/styled";
+import { keyframes } from "@emotion/react";
 import { colour, radius, spacing } from "../../styles/styles";
 import { useDarkMode, useTheme } from "../../styles/theme";
 import ThemeType from "../../types/theme";

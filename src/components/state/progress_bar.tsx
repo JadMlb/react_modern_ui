@@ -1,5 +1,6 @@
 import React from "react";
-import styled, { css } from "styled-components";
+/** @jsxImportSource @emotion/react */
+import styled from "@emotion/styled";
 import { colour, radius, spacing } from "../../styles/styles";
 import { useDarkMode, useTheme } from "../../styles/theme";
 import ThemeType from "../../types/theme";
@@ -23,7 +24,7 @@ const BarContainer = styled.div<{$isDark: boolean, $theme: ThemeType}>
 	background-color: ${props => colour (props.$isDark ? "grayDark" : "grayLight", props.$theme)};
 	border-radius: ${radius.normal};
 
-	> ${Bar}
+	> *
 	{
 		background-color: ${props => colour ("primary", props.$theme)};
 	}
@@ -35,7 +36,7 @@ const Container = styled.div<{$thin?: boolean}>
 	width: 100%;
 
 	display: grid;
-	grid-template-columns: 1fr ${props => !props.$thin && css `30px`};
+	grid-template-columns: 1fr ${props => !props.$thin && `30px`};
 	align-items: center;
 	gap: ${spacing.small};
 `;

@@ -1,5 +1,6 @@
 import React from "react";
-import styled, { css } from "styled-components";
+/** @jsxImportSource @emotion/react */
+import styled from "@emotion/styled";
 import { useDarkMode, useTheme } from "../../styles/theme";
 import { colour, radius, spacing } from "../../styles/styles";
 import ThemeType from "../../types/theme";
@@ -8,7 +9,6 @@ const Label = styled.label<{$hasLabel: boolean}>
 `
 	${
 		props => props.$hasLabel &&
-			css
 			`
 				display: flex;
 				align-items: center;

@@ -3,7 +3,6 @@ import commonjs from "@rollup/plugin-commonjs";
 import typescript from "@rollup/plugin-typescript";
 import dts from "rollup-plugin-dts";
 import packageJson from "./package.json" assert {type: "json"};
-import babel from "@rollup/plugin-babel";
 import postcss from "rollup-plugin-postcss";
 
 export default [
@@ -25,14 +24,6 @@ export default [
 			resolve(),
 			commonjs(),
 			typescript({ tsconfig: "./tsconfig.json" }),
-			babel (
-				{
-					exclude: "node_modules/**",
-					extensions: [".js", ".ts", ".tsx"],
-					babelHelpers: "bundled",
-					plugins: ["babel-plugin-styled-components"]
-				}
-			),
 			postcss (
 				{
 					extract: file => file.replace (/\.js$/, ".css"),
@@ -41,7 +32,7 @@ export default [
 			  	}
 			)
 		],
-		external: ["react", "react-dom", "styled-components"]
+		external: ["react", "react-dom", "@emotion/react", "@emotion/styled"]
 	},
 	{
 		input: "dist/esm/types/index.d.ts",
@@ -57,6 +48,7 @@ export default [
 				}
 			)
 		],
-		external: [/\.css$/]
+		external: [/\.css$/, "react", "react-dom", "@emotion/react"],
+		preserveModules: true
 	},
 ];

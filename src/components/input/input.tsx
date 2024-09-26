@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { css, styled } from "styled-components";
+/** @jsxImportSource @emotion/react */
+import styled from "@emotion/styled";
 import { colour, radius, spacing } from "../../styles/styles";
 import Button from "./button";
 import { useDarkMode, useTheme } from "../../styles/theme";
@@ -67,8 +68,8 @@ const Container = styled.div<{$multiline?: boolean, $wide?: boolean}>
 	text-align: start;
 
 	display: flex;
-	${props => props.$multiline ? css `flex-direction: column-reverse;` : css `align-items: center;`}
-	${props => props.$wide && css `width: 100%;`}
+	${props => props.$multiline ? `flex-direction: column-reverse;` : `align-items: center;`}
+	${props => props.$wide && `width: 100%;`}
 
 	> button:last-child
 	{
@@ -81,7 +82,7 @@ const Container = styled.div<{$multiline?: boolean, $wide?: boolean}>
 const Label = styled.label<{$multiline?: boolean, $isDark: boolean, $theme: ThemeType}>
 `
 	position: absolute;
-	${props => props.$multiline && css `top: ${spacing.xsmall};`}
+	${props => props.$multiline && `top: ${spacing.xsmall};`}
 	left: 0;
 	margin-left: ${spacing.xsmall};
 	pointer-events: none;
@@ -93,8 +94,7 @@ const Label = styled.label<{$multiline?: boolean, $isDark: boolean, $theme: Them
 
 function getLabelAnimation (isDark: boolean, theme: ThemeType, isLong?: boolean)
 {
-	return css
-	`
+	return `
 		&:not(:placeholder-shown) + ${Label},
 		&:focus + ${Label}
 		{
@@ -117,8 +117,7 @@ function getLabelAnimation (isDark: boolean, theme: ThemeType, isLong?: boolean)
 
 function getStyles (isDark: boolean, theme: ThemeType, isLong?: boolean, isPassword?: boolean)
 {
-	return css
-	`
+	return `
 		all: unset;
 
 		cursor: text;
@@ -128,7 +127,7 @@ function getStyles (isDark: boolean, theme: ThemeType, isLong?: boolean, isPassw
 		border: 2px solid ${colour (isDark ? "primaryDark" : "primaryElevated", theme)};
 
 		padding: ${spacing.xsmall};
-		${isPassword && css`padding-right: calc(2 * ${spacing.xsmall} + 20px)`};
+		${isPassword && `padding-right: calc(2 * ${spacing.xsmall} + 20px)`};
 		border-radius: ${radius.normal};
 		transition: 0.4s cubic-bezier(.4, 0, .2, 1);
 
@@ -136,7 +135,7 @@ function getStyles (isDark: boolean, theme: ThemeType, isLong?: boolean, isPassw
 		{
 			outline: none;
 			border: 2px solid ${colour ("primary", theme)};
-			${isPassword && css`padding-right: calc(2 * ${spacing.xsmall} + 20px)`};
+			${isPassword && `padding-right: calc(2 * ${spacing.xsmall} + 20px)`};
 		}
 
 		&:disabled
@@ -194,14 +193,12 @@ const ShowHide = styled.div<{$shown: boolean, $isDark: boolean, $theme: ThemeTyp
 		transition: .25s;
 		${
 			props => props.$shown ?
-				css
 				`
 					width: 2px;
 					height: 20px;
 					transform: rotate(45deg);
 				`
 				:
-				css
 				`
 					width: 7px;
 					height: 7px;

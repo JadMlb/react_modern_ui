@@ -1,5 +1,7 @@
 import React from "react";
-import styled, { keyframes } from "styled-components";
+/** @jsxImportSource @emotion/react */
+import styled from "@emotion/styled";
+import { keyframes } from "@emotion/react";
 import { spacing } from "../../styles/styles";
 import { ToastItem } from "../../types/Toast";
 import Toast from "./toast";

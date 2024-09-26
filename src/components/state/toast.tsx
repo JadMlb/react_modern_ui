@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import styled from "styled-components";
+/** @jsxImportSource @emotion/react */
+import styled from "@emotion/styled";
 import { TOAST_TYPE_SYMBOL_MAP, ToastType } from "../../types/Toast";
 import { colour, radius, spacing } from "../../styles/styles";
 import { Colour } from "../../types/Colours";
@@ -8,7 +9,7 @@ import { useDarkMode, useTheme } from "../../styles/theme";
 import { Button } from "../input";
 import ProgressBar from "./progress_bar";
 
-const ToastBackground = styled.div.attrs({"aria-roledescription": "alert"})<{$type: ToastType, $isDark: boolean, $theme: ThemeType}>
+const ToastBackground = styled.div<{$type: ToastType, $isDark: boolean, $theme: ThemeType}>
 `
 	padding: ${spacing.xsmall};
 	border-radius: ${radius.small};

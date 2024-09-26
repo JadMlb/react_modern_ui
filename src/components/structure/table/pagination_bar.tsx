@@ -1,5 +1,6 @@
 import React, { useMemo, useState } from "react";
-import { styled } from "styled-components";
+/** @jsxImportSource @emotion/react */
+import styled from "@emotion/styled";
 import { ComboBox } from "../../input";
 import { colour, spacing } from "../../../styles/styles";
 import { useDarkMode, useTheme } from "../../../styles/theme";

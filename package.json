@@ -34,13 +34,15 @@
   },
   "devDependencies": {
     "@babel/preset-env": "^7.25.4",
+    "@emotion/babel-plugin": "^11.12.0",
+    "@emotion/react": "^11.13.3",
+    "@emotion/styled": "^11.13.0",
     "@rollup/plugin-babel": "^6.0.4",
     "@rollup/plugin-commonjs": "^26.0.1",
     "@rollup/plugin-node-resolve": "^15.2.3",
     "@rollup/plugin-typescript": "^11.1.6",
     "@types/react": "^18.2.74",
     "@types/react-dom": "^18.2.24",
-    "babel-plugin-styled-components": "^2.1.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "rollup": "^4.20.0",
@@ -49,8 +51,9 @@
     "typescript": "^5.4.4"
   },
   "peerDependencies": {
+    "@emotion/react": "^11.13.3",
+    "@emotion/styled": "^11.13.0",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "styled-components": "^6.1.13"
+    "react-dom": "^18.2.0"
   }
 }

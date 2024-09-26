@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
-import { css, styled } from "styled-components";
+/** @jsxImportSource @emotion/react */
+import styled from "@emotion/styled";
 import { colour, radius, spacing } from "../../styles/styles";
 import {Option} from "../../types/Option";
 import Button from "./button";
@@ -56,7 +57,7 @@ const OptionsList = styled.div<{$hidden?: boolean, $white?: boolean, $isDark: bo
 `
 	position: absolute;
 	z-index: 999;
-	${props => props.$fromTop && css `bottom: 100%;`}
+	${props => props.$fromTop && `bottom: 100%;`}
 	width: calc(100% - 2 * ${spacing.xsmall});
 	max-height: 200px;
 	overflow: auto;
@@ -84,7 +85,7 @@ const OptionItem = styled.div<{$selected?: boolean, $isDark: boolean, $theme: Th
 
 	${
 		props =>
-			props.$selected && css`background-color: ${colour (props.$isDark ? "accentDark" : "accent", props.$theme)};`
+			props.$selected && `background-color: ${colour (props.$isDark ? "accentDark" : "accent", props.$theme)};`
 	}
 
 	&:hover

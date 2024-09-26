@@ -1,5 +1,6 @@
 import React from "react";
-import styled, { css } from "styled-components";
+/** @jsxImportSource @emotion/react */
+import styled from "@emotion/styled";
 import { colour, radius, spacing } from "../../styles/styles";
 import { Button } from "../input";
 import { useState } from "react";
@@ -13,7 +14,6 @@ const PanelDiv = styled.div<{$border: boolean, $theme: ThemeType}>
 
 	${
 		props => props.$border &&
-					css
 					`
 						border-radius: ${radius.normal};
 						border: 1px solid ${colour ("primary", props.$theme)};
@@ -23,8 +23,8 @@ const PanelDiv = styled.div<{$border: boolean, $theme: ThemeType}>
 
 const ScrollArea = styled.div<{$isDark: boolean, $maxHeight?: number, $maxWidth?: number, $collapsable?: boolean, $collapsed?: boolean, $theme: ThemeType}>
 `
-	${props => props.$maxWidth && css`max-width: ${props.$maxWidth}px;`}
-	${props => props.$maxHeight && css`max-height: ${props.$maxHeight}px;`}
+	${props => props.$maxWidth && `max-width: ${props.$maxWidth}px;`}
+	${props => props.$maxHeight && `max-height: ${props.$maxHeight}px;`}
 	padding: ${spacing.small};
 	min-width: calc(100% - 2 * ${spacing.small});
 	min-height: 15px;
@@ -35,7 +35,6 @@ const ScrollArea = styled.div<{$isDark: boolean, $maxHeight?: number, $maxWidth?
 
 	${
 		props => props.$collapsable &&
-			css
 			`
 				> :last-child
 				{

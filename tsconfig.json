@@ -18,7 +18,9 @@
 		"resolveJsonModule": true,
 		"declarationDir": "dist/types",
 		"sourceMap": true,
-		"emitDeclarationOnly": true
+		"emitDeclarationOnly": true,
+		"jsxImportSource": "@emotion/react",
+		"types": ["@emotion/react/types/css-prop"]
 	},
 	"include": ["src"],
 	"exclude": ["node_modules", "dist"]
