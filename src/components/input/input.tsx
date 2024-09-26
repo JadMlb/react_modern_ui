@@ -95,8 +95,8 @@ const Label = styled.label<{$multiline?: boolean, $isDark: boolean, $theme: Them
 function getLabelAnimation (isDark: boolean, theme: ThemeType, isLong?: boolean)
 {
 	return `
-		&:not(:placeholder-shown) + ${Label},
-		&:focus + ${Label}
+		&:not(:placeholder-shown) + label,
+		&:focus + label
 		{
 			transform: translateY(calc(-${isLong ? 5.5 : 11.5}pt - ${spacing.small} / 2));
 			margin-left: calc(${spacing.small} - ${spacing.xsmall} / 2);
