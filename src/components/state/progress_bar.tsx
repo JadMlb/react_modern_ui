@@ -24,7 +24,7 @@ const BarContainer = styled.div<{$isDark: boolean, $theme: ThemeType}>
 	background-color: ${props => colour (props.$isDark ? "grayDark" : "grayLight", props.$theme)};
 	border-radius: ${radius.normal};
 
-	> *
+	> div
 	{
 		background-color: ${props => colour ("primary", props.$theme)};
 	}
