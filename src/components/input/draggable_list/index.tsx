@@ -2,7 +2,20 @@ import React, { useEffect, useRef, useState } from "react";
 import { spacing } from "../../../styles/styles";
 import { TableRow } from "../../../types/TableRow";
 import DraggableListItem from "./list_item";
-import "./list.css";
+/** @jsxImportSource @emotion/react */
+import styled from "@emotion/styled";
+
+const Container = styled.ul
+`
+	padding: unset;
+	margin: unset;
+
+	list-style-type: none;
+
+	display: flex;
+	flex-direction: column;
+	gap: ${spacing.xsmall};
+`;
 
 export type DraggableListProps = {
 	key?: string | number | bigint | null,
@@ -57,7 +70,7 @@ export default function DraggableList ({items, mapper, onChange}: DraggableListP
 	);
 	
 	return (
-		<ul className = "draggable-list-container" style = {{gap: spacing.xsmall}}>
+		<Container>
 		{
 			list.map (
 				(item, index) => <DraggableListItem
@@ -71,6 +84,6 @@ export default function DraggableList ({items, mapper, onChange}: DraggableListP
 								</DraggableListItem>
 			)
 		}
-		</ul>
+		</Container>
 	);
 }
