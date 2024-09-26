@@ -39,24 +39,12 @@ export default function Tag ({role = "neutral", centered = false, rounded, child
 	}
 	
 	return (
-		// <div
-		// 	style = {{
-		// 		backgroundColor: colour (bgCol as "affirmative" | "alert" | "error" | "gray", theme),
-		// 		color: colour (role === "warn-light" || role === "warn-severe" ? "white" : "black", theme),
-		// 		textAlign: centered ? "center" : "start",
-		// 		width: centered ? "min-content" : "unset",
-		// 		padding: spacing.small,
-		// 		borderRadius: rounded ? radius.large : radius.small,
-		// 		display: "inline-block"
-		// 	}}
-		// >
-		// 	{children}
-		// </div>
 		<Background
-			$col = {colour (bgCol as "affirmative" | "alert" | "error" | "gray", theme)}
+			$col = {colour(bgCol as "affirmative" | "alert" | "error" | "gray", theme)}
 			$theme = {theme}
 			$centered = {centered} 
 			$rounded = {rounded}
+			$whiteText = {["warn-light", "warn-severe"].includes (role)}
 		>
 			{children}
 		</Background>
