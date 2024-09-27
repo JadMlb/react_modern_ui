@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import Button from "../button";
 import DraggableList, { DraggableListProps } from ".";
-import { colour, radius } from "../../../styles/styles";
+import { colour, radius, spacing } from "../../../styles/styles";
 import { useDarkMode, useTheme } from "../../../styles/theme";
 /** @jsxImportSource @emotion/react */
 import styled from "@emotion/styled";
@@ -21,6 +21,7 @@ const Container = styled.div<{$expanded: boolean, $isDark: boolean, $theme: Them
 	background-color: ${props => colour (props.$isDark ? "black" : "white", props.$theme)};
 	border-radius: ${radius.normal};
 	box-shadow: 0 0 5px ${props => colour (props.$isDark ? "grayDark" : "grayLight", props.$theme)};
+	padding: ${spacing.small};
 `;
 
 type DropDownDraggableListProps = {
