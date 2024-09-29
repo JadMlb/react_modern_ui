@@ -108,14 +108,16 @@ export function useDarkMode ()
 }
 
 /**
- * Gets the colour based on its simplified name
- * @param role The simplified colour name to get
- * @returns The hex value of the colour
+ * Used to get the colour based on its simplified name
+ * @returns A function that takes the role and returns its hex value
  */
-export function useColour (role: Colour)
+export function useThemeColours ()
 {
 	const {theme} = useContext (ThemeContext);
-	let roleTree = COLOURS_ALT_NAMES[role].split (".");
-	const COLOUR_TYPE = roleTree[0] as keyof Omit<ThemeType, "mode">;
-	return "#" + theme[COLOUR_TYPE][roleTree[1] as "dark" | "medium" | "light"];
+	return (role: Colour) =>
+	{
+		let roleTree = COLOURS_ALT_NAMES[role].split (".");
+		const COLOUR_TYPE = roleTree[0] as keyof Omit<ThemeType, "mode">;
+		return "#" + theme[COLOUR_TYPE][roleTree[1] as "dark" | "medium" | "light"];
+	}
 }
