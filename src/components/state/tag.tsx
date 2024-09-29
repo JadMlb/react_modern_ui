@@ -4,7 +4,7 @@ import styled from "@emotion/styled";
 import { colour, radius, spacing } from "../../styles/styles";
 import { TagRole } from "../../types/Tag";
 import { useTheme } from "../../styles/theme";
-import ThemeType from "../../types/theme";
+import { ThemeType } from "../../types/theme";
 
 const Background = styled.div<{$col: string, $centered: boolean, $whiteText?: boolean, $rounded?: boolean, $theme: ThemeType}>
 `

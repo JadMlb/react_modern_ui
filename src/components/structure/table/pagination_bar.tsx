@@ -6,7 +6,7 @@ import { colour, spacing } from "../../../styles/styles";
 import { useDarkMode, useTheme } from "../../../styles/theme";
 import { Option } from "../../../types";
 import { PaginationBarButtons } from "./pagination_bar_buttons";
-import ThemeType from "../../../types/theme";
+import { ThemeType } from "../../../types/theme";
 
 const PaginationBarDiv = styled.div<{$isDark: boolean, $theme: ThemeType}>
 `

@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useReducer } from "react";
-import ThemeType from "../types/theme";
+import { ThemeType } from "../types/theme";
 import { COLOURS_ALT_NAMES, Colour } from "../types";
 
 const DEFAULT_THEME: ThemeType = {

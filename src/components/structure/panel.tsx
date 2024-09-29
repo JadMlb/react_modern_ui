@@ -4,7 +4,7 @@ import styled from "@emotion/styled";
 import { colour, radius, spacing } from "../../styles/styles";
 import { Button } from "../input";
 import { useState } from "react";
-import ThemeType from "../../types/theme";
+import { ThemeType } from "../../types/theme";
 import { useDarkMode, useTheme } from "../../styles/theme";
 
 const PanelDiv = styled.div<{$border: boolean, $theme: ThemeType}>

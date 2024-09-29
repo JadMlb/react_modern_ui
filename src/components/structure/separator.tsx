@@ -3,7 +3,7 @@ import React from "react";
 import styled from "@emotion/styled";
 import { colour, spacing } from "../../styles/styles";
 import { useDarkMode, useTheme } from "../../styles/theme";
-import ThemeType from "../../types/theme";
+import { ThemeType } from "../../types/theme";
 
 type SeparatorProps = {
 	key?: string | number | bigint | null,

@@ -4,7 +4,7 @@ import styled from "@emotion/styled";
 import { TOAST_TYPE_SYMBOL_MAP, ToastType } from "../../types/Toast";
 import { colour, radius, spacing } from "../../styles/styles";
 import { Colour } from "../../types/Colours";
-import ThemeType from "../../types/theme";
+import { ThemeType } from "../../types/theme";
 import { useDarkMode, useTheme } from "../../styles/theme";
 import { Button } from "../input";
 import ProgressBar from "./progress_bar";

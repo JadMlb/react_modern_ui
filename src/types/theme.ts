@@ -1,4 +1,4 @@
-type ThemeType = {
+export type ThemeType = {
 	mode: "dark" | "light" | "auto"
 	primary: {
 		dark: string,
@@ -36,5 +36,3 @@ type ThemeType = {
 		light: string
 	}
 };
-
-export default ThemeType;

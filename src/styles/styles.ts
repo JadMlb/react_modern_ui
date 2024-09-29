@@ -1,5 +1,5 @@
 import { COLOURS_ALT_NAMES, Colour } from "../types/Colours";
-import ThemeType from "../types/theme";
+import { ThemeType } from "../types/theme";
 
 export const radius = {
 	small: "7px",

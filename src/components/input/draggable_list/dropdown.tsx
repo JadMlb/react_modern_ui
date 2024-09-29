@@ -5,7 +5,7 @@ import { colour, radius, spacing } from "../../../styles/styles";
 import { useDarkMode, useTheme } from "../../../styles/theme";
 /** @jsxImportSource @emotion/react */
 import styled from "@emotion/styled";
-import ThemeType from "../../../types/theme";
+import { ThemeType } from "../../../types/theme";
 
 const Container = styled.div<{$expanded: boolean, $isDark: boolean, $theme: ThemeType}>
 `

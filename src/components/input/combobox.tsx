@@ -4,7 +4,7 @@ import styled from "@emotion/styled";
 import { colour, radius, spacing } from "../../styles/styles";
 import {Option} from "../../types/Option";
 import Button from "./button";
-import ThemeType from "../../types/theme";
+import { ThemeType } from "../../types/theme";
 import { useDarkMode, useTheme } from "../../styles/theme";
 import React from "react";
 

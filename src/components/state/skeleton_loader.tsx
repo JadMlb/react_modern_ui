@@ -4,7 +4,7 @@ import styled from "@emotion/styled";
 import { keyframes } from "@emotion/react";
 import { colour, radius, spacing } from "../../styles/styles";
 import { useDarkMode, useTheme } from "../../styles/theme";
-import ThemeType from "../../types/theme";
+import { ThemeType } from "../../types/theme";
 
 const ShineAnimation = keyframes
 `

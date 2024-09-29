@@ -4,7 +4,7 @@ import { TableStructure } from "../../types/TableStructure";
 /** @jsxImportSource @emotion/react */
 import styled from "@emotion/styled";
 import { colour, radius, spacing } from "../../styles/styles";
-import ThemeType from "../../types/theme";
+import { ThemeType } from "../../types/theme";
 import { useDarkMode, useTheme } from "../../styles/theme";
 import ComboBox from "../input/combobox";
 import { Option } from "../../types/Option";
