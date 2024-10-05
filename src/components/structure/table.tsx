@@ -360,7 +360,7 @@ export default function Table ({data, structure, maxHeight, alternateRowColour =
 
 	return (
 		<>
-			<div style = {{display: "flex", gap: spacing.xsmall, alignItems: "center"}}>
+			<div style = {{display: "flex", gap: spacing.xsmall, alignItems: "center", marginBottom: spacing.small}}>
 				<DropDownDraggableList
 					label = "Rearrange"
 					items = {columns}
@@ -368,16 +368,21 @@ export default function Table ({data, structure, maxHeight, alternateRowColour =
 					onChange = {changeDisplayOrder}
 				/>
 
-				Sort
-				<ComboBox
-					name = "sort"
-					label = "Choose a column"
-					from = {structure.sortingColumns?.map ((col, i) => ({id: i, text: col})) ?? []}
-					values = {sortingColumnIndex ? [sortingColumnIndex] : []}
-					onChange = {(options) => sortTable (options)}
-					compact
-					notSearchable
-				/>
+				{
+					structure.sortingColumns && structure.sortingColumns?.length > 0 &&
+						<>
+							Sort
+							<ComboBox
+								name = "sort"
+								label = "Choose a column"
+								from = {structure.sortingColumns?.map ((col, i) => ({id: i, text: col})) ?? []}
+								values = {sortingColumnIndex ? [sortingColumnIndex] : []}
+								onChange = {(options) => sortTable (options)}
+								compact
+								notSearchable
+							/>
+						</>
+				}
 			</div>
 			<Wrapper $maxHeight = {availableSpace} $theme = {theme} $isDark = {isDark}>
 				<StyledTable width = "100%">
