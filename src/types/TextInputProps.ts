@@ -20,5 +20,5 @@ export interface TextInputProps extends BasicInputProps
 	 * Sets the max number of characters in this input
 	 */
 	maxCharCount?: number;
-	onChange: (value: string) => void;
+	onChange?: (value: string) => void;
 }

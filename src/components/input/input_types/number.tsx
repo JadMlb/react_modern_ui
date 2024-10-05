@@ -64,20 +64,27 @@ export default function NumberInput ({name, type, label, value, onChange, onClea
 	{
 		try
 		{
-			setShownValue (Number (e.target.value));
-			onChange (e);
+			setShownValue (+e.target.value);
+			if (onChange)
+				onChange (+e.target.value);
 		}
 		catch {}
 	}
 
 	function inc ()
 	{
-		setShownValue (old => old + 1);
+		const newVal = shownValue + 1;
+		setShownValue (newVal);
+		if (onChange)
+			onChange (newVal);
 	}
 
 	function dec ()
 	{
-		setShownValue (old => old - 1);
+		const newVal = shownValue - 1;
+		setShownValue (newVal);
+		if (onChange)
+			onChange (newVal);
 	}
 	
 	return (

@@ -4,5 +4,5 @@ export interface NumberInputProps extends BasicInputProps
 {
 	value: number;
 	type: "number";
-	onChange: (value: number) => void;
+	onChange?: (value: number) => void;
 }

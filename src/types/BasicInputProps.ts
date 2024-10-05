@@ -20,11 +20,11 @@ export interface BasicInputProps
 	/**
 	 * Change event handler fired when input value is changed
 	 */
-	onChange: (value: any) => void;
+	onChange?: (value: any) => void;
 	/**
 	 * Change event handler fired when the clear button is clicked
 	 */
-	onClear: () => void;
+	onClear?: () => void;
 	/**
 	 * Hides the label of the input
 	 */
