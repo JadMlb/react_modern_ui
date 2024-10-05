@@ -396,3 +396,24 @@ This is the type of the theme object that defines the colours used in the compoe
 
 > **Cons**
 > - The active theme must be passed on each call (e.g. `colour ("primaryDark", theme)` where `theme` can be retrieved from `useTheme()`)
+
+### Hooks
+#### `useDarkMode`
+![since v1.0.0](https://img.shields.io/badge/since-v1.0.0-lightgray)<br>
+Hook used to get the current light-dark mode preferences. Looks at the `mode` attribute in `ThemeType` and returns `true` if `mode` is set to `dark` or `auto`, after checking the system settings for dark mode usage, `false` otherwise.
+- returns: `boolean`
+
+#### `useTheme`
+![since v1.0.0](https://img.shields.io/badge/since-v1.0.0-lightgray)<br>
+Hook used to get the active theme along side a dispatch function to edit said theme. Look for an example and more details [here](readme.md#usage).
+- returns: `object`
+	- attributes:
+		- `theme`: `ThemeType`
+		- `dispatch`
+
+#### `useThemeColours`
+![since v1.1.0](https://img.shields.io/badge/since-v1.1.0-lightgray)<br>
+Hook used to retrieve active theme's colours.
+- returns: `(colour: Colour) => string`
+	- A function that takes the colour's simplified name and returns its hex value (preceded by the `#` symbol)
+	- For more details on simplified colour names, check the arguments for the [`colour`](#colour) function

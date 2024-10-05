@@ -5,7 +5,7 @@
 ### Tables
 Added tables to the set of UI components. Tables are equipped out-of-the box with:
 - column-resizing options, both static, i.e. on component mount, and dynamic, on runtime
-- column reordering and disabling
+- column reordering
 - pagination, which can be optionally enabled or not
 - sorting based on selected column
 
