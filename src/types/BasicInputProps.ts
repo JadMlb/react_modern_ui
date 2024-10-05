@@ -18,9 +18,9 @@ export interface BasicInputProps
 	 */
 	label?: string;
 	/**
-	 * Change event handler fired when typing
+	 * Change event handler fired when input value is changed
 	 */
-	onChange: React.ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>;
+	onChange: (value: any) => void;
 	/**
 	 * Change event handler fired when the clear button is clicked
 	 */

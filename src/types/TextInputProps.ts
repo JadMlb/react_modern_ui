@@ -3,7 +3,7 @@ import { BasicInputProps } from "./BasicInputProps";
 export interface TextInputProps extends BasicInputProps
 {
 	value: string
-	type: "text"
+	type: "text";
 	/**
 	 * Specifies whether this input should occupy 100% of its parent's width or not. Defaults to `false`.
 	 */
@@ -20,4 +20,5 @@ export interface TextInputProps extends BasicInputProps
 	 * Sets the max number of characters in this input
 	 */
 	maxCharCount?: number;
+	onChange: (value: string) => void;
 }
