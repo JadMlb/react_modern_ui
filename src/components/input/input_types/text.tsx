@@ -1,0 +1,92 @@
+import React, { useState } from "react";
+import { useDarkMode, useThemeColours } from "../../../styles/theme";
+import { TextInputProps } from "../../../types/TextInputProps";
+/** @jsxImportSource @emotion/react */
+import styled from "@emotion/styled";
+import { Colour } from "../../../types";
+import { spacing } from "../../../styles/styles";
+
+const StyledTextInput = styled.input<{$isDark: boolean, $colour: (col: Colour) => string}>
+`
+	
+`;
+
+const StyledTextArea = styled.textarea<{$isDark: boolean, $colour: (col: Colour) => string}>
+`
+	all: unset;
+	font: inherit;
+	flex-grow: 4;
+	align-self: stretch;
+`;
+
+const ClearButton = styled.button<{$isDark: boolean, $colour: (col: Colour) => string}>
+`
+	all: unset;
+	margin-right: ${spacing.small};
+
+	&:hover
+	{
+		color: ${props => props.$colour ("error")};
+	}
+
+	align-self: start;
+`;
+
+export default function TextInput ({type, value, onChange, onClear, multiline, readonly, optional, maxCharCount, displayCharCount}: TextInputProps)
+{
+	const isDark = useDarkMode();
+	const colour = useThemeColours();
+	
+	const [shownValue, setShownValue] = useState (value);
+
+	function handleChange (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>)
+	{
+		try
+		{
+			setShownValue (e.target.value);
+			if (onChange)
+				onChange (e.target.value);
+		}
+		catch {}
+	}
+
+	function handleClear ()
+	{
+		setShownValue ("");
+		if (onClear)
+			onClear();
+	}
+
+	return (
+		<>
+			{
+				multiline ?
+					<StyledTextArea
+						$isDark = {isDark}
+						$colour = {colour}
+						rows = {1}
+						placeholder = ""
+						value = {shownValue}
+						onChange = {handleChange}
+						maxLength = {maxCharCount}
+					/> :
+					<StyledTextInput
+						type = {type}
+						value = {shownValue}
+						onChange = {handleChange}
+						$isDark = {isDark}
+						$colour = {colour}
+						placeholder = ""
+						maxLength = {maxCharCount}
+					/>
+			}
+			<ClearButton
+				$isDark = {isDark}
+				$colour = {colour}
+				onClick = {handleClear}
+			>
+				&#10005;
+			</ClearButton>
+		</>
+	);
+}
