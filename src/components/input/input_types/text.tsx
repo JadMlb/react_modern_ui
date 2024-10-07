@@ -22,7 +22,7 @@ const StyledTextArea = styled.textarea<{$isDark: boolean, $colour: (col: Colour)
 const ClearButton = styled.button<{$isDark: boolean, $colour: (col: Colour) => string}>
 `
 	all: unset;
-	margin-right: ${spacing.small};
+	margin-inline: ${spacing.small};
 
 	&:hover
 	{
@@ -30,6 +30,11 @@ const ClearButton = styled.button<{$isDark: boolean, $colour: (col: Colour) => s
 	}
 
 	align-self: start;
+`;
+
+const Small = styled.small<{$isDark: boolean, $colour: (col: Colour) => string}>
+`
+	color: ${props => props.$colour ("gray")};
 `;
 
 export default function TextInput ({type, value, onChange, onClear, multiline, readonly, optional, maxCharCount, displayCharCount}: TextInputProps)
@@ -79,6 +84,10 @@ export default function TextInput ({type, value, onChange, onClear, multiline, r
 						placeholder = ""
 						maxLength = {maxCharCount}
 					/>
+			}
+			{
+				displayCharCount && maxCharCount !== undefined &&
+					<Small $isDark = {isDark} $colour = {colour}>{shownValue.length}/{maxCharCount}</Small>
 			}
 			<ClearButton
 				$isDark = {isDark}
