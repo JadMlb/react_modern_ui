@@ -6,12 +6,6 @@ import { spacing } from "../../../styles/styles";
 import { Colour } from "../../../types";
 import { useDarkMode, useThemeColours } from "../../../styles/theme";
 
-const Wrapper = styled.div
-`
-	display: flex;
-	flex-wrap: no-wrap;
-`;
-
 const StyledNumberInput = styled.input<{$isDark: boolean, $colour: (col: Colour) => string}>
 `
 	&::-webkit-inner-spin-button,
@@ -22,7 +16,10 @@ const StyledNumberInput = styled.input<{$isDark: boolean, $colour: (col: Colour)
 	}
 
 	-moz-appearance: textfield;
-	border-right: 1px solid ${props => props.$colour ("gray")} !important;
+
+	margin: ${spacing.xsmall} !important;
+	margin-top: ${spacing.normal} !important;
+	margin-right: unset !important;
 `;
 
 const Buttons = styled.div<{$isDark: boolean, $colour: (col: Colour) => string}>
@@ -38,6 +35,7 @@ const Buttons = styled.div<{$isDark: boolean, $colour: (col: Colour) => string}>
 		padding: unset;
 		padding-right: ${spacing.xxsmall};
 		border: 1px solid transparent;
+		border-left: 1px solid ${props => props.$colour ("gray")};
 		background-color: ${props => props.$colour (props.$isDark ? "grayDark" : "grayLight")};
 		color: ${props => props.$colour (props.$isDark ? "white" : "black")};
 	}
@@ -88,7 +86,7 @@ export default function NumberInput ({name, type, label, value, onChange, onClea
 	}
 	
 	return (
-		<Wrapper>
+		<>
 			<StyledNumberInput
 				type = {type}
 				value = {shownValue}
@@ -100,6 +98,6 @@ export default function NumberInput ({name, type, label, value, onChange, onClea
 				<button onClick = {inc}>+</button>
 				<button onClick = {dec}>-</button>
 			</Buttons>
-		</Wrapper>
+		</>
 	);
 }
