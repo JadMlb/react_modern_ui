@@ -9,7 +9,7 @@ import { useDarkMode, useThemeColours } from "../../styles/theme";
 import { Colour } from "../../types";
 import TextInput from "./input_types/text";
 
-const Container = styled.div<{$isDark: boolean, $colour: (col: Colour) => string}>
+const Container = styled.div<{$disabled?: boolean, $isDark: boolean, $colour: (col: Colour) => string}>
 `
 	display: flex;
 	flex-wrap: no-wrap;
@@ -32,6 +32,15 @@ const Container = styled.div<{$isDark: boolean, $colour: (col: Colour) => string
 	{
 		padding: ${spacing.xsmall};
 		padding-top: ${spacing.normal};
+	}
+
+	${
+		props =>
+			props.$disabled &&
+			`
+				color: ${props.$colour ("gray")};
+				background-color: unset;
+			`
 	}
 
 	position: relative;
@@ -87,7 +96,7 @@ export default function NewInput (props: NumberInputProps | TextInputProps)
 	}
 	
 	return (
-		<Container $isDark = {isDark} $colour = {colour}>
+		<Container $isDark = {isDark} $colour = {colour} $disabled = {props.disabled}>
 			{!props.noLabel && <label>{props.label} {props.optional && "(optional)"}</label>}
 			{getInputFromType()}
 		</Container>

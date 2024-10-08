@@ -22,7 +22,7 @@ const StyledNumberInput = styled.input<{$isDark: boolean, $colour: (col: Colour)
 	margin-right: unset !important;
 `;
 
-const Buttons = styled.div<{$isDark: boolean, $colour: (col: Colour) => string}>
+const Buttons = styled.div<{$disabled?: boolean, $isDark: boolean, $colour: (col: Colour) => string}>
 `
 	display: flex;
 	flex-direction: column;
@@ -38,11 +38,25 @@ const Buttons = styled.div<{$isDark: boolean, $colour: (col: Colour) => string}>
 		border-left: 1px solid ${props => props.$colour ("gray")};
 		background-color: ${props => props.$colour (props.$isDark ? "grayDark" : "grayLight")};
 		color: ${props => props.$colour (props.$isDark ? "white" : "black")};
+
+		${
+			props => props.$disabled &&
+				`
+					background-color: unset;
+					color: ${props.$colour ("gray")};
+				`
+		}
 	}
 
 	> button:hover
 	{
 		background-color: ${props => props.$colour (props.$isDark ? "accentDark" : "accentElevated")};
+		${
+			props => props.$disabled &&
+				`
+					background-color: unset;
+				`
+		}
 	}
 
 	> button:first-child
@@ -125,9 +139,9 @@ export default function NumberInput ({name, type, value, onChange, onClear, read
 						&#10005;
 					</ClearButton>
 			}
-			<Buttons $isDark = {isDark} $colour = {colour}>
-				<button onClick = {inc}>+</button>
-				<button onClick = {dec}>-</button>
+			<Buttons $isDark = {isDark} $colour = {colour} $disabled = {disabled}>
+				<button onClick = {!disabled ? inc : undefined}>+</button>
+				<button onClick = {!disabled ? dec : undefined}>-</button>
 			</Buttons>
 		</>
 	);
