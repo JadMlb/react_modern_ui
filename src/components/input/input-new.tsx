@@ -88,7 +88,7 @@ export default function NewInput (props: NumberInputProps | TextInputProps)
 	
 	return (
 		<Container $isDark = {isDark} $colour = {colour}>
-			<label>{props.label}</label>
+			{!props.noLabel && <label>{props.label}</label>}
 			{getInputFromType()}
 		</Container>
 	);

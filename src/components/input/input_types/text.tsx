@@ -37,7 +37,7 @@ const Small = styled.small<{$isDark: boolean, $colour: (col: Colour) => string}>
 	color: ${props => props.$colour ("gray")};
 `;
 
-export default function TextInput ({type, value, onChange, onClear, multiline, readonly, optional, maxCharCount, displayCharCount}: TextInputProps)
+export default function TextInput ({name, type, value, onChange, onClear, multiline, readonly, optional, maxCharCount, displayCharCount}: TextInputProps)
 {
 	const isDark = useDarkMode();
 	const colour = useThemeColours();
@@ -69,6 +69,7 @@ export default function TextInput ({type, value, onChange, onClear, multiline, r
 					<StyledTextArea
 						$isDark = {isDark}
 						$colour = {colour}
+						name = {name}
 						rows = {1}
 						placeholder = ""
 						value = {shownValue}
@@ -76,6 +77,7 @@ export default function TextInput ({type, value, onChange, onClear, multiline, r
 						maxLength = {maxCharCount}
 					/> :
 					<StyledTextInput
+						name = {name}
 						type = {type}
 						value = {shownValue}
 						onChange = {handleChange}

@@ -28,7 +28,7 @@ export interface BasicInputProps
 	/**
 	 * Hides the label of the input
 	 */
-	hideLabel?: boolean;
+	noLabel?: boolean;
 	/**
 	 * Disables editing of this input even if no value is provided. Defaults to `false`.
 	 */

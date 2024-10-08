@@ -51,7 +51,7 @@ const Buttons = styled.div<{$isDark: boolean, $colour: (col: Colour) => string}>
 	}
 `;
 
-export default function NumberInput ({name, type, label, value, onChange, onClear, hideLabel, readonly, optional}: NumberInputProps)
+export default function NumberInput ({name, type, value, onChange, onClear, readonly, optional}: NumberInputProps)
 {	
 	const isDark = useDarkMode();
 	const colour = useThemeColours();
@@ -88,6 +88,7 @@ export default function NumberInput ({name, type, label, value, onChange, onClea
 	return (
 		<>
 			<StyledNumberInput
+				name = {name}
 				type = {type}
 				value = {shownValue}
 				onChange = {handleChange}
