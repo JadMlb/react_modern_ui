@@ -62,7 +62,7 @@ const ClearButton = styled.button<{$isDark: boolean, $colour: (col: Colour) => s
 	}
 `;
 
-export default function NumberInput ({name, type, value, onChange, onClear, readonly, optional}: NumberInputProps)
+export default function NumberInput ({name, type, value, onChange, onClear, readonly, disabled, optional}: NumberInputProps)
 {	
 	const isDark = useDarkMode();
 	const colour = useThemeColours();
@@ -113,6 +113,7 @@ export default function NumberInput ({name, type, value, onChange, onClear, read
 				$isDark = {isDark}
 				$colour = {colour}
 				readOnly = {readonly}
+				disabled = {disabled}
 			/>
 			{
 				optional &&

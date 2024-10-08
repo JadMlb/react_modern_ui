@@ -34,6 +34,10 @@ export interface BasicInputProps
 	 */
 	readonly?: boolean;
 	/**
+	 * Disables this input completely. Defaults to `false`.
+	 */
+	disabled?: boolean;
+	/**
 	 * Adds "optional" to the end of the label & enables clearing the value when possible. Defaults to `false`.
 	 */
 	optional?: boolean;
