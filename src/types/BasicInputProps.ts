@@ -34,7 +34,7 @@ export interface BasicInputProps
 	 */
 	readonly?: boolean;
 	/**
-	 * Adds "optional" to the end of the label & enables clearing the value. Defaults to `false`.
+	 * Adds "optional" to the end of the label & enables clearing the value when possible. Defaults to `false`.
 	 */
 	optional?: boolean;
 }

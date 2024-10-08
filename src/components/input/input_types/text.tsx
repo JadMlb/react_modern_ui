@@ -75,6 +75,7 @@ export default function TextInput ({name, type, value, onChange, onClear, multil
 						value = {shownValue}
 						onChange = {handleChange}
 						maxLength = {maxCharCount}
+						readOnly = {readonly}
 					/> :
 					<StyledTextInput
 						name = {name}
@@ -85,19 +86,23 @@ export default function TextInput ({name, type, value, onChange, onClear, multil
 						$colour = {colour}
 						placeholder = ""
 						maxLength = {maxCharCount}
+						readOnly = {readonly}
 					/>
 			}
 			{
 				displayCharCount && maxCharCount !== undefined &&
 					<Small $isDark = {isDark} $colour = {colour}>{shownValue.length}/{maxCharCount}</Small>
 			}
-			<ClearButton
-				$isDark = {isDark}
-				$colour = {colour}
-				onClick = {handleClear}
-			>
-				&#10005;
-			</ClearButton>
+			{
+				optional &&
+					<ClearButton
+						$isDark = {isDark}
+						$colour = {colour}
+						onClick = {handleClear}
+					>
+						&#10005;
+					</ClearButton>
+			}
 		</>
 	);
 }

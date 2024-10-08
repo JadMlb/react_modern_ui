@@ -51,6 +51,17 @@ const Buttons = styled.div<{$isDark: boolean, $colour: (col: Colour) => string}>
 	}
 `;
 
+const ClearButton = styled.button<{$isDark: boolean, $colour: (col: Colour) => string}>
+`
+	all: unset;
+	margin-inline: ${spacing.small};
+
+	&:hover
+	{
+		color: ${props => props.$colour ("error")};
+	}
+`;
+
 export default function NumberInput ({name, type, value, onChange, onClear, readonly, optional}: NumberInputProps)
 {	
 	const isDark = useDarkMode();
@@ -84,6 +95,13 @@ export default function NumberInput ({name, type, value, onChange, onClear, read
 		if (onChange)
 			onChange (newVal);
 	}
+
+	function handleClear ()
+	{
+		setShownValue (0);
+		if (onClear)
+			onClear();
+	}
 	
 	return (
 		<>
@@ -94,7 +112,18 @@ export default function NumberInput ({name, type, value, onChange, onClear, read
 				onChange = {handleChange}
 				$isDark = {isDark}
 				$colour = {colour}
+				readOnly = {readonly}
 			/>
+			{
+				optional &&
+					<ClearButton
+						$isDark = {isDark}
+						$colour = {colour}
+						onClick = {handleClear}
+					>
+						&#10005;
+					</ClearButton>
+			}
 			<Buttons $isDark = {isDark} $colour = {colour}>
 				<button onClick = {inc}>+</button>
 				<button onClick = {dec}>-</button>
