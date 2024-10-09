@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { NumberInputProps } from "../../types/NumberInputProps";
 import { TextInputProps } from "../../types/TextInputProps";
 import NumberInput from "./input_types/number";
@@ -9,7 +9,15 @@ import { useDarkMode, useThemeColours } from "../../styles/theme";
 import { Colour } from "../../types";
 import TextInput from "./input_types/text";
 
-const Container = styled.div<{$disabled?: boolean, $isDark: boolean, $colour: (col: Colour) => string}>
+const Wrapper = styled.div
+`
+	display: flex;
+	flex-direction: column;
+	margin-block: ${spacing.xsmall};
+	width: fit-content;
+`;
+
+const Container = styled.div<{$disabled?: boolean, $isError: boolean, $isDark: boolean, $colour: (col: Colour) => string}>
 `
 	display: flex;
 	flex-wrap: no-wrap;
@@ -17,15 +25,13 @@ const Container = styled.div<{$disabled?: boolean, $isDark: boolean, $colour: (c
 
 	overflow: hidden;
 	border-radius: ${radius.normal};
-	border: 1.5px solid ${props => props.$colour (props.$isDark ? "primaryDark" : "primaryElevated")};
+	border: 1.5px solid ${props => props.$colour (props.$isError ? "error" : props.$isDark ? "primaryDark" : "primaryElevated")} ${props => props.$isError && "!important"};
 	width: fit-content;
 	min-width: 50px;
 	min-height: 20px;
 
 	background-color: ${props => props.$colour (props.$isDark ? "grayDark" : "grayLight")};
 	color: ${props => props.$colour (props.$isDark ? "white" : "black")};
-
-	margin-block: ${spacing.xsmall};
 
 	&:has(input:not([type="number"])),
 	&:has(textarea)
@@ -80,26 +86,41 @@ const Container = styled.div<{$disabled?: boolean, $isDark: boolean, $colour: (c
 	}
 `;
 
+const Hint = styled.small<{$isError: boolean, $colour: (col: Colour) => string}>
+`
+	margin-left: ${spacing.small};
+	color: ${props => props.$colour (props.$isError ? "error" : "gray")};
+`;
+
 export default function NewInput (props: NumberInputProps | TextInputProps)
 {
 	const colour = useThemeColours();
 	const isDark = useDarkMode();
 	
+	const [isError, setIsError] = useState (props.validator && props.value ? !props.validator (props.value) : false);
+	
 	function getInputFromType ()
 	{
 		switch (props.type)
 		{
-			case "number": return <NumberInput {...props}/>;
-			case "text": return <TextInput {...props}/>;
+			case "number": return <NumberInput {...props} setIsError = {setIsError}/>;
+			case "text": return <TextInput {...props} setIsError = {setIsError}/>;
 			default: return <input/>;
 		}
 	}
 	
 	return (
-		<Container $isDark = {isDark} $colour = {colour} $disabled = {props.disabled}>
-			{!props.noLabel && <label>{props.label} {props.optional && "(optional)"}</label>}
-			{getInputFromType()}
-		</Container>
-	);
-	
+		<Wrapper>
+			<Container $isDark = {isDark} $colour = {colour} $disabled = {props.disabled} $isError = {isError}>
+				{!props.noLabel && <label>{props.label} {props.optional && "(optional)"}</label>}
+				{getInputFromType()}
+			</Container>
+			{
+				props.hint &&
+					<Hint $isError = {isError} $colour = {colour}>
+						{isError ? props.textOnError : props.hint}
+					</Hint>
+			}
+		</Wrapper>
+	);	
 }

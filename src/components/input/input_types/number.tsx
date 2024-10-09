@@ -76,38 +76,39 @@ const ClearButton = styled.button<{$isDark: boolean, $colour: (col: Colour) => s
 	}
 `;
 
-export default function NumberInput ({name, type, value, onChange, onClear, readonly, disabled, optional}: NumberInputProps)
+export default function NumberInput ({name, type, value, onChange, onClear, readonly, disabled, optional, validator, setIsError}: NumberInputProps & {setIsError: React.Dispatch<React.SetStateAction<boolean>>})
 {	
 	const isDark = useDarkMode();
 	const colour = useThemeColours();
 	
 	const [shownValue, setShownValue] = useState (value);
 
+	function valueChanged (newVal: number)
+	{
+		setShownValue (newVal);
+		if (onChange)
+			onChange (newVal);
+		if (validator)
+			setIsError (!validator (newVal));
+	}
+
 	function handleChange (e: React.ChangeEvent<HTMLInputElement>)
 	{
 		try
 		{
-			setShownValue (+e.target.value);
-			if (onChange)
-				onChange (+e.target.value);
+			valueChanged (+e.target.value);
 		}
 		catch {}
 	}
 
 	function inc ()
 	{
-		const newVal = shownValue + 1;
-		setShownValue (newVal);
-		if (onChange)
-			onChange (newVal);
+		valueChanged (shownValue + 1);
 	}
 
 	function dec ()
 	{
-		const newVal = shownValue - 1;
-		setShownValue (newVal);
-		if (onChange)
-			onChange (newVal);
+		valueChanged (shownValue - 1);
 	}
 
 	function handleClear ()
@@ -115,6 +116,8 @@ export default function NumberInput ({name, type, value, onChange, onClear, read
 		setShownValue (0);
 		if (onClear)
 			onClear();
+		if (validator)
+			setIsError (validator (0));
 	}
 	
 	return (

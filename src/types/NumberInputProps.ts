@@ -9,4 +9,5 @@ export interface NumberInputProps extends BasicInputProps
 	 * Change event handler fired when the clear button is clicked. Clear button resets the value to `0`.
 	 */
 	onClear?: () => void;
+	validator?: (value: number) => boolean;
 }

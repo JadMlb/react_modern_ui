@@ -18,6 +18,20 @@ export interface BasicInputProps
 	 */
 	label?: string;
 	/**
+	 * Displays a string to assist the user in filling the field
+	 */
+	hint?: string;
+	/**
+	 * Defines what string to display when an error occurs with the validator
+	 */
+	textOnError?: string;
+	/**
+	 * Validator function used to check the value of the input and return `true` if valid, `false` otherwise.
+	 * @param value The current value of the input field
+	 * @returns `true` if the value should be considered valid, `false` otherwise
+	 */
+	validator?: (value: any) => boolean;
+	/**
 	 * Change event handler fired when input value is changed
 	 */
 	onChange?: (value: any) => void;

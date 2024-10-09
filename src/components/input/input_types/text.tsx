@@ -37,7 +37,7 @@ const Small = styled.small<{$isDark: boolean, $colour: (col: Colour) => string}>
 	color: ${props => props.$colour ("gray")};
 `;
 
-export default function TextInput ({name, type, value, onChange, onClear, multiline, readonly, disabled, optional, maxCharCount, displayCharCount}: TextInputProps)
+export default function TextInput ({name, type, value, onChange, onClear, multiline, readonly, disabled, optional, maxCharCount, displayCharCount, validator, setIsError}: TextInputProps & {setIsError: React.Dispatch<React.SetStateAction<boolean>>})
 {
 	const isDark = useDarkMode();
 	const colour = useThemeColours();
@@ -51,6 +51,8 @@ export default function TextInput ({name, type, value, onChange, onClear, multil
 			setShownValue (e.target.value);
 			if (onChange)
 				onChange (e.target.value);
+			if (validator)
+				setIsError (!validator (e.target.value));
 		}
 		catch {}
 	}

@@ -21,4 +21,5 @@ export interface TextInputProps extends BasicInputProps
 	 */
 	maxCharCount?: number;
 	onChange?: (value: string) => void;
+	validator?: (value: string) => boolean;
 }
