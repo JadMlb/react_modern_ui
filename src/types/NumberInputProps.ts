@@ -5,9 +5,9 @@ export interface NumberInputProps extends BasicInputProps
 	value: number;
 	type: "number";
 	/**
-	 * Defines the range, bounds included, of the value in the input field. Defaults to `[-infinity, infinity]`
+	 * Defines the range, bounds included, of the value in the input field. If bound is null, it's equivalent to an infinity. Defaults to `[-infinity, infinity]`.
 	 */
-	range?: [number, number];
+	range?: [number | null, number | null];
 	/**
 	 * Defines the step size that the buttons will increment or decrement. Defaults to `1`.
 	 */

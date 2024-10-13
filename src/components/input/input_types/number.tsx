@@ -38,6 +38,13 @@ const Buttons = styled.div<{$disabled?: boolean, $isDark: boolean, $colour: (col
 		border-left: 1px solid ${props => props.$colour ("gray")};
 		background-color: ${props => props.$colour (props.$isDark ? "grayDark" : "grayLight")};
 		color: ${props => props.$colour (props.$isDark ? "white" : "black")};
+		
+		/* disable text select in buttons */
+		-moz-user-select: none;
+		-khtml-user-select: none;
+		-webkit-user-select: none;
+		-ms-user-select: none;
+		user-select: none;
 
 		${
 			props => props.$disabled &&
@@ -86,12 +93,16 @@ export default function NumberInput ({name, type, value, range, step, precision,
 
 	function valueChanged (newVal: number)
 	{
-		setRealValue (newVal);
-		setShownValue (newVal.toFixed (precision));
-		if (onChange)
-			onChange (newVal);
-		if (validator)
-			setIsError (!validator (newVal));
+		// only update if range is defined, or the new value respects the boundaries of the range, when provided
+		if (!range || (range[0] == null || newVal >= range[0]) && (range[1] == null || newVal <= range[1]))
+		{
+			setRealValue (newVal);
+			setShownValue (newVal.toFixed (precision));
+			if (onChange)
+				onChange (newVal);
+			if (validator)
+				setIsError (!validator (newVal));
+		}
 	}
 
 	function handleChange (e: React.ChangeEvent<HTMLInputElement>)
@@ -105,12 +116,12 @@ export default function NumberInput ({name, type, value, range, step, precision,
 
 	function inc ()
 	{
-		valueChanged (realValue + 1);
+		valueChanged (realValue + (step ?? 1));
 	}
 
 	function dec ()
 	{
-		valueChanged (realValue - 1);
+		valueChanged (realValue - (step ?? 1));
 	}
 
 	function handleClear ()
