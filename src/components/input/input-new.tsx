@@ -97,14 +97,14 @@ export default function NewInput (props: NumberInputProps | TextInputProps)
 	const colour = useThemeColours();
 	const isDark = useDarkMode();
 	
-	const [isError, setIsError] = useState (props.validator && props.value ? !props.validator (props.value) : false);
+	const [isError, setIsError] = useState (props.validator && props.value ? !props.validator (props.value as never) : false);
 	
 	function getInputFromType ()
 	{
 		switch (props.type)
 		{
 			case "number": return <NumberInput {...props} setIsError = {setIsError}/>;
-			case "text": return <TextInput {...props} setIsError = {setIsError}/>;
+			case "text": case "email": return <TextInput {...props} setIsError = {setIsError}/>;
 			default: return <input/>;
 		}
 	}
