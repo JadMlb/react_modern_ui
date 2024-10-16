@@ -126,6 +126,7 @@ export default function TextInput (props: (TextInputProps | EmailInputProps | Pa
 			{
 				type === "text" && props.multiline ?
 					<StyledTextArea
+						id = {`${name}-${type}-input`}
 						$isDark = {isDark}
 						$colour = {colour}
 						name = {name}
@@ -138,6 +139,7 @@ export default function TextInput (props: (TextInputProps | EmailInputProps | Pa
 						disabled = {disabled}
 					/> :
 					<StyledTextInput
+						id = {`${name}-${type}-input`}
 						name = {name}
 						type = {displayType}
 						value = {shownValue}

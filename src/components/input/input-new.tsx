@@ -61,6 +61,12 @@ const Container = styled.div<{$disabled?: boolean, $isError: boolean, $isDark: b
 		left: ${spacing.xsmall};
 		color: ${props => props.$colour (props.$isDark ? "accent" : "accentDark")};
 		transition: 0.4s cubic-bezier(.4, 0, .2, 1);
+		-moz-user-select: none;
+		-khtml-user-select: none;
+		-webkit-user-select: none;
+		-ms-user-select: none;
+		user-select: none;
+		cursor: text;
 	}
 
 	input
@@ -117,7 +123,7 @@ export default function NewInput (props: NumberInputProps | TextInputProps | Ema
 	return (
 		<Wrapper>
 			<Container $isDark = {isDark} $colour = {colour} $disabled = {props.disabled} $isError = {isError}>
-				{!props.noLabel && <label>{props.label} {props.optional && "(optional)"}</label>}
+				{!props.noLabel && <label htmlFor = {`${props.name}-${props.type}-input`}>{props.label} {props.optional && "(optional)"}</label>}
 				{getInputFromType()}
 			</Container>
 			{
