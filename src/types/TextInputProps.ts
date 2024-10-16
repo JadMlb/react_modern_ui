@@ -1,13 +1,7 @@
-import { BasicInputProps } from "./BasicInputProps";
+import BasicTextInputProps from "./BasicTextInputProps";
 
-export interface TextInputProps extends BasicInputProps
+export interface TextInputProps extends BasicTextInputProps
 {
-	value: string
-	type: "text";
-	/**
-	 * Specifies whether this input should occupy 100% of its parent's width or not. Defaults to `false`.
-	 */
-	wide?: boolean;
 	/**
 	 * Switches to multiline mode, i.e. turns this input into a textarea. Defaults to `false`.
 	 */
@@ -20,6 +14,4 @@ export interface TextInputProps extends BasicInputProps
 	 * Sets the max number of characters in this input
 	 */
 	maxCharCount?: number;
-	onChange?: (value: string) => void;
-	validator?: (value: string) => boolean;
 }
