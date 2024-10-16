@@ -8,6 +8,8 @@ import { radius, spacing } from "../../styles/styles";
 import { useDarkMode, useThemeColours } from "../../styles/theme";
 import { Colour } from "../../types";
 import TextInput from "./input_types/text";
+import EmailInputProps from "../../types/EmailInputProps";
+import PasswordInputProps from "../../types/PasswordInputProps";
 
 const Wrapper = styled.div
 `
@@ -92,7 +94,7 @@ const Hint = styled.small<{$isError: boolean, $colour: (col: Colour) => string}>
 	color: ${props => props.$colour (props.$isError ? "error" : "gray")};
 `;
 
-export default function NewInput (props: NumberInputProps | TextInputProps)
+export default function NewInput (props: NumberInputProps | TextInputProps | EmailInputProps | PasswordInputProps)
 {
 	const colour = useThemeColours();
 	const isDark = useDarkMode();
@@ -104,7 +106,10 @@ export default function NewInput (props: NumberInputProps | TextInputProps)
 		switch (props.type)
 		{
 			case "number": return <NumberInput {...props} setIsError = {setIsError}/>;
-			case "text": case "email": return <TextInput {...props} setIsError = {setIsError}/>;
+			case "text":
+			case "email":
+			case "password":
+				return <TextInput {...props} setIsError = {setIsError}/>;
 			default: return <input/>;
 		}
 	}
