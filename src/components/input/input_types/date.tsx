@@ -6,7 +6,8 @@ export default function DateInput ({name, value, onChange, onClear, readonly, di
 {
 	const [shownValue, setShownValue] = useState (value);
 	const [isCalendarShown, setIsCalendarShown] = useState (false);
-
+	const popupRef = useRef<HTMLDivElement> (null);
+	const inputRef = useRef<HTMLInputElement> (null);
 
 	function padDateTime (number: number)
 	{
@@ -19,21 +20,39 @@ export default function DateInput ({name, value, onChange, onClear, readonly, di
 				+ `T${padDateTime (date.getHours())}:${padDateTime (date.getMinutes())}:${padDateTime (date.getSeconds())}`;
 	}
 
+	useEffect (
+		() =>
+		{
+			function handleClickOutside (e: MouseEvent)
+			{
+				if (popupRef.current && inputRef.current && !popupRef.current.contains (e.target as Element) && !inputRef.current.contains (e.target as Element))
+					setIsCalendarShown (false);
+			}
+			
+			window.addEventListener ("click", handleClickOutside);
+
+			return () => window.removeEventListener ("click", handleClickOutside);
+		},
+		[]
+	);
+
 	return (
 		<>
 			<input
+				ref = {inputRef}
 				name = {name}
 				type = {withTime ? "datetime-local" : "date"}
 				value = {shownValue}
 				readOnly
-				onFocus = {() => setIsCalendarShown (true)}
+				onClick = {() => setIsCalendarShown (old => !old)}
 			/>
 			{
-				isCalendarShown &&
-					<CalendarPopup
-						onChange = {newVal => setShownValue (formatDate (newVal))}
-						setIsOpen = {setIsCalendarShown}
-					/>
+				<CalendarPopup
+					ref = {popupRef}
+					onChange = {newVal => setShownValue (formatDate (newVal))}
+					isOpen = {isCalendarShown}
+					setIsOpen = {setIsCalendarShown}
+				/>
 			}
 		</>
 	);
