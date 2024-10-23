@@ -184,7 +184,7 @@ const CalendarPopup = forwardRef<HTMLDivElement, CalendarPopupProps> (
 
 		function isSameHour (value: number)
 		{
-			return (selectedValue.getHours() % 12 || 12) === value;
+			return uses12hFormat ? (selectedValue.getHours() % 12 || 12) === value : selectedValue.getHours() === value;
 		}
 		
 		return (
