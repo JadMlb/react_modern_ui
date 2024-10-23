@@ -58,6 +58,32 @@ const CalendarBody = styled.div
 	}
 `;
 
+const TimePicker = styled.div<{$height: number}>
+`
+	max-height: calc(${props => props.$height} * 30px + 2 * ${spacing.xsmall});
+	overflow: auto;
+
+	&::-webkit-scrollbar
+	{
+		display: none;
+	}
+	overflow: -moz-scrollbars-none;
+	-ms-overflow-style: none;
+
+	padding: ${spacing.xsmall};
+
+	text-align: center;
+
+	div
+	{
+		width: 30px;
+		height: 30px;
+
+		display: grid;
+		align-items: center;
+	}
+`;
+
 type CalendarPopupProps = {
 	value?: Date | string,
 	withTime?: boolean,
@@ -95,6 +121,16 @@ const CalendarPopup = forwardRef<HTMLDivElement, CalendarPopupProps> (
 		const currentMonth = useMemo (
 			() => selectedValue.toString().split(" ")[1],
 			[selectedValue.getMonth()]
+		);
+
+		const nbRows = useMemo (
+			() => Math.ceil ((FIRST_DAY + DAYS_IN_MONTH) / 7) + 2,
+			[FIRST_DAY, DAYS_IN_MONTH]
+		);
+
+		const uses12hFormat = useMemo (
+			() => Intl.DateTimeFormat(navigator.language, {hour: "numeric"}).resolvedOptions().hour12,
+			[navigator.language]
 		);
 
 		function isToday (day: number)
@@ -145,6 +181,11 @@ const CalendarPopup = forwardRef<HTMLDivElement, CalendarPopupProps> (
 				onChange (TODAY);
 			setIsOpen (false);
 		}
+
+		function isSameHour (value: number)
+		{
+			return (selectedValue.getHours() % 12 || 12) === value;
+		}
 		
 		return (
 			<Popup $isShown = {isOpen} $isDark = {isDark} $colour = {colour} ref = {ref}>
@@ -178,11 +219,75 @@ const CalendarPopup = forwardRef<HTMLDivElement, CalendarPopupProps> (
 				</div>
 				{
 					withTime &&
-						<div>
-							<div></div>
-							<div></div>
-							<div></div>
-						</div>
+						<>
+							<TimePicker $height = {nbRows}>
+							{
+								new Array(uses12hFormat ? 12 : 24).fill(0).map (
+									(_, h) =>
+									{
+										const val = uses12hFormat ? h + 1 : h;
+										return <CalendarCell
+													$isDark = {isDark}
+													$colour = {colour}
+													onClick = {() => {}}
+													$selected = {isSameHour (val)}
+												>
+													{val}
+												</CalendarCell>
+									}
+								)
+							}
+							</TimePicker>
+							<TimePicker $height = {nbRows}>
+							{
+								new Array(60).fill(0).map (
+									(_, h) => <CalendarCell
+													$isDark = {isDark}
+													$colour = {colour}
+													onClick = {() => {}}
+													$selected = {selectedValue.getMinutes() === h}
+												>
+													{h}
+												</CalendarCell>
+								)
+							}
+							</TimePicker>
+							<TimePicker $height = {nbRows}>
+							{
+								new Array(60).fill(0).map (
+									(_, s) => <CalendarCell
+												$isDark = {isDark}
+												$colour = {colour}
+												onClick = {() => {}}
+												$selected = {s === selectedValue.getSeconds()}
+											>
+												{s}
+											</CalendarCell>
+								)
+							}
+							</TimePicker>
+							{
+								uses12hFormat &&
+									<TimePicker $height = {nbRows}>
+										<CalendarCell
+											$isDark = {isDark}
+											$colour = {colour}
+											onClick = {() => {}}
+											$selected = {selectedValue.getHours() < 12}
+										>
+											AM
+										</CalendarCell>
+										<CalendarCell
+											$isDark = {isDark}
+											$colour = {colour}
+											onClick = {() => {}}
+											$selected = {selectedValue.getHours() >= 12}
+										>
+											PM
+										</CalendarCell>
+									</TimePicker>
+							}
+						</>
 				}
 			</Popup>
 		);
