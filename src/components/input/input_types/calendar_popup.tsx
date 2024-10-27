@@ -1,4 +1,4 @@
-import React, { forwardRef, useMemo, useState } from "react";
+import React, { forwardRef, useEffect, useMemo, useRef, useState } from "react";
 /** @jsxImportSource @emotion/react */
 import styled from "@emotion/styled";
 import { Colour } from "../../../types";
@@ -133,6 +133,10 @@ const CalendarPopup = forwardRef<HTMLDivElement, CalendarPopupProps> (
 			[navigator.language]
 		);
 
+		const hoursPickerRef = useRef<HTMLDivElement> (null);
+		const minutesPickerRef = useRef<HTMLDivElement> (null);
+		const secondsPickerRef = useRef<HTMLDivElement> (null);
+
 		function isToday (day: number)
 		{
 			return selectedValue.getFullYear() === TODAY.getFullYear() && selectedValue.getMonth() === TODAY.getMonth() && day === TODAY.getDate();
@@ -186,6 +190,54 @@ const CalendarPopup = forwardRef<HTMLDivElement, CalendarPopupProps> (
 		{
 			return uses12hFormat ? (selectedValue.getHours() % 12 || 12) === value : selectedValue.getHours() === value;
 		}
+
+		useEffect (
+			() =>
+			{
+				const padding = +spacing.normal.substring(0, spacing.normal.length - 2) + +spacing.xsmall.substring(0, spacing.xsmall.length - 2);
+				
+				if (hoursPickerRef.current)
+				{
+					const expectedSelectedValue = uses12hFormat ? (selectedValue.getHours() % 12 || 12) : selectedValue.getHours();
+					const selected = Array.from(hoursPickerRef.current.children).filter (child => expectedSelectedValue === +child.innerHTML);
+					
+					if (selected.length > 0)
+					{
+						const selectedElem = selected[0];
+						const {offsetTop} = selectedElem as HTMLDivElement;
+
+						hoursPickerRef.current.scrollTo ({top: offsetTop - padding, behavior: "smooth"});
+					}
+				}
+				
+				if (minutesPickerRef.current)
+				{
+					const selected = Array.from(minutesPickerRef.current.children).filter (child => selectedValue.getMinutes() === +child.innerHTML);
+					
+					if (selected.length > 0)
+					{
+						const selectedElem = selected[0];
+						const {offsetTop} = selectedElem as HTMLDivElement;
+
+						minutesPickerRef.current.scrollTo ({top: offsetTop - padding, behavior: "smooth"});
+					}
+				}
+				
+				if (secondsPickerRef.current)
+				{
+					const selected = Array.from(secondsPickerRef.current.children).filter (child => selectedValue.getSeconds() === +child.innerHTML);
+					
+					if (selected.length > 0)
+					{
+						const selectedElem = selected[0];
+						const {offsetTop} = selectedElem as HTMLDivElement;
+
+						secondsPickerRef.current.scrollTo ({top: offsetTop - padding, behavior: "smooth"});
+					}
+				}
+			},
+			[selectedValue, hoursPickerRef.current, minutesPickerRef.current, secondsPickerRef.current]
+		);
 		
 		return (
 			<Popup $isShown = {isOpen} $isDark = {isDark} $colour = {colour} ref = {ref}>
@@ -220,7 +272,7 @@ const CalendarPopup = forwardRef<HTMLDivElement, CalendarPopupProps> (
 				{
 					withTime &&
 						<>
-							<TimePicker $height = {nbRows}>
+							<TimePicker $height = {nbRows} ref = {hoursPickerRef}>
 							{
 								new Array(uses12hFormat ? 12 : 24).fill(0).map (
 									(_, h) =>
@@ -238,7 +290,7 @@ const CalendarPopup = forwardRef<HTMLDivElement, CalendarPopupProps> (
 								)
 							}
 							</TimePicker>
-							<TimePicker $height = {nbRows}>
+							<TimePicker $height = {nbRows} ref = {minutesPickerRef}>
 							{
 								new Array(60).fill(0).map (
 									(_, h) => <CalendarCell
@@ -252,7 +304,7 @@ const CalendarPopup = forwardRef<HTMLDivElement, CalendarPopupProps> (
 								)
 							}
 							</TimePicker>
-							<TimePicker $height = {nbRows}>
+							<TimePicker $height = {nbRows} ref = {secondsPickerRef}>
 							{
 								new Array(60).fill(0).map (
 									(_, s) => <CalendarCell
