@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { NumberInputProps } from "../../../types/NumberInputProps";
+import { NumberInputProps } from "../../../types/input/number/NumberInputProps";
 /** @jsxImportSource @emotion/react */
 import styled from "@emotion/styled";
 import { spacing } from "../../../styles/styles";

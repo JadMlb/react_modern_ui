@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import CalendarPopup from "./calendar_popup";
-import DateTimeInputProps from "../../../types/DateTimeInputProps";
-import TimeInputProps from "../../../types/TimeInputProps";
-import DateInputProps from "../../../types/DateInputProps";
+import DateTimeInputProps from "../../../types/input/datetime/DateTimeInputProps";
+import TimeInputProps from "../../../types/input/datetime/TimeInputProps";
+import DateInputProps from "../../../types/input/datetime/DateInputProps";
 import ClearButton from "./clear_button";
 import { useDarkMode, useThemeColours } from "../../../styles";
 

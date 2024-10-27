@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import { useDarkMode, useThemeColours } from "../../../styles/theme";
-import { TextInputProps } from "../../../types/TextInputProps";
+import { TextInputProps } from "../../../types/input/text/TextInputProps";
 /** @jsxImportSource @emotion/react */
 import styled from "@emotion/styled";
 import { Colour } from "../../../types";
 import { radius, spacing } from "../../../styles/styles";
-import EmailInputProps from "../../../types/EmailInputProps";
-import PasswordInputProps from "../../../types/PasswordInputProps";
+import EmailInputProps from "../../../types/input/text/EmailInputProps";
+import PasswordInputProps from "../../../types/input/text/PasswordInputProps";
 import ClearButton from "./clear_button";
 
 const StyledTextInput = styled.input<{$isDark: boolean, $colour: (col: Colour) => string}>
