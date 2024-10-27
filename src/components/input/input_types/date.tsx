@@ -8,7 +8,7 @@ import { useDarkMode, useThemeColours } from "../../../styles";
 
 export default function DateInput (props: (DateTimeInputProps | TimeInputProps | DateInputProps) & {setIsError: React.Dispatch<React.SetStateAction<boolean>>})
 {
-	const {name, value, type, onChange, onClear, readonly, disabled, optional, validator, setIsError} = props;
+	const {name, value, range, type, onChange, onClear, readonly, disabled, optional, validator, setIsError} = props;
 	const [shownValue, setShownValue] = useState (value.toString());
 	const [isCalendarShown, setIsCalendarShown] = useState (false);
 	const popupRef = useRef<HTMLDivElement> (null);
@@ -77,6 +77,8 @@ export default function DateInput (props: (DateTimeInputProps | TimeInputProps |
 				value = {shownValue}
 				readOnly
 				onClick = {() => setIsCalendarShown (old => !readonly && !disabled && !old)}
+				min = {(range && range[0] && formatDate (range[0])) || undefined}
+				max = {(range && range[1] && formatDate (range[1])) || undefined}
 			/>
 			{
 				<CalendarPopup
