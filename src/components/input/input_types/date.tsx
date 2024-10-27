@@ -3,7 +3,8 @@ import CalendarPopup from "./calendar_popup";
 import DateTimeInputProps from "../../../types/DateTimeInputProps";
 import TimeInputProps from "../../../types/TimeInputProps";
 import DateInputProps from "../../../types/DateInputProps";
-import CalendarPopup from "./calendar_popup";
+import ClearButton from "./clear_button";
+import { useDarkMode, useThemeColours } from "../../../styles";
 
 export default function DateInput (props: (DateTimeInputProps | TimeInputProps | DateInputProps) & {setIsError: React.Dispatch<React.SetStateAction<boolean>>})
 {
@@ -12,6 +13,26 @@ export default function DateInput (props: (DateTimeInputProps | TimeInputProps |
 	const [isCalendarShown, setIsCalendarShown] = useState (false);
 	const popupRef = useRef<HTMLDivElement> (null);
 	const inputRef = useRef<HTMLInputElement> (null);
+
+	const isDark = useDarkMode();
+	const colour = useThemeColours();
+
+	function onChangeDetected (newVal: Date)
+	{
+		const value = formatDate (newVal);
+		setShownValue (value);
+		if (onChange)
+			onChange (value);
+		if (validator)
+			setIsError (!validator (newVal));
+	}
+
+	function handleClear ()
+	{
+		setShownValue ("");
+		if (onClear)
+			onClear();
+	}
 
 	function padDateTime (number: number)
 	{
@@ -55,17 +76,27 @@ export default function DateInput (props: (DateTimeInputProps | TimeInputProps |
 				type = {type === "datetime" ? "datetime-local" : type}
 				value = {shownValue}
 				readOnly
-				onClick = {() => setIsCalendarShown (old => !old)}
+				onClick = {() => setIsCalendarShown (old => !readonly && !disabled && !old)}
 			/>
 			{
 				<CalendarPopup
 					ref = {popupRef}
-					onChange = {newVal => setShownValue (formatDate (newVal))}
+					onChange = {newVal => onChangeDetected (newVal)}
 					isOpen = {isCalendarShown}
 					setIsOpen = {setIsCalendarShown}
 					type = {type}
 					withSeconds = {(props.type === "datetime" || props.type === "time") && props.withSeconds}
 				/>
+			}
+			{
+				optional &&
+					<ClearButton
+						$isDark = {isDark}
+						$colour = {colour}
+						onClick = {handleClear}
+					>
+						&#10005;
+					</ClearButton>
 			}
 		</>
 	);
