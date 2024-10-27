@@ -178,6 +178,48 @@ const CalendarPopup = forwardRef<HTMLDivElement, CalendarPopupProps> (
 			setIsOpen (false);
 		}
 
+		function toggleAmPm ()
+		{
+			const newVal = new Date (selectedValue);
+			newVal.setHours ((selectedValue.getHours() + 12) % 24);
+			setSelectedValue (newVal);
+
+			if (onChange)
+				onChange (newVal);
+			setIsOpen (false);
+		}
+
+		function setTime (value: number, part: "h" | "m" | "s")
+		{
+			const newDateValue = new Date (selectedValue);
+			const isPm = selectedValue.getHours() >= 12;
+			switch (part)
+			{
+				case "h":
+					let val = value;
+					if (uses12hFormat)
+					{
+						if (val === 12 && !isPm)
+							val = 0;
+						else if (isPm && val !== 12)
+							val += 12;
+					}
+					newDateValue.setHours (val);
+					break;
+				case "m":
+					newDateValue.setMinutes (value);
+					break;
+				case "s":
+					newDateValue.setSeconds (value);
+					break;
+			}
+
+			setSelectedValue (newDateValue);
+			if (onChange)
+				onChange (newDateValue);
+			setIsOpen (false);
+		}
+
 		function reset ()
 		{
 			setSelectedValue (TODAY);
@@ -285,7 +327,7 @@ const CalendarPopup = forwardRef<HTMLDivElement, CalendarPopupProps> (
 										return <CalendarCell
 													$isDark = {isDark}
 													$colour = {colour}
-													onClick = {() => {}}
+													onClick = {() => setTime (val, "h")}
 													$selected = {isSameHour (val)}
 												>
 													{val}
@@ -300,7 +342,7 @@ const CalendarPopup = forwardRef<HTMLDivElement, CalendarPopupProps> (
 									(_, h) => <CalendarCell
 													$isDark = {isDark}
 													$colour = {colour}
-													onClick = {() => {}}
+													onClick = {() => setTime (h, "m")}
 													$selected = {selectedValue.getMinutes() === h}
 												>
 													{h}
@@ -316,6 +358,7 @@ const CalendarPopup = forwardRef<HTMLDivElement, CalendarPopupProps> (
 											(_, s) => <CalendarCell
 														$isDark = {isDark}
 														$colour = {colour}
+														onClick = {() => setTime (s, "s")}
 														$selected = {s === selectedValue.getSeconds()}
 													>
 														{s}
@@ -330,7 +373,7 @@ const CalendarPopup = forwardRef<HTMLDivElement, CalendarPopupProps> (
 										<CalendarCell
 											$isDark = {isDark}
 											$colour = {colour}
-											onClick = {() => {}}
+											onClick = {toggleAmPm}
 											$selected = {selectedValue.getHours() < 12}
 										>
 											AM
@@ -338,7 +381,7 @@ const CalendarPopup = forwardRef<HTMLDivElement, CalendarPopupProps> (
 										<CalendarCell
 											$isDark = {isDark}
 											$colour = {colour}
-											onClick = {() => {}}
+											onClick = {toggleAmPm}
 											$selected = {selectedValue.getHours() >= 12}
 										>
 											PM
