@@ -4,7 +4,7 @@ export interface BasicInputProps
 	/**
 	 * The type of the input, either text, password, number, mail or datetime. For these types, the same naming is used as for the types of raw html input tag.
 	 */
-	type: "text" | "password" | "number" | "datetime" | "email";
+	type: "text" | "email" | "password" | "number" | "date" | "datetime" | "time";
 	/**
 	 * The current value of this input
 	 */

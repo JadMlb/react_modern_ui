@@ -1,10 +1,6 @@
-import { BasicInputProps } from "./BasicInputProps";
+import GenericDateTimeInputProps from "./GenricDateTimeInputProps";
 
-export default interface DateInputProps extends BasicInputProps
+export default interface DateInputProps extends GenericDateTimeInputProps
 {
-	value: string,
-	type: "datetime"
-	onChange?: (value: string) => void;
-	validator?: (value: string) => boolean;
-	withTime?: boolean
+	type: "date";
 }

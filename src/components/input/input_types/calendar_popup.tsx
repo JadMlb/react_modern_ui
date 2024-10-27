@@ -86,14 +86,15 @@ const TimePicker = styled.div<{$height: number}>
 
 type CalendarPopupProps = {
 	value?: Date | string,
-	withTime?: boolean,
+	type: "date" | "datetime" | "time",
+	withSeconds?: boolean,
 	onChange?: (newDate: Date) => void,
 	isOpen: boolean,
 	setIsOpen: React.Dispatch<React.SetStateAction<boolean>>
 };
 
 const CalendarPopup = forwardRef<HTMLDivElement, CalendarPopupProps> (
-	({value, withTime, onChange, isOpen, setIsOpen}: CalendarPopupProps, ref) =>
+	({value, type, withSeconds, onChange, isOpen, setIsOpen}: CalendarPopupProps, ref) =>
 	{
 		const isDark = useDarkMode();
 		const colour = useThemeColours();
@@ -241,36 +242,39 @@ const CalendarPopup = forwardRef<HTMLDivElement, CalendarPopupProps> (
 		
 		return (
 			<Popup $isShown = {isOpen} $isDark = {isDark} $colour = {colour} ref = {ref}>
-				<div>
-					<CalendarHeader>
-						<Button rounded onClick = {() => changeMonth (true)}>&lt;</Button>
-						<span>{currentMonth} {selectedValue.getFullYear()}</span>
-						<Button onClick = {reset}><span style = {{fontSize: "smaller"}}>Today</span></Button>
-						<Button rounded onClick = {() => changeMonth()}>&gt;</Button>
-					</CalendarHeader>
-					<CalendarBody>
-						{DAYS.map (day => <CalendarHeaderCell $colour = {colour}>{day}</CalendarHeaderCell>)}
-						{
-							new Array(DAYS_IN_MONTH + FIRST_DAY).fill(0).map (
-								(_, day) =>
-								{
-									const val = day - FIRST_DAY + 1;
-									return <CalendarCell
-												$today = {isToday (val)}
-												$selected = {val === selectedValue.getDate()}
-												$isDark = {isDark}
-												$colour = {colour}
-												onClick = {val > 0 ? () => changeDate (val) : undefined}
-											>
-												{val > 0 && `${val}`}
-											</CalendarCell>
-								}
-							)
-						}
-					</CalendarBody>
-				</div>
 				{
-					withTime &&
+					["datetime", "date"].includes (type) &&
+						<div>
+							<CalendarHeader>
+								<Button rounded onClick = {() => changeMonth (true)}>&lt;</Button>
+								<span>{currentMonth} {selectedValue.getFullYear()}</span>
+								<Button onClick = {reset}><span style = {{fontSize: "smaller"}}>Today</span></Button>
+								<Button rounded onClick = {() => changeMonth()}>&gt;</Button>
+							</CalendarHeader>
+							<CalendarBody>
+								{DAYS.map (day => <CalendarHeaderCell $colour = {colour}>{day}</CalendarHeaderCell>)}
+								{
+									new Array(DAYS_IN_MONTH + FIRST_DAY).fill(0).map (
+										(_, day) =>
+										{
+											const val = day - FIRST_DAY + 1;
+											return <CalendarCell
+														$today = {isToday (val)}
+														$selected = {val === selectedValue.getDate()}
+														$isDark = {isDark}
+														$colour = {colour}
+														onClick = {val > 0 ? () => changeDate (val) : undefined}
+													>
+														{val > 0 && `${val}`}
+													</CalendarCell>
+										}
+									)
+								}
+							</CalendarBody>
+						</div>
+				}
+				{
+					["datetime", "time"].includes (type) &&
 						<>
 							<TimePicker $height = {nbRows} ref = {hoursPickerRef}>
 							{
@@ -304,20 +308,22 @@ const CalendarPopup = forwardRef<HTMLDivElement, CalendarPopupProps> (
 								)
 							}
 							</TimePicker>
-							<TimePicker $height = {nbRows} ref = {secondsPickerRef}>
 							{
-								new Array(60).fill(0).map (
-									(_, s) => <CalendarCell
-												$isDark = {isDark}
-												$colour = {colour}
-												onClick = {() => {}}
-												$selected = {s === selectedValue.getSeconds()}
-											>
-												{s}
-											</CalendarCell>
-								)
+								withSeconds &&
+									<TimePicker $height = {nbRows} ref = {secondsPickerRef}>
+									{
+										new Array(60).fill(0).map (
+											(_, s) => <CalendarCell
+														$isDark = {isDark}
+														$colour = {colour}
+														$selected = {s === selectedValue.getSeconds()}
+													>
+														{s}
+													</CalendarCell>
+										)
+									}
+									</TimePicker>
 							}
-							</TimePicker>
 							{
 								uses12hFormat &&
 									<TimePicker $height = {nbRows}>

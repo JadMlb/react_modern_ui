@@ -1,10 +1,14 @@
 import React, { useEffect, useRef, useState } from "react";
+import CalendarPopup from "./calendar_popup";
+import DateTimeInputProps from "../../../types/DateTimeInputProps";
+import TimeInputProps from "../../../types/TimeInputProps";
 import DateInputProps from "../../../types/DateInputProps";
 import CalendarPopup from "./calendar_popup";
 
-export default function DateInput ({name, value, onChange, onClear, readonly, disabled, optional, withTime, validator, setIsError}: DateInputProps & {setIsError: React.Dispatch<React.SetStateAction<boolean>>})
+export default function DateInput (props: (DateTimeInputProps | TimeInputProps | DateInputProps) & {setIsError: React.Dispatch<React.SetStateAction<boolean>>})
 {
-	const [shownValue, setShownValue] = useState (value);
+	const {name, value, type, onChange, onClear, readonly, disabled, optional, validator, setIsError} = props;
+	const [shownValue, setShownValue] = useState (value.toString());
 	const [isCalendarShown, setIsCalendarShown] = useState (false);
 	const popupRef = useRef<HTMLDivElement> (null);
 	const inputRef = useRef<HTMLInputElement> (null);
@@ -16,8 +20,15 @@ export default function DateInput ({name, value, onChange, onClear, readonly, di
 
 	function formatDate (date: Date)
 	{
-		return `${date.getFullYear().toString().padStart (4, "0")}-${padDateTime (date.getMonth() + 1)}-${padDateTime(date.getDate())}`
-				+ `T${padDateTime (date.getHours())}:${padDateTime (date.getMinutes())}:${padDateTime (date.getSeconds())}`;
+		const dateStr = `${date.getFullYear().toString().padStart (4, "0")}-${padDateTime (date.getMonth() + 1)}-${padDateTime(date.getDate())}`;
+		const timeStr = `${padDateTime (date.getHours())}:${padDateTime (date.getMinutes())}${(props.type === "datetime" || props.type === "time") && props.withSeconds ? `:${padDateTime (date.getSeconds())}` : ""}`;
+
+		switch (type)
+		{
+			case "date": return dateStr;
+			case "time": return timeStr;
+			case "datetime": return dateStr + "T" + timeStr;
+		}
 	}
 
 	useEffect (
@@ -41,7 +52,7 @@ export default function DateInput ({name, value, onChange, onClear, readonly, di
 			<input
 				ref = {inputRef}
 				name = {name}
-				type = {withTime ? "datetime-local" : "date"}
+				type = {type === "datetime" ? "datetime-local" : type}
 				value = {shownValue}
 				readOnly
 				onClick = {() => setIsCalendarShown (old => !old)}
@@ -52,6 +63,8 @@ export default function DateInput ({name, value, onChange, onClear, readonly, di
 					onChange = {newVal => setShownValue (formatDate (newVal))}
 					isOpen = {isCalendarShown}
 					setIsOpen = {setIsCalendarShown}
+					type = {type}
+					withSeconds = {(props.type === "datetime" || props.type === "time") && props.withSeconds}
 				/>
 			}
 		</>
