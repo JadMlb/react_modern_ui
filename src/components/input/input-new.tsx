@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { NumberInputProps } from "../../types/NumberInputProps";
-import { TextInputProps } from "../../types/TextInputProps";
+import { NumberInputProps } from "../../types/input/number/NumberInputProps";
+import { TextInputProps } from "../../types/input/text/TextInputProps";
 import NumberInput from "./input_types/number";
 /** @jsxImportSource @emotion/react */
 import styled from "@emotion/styled";
@@ -8,8 +8,12 @@ import { radius, spacing } from "../../styles/styles";
 import { useDarkMode, useThemeColours } from "../../styles/theme";
 import { Colour } from "../../types";
 import TextInput from "./input_types/text";
-import EmailInputProps from "../../types/EmailInputProps";
-import PasswordInputProps from "../../types/PasswordInputProps";
+import EmailInputProps from "../../types/input/text/EmailInputProps";
+import PasswordInputProps from "../../types/input/text/PasswordInputProps";
+import DateInput from "./input_types/date";
+import DateInputProps from "../../types/input/datetime/DateInputProps";
+import DateTimeInputProps from "../../types/input/datetime/DateTimeInputProps";
+import TimeInputProps from "../../types/input/datetime/TimeInputProps";
 
 const Wrapper = styled.div
 `
@@ -19,13 +23,13 @@ const Wrapper = styled.div
 	width: fit-content;
 `;
 
-const Container = styled.div<{$disabled?: boolean, $isError: boolean, $isDark: boolean, $colour: (col: Colour) => string}>
+const Container = styled.div<{$disabled?: boolean, $isError: boolean, $allowOverflow?: boolean, $isDark: boolean, $colour: (col: Colour) => string}>
 `
 	display: flex;
 	flex-wrap: no-wrap;
 	align-items: center;
 
-	overflow: hidden;
+	${props => !props.$allowOverflow && `overflow: hidden;`}
 	border-radius: ${radius.normal};
 	border: 1.5px solid ${props => props.$colour (props.$isError ? "error" : props.$isDark ? "primaryDark" : "primaryElevated")} ${props => props.$isError && "!important"};
 	width: fit-content;
@@ -100,7 +104,15 @@ const Hint = styled.small<{$isError: boolean, $colour: (col: Colour) => string}>
 	color: ${props => props.$colour (props.$isError ? "error" : "gray")};
 `;
 
-export default function NewInput (props: NumberInputProps | TextInputProps | EmailInputProps | PasswordInputProps)
+type InputProps = NumberInputProps |
+					TextInputProps |
+					EmailInputProps |
+					PasswordInputProps |
+					DateInputProps |
+					DateTimeInputProps |
+					TimeInputProps;
+
+export default function NewInput (props: InputProps)
 {
 	const colour = useThemeColours();
 	const isDark = useDarkMode();
@@ -116,13 +128,17 @@ export default function NewInput (props: NumberInputProps | TextInputProps | Ema
 			case "email":
 			case "password":
 				return <TextInput {...props} setIsError = {setIsError}/>;
+			case "date":
+			case "datetime":
+			case "time":
+				return <DateInput {...props} setIsError = {setIsError}/>
 			default: return <input/>;
 		}
 	}
 	
 	return (
 		<Wrapper>
-			<Container $isDark = {isDark} $colour = {colour} $disabled = {props.disabled} $isError = {isError}>
+			<Container $isDark = {isDark} $colour = {colour} $disabled = {props.disabled} $isError = {isError} $allowOverflow = {["datetime", "date", "time"].includes (props.type)}>
 				{!props.noLabel && <label htmlFor = {`${props.name}-${props.type}-input`}>{props.label} {props.optional && "(optional)"}</label>}
 				{getInputFromType()}
 			</Container>
