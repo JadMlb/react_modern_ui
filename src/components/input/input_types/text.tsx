@@ -7,6 +7,7 @@ import { Colour } from "../../../types";
 import { radius, spacing } from "../../../styles/styles";
 import EmailInputProps from "../../../types/EmailInputProps";
 import PasswordInputProps from "../../../types/PasswordInputProps";
+import ClearButton from "./clear_button";
 
 const StyledTextInput = styled.input<{$isDark: boolean, $colour: (col: Colour) => string}>
 `
@@ -19,19 +20,6 @@ const StyledTextArea = styled.textarea<{$isDark: boolean, $colour: (col: Colour)
 	font: inherit;
 	flex-grow: 4;
 	align-self: stretch;
-`;
-
-const ClearButton = styled.button<{$isDark: boolean, $colour: (col: Colour) => string}>
-`
-	all: unset;
-	margin-inline: ${spacing.small};
-
-	&:hover
-	{
-		color: ${props => props.$colour ("error")};
-	}
-
-	align-self: start;
 `;
 
 const Small = styled.small<{$isDark: boolean, $colour: (col: Colour) => string}>
