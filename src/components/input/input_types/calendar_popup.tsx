@@ -178,10 +178,13 @@ const CalendarPopup = forwardRef<HTMLDivElement, CalendarPopupProps> (
 			setIsOpen (false);
 		}
 
-		function toggleAmPm ()
+		function toggleAmPm (type: "a" | "p")
 		{
 			const newVal = new Date (selectedValue);
-			newVal.setHours ((selectedValue.getHours() + 12) % 24);
+			const needsChange = type === "a" && selectedValue.getHours() >= 12 || type === "p" && selectedValue.getHours() < 12
+			
+			if (needsChange)
+				newVal.setHours ((selectedValue.getHours() + 12) % 24);
 			setSelectedValue (newVal);
 
 			if (onChange)
@@ -373,7 +376,7 @@ const CalendarPopup = forwardRef<HTMLDivElement, CalendarPopupProps> (
 										<CalendarCell
 											$isDark = {isDark}
 											$colour = {colour}
-											onClick = {toggleAmPm}
+											onClick = {() => toggleAmPm ("a")}
 											$selected = {selectedValue.getHours() < 12}
 										>
 											AM
@@ -381,7 +384,7 @@ const CalendarPopup = forwardRef<HTMLDivElement, CalendarPopupProps> (
 										<CalendarCell
 											$isDark = {isDark}
 											$colour = {colour}
-											onClick = {toggleAmPm}
+											onClick = {() => toggleAmPm ("p")}
 											$selected = {selectedValue.getHours() >= 12}
 										>
 											PM
