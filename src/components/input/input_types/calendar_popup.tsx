@@ -1,10 +1,12 @@
 import React, { forwardRef, useEffect, useMemo, useRef, useState } from "react";
 /** @jsxImportSource @emotion/react */
 import styled from "@emotion/styled";
-import { Colour } from "../../../types";
+import { Colour, Option } from "../../../types";
 import { useDarkMode, useThemeColours } from "../../../styles/theme";
 import { radius, spacing } from "../../../styles/styles";
 import Button from "../button";
+import ComboBox from "../combobox";
+import NewInput from "../input-new";
 
 const Popup = styled.div<{$isShown: boolean, $isDark: boolean, $colour: (col: Colour) => string}>
 `
@@ -84,6 +86,13 @@ const TimePicker = styled.div<{$height: number}>
 	}
 `;
 
+const MonthYearPicker = styled.span
+`
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	align-items: center;
+`;
+
 type CalendarPopupProps = {
 	value?: Date | string,
 	type: "date" | "datetime" | "time",
@@ -119,10 +128,14 @@ const CalendarPopup = forwardRef<HTMLDivElement, CalendarPopupProps> (
 			() => new Date(selectedValue.getFullYear(), selectedValue.getMonth() + 1, 0).getDate(),
 			[selectedValue]
 		);
-		const currentMonth = useMemo (
-			() => selectedValue.toString().split(" ")[1],
-			[selectedValue.getMonth()]
-		);
+		const MONTHS: Option[] = Array.from ({length: 12}, (_, i) => i)
+						.map (
+							m =>
+							{
+								let date = new Date (2024, m, 1);
+								return {id: m, text: date.toString().split(" ")[1]};
+							}
+						);
 
 		const nbRows = useMemo (
 			() => Math.ceil ((FIRST_DAY + DAYS_IN_MONTH) / 7) + 2,
@@ -161,6 +174,26 @@ const CalendarPopup = forwardRef<HTMLDivElement, CalendarPopupProps> (
 			}
 
 			const newValue = new Date (newYear, newMonth, selectedValue.getDate());
+			
+			setSelectedValue (newValue);
+
+			if (onChange)
+				onChange (newValue);
+		}
+		
+		function setMonth (month: number)
+		{
+			const newValue = new Date (selectedValue.getFullYear(), month, selectedValue.getDate());
+			
+			setSelectedValue (newValue);
+
+			if (onChange)
+				onChange (newValue);
+		}
+		
+		function setYear (year: number)
+		{
+			const newValue = new Date (year, selectedValue.getMonth(), selectedValue.getDate());
 			
 			setSelectedValue (newValue);
 
@@ -292,7 +325,25 @@ const CalendarPopup = forwardRef<HTMLDivElement, CalendarPopupProps> (
 						<div>
 							<CalendarHeader>
 								<Button rounded onClick = {() => changeMonth (true)}>&lt;</Button>
-								<span>{currentMonth} {selectedValue.getFullYear()}</span>
+								<MonthYearPicker>
+									<ComboBox
+										name = "month"
+										from = {MONTHS}
+										values = {[selectedValue.getMonth()]}
+										onChange = {options => {if (options[0]) setMonth (options[0].id)}}
+										compact
+										notSearchable
+										required
+									/>
+									<NewInput
+										type = "number"
+										name = "year"
+										value = {selectedValue.getFullYear()}
+										range = {[1970, null]}
+										onChange = {year => setYear (year)}
+										noLabel
+									/>
+								</MonthYearPicker>
 								<Button onClick = {reset}><span style = {{fontSize: "smaller"}}>Today</span></Button>
 								<Button rounded onClick = {() => changeMonth()}>&gt;</Button>
 							</CalendarHeader>
