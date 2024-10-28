@@ -189,13 +189,10 @@ export default function ComboBox ({name, label, from, multiple, values, onChange
 	const inputRef = useRef<HTMLDivElement> (null);
 	const searchRef = useRef<HTMLInputElement> (null);
 	
-	async function getOptions ()
+	async function init ()
 	{
 		setAllOptions (from);
 		setOptions (from);
-		setSelection (
-			from.filter (o => values?.includes (o.id))
-		);
 	}
 
 	function filterOptions (e: React.ChangeEvent<HTMLInputElement>)
@@ -248,7 +245,8 @@ export default function ComboBox ({name, label, from, multiple, values, onChange
 		onChange ([]);
 	}
 
-	useEffect (() => {if (options.length === 0) getOptions();}, [values]);
+	useEffect (() => {init();}, []);
+	useEffect (() => {setSelection (from.filter (o => values?.includes (o.id)));}, [values]);
 
 	useEffect (
 		() =>
