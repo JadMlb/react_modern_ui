@@ -26,8 +26,9 @@ const Wrapper = styled.div
 const Container = styled.div<{$disabled?: boolean, $isError: boolean, $allowOverflow?: boolean, $isDark: boolean, $colour: (col: Colour) => string}>
 `
 	display: flex;
-	flex-wrap: no-wrap;
+	flex-wrap: nowrap;
 	align-items: center;
+	justify-content: space-between;
 
 	${props => !props.$allowOverflow && `overflow: hidden;`}
 	border-radius: ${radius.normal};

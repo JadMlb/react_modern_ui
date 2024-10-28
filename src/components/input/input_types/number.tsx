@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { NumberInputProps } from "../../../types/input/number/NumberInputProps";
 /** @jsxImportSource @emotion/react */
 import styled from "@emotion/styled";
@@ -6,7 +6,7 @@ import { spacing } from "../../../styles/styles";
 import { Colour } from "../../../types";
 import { useDarkMode, useThemeColours } from "../../../styles/theme";
 
-const StyledNumberInput = styled.input<{$isDark: boolean, $colour: (col: Colour) => string}>
+const StyledNumberInput = styled.input<{$noLabel?: boolean, $isDark: boolean, $colour: (col: Colour) => string}>
 `
 	&::-webkit-inner-spin-button,
 	&::-webkit-outer-spin-button
@@ -18,20 +18,20 @@ const StyledNumberInput = styled.input<{$isDark: boolean, $colour: (col: Colour)
 	-moz-appearance: textfield;
 
 	margin: ${spacing.xsmall} !important;
-	margin-top: ${spacing.normal} !important;
+	${props => !props.$noLabel && `margin-top: ${spacing.normal} !important;`}
 	margin-right: unset !important;
 `;
 
 const Buttons = styled.div<{$disabled?: boolean, $isDark: boolean, $colour: (col: Colour) => string}>
 `
+	position: relative;
 	display: flex;
 	flex-direction: column;
-	height: calc(${spacing.xsmall} + ${spacing.normal} + 12pt + 9pt) !important;
 
 	> button
 	{
 		width: calc(${spacing.xsmall} + 12pt);
-		height: calc(${spacing.xsmall} + 12pt + 2px);
+		height: 50%;
 		padding: unset;
 		padding-right: ${spacing.xxsmall};
 		border: 1px solid transparent;
@@ -83,7 +83,7 @@ const ClearButton = styled.button<{$isDark: boolean, $colour: (col: Colour) => s
 	}
 `;
 
-export default function NumberInput ({name, type, value, range, step, precision, onChange, onClear, readonly, disabled, optional, validator, setIsError}: NumberInputProps & {setIsError: React.Dispatch<React.SetStateAction<boolean>>})
+export default function NumberInput ({name, type, value, range, step, precision, noLabel, onChange, onClear, readonly, disabled, optional, validator, setIsError}: NumberInputProps & {setIsError: React.Dispatch<React.SetStateAction<boolean>>})
 {	
 	const isDark = useDarkMode();
 	const colour = useThemeColours();
@@ -133,6 +133,11 @@ export default function NumberInput ({name, type, value, range, step, precision,
 		if (validator)
 			setIsError (validator (0));
 	}
+
+	useEffect (
+		() => {setShownValue (value.toFixed (precision))},
+		[value]
+	);
 	
 	return (
 		<>
@@ -145,6 +150,8 @@ export default function NumberInput ({name, type, value, range, step, precision,
 				$colour = {colour}
 				readOnly = {readonly}
 				disabled = {disabled}
+				style = {{width: `${shownValue.length}rem`}}
+				$noLabel = {noLabel}
 			/>
 			{
 				optional &&
