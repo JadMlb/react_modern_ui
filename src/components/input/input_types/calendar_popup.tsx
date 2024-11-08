@@ -13,6 +13,7 @@ const Popup = styled.div<{$isShown: boolean, $isDark: boolean, $colour: (col: Co
 	display: ${props => props.$isShown ? "flex" : "none"};
 	position: absolute;
 	top: 100%;
+	z-index: 1000;
 
 	cursor: default;
 
