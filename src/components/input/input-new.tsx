@@ -14,6 +14,8 @@ import DateInput from "./input_types/date";
 import DateInputProps from "../../types/input/datetime/DateInputProps";
 import DateTimeInputProps from "../../types/input/datetime/DateTimeInputProps";
 import TimeInputProps from "../../types/input/datetime/TimeInputProps";
+import FormattedNumberInputProps from "../../types/input/number/FormattedNumberInputProps";
+import FormattedNumberInput from "./input_types/formatted_number";
 
 const Wrapper = styled.div
 `
@@ -106,6 +108,7 @@ const Hint = styled.small<{$isError: boolean, $colour: (col: Colour) => string}>
 `;
 
 type InputProps = NumberInputProps |
+					FormattedNumberInputProps |
 					TextInputProps |
 					EmailInputProps |
 					PasswordInputProps |
@@ -125,6 +128,7 @@ export default function NewInput (props: InputProps)
 		switch (props.type)
 		{
 			case "number": return <NumberInput {...props} setIsError = {setIsError}/>;
+			case "number-formatted": return <FormattedNumberInput {...props} setIsError = {setIsError}/>;
 			case "text":
 			case "email":
 			case "password":
