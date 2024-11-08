@@ -2,7 +2,7 @@ import { BasicInputProps } from "../BasicInputProps";
 
 export interface NumberInputProps extends BasicInputProps
 {
-	value: number;
+	value?: number;
 	type: "number";
 	/**
 	 * Defines the range, bounds included, of the value in the input field. If bound is null, it's equivalent to an infinity. Defaults to `[-infinity, infinity]`.

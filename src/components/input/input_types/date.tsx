@@ -9,7 +9,7 @@ import { useDarkMode, useThemeColours } from "../../../styles";
 export default function DateInput (props: (DateTimeInputProps | TimeInputProps | DateInputProps) & {setIsError: React.Dispatch<React.SetStateAction<boolean>>})
 {
 	const {name, value, range, type, onChange, onClear, readonly, disabled, optional, validator, setIsError} = props;
-	const [shownValue, setShownValue] = useState (value.toString());
+	const [shownValue, setShownValue] = useState (value ? value.toString() : new Date().toString());
 	const [isCalendarShown, setIsCalendarShown] = useState (false);
 	const popupRef = useRef<HTMLDivElement> (null);
 	const inputRef = useRef<HTMLInputElement> (null);
@@ -27,8 +27,9 @@ export default function DateInput (props: (DateTimeInputProps | TimeInputProps |
 			setIsError (!validator (newVal));
 	}
 
-	function handleClear ()
+	function handleClear (e: React.MouseEvent)
 	{
+		e.preventDefault();
 		setShownValue ("");
 		if (onClear)
 			onClear();
@@ -66,6 +67,11 @@ export default function DateInput (props: (DateTimeInputProps | TimeInputProps |
 			return () => window.removeEventListener ("click", handleClickOutside);
 		},
 		[]
+	);
+
+	useEffect (
+		() => setShownValue (value?.toString() ?? new Date().toString()),
+		[value]
 	);
 
 	return (

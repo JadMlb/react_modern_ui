@@ -88,30 +88,24 @@ export default function NumberInput ({name, type, value, range, step, precision,
 	const isDark = useDarkMode();
 	const colour = useThemeColours();
 	
-	const [realValue, setRealValue] = useState (value);
-	const [shownValue, setShownValue] = useState (value.toFixed (precision));
+	const [realValue, setRealValue] = useState (0);
+	const [shownValue, setShownValue] = useState ("0");
 
 	function valueChanged (newVal: number)
 	{
-		// only update if range is defined, or the new value respects the boundaries of the range, when provided
+		// only update if range is undefined, or the new value respects the boundaries of the range, when provided
 		if (!range || (range[0] == null || newVal >= range[0]) && (range[1] == null || newVal <= range[1]))
 		{
 			setRealValue (newVal);
 			setShownValue (newVal.toFixed (precision));
 			if (onChange)
 				onChange (newVal);
-			if (validator)
-				setIsError (!validator (newVal));
 		}
 	}
 
 	function handleChange (e: React.ChangeEvent<HTMLInputElement>)
 	{
-		try
-		{
-			valueChanged (+e.target.value);
-		}
-		catch {}
+		valueChanged (+e.target.value);
 	}
 
 	function inc ()
@@ -124,19 +118,32 @@ export default function NumberInput ({name, type, value, range, step, precision,
 		valueChanged (realValue - (step ?? 1));
 	}
 
-	function handleClear ()
+	function handleClear (e: React.MouseEvent)
 	{
+		e.preventDefault();
 		setRealValue (0);
-		setShownValue ("0");
+		setShownValue ((0).toFixed (precision));
 		if (onClear)
 			onClear();
-		if (validator)
-			setIsError (validator (0));
 	}
 
 	useEffect (
-		() => {setShownValue (value.toFixed (precision))},
+		() =>
+		{
+			const realInitVal = value !== undefined ? value : 0;
+			setRealValue (realInitVal);
+			setShownValue (realInitVal.toFixed (precision));
+		},
 		[value]
+	);
+
+	useEffect (
+		() =>
+		{
+			if (validator)
+				setIsError (!validator (realValue));
+		},
+		[realValue]
 	);
 	
 	return (
@@ -150,7 +157,7 @@ export default function NumberInput ({name, type, value, range, step, precision,
 				$colour = {colour}
 				readOnly = {readonly}
 				disabled = {disabled}
-				style = {{width: `${shownValue.length}rem`}}
+				style = {{minWidth: "3rem", width: `${shownValue.length}rem`}}
 				$noLabel = {noLabel}
 			/>
 			{

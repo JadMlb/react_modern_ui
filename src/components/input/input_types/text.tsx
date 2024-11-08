@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDarkMode, useThemeColours } from "../../../styles/theme";
 import { TextInputProps } from "../../../types/input/text/TextInputProps";
 /** @jsxImportSource @emotion/react */
@@ -86,7 +86,7 @@ export default function TextInput (props: (TextInputProps | EmailInputProps | Pa
 	const isDark = useDarkMode();
 	const colour = useThemeColours();
 	
-	const [shownValue, setShownValue] = useState (value);
+	const [shownValue, setShownValue] = useState (value ?? "");
 	const [displayType, setDisplayType] = useState (type);
 
 	function handleChange (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>)
@@ -102,12 +102,18 @@ export default function TextInput (props: (TextInputProps | EmailInputProps | Pa
 		catch {}
 	}
 
-	function handleClear ()
+	function handleClear (e: React.MouseEvent)
 	{
+		e.preventDefault();
 		setShownValue ("");
 		if (onClear)
 			onClear();
 	}
+
+	useEffect (
+		() => {setShownValue (value ?? "")},
+		[value]
+	);
 
 	return (
 		<>
