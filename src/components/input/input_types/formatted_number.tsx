@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { spacing, useDarkMode, useThemeColours } from "../../../styles";
 import { Colour } from "../../../types";
 import FormattedNumberInputProps from "../../../types/input/number/FormattedNumberInputProps";
