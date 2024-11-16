@@ -358,6 +358,11 @@ export default function Table ({data, structure, maxHeight, alternateRowColour =
 		setDisplayOrder (items.map (items => items.name as string));
 	}
 
+	useEffect (
+		() => setShownData ([...data]),
+		[data]
+	);
+
 	return (
 		<>
 			<div style = {{display: "flex", gap: spacing.xsmall, alignItems: "center", marginBottom: spacing.small}}>
