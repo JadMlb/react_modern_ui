@@ -14,12 +14,14 @@ const Background = styled.div<{$col: string, $centered: boolean, $whiteText?: bo
 	padding: ${spacing.xsmall};
 	border-radius: ${props => props.$rounded ? radius.large : radius.small};
 	${props => props.$whiteText && "color: white;"}
-	display: inline-block;
+	display: flex;
+	gap: ${spacing.xsmall};
+	align-items: center;
 `;
 
 type TagProps = {
 	key?: string | number | bigint | null
-	role: TagRole,
+	role?: TagRole,
 	rounded?: boolean,
 	centered?: boolean,
 	children: React.ReactNode
