@@ -360,7 +360,7 @@ export default function Table ({data, structure, maxHeight, alternateRowColour =
 
 	useEffect (
 		() => setShownData ([...data]),
-		[data]
+		[data, structure]
 	);
 
 	return (
