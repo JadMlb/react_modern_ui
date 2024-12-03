@@ -9,6 +9,7 @@ import { useDarkMode, useTheme } from "../../styles/theme";
 import { PaginationBar } from "./table/pagination_bar";
 import DropDownDraggableList from "../input/draggable_list/dropdown";
 import capitalize from "../../utils/capitalizer";
+import Sorter from "./table/sorter";
 
 const Wrapper = styled.div<{$maxHeight?: number, $isDark: boolean, $theme: ThemeType}>
 `
@@ -94,8 +95,9 @@ const CellContents = styled.span<{$containsNumber?: boolean}>
 	white-space: nowrap;
 	text-overflow: ellipsis;
 	overflow: hidden;
-	display: block;
-	text-align: ${props => props.$containsNumber ? "right" : "left"};
+	display: flex;
+	justify-content: flex-${props => props.$containsNumber ? "end" : "start"};
+	gap: ${spacing.small};
 `;
 
 const Resizer = styled.div<{$height: number, $active: boolean, $isDark: boolean, $theme: ThemeType}>
@@ -187,7 +189,7 @@ export default function Table ({data, structure, maxHeight, alternateRowColour =
 	const bodyRef = useRef<HTMLTableSectionElement> (null);
 	const [curColWidths, setCurColWidths] = useState<number[]> ([]);
 
-	const [sortingColumn, setSortingColumn] = useState<string | null> (null);
+	const [sortingColumn, setSortingColumn] = useState<{name: string, asc: boolean} | null> (null);
 	
 	// specified proportions of in structure might not add up to 1 => map them from range 0-<sum> to range 0-1
 	const actualProportions = useMemo (
@@ -262,29 +264,33 @@ export default function Table ({data, structure, maxHeight, alternateRowColour =
 	);
 
 	useEffect (
-		() => sortTable (sortingColumn),
+		() => sortTable (sortingColumn?.name, sortingColumn?.asc),
 		[sortingColumn]
 	);
 
-	function sortTable (column: string | null)
+	function sortTable (column?: string, asc?: boolean)
 	{
+		let sortedData;
 		if (column)
 		{
 			const sortingField = Object.keys(structure.columns[column].fields)[0];
-			const sortedData = fullSortedData.sort (
+			const FACTOR = asc ? 1 : -1;
+			sortedData = fullSortedData.sort (
 					(r1, r2) =>
 					{
 						if (r1[sortingField] > r2[sortingField])
-							return 1;
+							return FACTOR;
 						else if (r1[sortingField] < r2[sortingField])
-							return -1;
+							return -FACTOR;
 						return 0;
 					}
 				);
-			
-			setFullSortedData (sortedData);
-			setShownData (sortedData.slice (0, rowsPerPage));
 		}
+		else
+			sortedData = [...data];
+
+		setFullSortedData (sortedData);
+		setShownData (sortedData.slice (0, rowsPerPage));
 	}
 
 	useEffect (
@@ -386,10 +392,9 @@ export default function Table ({data, structure, maxHeight, alternateRowColour =
 													>
 														{
 															structure.sortingColumns?.includes (col) &&
-																<input
-																	type = "checkbox"
-																	checked = {sortingColumn === col}
-																	onChange = {e => setSortingColumn (e.target.checked ? col : null)}
+																<Sorter
+																	state = {(sortingColumn?.name === col ? sortingColumn.asc ? "asc" : "desc" : null) ?? null}
+																	onClick = {state => {setSortingColumn (state ? {name: col, asc: state === "asc"} : null)}}
 																/>
 														}
 														{structure.columns[col].displayName ?? capitalize (col)}
