@@ -3,22 +3,23 @@ import { TableRow } from "../../types/TableRow";
 import { TableStructure } from "../../types/TableStructure";
 /** @jsxImportSource @emotion/react */
 import styled from "@emotion/styled";
-import { colour, radius, spacing } from "../../styles/styles";
-import { ThemeType } from "../../types/theme";
-import { useDarkMode, useTheme } from "../../styles/theme";
+import { radius, spacing } from "../../styles/styles";
+import { useDarkMode, useThemeColours } from "../../styles/theme";
 import { PaginationBar } from "./table/pagination_bar";
 import DropDownDraggableList from "../input/draggable_list/dropdown";
 import capitalize from "../../utils/capitalizer";
 import Sorter from "./table/sorter";
+import { CheckBox } from "../input";
+import { Colour } from "../../types";
 
-const Wrapper = styled.div<{$maxHeight?: number, $isDark: boolean, $theme: ThemeType}>
+const Wrapper = styled.div<{$maxHeight?: number, $isDark: boolean, $colour: (col: Colour) => string}>
 `
 	overflow: hidden;
 	${props => props.$maxHeight && `max-height: ${props.$maxHeight}px;`}
 	position: relative;
 
 	border-radius: ${radius.normal};
-	border: 1px solid ${props => colour (props.$isDark ? "grayDark" : "grayLight", props.$theme)};
+	border: 1px solid ${props => props.$colour (props.$isDark ? "grayDark" : "grayLight")};
 
 	display: flex;
 	flex-direction: column;
@@ -30,10 +31,10 @@ const StyledTable = styled.div<{$maxHeight?: number, $allowPagination?: boolean}
 	${props => !props.$allowPagination && "overflow: auto;"}
 `;
 
-const Header = styled.div<{$theme: ThemeType}>
+const Header = styled.div<{$colour: (col: Colour) => string}>
 `
-	background-color: ${props => colour ("primary", props.$theme)};
-	color: ${props => colour ("white", props.$theme)};
+	background-color: ${props => props.$colour ("primary")};
+	color: ${props => props.$colour ("white")};
 	position: sticky;
 	top: 0;
 
@@ -45,11 +46,13 @@ const Cell = styled.div
 	padding: ${spacing.small};
 `;
 
-const Row = styled.div<{$alternate: boolean, $isDark: boolean, $theme: ThemeType}>
+const Row = styled.div<{$alternate: boolean, $selected?: boolean, $header?: boolean, $isDark: boolean, $colour: (col: Colour) => string}>
 `
-	&:hover > div
-	{
-		background-color: ${props => colour (props.$isDark ? "primaryDark" : "primaryElevated", props.$theme)} !important;
+	${props => !props.$header &&
+		`&:hover > div
+		{
+			background-color: ${props.$colour (props.$isDark ? "primaryDark" : "primaryElevated")} !important;
+		}`
 	}
 
 	display: contents;
@@ -59,16 +62,25 @@ const Row = styled.div<{$alternate: boolean, $isDark: boolean, $theme: ThemeType
 			`
 				&:nth-child(even) div
 				{
-					background-color: ${colour (props.$isDark ? "grayDark" : "grayLight", props.$theme)};
+					background-color: ${props.$colour (props.$isDark ? "grayDark" : "grayLight")};
 				}
 			`
 			:
 			`
 				&:not(:last-child) div
 				{
-					border-bottom: 1px solid ${colour (props.$isDark ? "grayDark" : "grayLight", props.$theme)};
+					border-bottom: 1px solid ${props.$colour (props.$isDark ? "grayDark" : "grayLight")};
 				}
 			`
+	}
+
+	${
+		props => props.$selected && `
+			> div
+			{
+				background-color: ${props.$colour (props.$isDark ? "accentDark" : "accentElevated")} !important;
+			}
+		`
 	}
 `;
 
@@ -100,7 +112,7 @@ const CellContents = styled.span<{$containsNumber?: boolean}>
 	gap: ${spacing.small};
 `;
 
-const Resizer = styled.div<{$height: number, $active: boolean, $isDark: boolean, $theme: ThemeType}>
+const Resizer = styled.div<{$height: number, $active: boolean, $isDark: boolean, $colour: (col: Colour) => string}>
 `
 	width: 2px;
 	height: ${props => props.$height}px;
@@ -112,8 +124,8 @@ const Resizer = styled.div<{$height: number, $active: boolean, $isDark: boolean,
 
 	&:hover, &:hover:before
 	{
-		background-color: ${props => colour (props.$active ? (props.$isDark ? "primaryDark" : "primaryElevated") : (props.$isDark ? "grayDark" : "grayLight"), props.$theme)};
-		color: ${props => colour (props.$isDark ? "white" : "black", props.$theme)};
+		background-color: ${props => props.$colour (props.$active ? (props.$isDark ? "primaryDark" : "primaryElevated") : (props.$isDark ? "grayDark" : "grayLight"))};
+		color: ${props => props.$colour (props.$isDark ? "white" : "black")};
 	}
 
 	&:before
@@ -126,7 +138,7 @@ const Resizer = styled.div<{$height: number, $active: boolean, $isDark: boolean,
 		width: 5px;
 		height: 17px;
 		position: absolute;
-		color: ${props => colour ("white", props.$theme)};
+		color: ${props => props.$colour ("white")};
 		padding: 1px;
 		top: calc((2 * ${spacing.small} + 16pt - 17px) / 2);
 		right: -2px;
@@ -165,6 +177,15 @@ type TableProps = {
 	 */
 	allowedPageSizes?: number[],
 	/**
+	 * Specifies whether the rows of the table are selectable or not. Defaults to `true`.
+	 */
+	selectable?: boolean,
+	/**
+	 * Defines the components to appear in the table's header when one or more rows are selected.
+	 * @returns 
+	 */
+	onSelectionShow?: () => React.ReactNode,
+	/**
 	 * The event handler to be executed when a row is clicked
 	 * @param row The data contained in the clicked row
 	 */
@@ -172,10 +193,10 @@ type TableProps = {
 };
 
 // resizable table inspired from the following article https://www.letsbuildui.dev/articles/resizable-tables-with-react-and-css-grid/
-export default function Table ({data, structure, maxHeight, alternateRowColour = false, allowPagination, allowedPageSizes = [5, 10], onRowClick}: TableProps)
+export default function Table ({data, structure, maxHeight, alternateRowColour = false, allowPagination, allowedPageSizes = [5, 10], selectable = true, onSelectionShow, onRowClick}: TableProps)
 {
-	const {theme} = useTheme();
 	const isDark = useDarkMode();
+	const colour = useThemeColours();
 
 	const [shownData, setShownData] = useState ([...data]);
 	const [displayOrder, setDisplayOrder] = useState (Object.keys (structure.columns));
@@ -190,6 +211,8 @@ export default function Table ({data, structure, maxHeight, alternateRowColour =
 	const [curColWidths, setCurColWidths] = useState<number[]> ([]);
 
 	const [sortingColumn, setSortingColumn] = useState<{name: string, asc: boolean} | null> (null);
+
+	const [selection, setSelection] = useState<(number | string)[]> ([]);
 	
 	// specified proportions of in structure might not add up to 1 => map them from range 0-<sum> to range 0-1
 	const actualProportions = useMemo (
@@ -326,8 +349,8 @@ export default function Table ({data, structure, maxHeight, alternateRowColour =
 		{
 			if (headRef.current && bodyRef.current && curColWidths.length > 0)
 			{
-				headRef.current.style.gridTemplateColumns = `${curColWidths.join ("px ")}px`;
-				bodyRef.current.style.gridTemplateColumns = `${curColWidths.join ("px ")}px`;
+				headRef.current.style.gridTemplateColumns = `${selectable && "30px"} ${curColWidths.join ("px ")}px`;
+				bodyRef.current.style.gridTemplateColumns = `${selectable && "30px"} ${curColWidths.join ("px ")}px`;
 				setTableDims (
 					old => ({...old, height: headRef.current!.offsetHeight + bodyRef.current!.offsetHeight})
 				);
@@ -359,6 +382,23 @@ export default function Table ({data, structure, maxHeight, alternateRowColour =
 		setDisplayOrder (items.map (items => items.name as string));
 	}
 
+	function toggleSelection (row: TableRow)
+	{
+		setSelection (
+			old =>
+			{
+				if (old.includes (row.id))
+					return old.filter (r => r !== row.id);
+				return [...old, row.id];
+			}
+		);
+	}
+
+	function isSelected (row: TableRow)
+	{
+		return selection.includes (row.id);
+	}
+
 	useEffect (
 		() => setShownData ([...data]),
 		[data, structure]
@@ -373,16 +413,24 @@ export default function Table ({data, structure, maxHeight, alternateRowColour =
 					mapper = {item => <>{structure.columns[item.name].displayName ?? capitalize (item.name as string)}</>}
 					onChange = {changeDisplayOrder}
 				/>
+				{
+					onSelectionShow && selection.length > 0 &&
+						onSelectionShow()
+				}
 			</div>
-			<Wrapper $maxHeight = {maxHeight} $theme = {theme} $isDark = {isDark}>
+			<Wrapper $maxHeight = {maxHeight} $colour = {colour} $isDark = {isDark}>
 				<StyledTable $maxHeight = {maxHeight} $allowPagination = {allowPagination}>
-					<Header ref = {headRef} $theme = {theme}>
+					<Header ref = {headRef} $colour = {colour}>
 						<Row
 							key = {`header-row`}
 							$alternate = {false}
 							$isDark = {isDark}
-							$theme = {theme}
+							$colour = {colour}
+							$header
 						>
+						{
+							selectable && <HeaderCell/>
+						}
 						{
 							displayOrder
 								.map (
@@ -404,7 +452,7 @@ export default function Table ({data, structure, maxHeight, alternateRowColour =
 																				$height = {tableDims.height}
 																				$active = {i === activeIndex}
 																				$isDark = {isDark}
-																				$theme = {theme}
+																				$colour = {colour}
 																				onMouseDown = {() => onMouseDown (i)}
 																			/>
 													}
@@ -420,9 +468,20 @@ export default function Table ({data, structure, maxHeight, alternateRowColour =
 										key = {row.id}
 										$alternate = {alternateRowColour}
 										$isDark = {isDark}
-										$theme = {theme}
+										$colour = {colour}
 										onClick = {() => {if (onRowClick) onRowClick (row);}}
+										$selected = {isSelected (row)}
 									>
+									{
+										selectable &&
+											<Cell>
+												<CheckBox
+													isChecked = {isSelected (row)}
+													isFull
+													onChange = {() => toggleSelection (row)}
+												/>
+											</Cell>
+									}
 									{
 										displayOrder
 											.map (
