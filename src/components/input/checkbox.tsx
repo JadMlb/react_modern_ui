@@ -1,9 +1,11 @@
 import React from "react";
 /** @jsxImportSource @emotion/react */
 import styled from "@emotion/styled";
-import { useDarkMode, useTheme } from "../../styles/theme";
-import { colour, radius, spacing } from "../../styles/styles";
-import { ThemeType } from "../../types/theme";
+import { useDarkMode, useThemeColours } from "../../styles/theme";
+import { radius, spacing } from "../../styles/styles";
+import { Colour } from "../../types";
+
+const THICKNESS = "3px";
 
 const Label = styled.label<{$hasLabel: boolean}>
 `
@@ -18,41 +20,53 @@ const Label = styled.label<{$hasLabel: boolean}>
 	}
 `;
 
-const CheckBoxBox = styled.div<{$single?: boolean, $isDark: boolean, $theme: ThemeType}>
+const CheckBoxBox = styled.div<{$single?: boolean, $isDark: boolean, $checked?: boolean, $colour: (col: Colour) => string}>
 `
 	width: 17px;
 	height: 17px;
 
 	display: inline-block;
 
-	border: 1px solid ${props => colour (props.$theme ? "accent" : "accentDark", props.$theme)};
+	border: 1.5px solid ${props => props.$colour (props.$isDark ? "accent" : "accentDark")};
 	border-radius: ${props => props.$single ? radius.round : radius.small};
 
-	background-color: ${props => colour (props.$isDark ? "black" : "white", props.$theme)};
+	background-color: ${props => props.$colour (props.$isDark ? "black" : "white")};
 
 	cursor: pointer;
 
 	&:hover
 	{
-		border: 1px solid ${props => colour ("primary", props.$theme)};
+		border: 1.5px solid ${props => props.$colour ("primary")};
+	}
+
+	${
+		props => props.$checked &&
+		`background-color: ${props.$colour ("primary")} !important;
+		border: 1.5px solid ${props.$colour ("primary")};
+		&:hover
+		{
+			border: 1.5px solid ${props.$colour ("primaryDark")};
+			background-color: ${props.$colour ("primaryDark")} !important;
+		}`
 	}
 `;
 
-const Check = styled.div<{$isDark: boolean, $theme: ThemeType}>
+const Check = styled.div<{$checked?: boolean, $isDark: boolean, $colour: (col: Colour) => string}>
 `
 	width: 4px;
 	height: 11px;
-	border-bottom: 4px solid ${props => colour (props.$isDark ? "primaryElevated" : "primary", props.$theme)};
-	border-right: 4px solid ${props => colour (props.$isDark ? "primaryElevated" : "primary", props.$theme)};
+	border-bottom: ${THICKNESS} solid ${props => props.$colour ("white")};
+	border-right: ${THICKNESS} solid ${props => props.$colour ("white")};
 	transform: rotate(45deg) translateX(2.5px) translateY(-3px);
+	background-color: ${props => props.$checked ? props.$colour ("primary") : "transparent"} !important;
 `;
 
-const Dash = styled.div<{$isDark: boolean, $theme: ThemeType}>
+const Dash = styled.div<{$isDark: boolean, $colour: (col: Colour) => string}>
 `
 	width: 12px;
-	height: 4px;
+	height: ${THICKNESS};
 	margin: 6.5px 2.5px;
-	background-color: ${props => colour (props.$isDark ? "primaryElevated" : "primary", props.$theme)};
+	background-color: ${props => props.$colour ("white")};
 `;
 
 const HiddenInput = styled.input
@@ -95,8 +109,8 @@ export type CheckBoxProps = {
  */
 export default function CheckBox ({label, isChecked, isFull, singleOption, onChange}: CheckBoxProps)
 {
-	const {theme} = useTheme();
 	const isDark = useDarkMode();
+	const colour = useThemeColours();
 	
 	return (
 		<Label
@@ -106,14 +120,15 @@ export default function CheckBox ({label, isChecked, isFull, singleOption, onCha
 			<CheckBoxBox
 				$single = {singleOption}
 				$isDark = {isDark}
-				$theme = {theme}
+				$colour = {colour}
+				$checked = {isChecked}
 			>
 			{
 				isChecked &&
 				(
 					isFull === undefined || isFull ?
-						<Check $isDark = {isDark} $theme = {theme}/> :
-						<Dash $isDark = {isDark} $theme = {theme}/>
+						<Check $isDark = {isDark} $colour = {colour}/> :
+						<Dash $isDark = {isDark} $colour = {colour}/>
 				)
 			}
 			</CheckBoxBox>
