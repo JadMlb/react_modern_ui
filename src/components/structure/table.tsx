@@ -476,8 +476,8 @@ export default function Table ({data, structure, maxHeight, alternateRowColour =
 										selectable &&
 											<Cell>
 												<CheckBox
-													isChecked = {isSelected (row)}
-													isFull
+													checked = {isSelected (row)}
+													full
 													onChange = {() => toggleSelection (row)}
 												/>
 											</Cell>

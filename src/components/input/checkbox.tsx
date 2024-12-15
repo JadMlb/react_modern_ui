@@ -86,14 +86,14 @@ export type CheckBoxProps = {
 	/**
 	 * Specifies whether the checkbox is checked or not. Defaults to `false`.
 	 */
-	isChecked?: boolean,
+	checked?: boolean,
 	/**
-	 * Specifies whether the checkbox has a tri-state or not.
-	 * - if not specified, the checkbox behaves normally with 2 states of checked/unchecked. 
-	 * - if `false`, checkbox is in tri-state mode and displays a dash if `isChecked` is set to `true`, or nothing otherwise
-	 * - if `true`, checkbox is in tri-state mode and displays a check mark if `isChecked` is set to `true`, or nothing otherwise
+	 * Specifies whether the checkbox is in tri-state mode or not.
+	 * - if not specified (`undefined`), the checkbox behaves normally with 2 states of checked/unchecked, defined by the `checked` prop. 
+	 * - if `full` is set to `false`, the checkbox is in tri-state mode and displays a **dash** if `checked` is set to `true`, or nothing otherwise
+	 * - if `full` is set to `true`, the checkbox is in tri-state mode and displays a **check mark** if `checked` is set to `true`, or nothing otherwise
 	 */
-	isFull?: boolean,
+	full?: boolean,
 	/**
 	 * Specifies whether the checkbox should behave like a radiobutton or not. For this purpose, it is recommended to use a `RadioButtonsGroup`
 	 */
@@ -107,7 +107,7 @@ export type CheckBoxProps = {
 /**
  * Renders a Checkbox component with specified state, either in normal checked/unchecked, or in tri-state mode (check `isFull` property with `isChecked`)
  */
-export default function CheckBox ({label, isChecked, isFull, singleOption, onChange}: CheckBoxProps)
+export default function CheckBox ({label, checked, full, singleOption, onChange}: CheckBoxProps)
 {
 	const isDark = useDarkMode();
 	const colour = useThemeColours();
@@ -121,12 +121,12 @@ export default function CheckBox ({label, isChecked, isFull, singleOption, onCha
 				$single = {singleOption}
 				$isDark = {isDark}
 				$colour = {colour}
-				$checked = {isChecked}
+				$checked = {checked}
 			>
 			{
-				isChecked &&
+				checked &&
 				(
-					isFull === undefined || isFull ?
+					full === undefined || full ?
 						<Check $isDark = {isDark} $colour = {colour}/> :
 						<Dash $isDark = {isDark} $colour = {colour}/>
 				)
@@ -134,7 +134,7 @@ export default function CheckBox ({label, isChecked, isFull, singleOption, onCha
 			</CheckBoxBox>
 			<HiddenInput
 				type = "checkbox"
-				checked = {isChecked}
+				checked = {checked}
 				onChange = {onChange}
 			/>
 			{label}
