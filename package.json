@@ -1,9 +1,9 @@
 {
-  "name": "@JadMlb/react-modern-ui",
+  "name": "@jad-mlb/react-modern-ui",
   "publishConfig": {
-    "registry": "https://npm.pkg.github.com/JadMlb"
+    "access": "public"
   },
-  "version": "2.0.0-beta.2",
+  "version": "2.0.0-beta.3",
   "description": "A simple UI library for react with some simple UI elements",
   "keywords": [
     "react",
