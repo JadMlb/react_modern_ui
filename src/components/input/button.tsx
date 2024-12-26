@@ -36,7 +36,7 @@ const StyledButton = styled.button<{$css: string, $wide? : boolean, $rounded?: b
 /**
  * Button component
  */
-export default function Button ({role = "normal", type = "filled", wide, rounded, onClick, children, disabled = false, style}: ButtonProps)
+export default function Button ({role = "normal", type = "filled", wide, rounded, onClick, children, disabled = false, style, className}: ButtonProps)
 {
 	const isDark = useDarkMode();
 	const colour = useThemeColours();
@@ -49,9 +49,10 @@ export default function Button ({role = "normal", type = "filled", wide, rounded
 		() =>
 		{
 			const DEFAULT_TYPE_STYLE = DEFAULT_BUTTON_STYLES[type]!;
-			setRealStyle (style ?? DEFAULT_TYPE_STYLE (role, isDark ? "dark" : "light"));
+			if (DEFAULT_TYPE_STYLE)
+				setRealStyle ({... DEFAULT_TYPE_STYLE (role, isDark ? "dark" : "light"), ...style});
 		},
-		[]
+		[style]
 	);
 	
 	useEffect (
@@ -70,6 +71,7 @@ export default function Button ({role = "normal", type = "filled", wide, rounded
 			onClick = {onClick}
 			disabled = {disabled}
 			$css = {css}
+			className = {className}
 		>
 			<span>{children}</span>
 		</StyledButton>
