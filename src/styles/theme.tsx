@@ -111,7 +111,7 @@ export function useDarkMode ()
  * Used to get the colour based on its simplified name
  * @returns A function that takes the role and returns its hex value
  */
-export function useThemeColours ()
+export function useThemeColours (): ThemeColourFunction
 {
 	const {theme} = useContext (ThemeContext);
 	return (role: Colour) =>
@@ -121,3 +121,5 @@ export function useThemeColours ()
 		return "#" + theme[COLOUR_TYPE][roleTree[1] as "dark" | "medium" | "light"];
 	}
 }
+
+export type ThemeColourFunction = (col: Colour) => string;
