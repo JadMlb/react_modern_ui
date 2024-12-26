@@ -33,10 +33,10 @@ export class Parser<T extends BasicStyle> implements Parsable<T>
 						let value = arg[1];
 						if (value === null)
 							value = "unset";
-						else if (value instanceof Object || arg[0].toLowerCase().includes ("col") || arg[0].toLowerCase() === "shadow")
+						else if (value instanceof Object || arg[0].toLowerCase().includes ("col") || ["shadow", "border"].includes (arg[0].toLowerCase()))
 							value = this.parsers.getParser(arg[0]).parse (arg[1]);
 
-						if (arg[1] instanceof Object)
+						if (arg[1] instanceof Object && arg[0] !== "border")
 							css += `&:${this.getCssPropName (arg[0])} {${value}}`;
 						else
 							css += `${this.getCssPropName (arg[0])}: ${value};`;
