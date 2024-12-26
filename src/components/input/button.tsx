@@ -1,39 +1,17 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 /** @jsxImportSource @emotion/react */
 import styled from "@emotion/styled";
-import { colour, radius, spacing } from "../../styles/styles";
-import { useDarkMode, useTheme } from "../../styles/theme";
-import { ThemeType } from "../../types/theme";
+import { radius, spacing } from "../../styles/styles";
+import { useDarkMode, useThemeColours } from "../../styles/theme";
+import { ButtonProps } from "../../types/components/Button/ButtonProps";
+import { ButtonStyle, DEFAULT_BUTTON_STYLES } from "../../types/components/Button/ButtonStyle";
+import { ParserFactory } from "../../types/components/styles/generic/ParserFactory";
+import { Parser } from "../../types/components/styles/generic/Parser";
 
-type ButtonRoles = "primary" | "transparent" | "alert" | "warn" | "normal";
-
-const StyledButton = styled.button<{$isDark: boolean, $theme: ThemeType, $wide? : boolean, $rounded?: boolean, $role : ButtonRoles}>
+const StyledButton = styled.button<{$css: string, $wide? : boolean, $rounded?: boolean}>
 `
-	padding: ${props => props.$role === "transparent" ? "unset" : spacing.small};
-	border-radius: ${radius.small};
 	border: none;
 	font-size: inherit;
-	background-color: ${
-		props =>
-		["primary"].includes (props.$role) ?
-			colour ("primary", props.$theme) :
-				props.$role === "warn" ? 
-					colour ("error", props.$theme) :
-						props.$role === "transparent" ?
-							"transparent" :
-							colour (props.$isDark ? "grayDark" : "grayLight", props.$theme)
-	};
-	color: ${
-		props =>
-		(props.$isDark || ["primary", "warn"].includes (props.$role)) ?
-			colour ("white", props.$theme) :
-			["alert"].includes (props.$role) ?
-				colour ("error", props.$theme) :
-				props.$role === "transparent" ?
-					colour ("primary", props.$theme) :
-					colour ("black", props.$theme)
-	};
-	font-weight: ${props => ["primary", "transparent", "warn"].includes (props.$role) ? "bold" : "normal"};
 	${props => props.$wide && "width: 100%;"}
 	transition: transform 0.25s ease-in-out;
 	cursor: pointer;
@@ -52,103 +30,46 @@ const StyledButton = styled.button<{$isDark: boolean, $theme: ThemeType, $wide? 
 					font: inherit;
 				`}
 
-	&:hover:not(:disabled)
-	{
-		${
-			props => props.$role !== "transparent" &&
-				`
-					background-color: ${
-						colour (
-							["warn"].includes (props.$role) ?
-								"errorDark" :
-								["alert"].includes (props.$role) ?
-									"error" :
-									["primary"].includes (props.$role) || props.$isDark ?
-										"primaryDark" :
-										"primaryElevated",
-							props.$theme
-						)
-					};
-				`
-		};
-
-		${props => ["transparent"].includes (props.$role) && `> span {border-bottom: 2px solid ${colour ("accent", props.$theme)};}`}
-
-		${props => ["alert"].includes (props.$role) && `color: ${colour ("white", props.$theme)};`}
-		${
-			props => !["alert", "warn", "primary", "transparent"].includes (props.$role) && props.$rounded &&
-						`
-							box-sizing: border-box;
-							padding: calc(${spacing.xsmall} - 8px) calc(${spacing.xsmall} - 2px);
-							border: 2px solid ${colour ("primary", props.$theme)};
-						`
-		}
-	}
-
-	&:disabled
-	{
-		color: ${props => colour (props.$isDark ? "gray" : "grayLight", props.$theme)};
-		background-color: ${props => colour (props.$isDark ? "black" : "white", props.$theme)};
-		&:hover
-		{
-			border-bottom: unset;
-			box-shadow: unset;
-		}
-	}
+	${props => props.$css}
 `;
-
-type ButtonProps = {
-	key?: string | number | bigint | null,
-	/**
-	 * The role the button will take
-	 * - `normal` (default): renders a button with gray background
-	 * - `primary`: renders a button with primary colour in its background
-	 * - `transparent`: renders a button with no background
-	 * - `alert`: renders a gray button that turns red on hover
-	 * - `warn`: renders a red button
-	 */
-	role? : ButtonRoles,
-	// icon?: string,
-	/**
-	 * Specifies if the button should occupy 100% of its parent. Defaults to `false`.
-	 */
-	wide? : boolean,
-	/**
-	 * Specifies if the button should be rounded. In this case content is centered and button will be 30px*30px. Defaults to `false`.
-	 */
-	rounded?: boolean,
-	/**
-	 * Callback function to be executed on button click
-	 */
-	onClick?: React.MouseEventHandler<HTMLButtonElement>,
-	/**
-	 * Specified if the button is disabled or not. Defaults to `false`.
-	 */
-	disabled?: boolean
-	children: React.ReactNode
-};
 
 /**
  * Button component
- * @param role ButtonRoles (optional) Specifies the role of the button
- * @param wide boolean (optional) Specifies whether the button to occupy 100% of its parent
- * @param rounded boolean (optional) Specifies whether the button to be rounded and small
- * @param disabled boolean (optional) Disables the button
  */
-export default function Button ({role = "normal", wide, rounded, onClick, children, disabled = false}: ButtonProps)
+export default function Button ({role = "normal", type = "filled", wide, rounded, onClick, children, disabled = false, style}: ButtonProps)
 {
-	const {theme} = useTheme();
 	const isDark = useDarkMode();
+	const colour = useThemeColours();
+
+	const parserFactory = new ParserFactory (colour);
+	const [css, setCss] = useState ("");
+	const [realStyle, setRealStyle] = useState<ButtonStyle> ();
+
+	useEffect (
+		() =>
+		{
+			const DEFAULT_TYPE_STYLE = DEFAULT_BUTTON_STYLES[type]!;
+			setRealStyle (style ?? DEFAULT_TYPE_STYLE (role, isDark ? "dark" : "light"));
+		},
+		[]
+	);
+	
+	useEffect (
+		() =>
+		{
+			if (realStyle)
+				setCss ((parserFactory.getParser("") as Parser<ButtonStyle>).parse (realStyle));
+		},
+		[realStyle]
+	);
 
 	return (
 		<StyledButton
-			$role = {role}
 			$wide = {wide}
 			$rounded = {rounded}
 			onClick = {onClick}
 			disabled = {disabled}
-			$isDark = {isDark}
-			$theme = {theme}
+			$css = {css}
 		>
 			<span>{children}</span>
 		</StyledButton>
