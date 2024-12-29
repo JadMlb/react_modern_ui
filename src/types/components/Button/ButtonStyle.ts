@@ -39,14 +39,42 @@ export const DEFAULT_BUTTON_STYLES: DefaultButtonStyles = {
 			backgroundColor: `gray${theme[0].toUpperCase()}${theme.slice (1)}`
 		}
 	}),
-	outlined: role => ({
+	outlined: (role, theme = "light") => ({
 		borderRadius: radius.normal,
 		border: {
-			width: "1px",
+			width: "1.5px",
 			style: "solid",
-			color: "primary"
+			color: role === "primary" ?
+					"primary" :
+					role === "warn" ?
+						"error" :
+						`gray${theme[0].toUpperCase()}${theme.slice (1)}`
 		},
-		padding: spacing.small,
+		padding: `calc(${spacing.small} - 1.5px)`,
 		fontWeight: ["primary", "transparent", "warn"].includes (role) ? "bold" : "normal",
+		backgroundColor: "transparent",
+		fontColor: ["primary", "normal"].includes (role) ?
+						"primary" :
+						"error",
+		hover: {
+			backgroundColor: ["warn", "alert"].includes (role) ?
+								theme === "dark" ? "errorDark" : "errorElevated":
+								theme === "dark" ? "primaryDark": "primaryElevated",
+		}
+	}),
+	link: (role, theme = "light") => ({
+		backgroundColor: "transparent",
+		border: null,
+		underlineColor: role === "primary" ?
+						"primary" :
+						role === "warn" ?
+							"error" :
+							`gray`,
+		fontColor: theme === "light" ? "black" : "white",
+		hover: {
+			fontColor: ["warn", "alert"].includes (role) ?
+						"error" :
+						"primary"
+		}
 	})
 }
