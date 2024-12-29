@@ -23,14 +23,6 @@ export interface ButtonProps extends GenericProps
 	 */
 	type?: ButtonTypes;
 	/**
-	 * Specifies if the button should occupy 100% of its parent. Defaults to `false`.
-	 */
-	wide?: boolean;
-	/**
-	 * Specifies if the button should be rounded. In this case content is centered and button will be 30px*30px. Defaults to `false`.
-	 */
-	rounded?: boolean;
-	/**
 	 * Specified if the button is disabled or not. Defaults to `false`.
 	 */
 	disabled?: boolean;
