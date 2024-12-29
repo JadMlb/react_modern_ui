@@ -14,6 +14,7 @@ export class Parser<T extends BasicStyle> implements Parsable<T>
 		{
 			case "shadow": return "box-shadow";
 			case "fontColor": return "color";
+			case "underlineColor": return "text-decoration: underline; text-decoration-color"
 			default: 
 				return objPropName.replace (/[A-Z]/g, match => `-${match.toLowerCase()}`);
 		}
@@ -36,7 +37,7 @@ export class Parser<T extends BasicStyle> implements Parsable<T>
 						else if (value instanceof Object || arg[0].toLowerCase().includes ("col") || ["shadow", "border"].includes (arg[0].toLowerCase()))
 							value = this.parsers.getParser(arg[0]).parse (arg[1]);
 
-						if (arg[1] instanceof Object && arg[0] !== "border")
+						if (arg[1] instanceof Object && !["border", "shadow"].includes (arg[0]))
 							css += `&:${this.getCssPropName (arg[0])} {${value}}`;
 						else
 							css += `${this.getCssPropName (arg[0])}: ${value};`;

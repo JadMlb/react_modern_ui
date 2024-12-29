@@ -8,5 +8,6 @@ export interface BasicStyle
 	forceTheme?: "dark" | "light";
 	fontWeight?: string;
 	fontColor?: string | null;
+	underlineColor?: string | null;
 	shadow?: Shadow | null;
 }
