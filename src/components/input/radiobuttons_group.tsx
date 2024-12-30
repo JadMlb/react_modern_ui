@@ -54,7 +54,7 @@ export default function RadioButtonsGroup ({name, optionsLabels: childrenLabels,
 			(l, index) => <CheckBox
 							key = {`radiobutton-${name}-${index}`}
 							label = {l}
-							isChecked = {checked === index}
+							checked = {checked === index}
 							onChange = {() => updateSelection (l, index)}
 							singleOption
 							/>
