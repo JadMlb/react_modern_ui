@@ -36,7 +36,7 @@ export default function Button ({role = "normal", type = "filled", onClick, chil
 			if (DEFAULT_TYPE_STYLE)
 				setRealStyle ({... DEFAULT_TYPE_STYLE (role, isDark ? "dark" : "light"), ...style});
 		},
-		[style]
+		[style, role, isDark]
 	);
 	
 	useEffect (
