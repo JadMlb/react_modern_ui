@@ -1,13 +1,19 @@
-import React from "react";
+import React, { useEffect, useMemo, useState } from "react";
 /** @jsxImportSource @emotion/react */
 import styled from "@emotion/styled";
 import { useDarkMode, useThemeColours } from "../../styles/theme";
-import { radius, spacing } from "../../styles/styles";
+import { spacing } from "../../styles/styles";
+import { CheckboxProps } from "../../types/components/Checkbox/CheckboxProps";
 import { Colour } from "../../types";
+import { ParserFactory } from "../../types/components/styles/generic/ParserFactory";
+import { ActionElementStyle } from "../../types/components/styles/actionElement/ActionElementStyle";
+import { CheckboxStyle, DEFAULT_CHECKBOX_STYLE } from "../../types/components/Checkbox/CheckboxStyle";
+import { Parser } from "../../types/components/styles/generic/Parser";
+import { TextStyle } from "../../types/components/styles/text/TextStyle";
 
 const THICKNESS = "3px";
 
-const Label = styled.label<{$hasLabel: boolean}>
+const Label = styled.label<{$hasLabel: boolean, $css: string}>
 `
 	${
 		props => props.$hasLabel &&
@@ -18,37 +24,21 @@ const Label = styled.label<{$hasLabel: boolean}>
 				gap: calc(${spacing.xsmall} / 2);
 			`
 	}
+
+	${props => props.$css}
 `;
 
-const CheckBoxBox = styled.div<{$single?: boolean, $isDark: boolean, $checked?: boolean, $colour: (col: Colour) => string}>
+const CheckBoxBox = styled.div<{$css: string, $isDark: boolean, $checked?: boolean, $colour: (col: Colour) => string}>
 `
-	width: 17px;
-	height: 17px;
+	flex-shrink: 0;
 
 	display: inline-block;
-
-	border: 1.5px solid ${props => props.$colour (props.$isDark ? "accent" : "accentDark")};
-	border-radius: ${props => props.$single ? radius.round : radius.small};
 
 	background-color: ${props => props.$colour (props.$isDark ? "black" : "white")};
 
 	cursor: pointer;
 
-	&:hover
-	{
-		border: 1.5px solid ${props => props.$colour ("primary")};
-	}
-
-	${
-		props => props.$checked &&
-		`background-color: ${props.$colour ("primary")} !important;
-		border: 1.5px solid ${props.$colour ("primary")};
-		&:hover
-		{
-			border: 1.5px solid ${props.$colour ("primaryDark")};
-			background-color: ${props.$colour ("primaryDark")} !important;
-		}`
-	}
+	${props => props.$css}
 `;
 
 const Check = styled.div<{$checked?: boolean, $isDark: boolean, $colour: (col: Colour) => string}>
@@ -74,67 +64,118 @@ const HiddenInput = styled.input
 	display: none;
 `;
 
-export type CheckBoxProps = {
-	/**
-	 * Key of the Checkbox
-	 */
-	key?: number | string | bigint | null
-	/**
-	 * The label to be displayed next to the checkbox
-	 */
-	label?: string,
-	/**
-	 * Specifies whether the checkbox is checked or not. Defaults to `false`.
-	 */
-	checked?: boolean,
-	/**
-	 * Specifies whether the checkbox is in tri-state mode or not.
-	 * - if not specified (`undefined`), the checkbox behaves normally with 2 states of checked/unchecked, defined by the `checked` prop. 
-	 * - if `full` is set to `false`, the checkbox is in tri-state mode and displays a **dash** if `checked` is set to `true`, or nothing otherwise
-	 * - if `full` is set to `true`, the checkbox is in tri-state mode and displays a **check mark** if `checked` is set to `true`, or nothing otherwise
-	 */
-	full?: boolean,
-	/**
-	 * Specifies whether the checkbox should behave like a radiobutton or not. For this purpose, it is recommended to use a `RadioButtonsGroup`
-	 */
-	singleOption?: boolean,
-	/**
-	 * The change event handler to be fired when the checkbox state changes
-	 */
-	onChange?: React.ChangeEventHandler<HTMLInputElement>
-};
+function CheckComponent ()
+{
+	const isDark = useDarkMode();
+	const colour = useThemeColours();
+
+	return <Check $isDark = {isDark} $colour = {colour}/>;
+}
+
+function DashComponent ()
+{
+	const isDark = useDarkMode();
+	const colour = useThemeColours();
+
+	return <Dash $isDark = {isDark} $colour = {colour}/>
+}
 
 /**
  * Renders a Checkbox component with specified state, either in normal checked/unchecked, or in tri-state mode (check `isFull` property with `isChecked`)
  */
-export default function CheckBox ({label, checked, full, singleOption, onChange}: CheckBoxProps)
+export default function Checkbox ({state, className, style, label, labelStyle, intermediateStyle, checkedStyle, checkedComponent = <CheckComponent/>, intermediateComponent = <DashComponent/>, onChange}: CheckboxProps)
 {
 	const isDark = useDarkMode();
 	const colour = useThemeColours();
+
+	const parserFactory = new ParserFactory (colour);
+	const [css, setCss] = useState<{checkbox: string, label: string, checked: string, intermediate: string}> ({checkbox: "", label: "", intermediate: "", checked: ""});
+	const [realStyle, setRealStyle] = useState<CheckboxStyle> ();
+
+	useEffect (
+		() =>
+		{
+			const DEFAULT_STYLE = DEFAULT_CHECKBOX_STYLE (isDark ? "dark" : "light");
+			if (DEFAULT_STYLE)
+				setRealStyle (
+					old =>
+					({
+						...old,
+						checkbox: {...DEFAULT_STYLE.checkbox, ...style},
+						checked: {...DEFAULT_STYLE.checked, ...checkedStyle},
+						intermediate: {...DEFAULT_STYLE.intermediate, ...intermediateStyle}
+					})
+				);
+		},
+		[style, isDark]
+	);
+
+	useEffect (
+		() =>
+		{
+			const DEFAULT_STYLE = DEFAULT_CHECKBOX_STYLE (isDark ? "dark" : "light");
+				if (DEFAULT_STYLE)
+					setRealStyle (old => ({...old, label: {...DEFAULT_STYLE.label, ...labelStyle}}));
+		},
+		[labelStyle, isDark]
+	);
+	
+	useEffect (
+		() =>
+		{
+			let label = realStyle?.label ? (parserFactory.getParser("") as Parser<TextStyle>).parse (realStyle.label ?? {}) : null,
+				checkbox = realStyle?.checkbox ? (parserFactory.getParser("") as Parser<ActionElementStyle>).parse (realStyle.checkbox ?? {}) : null,
+				intermediate = realStyle?.intermediate ? (parserFactory.getParser("") as Parser<ActionElementStyle>).parse (realStyle.intermediate ?? {}) : null,
+				checked = realStyle?.checked ? (parserFactory.getParser("") as Parser<ActionElementStyle>).parse (realStyle.checked ?? {}) : null;
+
+			setCss (
+				old =>
+				({
+					checkbox: checkbox ?? old.checkbox,
+					label: label ?? old.label,
+					checked: checked ?? old.checked,
+					intermediate: intermediate ?? old.intermediate
+				})
+			);
+		},
+		[realStyle]
+	);
+
+	const isReallyChecked = useMemo (
+		() => state === true || typeof state === "number" && state > 0,
+		[state]
+	);
+
+	const full = useMemo (
+		() => state === true || state === 2,
+		[state]
+	);
 	
 	return (
 		<Label
+			className = {className}
 			$hasLabel = {label !== undefined && label !== null && label !== ""}
 			onClick = {e => e.stopPropagation()}
+			$css = {css.label}
 		>
 			<CheckBoxBox
-				$single = {singleOption}
 				$isDark = {isDark}
 				$colour = {colour}
-				$checked = {checked}
+				$checked = {isReallyChecked}
+				$css = {css.checkbox + (isReallyChecked ? full ? css.checked : css.intermediate : "")}
 			>
 			{
-				checked &&
+				isReallyChecked &&
 				(
 					full === undefined || full ?
-						<Check $isDark = {isDark} $colour = {colour}/> :
-						<Dash $isDark = {isDark} $colour = {colour}/>
+						checkedComponent :
+						intermediateComponent
 				)
 			}
 			</CheckBoxBox>
 			<HiddenInput
 				type = "checkbox"
-				checked = {checked}
+				checked = {isReallyChecked}
 				onChange = {onChange}
 			/>
 			{label}

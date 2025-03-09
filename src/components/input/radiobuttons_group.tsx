@@ -1,32 +1,12 @@
 import React from "react";
-import CheckBox from "./checkbox"
+import Checkbox from "./checkbox";
 import { useEffect, useState } from "react";
-
-type RadioButtonsGroupProps = {
-	key?: string | number | bigint | null,
-	/**
-	 * The name of the field that contains the value of this input
-	 */
-	name: string,
-	/**
-	 * The labels of the different options. Displayed in their order of appearance.
-	 */
-	optionsLabels: string[],
-	/**
-	 * The default value this RadioButtonsGroup should start with. Defaults to the first value. `onChange` event handler fired upon load.
-	 */
-	defaultValue?: string,
-	/**
-	 * The change event handler fired when a new value is selected
-	 * @param newValue The label of the newly selected value
-	 */
-	onChange?: (newValue: string) => void
-}
+import { RadioButtonsGroupProps } from "../../types/components/RadioButtonsGroup/RadioButtonsGroupProps";
 
 /**
  * Renders a group of radio buttons showing multiple options
  */
-export default function RadioButtonsGroup ({name, optionsLabels: childrenLabels, defaultValue, onChange}: RadioButtonsGroupProps)
+export default function RadioButtonsGroup ({className, id, name, optionsLabels: childrenLabels, defaultValue, style, onChange}: RadioButtonsGroupProps)
 {
 	const [checked, setChecked] = useState<number> (defaultValue ? childrenLabels.indexOf (defaultValue) : 0);
 
@@ -50,14 +30,18 @@ export default function RadioButtonsGroup ({name, optionsLabels: childrenLabels,
 	);
 
 	return (
-		childrenLabels.map (
-			(l, index) => <CheckBox
-							key = {`radiobutton-${name}-${index}`}
-							label = {l}
-							checked = {checked === index}
-							onChange = {() => updateSelection (l, index)}
-							singleOption
+		<div role = "group" className = {className} id = {id}>
+		{
+			childrenLabels.map (
+				(l, index) => <Checkbox
+								key = {`radiobutton-${name}-${index}`}
+								label = {l}
+								state = {checked === index}
+								onChange = {() => updateSelection (l, index)}
+								style = {{borderRadius: "10px"}}
 							/>
-		)
+			)
+		}
+		</div>
 	);
 }
