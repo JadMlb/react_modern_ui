@@ -3,14 +3,19 @@
   "publishConfig": {
     "access": "public"
   },
-  "version": "2.0.0-beta.3",
+  "version": "2.0.0-beta.4",
   "description": "A simple UI library for react with some simple UI elements",
   "keywords": [
     "react",
     "library",
     "ui",
     "ui/ux",
-    "ui elements"
+    "ui elements",
+    "Modern UI components",
+    "User interface",
+    "Flat design",
+    "Flat design user interface",
+    "Simple to use react ui library with flat design"
   ],
   "files": [
     "dist"
