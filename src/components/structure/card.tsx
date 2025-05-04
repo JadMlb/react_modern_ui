@@ -55,14 +55,16 @@ const Small = styled.p<{$colour: (col: Colour) => string}>
 	margin: unset;
 `;
 
-const CardContent = styled.div<{$width?: number, $height?: number, $mediaPosition: "left" | "top" | "right" | "bottom"}>
+const CardContent = styled.div<{$width?: number, $height?: number, $mediaPosition: "left" | "top" | "right" | "bottom", $containsMedia: boolean}>
 `
 	grid-area: c;
 	padding: ${spacing.normal};
-	padding-${props => props.$mediaPosition}: unset;
+	${props => props.$containsMedia && `padding-${props.$mediaPosition}: unset;`}
 
-	width: ${props => props.$width ? `${props.$width}px` : "fit-content"};
-	height: ${props => props.$height ? `${props.$height}px` : "fit-content"};
+	width: 1fr;
+	height: 1fr;
+	/*width: ${props => props.$width ? `${props.$width}px` : "fit-content"};
+	height: ${props => props.$height ? `${props.$height}px` : "fit-content"};*/
 `;
 
 /**
@@ -106,7 +108,11 @@ export default function Card ({className, style, title, subtitle, media, mediaPo
 			$css = {css}
 			onClick = {onClick}
 		>
-			<CardContent className = "card-content" $mediaPosition = {mediaPosition}>
+			<CardContent
+				className = "card-content"
+				$mediaPosition = {mediaPosition}
+				$containsMedia = {!!media}
+			>
 				{title && <Title>{title}</Title>}
 				{subtitle && <Small $colour = {colour}>{subtitle}</Small>}
 				{children}
