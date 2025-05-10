@@ -14,7 +14,7 @@ export class ParserFactory
 			return new ColourParser (this.colour);
 		else if (type === "shadow")
 			return new ShadowParser (this.colour);
-		else if (type === "border")
+		else if (type.startsWith ("border"))
 			return new BorderParser (this.colour);
 		else
 			return new Parser (this);

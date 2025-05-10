@@ -1,7 +1,8 @@
-import { BoxStyle } from "../box/BoxStyle";
+import { TextBoxStyle } from "../textbox/TextBoxStyle";
 
-export interface ActionElementStyle extends BoxStyle
+export interface ActionElementStyle extends TextBoxStyle
 {
-	hover?: BoxStyle;
-	disabled?: BoxStyle;
+	hover?: TextBoxStyle;
+	disabled?: TextBoxStyle;
+	focus?: TextBoxStyle;
 }

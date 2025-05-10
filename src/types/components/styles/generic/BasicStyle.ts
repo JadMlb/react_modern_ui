@@ -7,4 +7,5 @@ export interface BasicStyle
 	padding?: string;
 	forceTheme?: "dark" | "light";
 	shadow?: Shadow | null;
+	transition?: string;
 }

@@ -1,52 +1,72 @@
-import React from "react";
+import { useEffect, useState } from "react";
 /** @jsxImportSource @emotion/react */
 import styled from "@emotion/styled";
-import { colour, radius, spacing } from "../../styles/styles";
-import { TagRole } from "../../types/Tag";
-import { useTheme } from "../../styles/theme";
-import { ThemeType } from "../../types/theme";
+import { spacing } from "../../styles/styles";
+import { useDarkMode, useThemeColours } from "../../styles/theme";
+import { TagProps } from "../../types/components/Tag/TagProps";
+import { ParserFactory } from "../../types/components/styles/generic/ParserFactory";
+import { ActionElementStyle } from "../../types/components/styles/actionElement/ActionElementStyle";
+import DEFAULT_TAG_STYLE from "../../types/components/Tag/TagStyle";
+import { Parser } from "../../types/components/styles/generic/Parser";
 
-const Background = styled.div<{$col: string, $centered: boolean, $whiteText?: boolean, $rounded?: boolean, $theme: ThemeType}>
+const Background = styled.div<{$centered: boolean, $canBeClicked?: boolean, $css: string}>
 `
-	background-color: ${props => props.$col};
-	color: ${props => colour ("black", props.$theme)};
+	width: fit-content;
 	${props => props.$centered && `text-align: center; width: min-content;`}
-	padding: ${spacing.xsmall};
-	border-radius: ${props => props.$rounded ? radius.large : radius.small};
-	${props => props.$whiteText && "color: white;"}
+	padding-inline: ${spacing.xsmall};
 	display: flex;
 	gap: ${spacing.xsmall};
 	align-items: center;
+	cursor: ${props => props.$canBeClicked ? "pointer" : "default"};
+	${props => props.$css};
 `;
 
-type TagProps = {
-	key?: string | number | bigint | null
-	role?: TagRole,
-	rounded?: boolean,
-	centered?: boolean,
-	children: React.ReactNode
-};
-
-export default function Tag ({role = "neutral", centered = false, rounded, children}: TagProps)
+export default function Tag ({id, className, colour = "neutral", centered = false, style, onClick, children}: TagProps)
 {
-	const {theme} = useTheme();
+	const isDark = useDarkMode();
+	const col = useThemeColours();
+
+	const [realStyle, setRealStyle] = useState<ActionElementStyle>();
+	const [css, setCss] = useState<string> ("");
+
+	const factory = new ParserFactory(col).getParser ("") as Parser<ActionElementStyle>;
 	
-	let bgCol = "";
-	switch (role)
+	let bgCol = "gray";
+	switch (colour)
 	{
-		case "warn-light": bgCol = "affirmative"; break;
-		case "warn-medium": bgCol = "alert"; break;
-		case "warn-severe": bgCol = "error"; break;
-		default: bgCol = "gray";
+		case "success": bgCol = "affirmative"; break;
+		case "warning": bgCol = "alert"; break;
+		case "error": bgCol = "error"; break;
 	}
+
+	useEffect (
+		() =>
+		{
+			setRealStyle ({
+				...DEFAULT_TAG_STYLE (isDark, bgCol as "gray" | "alert" | "affirmative" | "error"),
+				...style
+			});
+		},
+		[colour, isDark, style]
+	);
+
+	useEffect (
+		() =>
+		{
+			if (realStyle)
+				setCss (factory.parse (realStyle));
+		},
+		[realStyle, factory]
+	);
 	
 	return (
 		<Background
-			$col = {colour(bgCol as "affirmative" | "alert" | "error" | "gray", theme)}
-			$theme = {theme}
-			$centered = {centered} 
-			$rounded = {rounded}
-			$whiteText = {["warn-light", "warn-severe"].includes (role)}
+			id = {id}
+			className = {className}
+			$centered = {centered}
+			$canBeClicked = {Boolean (onClick)} 
+			$css = {css}
+			onClick = {onClick}
 		>
 			{children}
 		</Background>

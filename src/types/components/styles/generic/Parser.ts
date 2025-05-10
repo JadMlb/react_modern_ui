@@ -37,7 +37,7 @@ export class Parser<T extends BasicStyle> implements Parsable<T>
 						else if (value instanceof Object || arg[0].toLowerCase().includes ("col") || ["shadow", "border"].includes (arg[0].toLowerCase()))
 							value = this.parsers.getParser(arg[0]).parse (arg[1]);
 
-						if (arg[1] instanceof Object && !["border", "shadow"].includes (arg[0]))
+						if (arg[1] instanceof Object && !["shadow"].includes (arg[0]) && !arg[0].startsWith ("border"))
 							css += `&:${this.getCssPropName (arg[0])} {${value}}`;
 						else
 							css += `${this.getCssPropName (arg[0])}: ${value};`;

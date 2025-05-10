@@ -5,5 +5,10 @@ export interface BoxStyle extends BasicStyle
 {
 	borderRadius?: string;
 	border?: Border | null;
+	borderTop?: Border | null;
+	borderRight?: Border | null;
+	borderBottom?: Border | null;
+	borderLeft?: Border | null;
 	backgroundColor?: string | null;
+	transform?: string;
 }
