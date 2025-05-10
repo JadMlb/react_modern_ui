@@ -7,19 +7,22 @@ import { Colour } from "../../../types";
 import { radius, spacing } from "../../../styles/styles";
 import EmailInputProps from "../../../types/input/text/EmailInputProps";
 import PasswordInputProps from "../../../types/input/text/PasswordInputProps";
-import ClearButton from "./clear_button";
+import InputBase from "./input_base";
+import X from "./combo_components/x";
 
-const StyledTextInput = styled.input<{$isDark: boolean, $colour: (col: Colour) => string}>
-`
-	
-`;
-
-const StyledTextArea = styled.textarea<{$isDark: boolean, $colour: (col: Colour) => string}>
+const StyledTextInput = styled.input
 `
 	all: unset;
 	font: inherit;
-	flex-grow: 4;
-	align-self: stretch;
+	width: 100%;
+`;
+
+const StyledTextArea = styled.textarea
+`
+	all: unset;
+	font: inherit;
+	width: 100%;
+	resize: vertical;
 `;
 
 const Small = styled.small<{$isDark: boolean, $colour: (col: Colour) => string}>
@@ -33,17 +36,9 @@ const ShowHide = styled.div<{$shown: boolean, $isDark: boolean, $colour: (col: C
 	cursor: pointer;
 	width: 20px;
 	height: 20px;
-	background-color: ${props => props.$colour ("primary")};
-	border: 1px solid ${props => props.$colour (props.$isDark ? "primaryDark" : "primaryElevated")};
-	border-radius: ${radius.round};
 	display: flex;
 	justify-content: center;
 	align-items: center;
-
-	&:hover
-	{
-		background-color: ${props => props.$colour ("primaryDark")};
-	}
 
 	&:before
 	{
@@ -51,7 +46,7 @@ const ShowHide = styled.div<{$shown: boolean, $isDark: boolean, $colour: (col: C
 		display: block;
 		width: 15px;
 		height: 10px;
-		background-color: ${props => props.$colour ("white")};
+		border: 1px solid ${props => props.$colour (props.$isDark ? "white" : "black")};
 		border-radius: ${radius.round};
 	}
 
@@ -60,7 +55,7 @@ const ShowHide = styled.div<{$shown: boolean, $isDark: boolean, $colour: (col: C
 		content: "";
 		position: absolute;
 		display: block;
-		background-color: ${props => props.$colour ("black")};
+		background-color: ${props => props.$colour (props.$isDark ? "white" : "black")};
 		transition: .25s;
 		${
 			props => props.$shown ?
@@ -79,9 +74,9 @@ const ShowHide = styled.div<{$shown: boolean, $isDark: boolean, $colour: (col: C
 	}
 `;
 
-export default function TextInput (props: (TextInputProps | EmailInputProps | PasswordInputProps) & {setIsError: React.Dispatch<React.SetStateAction<boolean>>})
+export default function TextInput (props: (TextInputProps | EmailInputProps | PasswordInputProps))
 {
-	const {name, type, value, onChange, onClear, readonly, disabled, optional, validator, setIsError} = props;
+	const {id, className, name, label, type, value, leading, trailing, style, onChange, readonly, disabled, optional, hideLabel, hint, textOnError, isError} = props;
 	
 	const isDark = useDarkMode();
 	const colour = useThemeColours();
@@ -95,19 +90,15 @@ export default function TextInput (props: (TextInputProps | EmailInputProps | Pa
 		{
 			setShownValue (e.target.value);
 			if (onChange)
-				onChange (e.target.value);
-			if (validator)
-				setIsError (!validator (e.target.value));
+				onChange (e, e.target.value);
 		}
 		catch {}
 	}
 
-	function handleClear (e: React.MouseEvent)
+	function handleClear ()
 	{
-		e.preventDefault();
 		setShownValue ("");
-		if (onClear)
-			onClear();
+		onChange?. (null, "");
 	}
 
 	useEffect (
@@ -116,59 +107,60 @@ export default function TextInput (props: (TextInputProps | EmailInputProps | Pa
 	);
 
 	return (
-		<>
+		<InputBase
+			id = {id}
+			className = {className}
+			inputId = {`${name}-${type}-input`}
+			hideLabel = {hideLabel}
+			hint = {hint}
+			textOnError = {textOnError}
+			label = {label}
+			trailing = {
+				<div style = {{display: "flex", gap: spacing.small, alignItems: "center"}}>
+					{trailing}
+					{
+						type === "text" && props.multiline && props.maxCharCount !== undefined &&
+							<Small $isDark = {isDark} $colour = {colour}>{shownValue.length}/{props.maxCharCount}</Small>
+					}
+					{
+						type === "password" &&
+						<ShowHide
+							$shown = {displayType === "text"}
+							$isDark = {isDark}
+							$colour = {colour}
+							onClick = {() => setDisplayType (old => old === "password" ? "text" : "password")}
+						/>
+					}
+					{optional && <X onClick = {handleClear}/>}
+				</div>
+			}
+			isError = {isError}
+			style = {style}
+		>
+			{leading}
 			{
 				type === "text" && props.multiline ?
-					<StyledTextArea
-						id = {`${name}-${type}-input`}
-						$isDark = {isDark}
-						$colour = {colour}
-						name = {name}
-						rows = {1}
-						placeholder = ""
-						value = {shownValue}
-						onChange = {handleChange}
-						maxLength = {props.maxCharCount}
-						readOnly = {readonly}
-						disabled = {disabled}
-					/> :
-					<StyledTextInput
-						id = {`${name}-${type}-input`}
-						name = {name}
-						type = {displayType}
-						value = {shownValue}
-						onChange = {handleChange}
-						$isDark = {isDark}
-						$colour = {colour}
-						placeholder = ""
-						maxLength = {type === "text" ? props.maxCharCount : undefined}
-						readOnly = {readonly}
-						disabled = {disabled}
-					/>
+				<StyledTextArea
+					id = {`${name}-${type}-input`}
+					name = {name}
+					rows = {props.rows ?? 2}
+					value = {shownValue}
+					onChange = {handleChange}
+					maxLength = {props.maxCharCount}
+					readOnly = {readonly}
+					disabled = {disabled}
+				/> :
+				<StyledTextInput
+					id = {`${name}-${type}-input`}
+					name = {name}
+					type = {displayType}
+					value = {shownValue}
+					onChange = {handleChange}
+					maxLength = {type === "text" ? props.maxCharCount : undefined}
+					readOnly = {readonly}
+					disabled = {disabled}
+				/>
 			}
-			{
-				type === "text" && props.displayCharCount && props.maxCharCount !== undefined &&
-					<Small $isDark = {isDark} $colour = {colour}>{shownValue.length}/{props.maxCharCount}</Small>
-			}
-			{
-				type === "password" &&
-					<ShowHide
-						$shown = {displayType === "text"}
-						$isDark = {isDark}
-						$colour = {colour}
-						onClick = {() => setDisplayType (old => old === "password" ? "text" : "password")}
-					/>
-			}
-			{
-				optional &&
-					<ClearButton
-						$isDark = {isDark}
-						$colour = {colour}
-						onClick = {handleClear}
-					>
-						&#10005;
-					</ClearButton>
-			}
-		</>
+		</InputBase>
 	);
 }

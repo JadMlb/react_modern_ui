@@ -3,36 +3,31 @@ import CalendarPopup from "./calendar_popup";
 import DateTimeInputProps from "../../../types/input/datetime/DateTimeInputProps";
 import TimeInputProps from "../../../types/input/datetime/TimeInputProps";
 import DateInputProps from "../../../types/input/datetime/DateInputProps";
-import ClearButton from "./clear_button";
-import { useDarkMode, useThemeColours } from "../../../styles";
+import InputBase from "./input_base";
+import { spacing } from "../../../styles";
+import X from "./combo_components/x";
 
-export default function DateInput (props: (DateTimeInputProps | TimeInputProps | DateInputProps) & {setIsError: React.Dispatch<React.SetStateAction<boolean>>})
+export default function DateInput (props: DateTimeInputProps | TimeInputProps | DateInputProps)
 {
-	const {name, value, range, type, onChange, onClear, readonly, disabled, optional, validator, setIsError} = props;
+	const {id, className, name, label, hideLabel, hint, textOnError, isError, value, range, type, leading, trailing, style, onChange, readonly, disabled, optional} = props;
 	const [shownValue, setShownValue] = useState (value ? value.toString() : "");
 	const [isCalendarShown, setIsCalendarShown] = useState (false);
 	const popupRef = useRef<HTMLDivElement> (null);
 	const inputRef = useRef<HTMLInputElement> (null);
-
-	const isDark = useDarkMode();
-	const colour = useThemeColours();
 
 	function onChangeDetected (newVal: Date)
 	{
 		const value = formatDate (newVal);
 		setShownValue (value);
 		if (onChange)
-			onChange (value);
-		if (validator)
-			setIsError (!validator (newVal));
+			onChange (null, value);
 	}
 
 	function handleClear (e: React.MouseEvent)
 	{
 		e.preventDefault();
 		setShownValue ("");
-		if (onClear)
-			onClear();
+		onChange?. (null, "");
 	}
 
 	function padDateTime (number: number)
@@ -75,7 +70,24 @@ export default function DateInput (props: (DateTimeInputProps | TimeInputProps |
 	);
 
 	return (
-		<>
+		<InputBase
+			id = {id}
+			className = {className}
+			inputId = {`${name}-${type}-input`}
+			hideLabel = {hideLabel}
+			hint = {hint}
+			textOnError = {textOnError}
+			label = {label}
+			trailing = {
+				<div style = {{display: "flex", gap: spacing.small, alignItems: "center"}}>
+					{trailing}
+					{optional && <X onClick = {handleClear}/>}
+				</div>
+			}
+			isError = {isError}
+			style = {style}
+		>
+			{leading}
 			<input
 				ref = {inputRef}
 				name = {name}
@@ -85,6 +97,7 @@ export default function DateInput (props: (DateTimeInputProps | TimeInputProps |
 				onClick = {() => setIsCalendarShown (old => !readonly && !disabled && !old)}
 				min = {(range && range[0] && formatDate (range[0])) || undefined}
 				max = {(range && range[1] && formatDate (range[1])) || undefined}
+				style = {{all: "unset", font: "inherit", flex: 1}}
 			/>
 			{
 				<CalendarPopup
@@ -96,16 +109,6 @@ export default function DateInput (props: (DateTimeInputProps | TimeInputProps |
 					withSeconds = {(props.type === "datetime" || props.type === "time") && props.withSeconds}
 				/>
 			}
-			{
-				optional &&
-					<ClearButton
-						$isDark = {isDark}
-						$colour = {colour}
-						onClick = {handleClear}
-					>
-						&#10005;
-					</ClearButton>
-			}
-		</>
+		</InputBase>
 	);
 }

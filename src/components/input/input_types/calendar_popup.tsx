@@ -5,8 +5,8 @@ import { Colour, Option } from "../../../types";
 import { useDarkMode, useThemeColours } from "../../../styles/theme";
 import { radius, spacing } from "../../../styles/styles";
 import Button from "../button";
-import ComboBox from "../combobox";
-import NewInput from "../input-new";
+import Combobox from "./combobox-new";
+import NumberInput from "./number";
 
 const Popup = styled.div<{$isShown: boolean, $isDark: boolean, $colour: (col: Colour) => string}>
 `
@@ -108,8 +108,7 @@ const CalendarPopup = forwardRef<HTMLDivElement, CalendarPopupProps> (
 	{
 		const isDark = useDarkMode();
 		const colour = useThemeColours();
-		
-		const TODAY = new Date();
+
 		// use the locale to get the names of the days
 		// jan 2024 started on a monday
 		const DAYS = new Array(7).fill(0).map (
@@ -120,7 +119,7 @@ const CalendarPopup = forwardRef<HTMLDivElement, CalendarPopupProps> (
 			}
 		);
 		
-		const [selectedValue, setSelectedValue] = useState<Date> (value ? new Date (value) : TODAY);
+		const [selectedValue, setSelectedValue] = useState<Date> (value ? new Date (value) : new Date());
 		const FIRST_DAY = useMemo (
 			() => (new Date(selectedValue.getFullYear(), selectedValue.getMonth(), 1).getDay() + 6) % 7, // by default sunday is @ index 0 => shift the numbers so that monday is at index 0
 			[selectedValue]
@@ -134,7 +133,7 @@ const CalendarPopup = forwardRef<HTMLDivElement, CalendarPopupProps> (
 							m =>
 							{
 								let date = new Date (2024, m, 1);
-								return {id: m, text: date.toString().split(" ")[1]};
+								return {value: `${m}`, display: date.toString().split(" ")[1]};
 							}
 						);
 
@@ -154,7 +153,8 @@ const CalendarPopup = forwardRef<HTMLDivElement, CalendarPopupProps> (
 
 		function isToday (day: number)
 		{
-			return selectedValue.getFullYear() === TODAY.getFullYear() && selectedValue.getMonth() === TODAY.getMonth() && day === TODAY.getDate();
+			const today = new Date();
+			return selectedValue.getFullYear() === today.getFullYear() && selectedValue.getMonth() === today.getMonth() && day === today.getDate();
 		}
 
 		function changeMonth (previous?: boolean)
@@ -259,10 +259,11 @@ const CalendarPopup = forwardRef<HTMLDivElement, CalendarPopupProps> (
 
 		function reset ()
 		{
-			setSelectedValue (TODAY);
+			const today = new Date();
+			setSelectedValue (today);
 
 			if (onChange)
-				onChange (TODAY);
+				onChange (today);
 			setIsOpen (false);
 		}
 
@@ -325,28 +326,26 @@ const CalendarPopup = forwardRef<HTMLDivElement, CalendarPopupProps> (
 					["datetime", "date"].includes (type) &&
 						<div>
 							<CalendarHeader>
-								<Button rounded onClick = {() => changeMonth (true)}>&lt;</Button>
+								<Button style = {{borderRadius: radius.round, width: "30px", height: "30px"}} onClick = {() => changeMonth (true)}>&lt;</Button>
 								<MonthYearPicker>
-									<ComboBox
+									<Combobox
 										name = "month"
-										from = {MONTHS}
-										values = {[selectedValue.getMonth()]}
-										onChange = {options => {if (options[0]) setMonth (options[0].id)}}
-										compact
-										notSearchable
-										required
+										options = {MONTHS}
+										value = {selectedValue.getMonth()}
+										onChange = {(e, options) => {e?.stopPropagation(); if (options[0]) setMonth (+options[0].value);}}
+										hideLabel
 									/>
-									<NewInput
+									<NumberInput
 										type = "number"
 										name = "year"
 										value = {selectedValue.getFullYear()}
 										range = {[1970, null]}
-										onChange = {year => setYear (year)}
-										noLabel
+										onChange = {(_, year) => setYear (year)}
+										hideLabel
 									/>
 								</MonthYearPicker>
 								<Button onClick = {reset}><span style = {{fontSize: "smaller"}}>Today</span></Button>
-								<Button rounded onClick = {() => changeMonth()}>&gt;</Button>
+								<Button style = {{borderRadius: radius.round, width: "30px", height: "30px"}} onClick = {() => changeMonth()}>&gt;</Button>
 							</CalendarHeader>
 							<CalendarBody>
 								{DAYS.map (day => <CalendarHeaderCell $colour = {colour}>{day}</CalendarHeaderCell>)}

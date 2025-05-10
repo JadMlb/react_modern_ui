@@ -16,10 +16,5 @@ export interface NumberInputProps extends BasicInputProps
 	 * Defines the precision of the value inside of the number field. If precision <= 0, the value is an integer, otherwise a real number with `precision` amount of digits in the decimal places. Defaults to `0`.
 	 */
 	precision?: number;
-	onChange?: (value: number) => void;
-	/**
-	 * Change event handler fired when the clear button is clicked. Clear button resets the value to `0`.
-	 */
-	onClear?: () => void;
-	validator?: (value: number) => boolean;
+	onChange?: (e: React.ChangeEvent | null, value: number) => void;
 }
