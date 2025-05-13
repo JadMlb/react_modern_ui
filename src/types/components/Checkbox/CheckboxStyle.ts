@@ -22,7 +22,7 @@ export interface CheckboxStyle
 	intermediate?: ActionElementStyle;
 }
 
-export const DEFAULT_CHECKBOX_STYLE: (theme?: "dark" | "light") => CheckboxStyle = (theme = "light") =>
+export const DEFAULT_CHECKBOX_STYLE: (theme?: "dark" | "light") => CheckboxStyle = () =>
 ({
 	checkbox: {
 		width: "17px",

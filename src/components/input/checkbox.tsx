@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 /** @jsxImportSource @emotion/react */
 import styled from "@emotion/styled";
 import { useDarkMode, useThemeColours } from "../../styles/theme";
@@ -81,7 +81,7 @@ function DashComponent ()
 }
 
 /**
- * Renders a Checkbox component with specified state, either in normal checked/unchecked, or in tri-state mode (check `isFull` property with `isChecked`)
+ * Renders a Checkbox component with specified state, either in normal checked/unchecked, or in tri-state
  */
 export default function Checkbox ({state, className, style, label, labelStyle, intermediateStyle, checkedStyle, checkedComponent = <CheckComponent/>, intermediateComponent = <DashComponent/>, onChange}: CheckboxProps)
 {
@@ -107,7 +107,7 @@ export default function Checkbox ({state, className, style, label, labelStyle, i
 					})
 				);
 		},
-		[style, isDark]
+		[style, checkedStyle, intermediateStyle, isDark]
 	);
 
 	useEffect (

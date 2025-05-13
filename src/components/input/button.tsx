@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 /** @jsxImportSource @emotion/react */
 import styled from "@emotion/styled";
 import { useDarkMode, useThemeColours } from "../../styles/theme";
@@ -6,6 +6,7 @@ import { ButtonProps } from "../../types/components/Button/ButtonProps";
 import { ButtonStyle, DEFAULT_BUTTON_STYLES } from "../../types/components/Button/ButtonStyle";
 import { ParserFactory } from "../../types/components/styles/generic/ParserFactory";
 import { Parser } from "../../types/components/styles/generic/Parser";
+import { spacing } from "../../styles";
 
 const StyledButton = styled.button<{$css: string}>
 `
@@ -13,6 +14,11 @@ const StyledButton = styled.button<{$css: string}>
 	font-size: inherit;
 	transition: transform 0.25s ease-in-out;
 	cursor: pointer;
+
+	display: flex;
+	flex-direction: row;
+	gap: ${spacing.small};
+	align-items: center;
 
 	${props => props.$css}
 `;
@@ -36,7 +42,7 @@ export default function Button ({role = "normal", type = "filled", onClick, chil
 			if (DEFAULT_TYPE_STYLE)
 				setRealStyle ({... DEFAULT_TYPE_STYLE (role, isDark ? "dark" : "light"), ...style});
 		},
-		[style, role, isDark]
+		[style, role, type, isDark]
 	);
 	
 	useEffect (
@@ -55,7 +61,7 @@ export default function Button ({role = "normal", type = "filled", onClick, chil
 			$css = {css}
 			className = {className}
 		>
-			<span>{children}</span>
+			{children}
 		</StyledButton>
 	);
 }

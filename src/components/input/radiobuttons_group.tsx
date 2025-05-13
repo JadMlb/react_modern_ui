@@ -1,4 +1,3 @@
-import React from "react";
 import Checkbox from "./checkbox";
 import { useEffect, useState } from "react";
 import { RadioButtonsGroupProps } from "../../types/components/RadioButtonsGroup/RadioButtonsGroupProps";
@@ -38,7 +37,7 @@ export default function RadioButtonsGroup ({className, id, name, optionsLabels: 
 								label = {l}
 								state = {checked === index}
 								onChange = {() => updateSelection (l, index)}
-								style = {{borderRadius: "10px"}}
+								style = {{...style, borderRadius: "100%"}}
 							/>
 			)
 		}

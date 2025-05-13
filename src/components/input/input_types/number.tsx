@@ -10,9 +10,20 @@ import Button from "../button";
 
 const Dash = styled.div<{$isDark: boolean, $colour: (col: Colour) => string}>
 `
-	width: 100%;
-	height: 1px;
-	background-color: ${props => props.$colour (props.$isDark ? "white" : "black")};
+	position: relative;
+	width: 25px;
+	height: auto;
+	aspect-ratio: 1 / 1;
+	&:before
+	{
+		display: block;
+		position: absolute;
+		content: "";
+		background-color: ${props => props.$colour (props.$isDark ? "white" : "black")};
+		height: 1px;
+		width: 100%;
+		top: calc(50% - 0.5px);
+	}
 `;
 
 const Plus = styled.div<{$isDark: boolean, $colour: (col: Colour) => string}>

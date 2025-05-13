@@ -159,6 +159,7 @@ export default function Combobox ({id, className, name, options, label, value, h
 				isOpen = {!disabled && isExpanded}
 				onClose = {() => setIsExpanded (false)}
 				position = {isFromTop() ? "top" : "bottom"}
+				anchorElement = {inputRef.current}
 			>{
 				Array.isArray (options) ?
 					options.map (

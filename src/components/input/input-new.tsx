@@ -8,10 +8,8 @@ import DateInput from "./input_types/date";
 import DateInputProps from "../../types/input/datetime/DateInputProps";
 import DateTimeInputProps from "../../types/input/datetime/DateTimeInputProps";
 import TimeInputProps from "../../types/input/datetime/TimeInputProps";
-import FormattedNumberInputProps from "../../types/input/number/FormattedNumberInputProps";
 
 type InputProps = NumberInputProps |
-					FormattedNumberInputProps |
 					TextInputProps |
 					EmailInputProps |
 					PasswordInputProps |
@@ -26,7 +24,6 @@ export default function NewInput (props: InputProps)
 		switch (props.type)
 		{
 			case "number": return <NumberInput {...props}/>;
-			// case "number-formatted": return <FormattedNumberInput {...props}/>;
 			case "text":
 			case "email":
 			case "password":

@@ -48,6 +48,18 @@ export default function DateInput (props: DateTimeInputProps | TimeInputProps | 
 		}
 	}
 
+	function expand (e: React.FocusEvent)
+	{
+		e.stopPropagation();
+		setIsCalendarShown (!disabled && !readonly);
+	}
+
+	function close (e: React.FocusEvent)
+	{
+		e.stopPropagation();
+		setIsCalendarShown (false);
+	}
+
 	useEffect (
 		() =>
 		{
@@ -86,6 +98,8 @@ export default function DateInput (props: DateTimeInputProps | TimeInputProps | 
 			}
 			isError = {isError}
 			style = {style}
+			onFocus = {expand}
+			onBlur = {close}
 		>
 			{leading}
 			<input
@@ -94,17 +108,16 @@ export default function DateInput (props: DateTimeInputProps | TimeInputProps | 
 				type = {type === "datetime" ? "datetime-local" : type}
 				value = {shownValue}
 				readOnly
-				onClick = {() => setIsCalendarShown (old => !readonly && !disabled && !old)}
 				min = {(range && range[0] && formatDate (range[0])) || undefined}
 				max = {(range && range[1] && formatDate (range[1])) || undefined}
 				style = {{all: "unset", font: "inherit", flex: 1}}
 			/>
 			{
 				<CalendarPopup
-					ref = {popupRef}
+					elementRef = {inputRef.current}
 					onChange = {newVal => onChangeDetected (newVal)}
 					isOpen = {isCalendarShown}
-					setIsOpen = {setIsCalendarShown}
+					// onClose = {() => setIsCalendarShown (false)}
 					type = {type}
 					withSeconds = {(props.type === "datetime" || props.type === "time") && props.withSeconds}
 				/>

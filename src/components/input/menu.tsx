@@ -3,9 +3,10 @@ import { radius, spacing, useDarkMode, useThemeColours } from "../../styles";
 import { ParserFactory } from "../../types/components/styles/generic/ParserFactory";
 import { Parser } from "../../types/components/styles/generic/Parser";
 import { BoxStyle } from "../../types/components/styles/box/BoxStyle";
-import { useRef } from "react";
+import { useMemo, useRef } from "react";
+import useMenuPosition from "../../hooks/useMenuPosition";
 
-const Container = styled.div<{$open?: boolean, $position?: "top" | "bottom", $css: string}>
+const Container = styled.div<{$fitContent?: boolean, $open?: boolean, $position?: "top" | "bottom", $css: string}>
 `
 	display: ${props => props.$open ? "block" : "none"};
 	border-radius: ${radius.small};
@@ -13,43 +14,52 @@ const Container = styled.div<{$open?: boolean, $position?: "top" | "bottom", $cs
 	position: absolute;
 	${props => props.$position === "bottom" ? "top" : "bottom"}: calc(100% + ${spacing.small});
 	left: 0;
-	width: calc(100% - 2 * ${spacing.small});
+	${props => !props.$fitContent && `min-width: calc(100% - 2 * ${spacing.small});`}
+	width: fit-content;
 	z-index: 99999;
 	${props => props.$css}
 `;
 
 interface MenuProps 
 {
+	anchorElement: HTMLElement | null;
 	isOpen?: boolean;
 	children?: React.ReactNode;
 	position?: "top" | "bottom";
+	fitContent?: boolean;
 	onClose?: () => void;
 }
 
-export default function Menu ({isOpen, children,  position = "bottom"}: MenuProps)
+export default function Menu ({anchorElement, isOpen, children, position, fitContent}: MenuProps)
 {
 	const isDark = useDarkMode();
 	const colour = useThemeColours();
 	const parserFactory = new ParserFactory (colour);
-	const css = (parserFactory.getParser("") as Parser<BoxStyle>).parse ({
-		border: {
-			color: "gray",
-			style: "solid",
-			width: "1px"
-		},
-		backgroundColor: `gray${isDark ? "Dark" : "Light"}`
-	});
+	const css = useMemo (
+		() => (parserFactory.getParser("") as Parser<BoxStyle>).parse ({	
+					border: {
+						color: "gray",
+						style: "solid",
+						width: "1px"
+					},
+					backgroundColor: `gray${isDark ? "Dark" : "Light"}`
+				}),
+		[isDark]
+	);
 
-	const ref = useRef<HTMLDivElement> (null);
+	const menuRef = useRef<HTMLDivElement | null> (null);
+	
+	const isFromTop = useMenuPosition ({menuElement: menuRef.current, anchorElement});
 
 	return (
 		<>{
 			isOpen &&
 				<Container
+					ref = {menuRef}
 					$open = {isOpen}
 					$css = {css}
-					$position = {position}
-					ref = {ref}
+					$position = {isFromTop ? "top" : "bottom"}
+					$fitContent = {fitContent}
 				>
 					{children}
 				</Container>

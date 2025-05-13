@@ -70,11 +70,11 @@ export const DEFAULT_BUTTON_STYLES: DefaultButtonStyles = {
 						role === "warn" ?
 							"error" :
 							`gray`,
-		fontColor: theme === "light" ? "black" : "white",
+		color: theme === "light" ? "black" : "white",
 		hover: {
-			fontColor: ["warn", "alert"].includes (role) ?
+			color: ["warn", "alert"].includes (role) ?
 						"error" :
 						"primary"
 		}
-	})
+	} satisfies ButtonStyle)
 }

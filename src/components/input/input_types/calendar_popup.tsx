@@ -1,4 +1,4 @@
-import React, { forwardRef, useEffect, useMemo, useRef, useState } from "react";
+import { forwardRef, useEffect, useMemo, useRef, useState } from "react";
 /** @jsxImportSource @emotion/react */
 import styled from "@emotion/styled";
 import { Colour, Option } from "../../../types";
@@ -7,24 +7,7 @@ import { radius, spacing } from "../../../styles/styles";
 import Button from "../button";
 import Combobox from "./combobox-new";
 import NumberInput from "./number";
-
-const Popup = styled.div<{$isShown: boolean, $isDark: boolean, $colour: (col: Colour) => string}>
-`
-	display: ${props => props.$isShown ? "flex" : "none"};
-	position: absolute;
-	top: 100%;
-	z-index: 1000;
-
-	cursor: default;
-
-	background-color: ${props => props.$colour (props.$isDark ? "grayDark" : "grayLight")};
-	border-radius: ${radius.normal};
-	box-shadow: 0 0 10px ${props => props.$colour ("gray")};
-
-	padding: ${spacing.normal};
-
-	gap: ${spacing.small};
-`;
+import Menu from "../menu";
 
 const CalendarHeaderCell = styled.div<{$colour: (col: Colour) => string}>
 `
@@ -45,7 +28,12 @@ const CalendarHeader = styled.div
 `
 	display: flex;
 	justify-content: space-between;
-	align-items: baseline;
+	align-items: center;
+	gap: ${spacing.small};
+	> *
+	{
+		shrink: 0;
+	}
 `;
 
 const CalendarBody = styled.div
@@ -87,24 +75,19 @@ const TimePicker = styled.div<{$height: number}>
 	}
 `;
 
-const MonthYearPicker = styled.span
-`
-	display: grid;
-	grid-template-columns: repeat(2, 1fr);
-	align-items: center;
-`;
-
-type CalendarPopupProps = {
-	value?: Date | string,
-	type: "date" | "datetime" | "time",
-	withSeconds?: boolean,
-	onChange?: (newDate: Date) => void,
-	isOpen: boolean,
-	setIsOpen: React.Dispatch<React.SetStateAction<boolean>>
+interface CalendarPopupProps
+{
+	value?: Date | string;
+	type: "date" | "datetime" | "time";
+	withSeconds?: boolean;
+	onChange?: (newDate: Date) => void;
+	isOpen: boolean;
+	elementRef: HTMLElement | null;
+	onClose: () => void;
 };
 
 const CalendarPopup = forwardRef<HTMLDivElement, CalendarPopupProps> (
-	({value, type, withSeconds, onChange, isOpen, setIsOpen}: CalendarPopupProps, ref) =>
+	({value, type, withSeconds, onChange, isOpen, elementRef, onClose}: CalendarPopupProps, ref) =>
 	{
 		const isDark = useDarkMode();
 		const colour = useThemeColours();
@@ -209,7 +192,7 @@ const CalendarPopup = forwardRef<HTMLDivElement, CalendarPopupProps> (
 
 			if (onChange)
 				onChange (newVal);
-			setIsOpen (false);
+			onClose();
 		}
 
 		function toggleAmPm (type: "a" | "p")
@@ -223,7 +206,7 @@ const CalendarPopup = forwardRef<HTMLDivElement, CalendarPopupProps> (
 
 			if (onChange)
 				onChange (newVal);
-			setIsOpen (false);
+			onClose();
 		}
 
 		function setTime (value: number, part: "h" | "m" | "s")
@@ -254,7 +237,7 @@ const CalendarPopup = forwardRef<HTMLDivElement, CalendarPopupProps> (
 			setSelectedValue (newDateValue);
 			if (onChange)
 				onChange (newDateValue);
-			setIsOpen (false);
+			onClose();
 		}
 
 		function reset ()
@@ -264,7 +247,7 @@ const CalendarPopup = forwardRef<HTMLDivElement, CalendarPopupProps> (
 
 			if (onChange)
 				onChange (today);
-			setIsOpen (false);
+			onClose();
 		}
 
 		function isSameHour (value: number)
@@ -320,131 +303,157 @@ const CalendarPopup = forwardRef<HTMLDivElement, CalendarPopupProps> (
 			[selectedValue, hoursPickerRef.current, minutesPickerRef.current, secondsPickerRef.current]
 		);
 		
+		if (!isOpen)
+			return <></>;
 		return (
-			<Popup $isShown = {isOpen} $isDark = {isDark} $colour = {colour} ref = {ref}>
-				{
-					["datetime", "date"].includes (type) &&
-						<div>
-							<CalendarHeader>
-								<Button style = {{borderRadius: radius.round, width: "30px", height: "30px"}} onClick = {() => changeMonth (true)}>&lt;</Button>
-								<MonthYearPicker>
-									<Combobox
-										name = "month"
-										options = {MONTHS}
-										value = {selectedValue.getMonth()}
-										onChange = {(e, options) => {e?.stopPropagation(); if (options[0]) setMonth (+options[0].value);}}
-										hideLabel
-									/>
-									<NumberInput
-										type = "number"
-										name = "year"
-										value = {selectedValue.getFullYear()}
-										range = {[1970, null]}
-										onChange = {(_, year) => setYear (year)}
-										hideLabel
-									/>
-								</MonthYearPicker>
-								<Button onClick = {reset}><span style = {{fontSize: "smaller"}}>Today</span></Button>
-								<Button style = {{borderRadius: radius.round, width: "30px", height: "30px"}} onClick = {() => changeMonth()}>&gt;</Button>
-							</CalendarHeader>
-							<CalendarBody>
-								{DAYS.map (day => <CalendarHeaderCell $colour = {colour}>{day}</CalendarHeaderCell>)}
-								{
-									new Array(DAYS_IN_MONTH + FIRST_DAY).fill(0).map (
-										(_, day) =>
-										{
-											const val = day - FIRST_DAY + 1;
-											return <CalendarCell
-														$today = {isToday (val)}
-														$selected = {val === selectedValue.getDate()}
-														$isDark = {isDark}
-														$colour = {colour}
-														onClick = {val > 0 ? () => changeDate (val) : undefined}
-													>
-														{val > 0 && `${val}`}
-													</CalendarCell>
-										}
-									)
-								}
-							</CalendarBody>
-						</div>
-				}
-				{
-					["datetime", "time"].includes (type) &&
-						<>
-							<TimePicker $height = {nbRows} ref = {hoursPickerRef}>
-							{
-								new Array(uses12hFormat ? 12 : 24).fill(0).map (
-									(_, h) =>
+			<Menu
+				isOpen = {isOpen}
+				onClose = {onClose}
+				anchorElement = {elementRef}
+				fitContent
+			>
+				<div style = {{display: "flex"}}>
+					{
+						["datetime", "date"].includes (type) &&
+							<div>
+								<CalendarHeader>
+									<Button style = {{borderRadius: radius.round, width: "30px", height: "30px"}} onClick = {() => changeMonth (true)}>&lt;</Button>
+									{/* <MonthYearPicker> */}
+										<Combobox
+											name = "month"
+											options = {MONTHS}
+											value = {selectedValue.getMonth()}
+											onChange = {(e, options) => {e?.stopPropagation(); if (options[0]) setMonth (+options[0].value);}}
+											hideLabel
+										/>
+										<NumberInput
+											type = "number"
+											name = "year"
+											value = {selectedValue.getFullYear()}
+											range = {[1970, null]}
+											onChange = {(_, year) => setYear (year)}
+											hideLabel
+										/>
+									{/* </MonthYearPicker> */}
+									<Button onClick = {reset}><span style = {{fontSize: "smaller"}}>Today</span></Button>
+									<Button style = {{borderRadius: radius.round, width: "30px", height: "30px"}} onClick = {() => changeMonth()}>&gt;</Button>
+								</CalendarHeader>
+								<CalendarBody>
 									{
-										const val = uses12hFormat ? h + 1 : h;
-										return <CalendarCell
-													$isDark = {isDark}
-													$colour = {colour}
-													onClick = {() => setTime (val, "h")}
-													$selected = {isSameHour (val)}
-												>
-													{val}
-												</CalendarCell>
-									}
-								)
-							}
-							</TimePicker>
-							<TimePicker $height = {nbRows} ref = {minutesPickerRef}>
-							{
-								new Array(60).fill(0).map (
-									(_, h) => <CalendarCell
-													$isDark = {isDark}
-													$colour = {colour}
-													onClick = {() => setTime (h, "m")}
-													$selected = {selectedValue.getMinutes() === h}
-												>
-													{h}
-												</CalendarCell>
-								)
-							}
-							</TimePicker>
-							{
-								withSeconds &&
-									<TimePicker $height = {nbRows} ref = {secondsPickerRef}>
-									{
-										new Array(60).fill(0).map (
-											(_, s) => <CalendarCell
-														$isDark = {isDark}
+										DAYS.map (
+											day => <CalendarHeaderCell
+														key = {`day-name-${day}`}
 														$colour = {colour}
-														onClick = {() => setTime (s, "s")}
-														$selected = {s === selectedValue.getSeconds()}
 													>
-														{s}
-													</CalendarCell>
+														{day}
+													</CalendarHeaderCell>
 										)
 									}
-									</TimePicker>
-							}
-							{
-								uses12hFormat &&
-									<TimePicker $height = {nbRows}>
-										<CalendarCell
-											$isDark = {isDark}
-											$colour = {colour}
-											onClick = {() => toggleAmPm ("a")}
-											$selected = {selectedValue.getHours() < 12}
-										>
-											AM
-										</CalendarCell>
-										<CalendarCell
-											$isDark = {isDark}
-											$colour = {colour}
-											onClick = {() => toggleAmPm ("p")}
-											$selected = {selectedValue.getHours() >= 12}
-										>
-											PM
-										</CalendarCell>
-									</TimePicker>
-							}
-						</>
-				}
-			</Popup>
+									{
+										Array.from ({length: DAYS_IN_MONTH + FIRST_DAY}, (_, i) => i)
+											.map (
+												day =>
+												{
+													const val = day - FIRST_DAY + 1;
+													return <CalendarCell
+																key = {`day-${day}`}
+																$today = {isToday (val)}
+																$selected = {val === selectedValue.getDate()}
+																$isDark = {isDark}
+																$colour = {colour}
+																onClick = {val > 0 ? () => changeDate (val) : undefined}
+															>
+																{val > 0 && `${val}`}
+															</CalendarCell>
+												}
+											)
+									}
+								</CalendarBody>
+							</div>
+					}
+					{
+						["datetime", "time"].includes (type) &&
+							<>
+								<TimePicker $height = {nbRows} ref = {hoursPickerRef}>
+								{
+									Array.from ({length: uses12hFormat ? 12 : 24}, (_, i) => i)
+										.map (
+											h =>
+											{
+												const val = uses12hFormat ? h + 1 : h;
+												return <CalendarCell
+															key = {`hour-${h}`}
+															$isDark = {isDark}
+															$colour = {colour}
+															onClick = {() => setTime (val, "h")}
+															$selected = {isSameHour (val)}
+														>
+															{val}
+														</CalendarCell>
+											}
+										)
+								}
+								</TimePicker>
+								<TimePicker $height = {nbRows} ref = {minutesPickerRef}>
+								{
+									Array.from ({length: 60}, (_, i) => i)
+										.map (
+											m => <CalendarCell
+													key = {`min-${m}`}
+													$isDark = {isDark}
+													$colour = {colour}
+													onClick = {() => setTime (m, "m")}
+													$selected = {selectedValue.getMinutes() === m}
+												>
+													{m}
+												</CalendarCell>
+										)
+								}
+								</TimePicker>
+								{
+									withSeconds &&
+										<TimePicker $height = {nbRows} ref = {secondsPickerRef}>
+										{
+											Array.from ({length: 60}, (_, i) => i)
+												.map (
+													s => <CalendarCell
+																key = {`sec-${s}`}
+																$isDark = {isDark}
+																$colour = {colour}
+																onClick = {() => setTime (s, "s")}
+																$selected = {s === selectedValue.getSeconds()}
+															>
+																{s}
+															</CalendarCell>
+												)
+										}
+										</TimePicker>
+								}
+								{
+									uses12hFormat &&
+										<TimePicker $height = {nbRows}>
+											<CalendarCell
+												$isDark = {isDark}
+												$colour = {colour}
+												onClick = {() => toggleAmPm ("a")}
+												$selected = {selectedValue.getHours() < 12}
+											>
+												AM
+											</CalendarCell>
+											<CalendarCell
+												$isDark = {isDark}
+												$colour = {colour}
+												onClick = {() => toggleAmPm ("p")}
+												$selected = {selectedValue.getHours() >= 12}
+											>
+												PM
+											</CalendarCell>
+										</TimePicker>
+								}
+							</>
+					}
+				</div>
+			</Menu>
 		);
 	}
 )

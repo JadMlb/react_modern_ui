@@ -32,13 +32,13 @@ export default function ComboboxOption ({option, selected, onClick}: ComboboxOpt
 			(parserFactory.getParser("") as Parser<ActionElementStyle>)
 				.parse ({
 					backgroundColor: selected ? "primary" : "transparent",
-					color: selected ? "white" : "black",
+					color: selected || isDark ? "white" : "black",
 					hover: {
 						backgroundColor: `primary${isDark ? "Dark" : "Elevated"}`,
 						color: isDark ? "white" : "black"
 					}
 				}),
-		[isDark]
+		[isDark, selected]
 	);
 	
 	return (

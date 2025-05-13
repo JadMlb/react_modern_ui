@@ -38,13 +38,14 @@ const Container = styled.div
 	flex-direction: column;
 `;
 
-const Wrapper = styled.div<{$css: string}>
+const Wrapper = styled.div<{$css: string, $isError?: boolean, $colour: (col: Colour) => string}>
 `
 	display: flex;
 	gap: ${spacing.small};
 	align-items: center;
 	position: relative;
-	${props => props.$css}
+	${props => props.$css};
+	${props => props.$isError && `border-color: ${props.$colour ("error")} !important;`}
 `;
 
 const Label = styled.label
@@ -118,6 +119,8 @@ const InputBase = React.forwardRef<HTMLDivElement, InputBaseProps> (
 				{!hideLabel && <Label htmlFor = {inputId}>{label}</Label>}
 				<Wrapper
 					$css = {css}
+					$isError = {isError}
+					$colour = {colour}
 					tabIndex = {0}
 					onClick = {onClick}
 					onFocus = {onFocus}
