@@ -1,14 +1,12 @@
 import { useEffect, useState } from "react";
 /** @jsxImportSource @emotion/react */
 import styled from "@emotion/styled";
-import { useDarkMode, useThemeColours } from "../../styles/theme";
+import { Style, useDarkMode, useThemeParser } from "../../styles/theme";
 import { ButtonProps } from "../../types/components/Button/ButtonProps";
-import { ButtonStyle, DEFAULT_BUTTON_STYLES } from "../../types/components/Button/ButtonStyle";
-import { ParserFactory } from "../../types/components/styles/generic/ParserFactory";
-import { Parser } from "../../types/components/styles/generic/Parser";
+import { DEFAULT_BUTTON_STYLES } from "../../types/components/Button/ButtonStyle";
 import { spacing } from "../../styles";
 
-const StyledButton = styled.button<{$css: string}>
+const StyledButton = styled.button
 `
 	border: none;
 	font-size: inherit;
@@ -19,47 +17,36 @@ const StyledButton = styled.button<{$css: string}>
 	flex-direction: row;
 	gap: ${spacing.small};
 	align-items: center;
-
-	${props => props.$css}
+	justify-content: center;
 `;
 
 /**
  * Button component
  */
-export default function Button ({role = "normal", type = "filled", onClick, children, disabled = false, style, className}: ButtonProps)
+export default function Button ({id, role = "normal", type = "filled", onClick, children, disabled = false, style, className}: ButtonProps)
 {
 	const isDark = useDarkMode();
-	const colour = useThemeColours();
 
-	const parserFactory = new ParserFactory (colour);
-	const [css, setCss] = useState ("");
-	const [realStyle, setRealStyle] = useState<ButtonStyle> ();
+	const parseTheme = useThemeParser();
+	const [css, setCss] = useState<Style> ({});
 
 	useEffect (
 		() =>
 		{
 			const DEFAULT_TYPE_STYLE = DEFAULT_BUTTON_STYLES[type]!;
 			if (DEFAULT_TYPE_STYLE)
-				setRealStyle ({... DEFAULT_TYPE_STYLE (role, isDark ? "dark" : "light"), ...style});
+				setCss (parseTheme ({...DEFAULT_TYPE_STYLE (role, isDark ? "dark" : "light"), ...style}));
 		},
-		[style, role, type, isDark]
-	);
-	
-	useEffect (
-		() =>
-		{
-			if (realStyle)
-				setCss ((parserFactory.getParser("") as Parser<ButtonStyle>).parse (realStyle));
-		},
-		[realStyle]
+		[style, role, type, isDark, parseTheme]
 	);
 
 	return (
 		<StyledButton
+			css = {css}
+			className = {className}
+			id = {id}
 			onClick = {onClick}
 			disabled = {disabled}
-			$css = {css}
-			className = {className}
 		>
 			{children}
 		</StyledButton>

@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useReducer } from "react";
+import React, { CSSProperties, createContext, useCallback, useContext, useReducer } from "react";
 import { ThemeType } from "../types/theme";
 import { COLOURS_ALT_NAMES, Colour } from "../types";
 
@@ -114,12 +114,69 @@ export function useDarkMode ()
 export function useThemeColours (): ThemeColourFunction
 {
 	const {theme} = useContext (ThemeContext);
-	return (role: Colour) =>
-	{
-		let roleTree = COLOURS_ALT_NAMES[role].split (".");
-		const COLOUR_TYPE = roleTree[0] as keyof Omit<ThemeType, "mode">;
-		return "#" + theme[COLOUR_TYPE][roleTree[1] as "dark" | "medium" | "light"];
-	}
+	const getColour = useCallback (
+		(role: Colour) =>
+		{
+			let roleTree = COLOURS_ALT_NAMES[role].split (".");
+			const COLOUR_TYPE = roleTree[0] as keyof Omit<ThemeType, "mode">;
+			return "#" + theme[COLOUR_TYPE][roleTree[1] as "dark" | "medium" | "light"];
+		},
+		[theme]
+	);
+
+	return getColour;
+}
+
+export type Style = CSSProperties & {
+	[key: string]: any;
+};
+
+export function useThemeParser ()
+{
+	const getColour = useThemeColours();
+
+	const processValue = useCallback (
+		function process (value: any): any
+		{
+			if (typeof value === "string")
+			{
+				let replaced = value;
+				for (const colourCode in COLOURS_ALT_NAMES)
+				{
+					const pattern = new RegExp (`\\b${colourCode}\\b`, "g");
+					replaced = replaced.replace (pattern, getColour (colourCode as keyof typeof COLOURS_ALT_NAMES))
+				}
+				return replaced;
+			}
+			else if (Array.isArray (value))
+				return value.map (process)
+			else
+				return value;
+		},
+		[getColour]
+	);
+
+	const processStyles = useCallback (
+		function process (styles: Style): Style
+		{
+			const res: Style = {};
+			Object.entries (styles)
+					.forEach (
+						([k, v]) =>
+						{
+							if (typeof v === "object" && v !== null)
+								res[k] = process (v);
+							else
+								res[k] = processValue (v);
+						}
+					);
+
+			return res;
+		},
+		[processValue]
+	);
+
+	return processStyles;
 }
 
 export type ThemeColourFunction = (col: Colour) => string;

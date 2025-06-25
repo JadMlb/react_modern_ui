@@ -136,8 +136,8 @@ export default function Combobox ({id, className, name, options, label, value, h
 	
 	return (
 		<InputBase
-			id = {id}
 			className = {className}
+			id = {id}
 			inputId = {`combo-${name}`}
 			ref = {inputRef}
 			label = {label}

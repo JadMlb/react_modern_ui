@@ -1,36 +1,23 @@
-import { radius } from "../../../styles";
-import { ActionElementStyle } from "../styles/actionElement/ActionElementStyle";
+import { Style, radius } from "../../../styles";
 
-export const DEFAULT_CARD_STYLE: (clickable?: boolean, theme?: "dark" | "light") => ActionElementStyle = (clickable, theme = "light") =>
+export const DEFAULT_CARD_STYLE: (clickable?: boolean, theme?: "dark" | "light") => Style = (clickable, theme = "light") =>
 {
-	let style: ActionElementStyle = {
+	let style = {
 		borderRadius: radius.normal,
-		border: {
-			width: "0.5px",
-			style: "solid",
-			color: theme === "dark" ? "grayDark" : "grayLight"
-		},
-		shadow: {
-			offset: {x: 0, y: 0},
-			spread: 5,
-			colour: theme === "dark" ? "grayDark" : "grayLight"
-		},
+		border: `0.5px solid ${theme === "dark" ? "grayDark" : "grayLight"}`,
+		boxShadow: `0 0 5px ${theme === "dark" ? "grayDark" : "grayLight"}`,
 		width: "fit-content",
 		height: "fit-content !important",
-		hover: {}
-	};
+		":hover": {}
+	} satisfies Style;
 
 	if (clickable)
-	{
-		if (!style.hover)
-			style.hover = {};
-		
-		style.hover.border! = {
-			width: "1px",
-			style: "solid",
-			color: "primary"
-		};
-	}
+		style = {
+			...style,
+			":hover": {
+				border: "1px solid primary"
+			}
+		}
 
 	return style;
 };

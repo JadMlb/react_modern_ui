@@ -1,22 +1,29 @@
-import { GenericProps } from "../GenericProps";
+import { Style } from "../../../styles";
+import { ValueInputProps } from "../../input/ValueInputProps";
+import { CheckboxStylingProps } from "../Checkbox/CheckboxProps";
 
-export interface RadioButtonsGroupProps extends GenericProps
+export interface RadioButtonsGroupProps extends ValueInputProps
 {
 	/**
-	 * The name of the field that contains the value of this input
+	 * Sets the style of the group container
 	 */
-	name: string,
+	style?: Style;
+	/**
+	 * Sets some props for all checkboxes
+	 */
+	checkboxProps?: CheckboxStylingProps;
 	/**
 	 * The labels of the different options. Displayed in their order of appearance.
 	 */
-	optionsLabels: string[],
+	optionsLabels: string[];
 	/**
-	 * The default value this RadioButtonsGroup should start with. Defaults to the first value. `onChange` event handler fired upon load.
+	 * The value this RadioButtonsGroup should have.
+	 * If the value is a `number` it is treated as the index of the option.
+	 * If this index exceeds the array length, the first element is chosen.
 	 */
-	defaultValue?: string,
+	value?: string | number;
 	/**
-	 * The change event handler fired when a new value is selected
-	 * @param newValue The label of the newly selected value
+	 * Sets the group to optional by adding a clear button and enabling the group to have a null value. Defaults to `false`.
 	 */
-	onChange?: (newValue: string) => void
+	optional?: boolean;
 }

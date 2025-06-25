@@ -1,125 +1,109 @@
-import React from "react";
+import React, { useEffect } from "react";
 /** @jsxImportSource @emotion/react */
 import styled from "@emotion/styled";
-import { colour, radius, spacing } from "../../styles/styles";
-import { Button } from "../input";
+import { radius, spacing } from "../../styles/styles";
+import Button from "../input/button";
 import { useState } from "react";
-import { ThemeType } from "../../types/theme";
-import { useDarkMode, useTheme } from "../../styles/theme";
+import { Style, ThemeColourFunction, useThemeColours, useThemeParser } from "../../styles/theme";
+import { PanelProps } from "../../types/components/Panel/PanelProps";
 
-const PanelDiv = styled.div<{$border: boolean, $theme: ThemeType}>
+const PanelDiv = styled.div<{$border: boolean, $colour: ThemeColourFunction}>
 `
 	position: relative;
-	/* padding: ${spacing.xsmall}; */
-
-	${
-		props => props.$border &&
-					`
-						border-radius: ${radius.normal};
-						border: 1px solid ${colour ("primary", props.$theme)};
-					`
-	}
-`;
-
-const ScrollArea = styled.div<{$isDark: boolean, $maxHeight?: number, $maxWidth?: number, $collapsable?: boolean, $collapsed?: boolean, $theme: ThemeType}>
-`
-	${props => props.$maxWidth && `max-width: ${props.$maxWidth}px;`}
-	${props => props.$maxHeight && `max-height: ${props.$maxHeight}px;`}
 	padding: ${spacing.small};
-	min-width: calc(100% - 2 * ${spacing.small});
-	min-height: 15px;
-	overflow: auto;
 	display: flex;
 	flex-direction: column;
 	gap: ${spacing.small};
 
 	${
-		props => props.$collapsable &&
-			`
-				> :last-child
-				{
-					margin-left: auto;
-					font-size: 10pt;
-
-					position: absolute;
-					bottom: ${spacing.small};
-					right: ${spacing.small};
-				}
-			`
-	}
-
-	> span:first-child
-	{
-		background-color: ${props => colour (props.$isDark ? "black" : "white", props.$theme)};
-		position: absolute;
-		top: -0.4rem;
-		left: calc(${spacing.small} - ${spacing.xsmall});
-		padding: 0 ${spacing.xsmall};
-		font-size: 0.8rem;
-		font-weight: bold;
-		color: ${props => colour ("primary", props.$theme)};
+		props => props.$border &&
+					`
+						border-radius: ${radius.normal};
+						border: 1px solid ${props.$colour ("primary")};
+					`
 	}
 `;
 
-type PanelProps = {
-	key?: string | number | bigint | null,
-	title?: string,
-	/**
-	 * The max width in pixels for the panel to occupy
-	 */
-	maxWidth?: number,
-	/**
-	 * The max height in pixels for the panel to occupy
-	 */
-	maxHeight?: number,
-	/**
-	 * Specify whether the panel can be collapsed or not
-	 */
-	collapsible?: boolean,
-	/**
-	 * The content of the panel
-	 */
-	children: React.ReactNode
-};
+const Header = styled.div
+`
+	display: flex;
+	flex-direction: row;
+	justify-contents: space-between;
+	align-items: center;
+`;
+
+const ScrollArea = styled.div
+`
+	min-height: 15px;
+	overflow: auto;
+	display: flex;
+	flex-direction: column;
+	gap: ${spacing.small};
+`;
+
+const Chevron = styled.div<{$getColour: ThemeColourFunction, $up?: boolean}>
+`
+	width: 10px;
+	height: 10px;
+	border-bottom: 2px solid ${props => props.$getColour ("primary")};
+	border-right: 2px solid ${props => props.$getColour ("primary")};
+	transform: rotate(${props => props.$up ? -135 : 45}deg) translate(-2.5px, -2.5px);
+`;
 
 /**
  * Wraps the contents inside their own division, with the ability to add a title. In the latter case, a border is shown around the panel.
  */
-export default function Panel ({title, maxWidth, maxHeight, collapsible: collapsable = false, children}: PanelProps)
+export default function Panel ({id, className, style, title, collapsible = false, children}: PanelProps)
 {
-	const {theme} = useTheme();
-	const isDark = useDarkMode();
+	const getColour = useThemeColours();
 	const [isCollapsed, setIsCollapsed] = useState (true);
+
+	const parseTheme = useThemeParser();
+	const [css, setCss] = useState<Style> ({});
+
+	useEffect (
+		() =>
+		{
+			if (style)
+				setCss (parseTheme (style));
+		},
+		[style, parseTheme]
+	);
 
 	return (
 		<PanelDiv
 			$border = {title !== undefined && title !== null}
-			$theme = {theme}
+			$colour = {getColour}
+			css = {css}
+			className = {className}
+			id = {id}
 		>
-			<ScrollArea
-				$isDark = {isDark}
-				$theme = {theme}
-				$maxWidth = {maxWidth}
-				$maxHeight = {maxHeight}
-				$collapsable = {collapsable}
-				$collapsed = {collapsable && isCollapsed}
-			>
-				<span>{title}</span>
-				{
-					collapsable ?
-						<>
-							{!isCollapsed && children}
-							<Button
-								role = "transparent"
-								onClick = {() => setIsCollapsed (old => !old)}
-							>
-								{isCollapsed ? "Expand" : "Hide"}
-							</Button>
-						</>
-						:
-						children
-				}
-			</ScrollArea>
+			{
+				title &&
+				<Header>
+					<div>{title}</div>
+					{
+						collapsible &&
+						<Button
+							onClick = {() => setIsCollapsed (old => !old)}
+							style = {{
+								position: "sticky",
+								top: 0,
+								height: 30,
+								width: 30,
+								backgroundColor: "unset",
+								borderRadius: "100%"
+							}}
+						>
+							<Chevron $getColour = {getColour} $up = {!isCollapsed}/>
+						</Button>
+					}
+				</Header>
+			}
+			{
+				(!collapsible || !isCollapsed) &&
+				<ScrollArea>{children}</ScrollArea>
+			}
 		</PanelDiv>
 	);
 }

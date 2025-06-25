@@ -10,12 +10,4 @@ export interface BasicInputProps extends CommonInputProps
 	 * The component to be rendered after the input itself
 	 */
 	trailing?: React.ReactNode;
-	/**
-	 * Defines what string to display when an error occurs with the validator
-	 */
-	textOnError?: string;
-	/**
-	 * Signals whether this text input contains an error or not
-	 */
-	isError?: boolean;
 }

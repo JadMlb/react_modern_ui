@@ -1,12 +1,9 @@
 import styled from "@emotion/styled";
-import { radius, spacing, useDarkMode, useThemeColours } from "../../styles";
-import { ParserFactory } from "../../types/components/styles/generic/ParserFactory";
-import { Parser } from "../../types/components/styles/generic/Parser";
-import { BoxStyle } from "../../types/components/styles/box/BoxStyle";
+import { radius, spacing, useDarkMode, useThemeParser } from "../../styles";
 import { useMemo, useRef } from "react";
 import useMenuPosition from "../../hooks/useMenuPosition";
 
-const Container = styled.div<{$fitContent?: boolean, $open?: boolean, $position?: "top" | "bottom", $css: string}>
+const Container = styled.div<{$fitContent?: boolean, $open?: boolean, $position?: "top" | "bottom"}>
 `
 	display: ${props => props.$open ? "block" : "none"};
 	border-radius: ${radius.small};
@@ -17,7 +14,6 @@ const Container = styled.div<{$fitContent?: boolean, $open?: boolean, $position?
 	${props => !props.$fitContent && `min-width: calc(100% - 2 * ${spacing.small});`}
 	width: fit-content;
 	z-index: 99999;
-	${props => props.$css}
 `;
 
 interface MenuProps 
@@ -33,18 +29,14 @@ interface MenuProps
 export default function Menu ({anchorElement, isOpen, children, position, fitContent}: MenuProps)
 {
 	const isDark = useDarkMode();
-	const colour = useThemeColours();
-	const parserFactory = new ParserFactory (colour);
+	const parseTheme = useThemeParser();
+
 	const css = useMemo (
-		() => (parserFactory.getParser("") as Parser<BoxStyle>).parse ({	
-					border: {
-						color: "gray",
-						style: "solid",
-						width: "1px"
-					},
-					backgroundColor: `gray${isDark ? "Dark" : "Light"}`
-				}),
-		[isDark]
+		() => parseTheme ({	
+				border: "1px solid gray",
+				backgroundColor: `gray${isDark ? "Dark" : "Light"}`
+			}),
+		[isDark, parseTheme]
 	);
 
 	const menuRef = useRef<HTMLDivElement | null> (null);
@@ -57,7 +49,7 @@ export default function Menu ({anchorElement, isOpen, children, position, fitCon
 				<Container
 					ref = {menuRef}
 					$open = {isOpen}
-					$css = {css}
+					css = {css}
 					$position = {isFromTop ? "top" : "bottom"}
 					$fitContent = {fitContent}
 				>

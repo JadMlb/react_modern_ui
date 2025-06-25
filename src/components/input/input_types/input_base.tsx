@@ -1,34 +1,23 @@
-import React from "react";
+import React, { useMemo } from "react";
+/** @jsxImportSource @emotion/react */
 import styled from "@emotion/styled";
-import { radius, spacing, useDarkMode, useThemeColours } from "../../../styles";
-import { ParserFactory } from "../../../types/components/styles/generic/ParserFactory";
+import { Style, radius, spacing, useDarkMode, useThemeColours, useThemeParser } from "../../../styles";
 import { useEffect, useState } from "react";
-import { ActionElementStyle } from "../../../types/components/styles/actionElement/ActionElementStyle";
-import { Parser } from "../../../types/components/styles/generic/Parser";
 import { Colour } from "../../../types";
+import InputLabel from "./label";
+import InputHint from "./hint";
 
-const DEFAULT_STYLE: (isDark: boolean) => ActionElementStyle = (isDark) => ({
-	backgroundColor: `gray${isDark ? "Dark" : "Light"}`,
+const DEFAULT_STYLE: (isDark: boolean, disabled?: boolean, readonly?: boolean) => Style = (isDark, disabled = false, readonly = false) => ({
+	backgroundColor: disabled || readonly ? "unset" : `gray${isDark ? "Dark" : "Light"}`,
 	borderRadius: radius.normal,
-	border: {
-		width: "1px",
-		style: "solid",
-		color: "gray"
-	},
+	border: "1px solid gray",
 	padding: spacing.small,
-	hover: {
-		border: {
-			width: "1px",
-			style: "solid",
-			"color": `primary${isDark ? "Dark" : "Elevated"}`
-		}
+	color: disabled ? "gray" : undefined,
+	":hover": {
+		border: `1px solid ${disabled || readonly ? "gray" : `primary${isDark ? "Dark" : "Elevated"}`}`
 	},
-	focus: {
-		border: {
-			width: "1px",
-			style: "solid",
-			"color": "primary"
-		}
+	":focus": {
+		border: `1px solid ${disabled || readonly ? "gray" : "primary"}`
 	}
 });
 
@@ -38,21 +27,13 @@ const Container = styled.div
 	flex-direction: column;
 `;
 
-const Wrapper = styled.div<{$css: string, $isError?: boolean, $colour: (col: Colour) => string}>
+const Wrapper = styled.div<{$isError?: boolean, $colour: (col: Colour) => string}>
 `
 	display: flex;
 	gap: ${spacing.small};
 	align-items: center;
 	position: relative;
-	${props => props.$css};
 	${props => props.$isError && `border-color: ${props.$colour ("error")} !important;`}
-`;
-
-const Label = styled.label
-`
-	font-size: 0.8rem;
-	font-weight: bold;
-	margin-left: calc(2 * ${spacing.xsmall});
 `;
 
 const Trailing = styled.div
@@ -60,18 +41,12 @@ const Trailing = styled.div
 	margin-left: auto;
 `;
 
-const Hint = styled.small<{$isError: boolean, $colour: (col: Colour) => string}>
-`
-	margin-left: ${spacing.small};
-	color: ${props => props.$colour (props.$isError ? "error" : "gray")};
-`;
-
 interface InputBaseProps
 {
 	inputId?: string;
 	label?: string;
 	children?: React.ReactNode;
-	style?: ActionElementStyle;
+	style?: Style;
 	trailing?: React.ReactNode;
 	hint?: string;
 	textOnError?: string;
@@ -79,46 +54,49 @@ interface InputBaseProps
 	hideLabel?: boolean;
 	className?: string;
 	id?: string;
+	disabled?: boolean;
+	readonly?: boolean;
 	onClick?: React.MouseEventHandler;
 	onFocus?: React.FocusEventHandler;
 	onBlur?: React.FocusEventHandler;
 }
 
 const InputBase = React.forwardRef<HTMLDivElement, InputBaseProps> (
-	({inputId, label, style, trailing, hint, textOnError, isError = false, hideLabel, children, onClick, onFocus, onBlur}, ref) =>
+	({id, className, inputId, label, style, trailing, hint, textOnError, isError = false, hideLabel, disabled, readonly, children, onClick, onFocus, onBlur}, ref) =>
 	{
 		const colour = useThemeColours();
 		const isDark = useDarkMode();
 
-		const parserFactory = new ParserFactory (colour);
-		const [css, setCss] = useState<string> ("");
-		const [realStyle, setRealStyle] = useState<ActionElementStyle> ();
+		const parseTheme = useThemeParser();
+		const [css, setCss] = useState<Style> ({});
 
-		useEffect (
-			() =>
-			{
-				setRealStyle ({
-					...DEFAULT_STYLE (isDark),
-					...style
-				});
-			},
-			[style, isDark]
+		const fontColorStyle = useMemo (
+			() => parseTheme ({color: disabled ? "gray" : "inherit"}),
+			[disabled, parseTheme]
 		);
 
 		useEffect (
 			() =>
 			{
-				if (realStyle)
-					setCss ((parserFactory.getParser("") as Parser<ActionElementStyle>).parse (realStyle));
+				setCss (parseTheme ({
+					...DEFAULT_STYLE (isDark, disabled, readonly),
+					...style
+				}));
 			},
-			[realStyle]
+			[style, isDark, parseTheme, disabled, readonly]
 		);
 		
 		return (
-			<Container>
-				{!hideLabel && <Label htmlFor = {inputId}>{label}</Label>}
+			<Container aria-disabled = {disabled}>
+				<InputLabel
+					htmlFor = {inputId}
+					style = {fontColorStyle}
+					hidden = {hideLabel}
+				>
+					{label}
+				</InputLabel>
 				<Wrapper
-					$css = {css}
+					css = {css}
 					$isError = {isError}
 					$colour = {colour}
 					tabIndex = {0}
@@ -126,6 +104,8 @@ const InputBase = React.forwardRef<HTMLDivElement, InputBaseProps> (
 					onFocus = {onFocus}
 					onBlur = {onBlur}
 					ref = {ref}
+					className = {`rmui-input-base ${className ?? ""}`}
+					id = {id}
 				>
 					{children}
 					{
@@ -133,12 +113,11 @@ const InputBase = React.forwardRef<HTMLDivElement, InputBaseProps> (
 							<Trailing>{trailing}</Trailing>
 					}
 				</Wrapper>
-				{
-					(isError && textOnError || hint) &&
-					<Hint $isError = {isError} $colour = {colour}>
-						{isError ? textOnError : hint}
-					</Hint>
-				}
+				<InputHint
+					isError = {isError}
+					hint = {hint}
+					textOnError = {textOnError}
+				/>
 			</Container>
 		);
 	}

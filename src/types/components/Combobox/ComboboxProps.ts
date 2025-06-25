@@ -1,10 +1,8 @@
 import { Option } from "../../Option";
 import { CommonInputProps } from "../../input/CommonInputProps";
-import { ActionElementStyle } from "../styles/actionElement/ActionElementStyle";
 
 export interface ComboboxProps extends CommonInputProps
 {
-	style?: ActionElementStyle;
 	/**
 	 * The list of options to offer for selection
 	 */

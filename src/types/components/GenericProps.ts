@@ -1,8 +1,8 @@
-import { BasicStyle } from "./styles/generic/BasicStyle";
+import { Style } from "../../styles";
 
 export interface GenericProps
 {
-	style?: BasicStyle;
+	style?: Style;
 	className?: string;
 	id?: string;
 }

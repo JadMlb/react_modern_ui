@@ -1,12 +1,10 @@
 import { GenericProps } from "../GenericProps";
-import { ButtonStyle } from "./ButtonStyle";
 
 export type ButtonRoles = "primary" | "alert" | "warn" | "normal";
 export type ButtonTypes = "filled" | "outlined" | "link";
 
 export interface ButtonProps extends GenericProps
 {
-	style?: ButtonStyle
 	/**
 	 * The role the button will take
 	 * - `normal` (default): renders a button with gray background

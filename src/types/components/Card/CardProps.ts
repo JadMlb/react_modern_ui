@@ -1,9 +1,7 @@
 import { GenericProps } from "../GenericProps";
-import { ActionElementStyle } from "../styles/actionElement/ActionElementStyle";
 
 export interface CardProps extends GenericProps
 {
-	style?: ActionElementStyle
 	/**
 	 * The title of the card shown in bold
 	 */

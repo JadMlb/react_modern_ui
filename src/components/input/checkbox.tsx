@@ -1,19 +1,15 @@
 import { useEffect, useMemo, useState } from "react";
 /** @jsxImportSource @emotion/react */
 import styled from "@emotion/styled";
-import { useDarkMode, useThemeColours } from "../../styles/theme";
+import { useDarkMode, useThemeColours, useThemeParser } from "../../styles/theme";
 import { spacing } from "../../styles/styles";
 import { CheckboxProps } from "../../types/components/Checkbox/CheckboxProps";
 import { Colour } from "../../types";
-import { ParserFactory } from "../../types/components/styles/generic/ParserFactory";
-import { ActionElementStyle } from "../../types/components/styles/actionElement/ActionElementStyle";
 import { CheckboxStyle, DEFAULT_CHECKBOX_STYLE } from "../../types/components/Checkbox/CheckboxStyle";
-import { Parser } from "../../types/components/styles/generic/Parser";
-import { TextStyle } from "../../types/components/styles/text/TextStyle";
 
 const THICKNESS = "3px";
 
-const Label = styled.label<{$hasLabel: boolean, $css: string}>
+const Label = styled.label<{$hasLabel: boolean}>
 `
 	${
 		props => props.$hasLabel &&
@@ -24,11 +20,9 @@ const Label = styled.label<{$hasLabel: boolean, $css: string}>
 				gap: calc(${spacing.xsmall} / 2);
 			`
 	}
-
-	${props => props.$css}
 `;
 
-const CheckBoxBox = styled.div<{$css: string, $isDark: boolean, $checked?: boolean, $colour: (col: Colour) => string}>
+const CheckBoxBox = styled.div<{$isDark: boolean, $checked?: boolean, $colour: (col: Colour) => string}>
 `
 	flex-shrink: 0;
 
@@ -37,8 +31,6 @@ const CheckBoxBox = styled.div<{$css: string, $isDark: boolean, $checked?: boole
 	background-color: ${props => props.$colour (props.$isDark ? "black" : "white")};
 
 	cursor: pointer;
-
-	${props => props.$css}
 `;
 
 const Check = styled.div<{$checked?: boolean, $isDark: boolean, $colour: (col: Colour) => string}>
@@ -81,33 +73,32 @@ function DashComponent ()
 }
 
 /**
- * Renders a Checkbox component with specified state, either in normal checked/unchecked, or in tri-state
+ * Renders a Checkbox component with specified value, either in normal checked/unchecked, or in tri-value
  */
-export default function Checkbox ({state, className, style, label, labelStyle, intermediateStyle, checkedStyle, checkedComponent = <CheckComponent/>, intermediateComponent = <DashComponent/>, onChange}: CheckboxProps)
+export default function Checkbox ({value, className, style, label, labelStyle, intermediateStyle, checkedStyle, checkedComponent = <CheckComponent/>, intermediateComponent = <DashComponent/>, onChange}: CheckboxProps)
 {
 	const isDark = useDarkMode();
 	const colour = useThemeColours();
 
-	const parserFactory = new ParserFactory (colour);
-	const [css, setCss] = useState<{checkbox: string, label: string, checked: string, intermediate: string}> ({checkbox: "", label: "", intermediate: "", checked: ""});
-	const [realStyle, setRealStyle] = useState<CheckboxStyle> ();
-
+	const parseTheme = useThemeParser();
+	const [css, setCss] = useState<CheckboxStyle> ({});
+	
 	useEffect (
 		() =>
 		{
 			const DEFAULT_STYLE = DEFAULT_CHECKBOX_STYLE (isDark ? "dark" : "light");
 			if (DEFAULT_STYLE)
-				setRealStyle (
+				setCss (
 					old =>
 					({
 						...old,
-						checkbox: {...DEFAULT_STYLE.checkbox, ...style},
-						checked: {...DEFAULT_STYLE.checked, ...checkedStyle},
-						intermediate: {...DEFAULT_STYLE.intermediate, ...intermediateStyle}
+						checkbox: parseTheme ({...DEFAULT_STYLE.checkbox, ...style}),
+						checked: parseTheme ({...DEFAULT_STYLE.checked, ...checkedStyle}),
+						intermediate: parseTheme ({...DEFAULT_STYLE.intermediate, ...intermediateStyle})
 					})
 				);
 		},
-		[style, checkedStyle, intermediateStyle, isDark]
+		[style, checkedStyle, intermediateStyle, isDark, parseTheme]
 	);
 
 	useEffect (
@@ -115,40 +106,19 @@ export default function Checkbox ({state, className, style, label, labelStyle, i
 		{
 			const DEFAULT_STYLE = DEFAULT_CHECKBOX_STYLE (isDark ? "dark" : "light");
 				if (DEFAULT_STYLE)
-					setRealStyle (old => ({...old, label: {...DEFAULT_STYLE.label, ...labelStyle}}));
+					setCss (
+						old => ({
+							...old,
+							label: parseTheme ({...DEFAULT_STYLE.label, ...labelStyle})
+						})
+					);
 		},
-		[labelStyle, isDark]
+		[labelStyle, isDark, parseTheme]
 	);
 	
-	useEffect (
-		() =>
-		{
-			let label = realStyle?.label ? (parserFactory.getParser("") as Parser<TextStyle>).parse (realStyle.label ?? {}) : null,
-				checkbox = realStyle?.checkbox ? (parserFactory.getParser("") as Parser<ActionElementStyle>).parse (realStyle.checkbox ?? {}) : null,
-				intermediate = realStyle?.intermediate ? (parserFactory.getParser("") as Parser<ActionElementStyle>).parse (realStyle.intermediate ?? {}) : null,
-				checked = realStyle?.checked ? (parserFactory.getParser("") as Parser<ActionElementStyle>).parse (realStyle.checked ?? {}) : null;
-
-			setCss (
-				old =>
-				({
-					checkbox: checkbox ?? old.checkbox,
-					label: label ?? old.label,
-					checked: checked ?? old.checked,
-					intermediate: intermediate ?? old.intermediate
-				})
-			);
-		},
-		[realStyle]
-	);
-
 	const isReallyChecked = useMemo (
-		() => state === true || typeof state === "number" && state > 0,
-		[state]
-	);
-
-	const full = useMemo (
-		() => state === true || state === 2,
-		[state]
+		() => value === true || typeof value === "number" && value > 0,
+		[value]
 	);
 	
 	return (
@@ -156,27 +126,34 @@ export default function Checkbox ({state, className, style, label, labelStyle, i
 			className = {className}
 			$hasLabel = {label !== undefined && label !== null && label !== ""}
 			onClick = {e => e.stopPropagation()}
-			$css = {css.label}
+			css = {css.label}
 		>
 			<CheckBoxBox
 				$isDark = {isDark}
 				$colour = {colour}
 				$checked = {isReallyChecked}
-				$css = {css.checkbox + (isReallyChecked ? full ? css.checked : css.intermediate : "")}
+				css = {{
+					...css.checkbox,
+					...(
+						value === true || value === 2 ?
+							css.checked :
+							value === 1 ?
+							css.intermediate : {}
+					)
+				}}
 			>
 			{
-				isReallyChecked &&
-				(
-					full === undefined || full ?
-						checkedComponent :
-						intermediateComponent
-				)
+				value === true || value === 2 ?
+					checkedComponent :
+					value === 1 ?
+						intermediateComponent :
+						<></>
 			}
 			</CheckBoxBox>
 			<HiddenInput
 				type = "checkbox"
 				checked = {isReallyChecked}
-				onChange = {onChange}
+				onChange = {e => onChange?. (e, e.target.value)}
 			/>
 			{label}
 		</Label>

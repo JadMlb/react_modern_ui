@@ -1,12 +1,8 @@
-import { radius, spacing } from "../../../styles";
-import { ActionElementStyle } from "../styles/actionElement/ActionElementStyle";
+import { Style, radius, spacing } from "../../../styles";
 import { ButtonRoles, ButtonTypes } from "./ButtonProps";
 
-export interface ButtonStyle extends ActionElementStyle
-{}
-
 type DefaultButtonStyles = {
-	[key in ButtonTypes]?: (role: ButtonRoles, theme?: "dark" | "light") => ButtonStyle
+	[key in ButtonTypes]?: (role: ButtonRoles, theme?: "dark" | "light") => Style
 }
 
 export const DEFAULT_BUTTON_STYLES: DefaultButtonStyles = {
@@ -19,12 +15,12 @@ export const DEFAULT_BUTTON_STYLES: DefaultButtonStyles = {
 							role === "warn" ?
 								"error" :
 								`gray${theme[0].toUpperCase()}${theme.slice (1)}`,
-		fontColor: theme === "dark" || ["primary", "warn"].includes (role) ?
+		color: theme === "dark" || ["primary", "warn"].includes (role) ?
 						"white" :
 						role === "alert" ?
 							"error" :
 							"black",
-		hover: {
+		":hover": {
 			backgroundColor: role === "warn" ?
 								"errorDark" :
 								role === "alert" ?
@@ -32,31 +28,23 @@ export const DEFAULT_BUTTON_STYLES: DefaultButtonStyles = {
 									role === "primary" ?
 										"primaryDark" :
 										"primaryElevated",
-			fontColor: role === "normal" ? "black" : "white"
+			color: role === "normal" ? "black" : "white"
 		},
-		disabled: {
-			fontColor: "gray",
+		":disabled": {
+			color: "gray",
 			backgroundColor: `gray${theme[0].toUpperCase()}${theme.slice (1)}`
 		}
 	}),
 	outlined: (role, theme = "light") => ({
 		borderRadius: radius.normal,
-		border: {
-			width: "1.5px",
-			style: "solid",
-			color: role === "primary" ?
-					"primary" :
-					role === "warn" ?
-						"error" :
-						`gray${theme[0].toUpperCase()}${theme.slice (1)}`
-		},
+		border: `1.5px solid ${role === "primary" ? "primary" : role === "warn" ? "error" : `gray${theme[0].toUpperCase()}${theme.slice (1)}`}`,
 		padding: `calc(${spacing.small} - 1.5px)`,
 		fontWeight: ["primary", "transparent", "warn"].includes (role) ? "bold" : "normal",
 		backgroundColor: "transparent",
-		fontColor: ["primary", "normal"].includes (role) ?
+		color: ["primary", "normal"].includes (role) ?
 						"primary" :
 						"error",
-		hover: {
+		":hover": {
 			backgroundColor: ["warn", "alert"].includes (role) ?
 								theme === "dark" ? "errorDark" : "errorElevated":
 								theme === "dark" ? "primaryDark": "primaryElevated",
@@ -64,17 +52,18 @@ export const DEFAULT_BUTTON_STYLES: DefaultButtonStyles = {
 	}),
 	link: (role, theme = "light") => ({
 		backgroundColor: "transparent",
-		border: null,
-		underlineColor: role === "primary" ?
+		border: "unset",
+		textDecorationLine: "underline",
+		textDecorationColor: role === "primary" ?
 						"primary" :
 						role === "warn" ?
 							"error" :
 							`gray`,
 		color: theme === "light" ? "black" : "white",
-		hover: {
+		":hover": {
 			color: ["warn", "alert"].includes (role) ?
 						"error" :
 						"primary"
 		}
-	} satisfies ButtonStyle)
+	})
 }

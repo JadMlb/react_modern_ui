@@ -1,16 +1,13 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 /** @jsxImportSource @emotion/react */
 import styled from "@emotion/styled";
 import { spacing } from "../../styles/styles";
-import { useDarkMode, useThemeColours } from "../../styles/theme";
+import { Style, useDarkMode, useThemeColours, useThemeParser } from "../../styles/theme";
 import { Colour } from "../../types";
 import { CardProps } from "../../types/components/Card/CardProps";
-import { ParserFactory } from "../../types/components/styles/generic/ParserFactory";
-import { ActionElementStyle } from "../../types/components/styles/actionElement/ActionElementStyle";
 import { DEFAULT_CARD_STYLE } from "../../types/components/Card/CardStyle";
-import { Parser } from "../../types/components/styles/generic/Parser";
 
-const CardBg = styled.div<{$css: string, $mediaPosition: "left" | "top" | "right" | "bottom", $containsMedia: boolean, $isDark: boolean, $colour: (col: Colour) => string}>
+const CardBg = styled.div<{$mediaPosition: "left" | "top" | "right" | "bottom", $containsMedia: boolean}>
 `
 	position: relative;
 	overflow: hidden;
@@ -33,13 +30,11 @@ const CardBg = styled.div<{$css: string, $mediaPosition: "left" | "top" | "right
 						${props.$containsMedia ? "\"m\"" : ""}`
 	};
 
-	> :not(.card-content)
+	> :not(.rmui-card-content)
 	{
 		align-self: center;
 		justify-self: center;
 	}
-
-	${props => props.$css}
 `;
 
 const Title = styled.h4
@@ -63,61 +58,50 @@ const CardContent = styled.div<{$width?: number, $height?: number, $mediaPositio
 
 	width: 1fr;
 	height: 1fr;
-	/*width: ${props => props.$width ? `${props.$width}px` : "fit-content"};
-	height: ${props => props.$height ? `${props.$height}px` : "fit-content"};*/
 `;
 
 /**
  * Renders a visible, elevated wrapper around the content with a title and a subtitle
  */
-export default function Card ({className, style, title, subtitle, media, mediaPosition = "top", children, onClick}: CardProps)
+export default function Card ({id, className, style, title, subtitle, media, mediaPosition = "top", children, onClick}: CardProps)
 {
 	const colour = useThemeColours();
 	const isDark = useDarkMode();
 
-	const parserFactory = new ParserFactory (colour);
-	const [css, setCss] = useState ("");
-	const [realStyle, setRealStyle] = useState<ActionElementStyle> ();
+	const parseTheme = useThemeParser();
+	const [css, setCss] = useState<Style> ({});
 
 	useEffect (
 		() =>
 		{
 			const DEFAULT_STYLE = DEFAULT_CARD_STYLE (onClick !== undefined, isDark ? "dark" : "light");
 			if (DEFAULT_STYLE)
-				setRealStyle ({...DEFAULT_STYLE, ...style});
+				setCss (parseTheme ({...DEFAULT_STYLE, ...style}));
 		},
-		[style, onClick, isDark]
-	);
-	
-	useEffect (
-		() =>
-		{
-			if (realStyle)
-				setCss ((parserFactory.getParser("") as Parser<ActionElementStyle>).parse (realStyle));
-		},
-		[realStyle]
+		[style, onClick, isDark, parseTheme]
 	);
 
 	return (
 		<CardBg
+			css = {css}
 			className = {className}
-			$isDark = {isDark}
-			$colour = {colour}
+			id = {id}
 			$mediaPosition = {mediaPosition}
 			$containsMedia = {media !== undefined}
-			$css = {css}
 			onClick = {onClick}
 		>
-			<CardContent
-				className = "card-content"
-				$mediaPosition = {mediaPosition}
-				$containsMedia = {!!media}
-			>
-				{title && <Title>{title}</Title>}
-				{subtitle && <Small $colour = {colour}>{subtitle}</Small>}
-				{children}
-			</CardContent>
-			{/* {media && <CardMedia src = {media} $position = {mediaPosition} width = {width} height = {height}/>} */}
+			<>{
+				title && subtitle && children &&
+				<CardContent
+					className = "rmui-card-content"
+					$mediaPosition = {mediaPosition}
+					$containsMedia = {!!media}
+				>
+					{title && <Title>{title}</Title>}
+					{subtitle && <Small $colour = {colour}>{subtitle}</Small>}
+					{children}
+				</CardContent>
+			}</>
 			{media}
 		</CardBg>
 	);

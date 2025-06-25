@@ -136,6 +136,8 @@ export default function TextInput (props: (TextInputProps | EmailInputProps | Pa
 			}
 			isError = {isError}
 			style = {style}
+			disabled = {disabled}
+			readonly = {readonly}
 		>
 			{leading}
 			{

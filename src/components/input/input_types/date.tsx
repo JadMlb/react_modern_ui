@@ -1,5 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
-import CalendarPopup from "./calendar_popup";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import DateTimeInputProps from "../../../types/input/datetime/DateTimeInputProps";
 import TimeInputProps from "../../../types/input/datetime/TimeInputProps";
 import DateInputProps from "../../../types/input/datetime/DateInputProps";
@@ -11,17 +10,8 @@ export default function DateInput (props: DateTimeInputProps | TimeInputProps | 
 {
 	const {id, className, name, label, hideLabel, hint, textOnError, isError, value, range, type, leading, trailing, style, onChange, readonly, disabled, optional} = props;
 	const [shownValue, setShownValue] = useState (value ? value.toString() : "");
-	const [isCalendarShown, setIsCalendarShown] = useState (false);
 	const popupRef = useRef<HTMLDivElement> (null);
 	const inputRef = useRef<HTMLInputElement> (null);
-
-	function onChangeDetected (newVal: Date)
-	{
-		const value = formatDate (newVal);
-		setShownValue (value);
-		if (onChange)
-			onChange (null, value);
-	}
 
 	function handleClear (e: React.MouseEvent)
 	{
@@ -35,29 +25,36 @@ export default function DateInput (props: DateTimeInputProps | TimeInputProps | 
 		return number.toString().padStart (2, "0");
 	}
 
-	function formatDate (date: Date)
-	{
-		const dateStr = `${date.getFullYear().toString().padStart (4, "0")}-${padDateTime (date.getMonth() + 1)}-${padDateTime(date.getDate())}`;
-		const timeStr = `${padDateTime (date.getHours())}:${padDateTime (date.getMinutes())}${(props.type === "datetime" || props.type === "time") && props.withSeconds ? `:${padDateTime (date.getSeconds())}` : ""}`;
-
-		switch (type)
+	const formatDate = useCallback (
+		(date: Date) =>
 		{
-			case "date": return dateStr;
-			case "time": return timeStr;
-			case "datetime": return dateStr + "T" + timeStr;
-		}
-	}
+			const dateStr = `${date.getFullYear().toString().padStart (4, "0")}-${padDateTime (date.getMonth() + 1)}-${padDateTime(date.getDate())}`;
+			const timeStr = `${padDateTime (date.getHours())}:${padDateTime (date.getMinutes())}${(props.type === "datetime" || props.type === "time") && props.withSeconds ? `:${padDateTime (date.getSeconds())}` : ""}`;
+
+			switch (type)
+			{
+				case "date": return dateStr;
+				case "time": return timeStr;
+				case "datetime": return dateStr + " " + timeStr;
+			}
+		},
+	[]
+	)
 
 	function expand (e: React.FocusEvent)
 	{
 		e.stopPropagation();
-		setIsCalendarShown (!disabled && !readonly);
+		if (!disabled && !readonly)
+		{
+			inputRef.current?.showPicker?.();
+			inputRef.current?.click();
+		}
 	}
 
 	function close (e: React.FocusEvent)
 	{
 		e.stopPropagation();
-		setIsCalendarShown (false);
+		inputRef.current?.blur();
 	}
 
 	useEffect (
@@ -66,7 +63,7 @@ export default function DateInput (props: DateTimeInputProps | TimeInputProps | 
 			function handleClickOutside (e: MouseEvent)
 			{
 				if (popupRef.current && inputRef.current && !popupRef.current.contains (e.target as Element) && !inputRef.current.contains (e.target as Element))
-					setIsCalendarShown (false);
+					inputRef.current?.blur();
 			}
 			
 			window.addEventListener ("click", handleClickOutside);
@@ -100,6 +97,8 @@ export default function DateInput (props: DateTimeInputProps | TimeInputProps | 
 			style = {style}
 			onFocus = {expand}
 			onBlur = {close}
+			disabled = {disabled}
+			readonly = {readonly}
 		>
 			{leading}
 			<input
@@ -107,21 +106,13 @@ export default function DateInput (props: DateTimeInputProps | TimeInputProps | 
 				name = {name}
 				type = {type === "datetime" ? "datetime-local" : type}
 				value = {shownValue}
-				readOnly
+				onChange = {e => onChange?. (e as React.ChangeEvent<Element>, formatDate (new Date (e.target.value)))}
 				min = {(range && range[0] && formatDate (range[0])) || undefined}
 				max = {(range && range[1] && formatDate (range[1])) || undefined}
-				style = {{all: "unset", font: "inherit", flex: 1}}
+				style = {{all: "unset", height: "auto", font: "inherit", flex: 1}}
+				disabled = {disabled}
+				readOnly = {readonly}
 			/>
-			{
-				<CalendarPopup
-					elementRef = {inputRef.current}
-					onChange = {newVal => onChangeDetected (newVal)}
-					isOpen = {isCalendarShown}
-					// onClose = {() => setIsCalendarShown (false)}
-					type = {type}
-					withSeconds = {(props.type === "datetime" || props.type === "time") && props.withSeconds}
-				/>
-			}
 		</InputBase>
 	);
 }
