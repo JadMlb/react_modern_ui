@@ -91,7 +91,7 @@ export default function Card ({id, className, style, title, subtitle, media, med
 			onClick = {onClick}
 		>
 			<>{
-				title && subtitle && children &&
+				(title || subtitle || children) &&
 				<CardContent
 					className = "rmui-card-content"
 					$mediaPosition = {mediaPosition}
