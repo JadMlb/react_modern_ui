@@ -1,17 +1,14 @@
+import { useMemo } from "react";
+/** @jsxImportSource @emotion/react */
 import styled from "@emotion/styled";
 import { Option } from "../../../../types";
-import { radius, spacing, useDarkMode, useThemeColours } from "../../../../styles";
-import { ParserFactory } from "../../../../types/components/styles/generic/ParserFactory";
-import { useMemo } from "react";
-import { Parser } from "../../../../types/components/styles/generic/Parser";
-import { ActionElementStyle } from "../../../../types/components/styles/actionElement/ActionElementStyle";
+import { radius, spacing, useDarkMode, useThemeParser } from "../../../../styles";
 
-const Container = styled.div<{$css: string}>
+const Container = styled.div
 `
 	cursor: pointer;
 	padding-inline: ${spacing.xsmall};
 	border-radius: calc(${radius.small} - ${spacing.xsmall});
-	${props => props.$css}
 `;
 
 interface ComboboxOptionProps
@@ -23,26 +20,23 @@ interface ComboboxOptionProps
 
 export default function ComboboxOption ({option, selected, onClick}: ComboboxOptionProps)
 {
-	const colour = useThemeColours();
 	const isDark = useDarkMode();
 	
-	const parserFactory = new ParserFactory (colour);
+	const parseCss = useThemeParser();
 	const css = useMemo (
-		() =>
-			(parserFactory.getParser("") as Parser<ActionElementStyle>)
-				.parse ({
+		() => parseCss ({
 					backgroundColor: selected ? "primary" : "transparent",
 					color: selected || isDark ? "white" : "black",
-					hover: {
+					":hover": {
 						backgroundColor: `primary${isDark ? "Dark" : "Elevated"}`,
 						color: isDark ? "white" : "black"
 					}
 				}),
-		[isDark, selected]
+		[parseCss, isDark, selected]
 	);
 	
 	return (
-		<Container onClick = {() => onClick (option)} $css = {css}>
+		<Container onClick = {() => onClick (option)} css = {css}>
 			{option.display}
 		</Container>
 	);

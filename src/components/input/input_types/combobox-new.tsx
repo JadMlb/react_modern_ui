@@ -1,10 +1,7 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { ComboboxProps } from "../../../types/components/Combobox/ComboboxProps";
 import InputBase from "./input_base";
-import { ParserFactory } from "../../../types/components/styles/generic/ParserFactory";
-import { spacing, useDarkMode, useThemeColours } from "../../../styles";
-import { Parser } from "../../../types/components/styles/generic/Parser";
-import { BoxStyle } from "../../../types/components/styles/box/BoxStyle";
+import { spacing, useDarkMode, useThemeParser } from "../../../styles";
 import Menu from "../menu";
 import ComboboxOption from "./combo_components/option";
 import { Option } from "../../../types";
@@ -14,24 +11,18 @@ import X from "./combo_components/x";
 function Arrow ({up}: {up?: boolean})
 {
 	const isDark = useDarkMode();
-	const colour = useThemeColours();
-	const parserFactory = new ParserFactory (colour);
-	const css = (parserFactory.getParser("") as Parser<BoxStyle>).parse ({
-		width: "7px",
-		height: "7px",
-		borderBottom: {
-			color: isDark ? "white" : "black",
-			style: "solid",
-			width: "2px"
-		},
-		borderRight: {
-			color: isDark ? "white" : "black",
-			style: "solid",
-			width: "2px"
-		},
-		transform: `translate(-${spacing.small}, ${up ? "" : "-"}1.75px) rotate(${up ? -13 : 4}5deg)`
-	});
-
+	const parseCss = useThemeParser();
+	const css = useMemo (
+		() => parseCss ({
+			width: "7px",
+			height: "7px",
+			borderBottom: `2px solid ${isDark ? "white" : "black"}`,
+			borderRight: `2px solid ${isDark ? "white" : "black"}`,
+			transform: `translate(-${spacing.small}, ${up ? "" : "-"}1.75px) rotate(${up ? -13 : 4}5deg)`
+		}),
+		[parseCss, up]
+	);
+	
 	return (
 		<div css = {css}/>
 	);
@@ -67,28 +58,42 @@ export default function Combobox ({id, className, name, options, label, value, h
 		[options]
 	);
 
-	const formattedValue = useMemo (
-		() =>
+	const formatValue = useCallback (
+		(value: string | string[]) =>
 		{
 			if (Array.isArray (value))
 				return value.map (
-					v => <Tag
-							onClick = {
-								e =>
-								{
-									e.stopPropagation();
-									const option = getSelected (v);
-									if (option)
-										handleChange (null, option);
-								}
-							}
-						>
-							{v} <X/>
-						</Tag>
-				);
-			return value;
+					v =>
+					{
+						const option = getSelected (v);
+						if (!option)
+							return;
+						
+						return <Tag
+									key = {option.value}
+									onClick = {
+										e =>
+										{
+											e.stopPropagation();
+											if (!readonly && !disabled)
+												handleChange (null, option);
+										}
+									}
+								>
+									{option.display} {!readonly && !disabled && <X/>}
+								</Tag>;
+					}
+				)
+				.filter (v => v !== undefined);
+
+			return getSelected(value)?.display;
 		},
-		[value, getSelected]
+		[getSelected]
+	);
+
+	const formattedValue = useMemo (
+		() => formatValue (value),
+		[formatValue, value, readonly, disabled]
 	);
 
 	function isFromTop ()
@@ -143,7 +148,21 @@ export default function Combobox ({id, className, name, options, label, value, h
 			label = {label}
 			trailing = {
 				<div style = {{display: "flex", gap: spacing.large, alignItems: "center"}}>
-					{optional && <X large onClick = {e => {e.stopPropagation(); onChange?. (null, null);}}/>}
+					{
+						optional && value && (value?.length ?? 0) > 0 &&
+						<X
+							large
+							onClick = {
+								e =>
+								{
+									e.stopPropagation();
+									e.preventDefault();
+									if (!disabled && !readonly) 
+										onChange?. (null, null);
+								}
+							}
+						/>
+					}
 					{arrowComponent[isExpanded ? "open" : "closed"]}
 				</div>
 			}
@@ -152,6 +171,8 @@ export default function Combobox ({id, className, name, options, label, value, h
 			style = {style}
 			onFocus = {expand}
 			onBlur = {close}
+			disabled = {disabled}
+			readonly = {readonly}
 		>
 			{leading}
 			{formattedValue}
@@ -167,15 +188,15 @@ export default function Combobox ({id, className, name, options, label, value, h
 								key = {o.value}
 								option = {o}
 								selected = {Array.isArray (value) && value.findIndex (v => v === o.value) > -1 || value === o.value}
-								onClick = {option => handleChange (null, option)}
+								onClick = {option => disabled || readonly ? undefined : handleChange (null, option)}
 							/>
 					) :
 					Object.entries (options)
 							.map (
-								category => <>
-										<small>{category[0]}</small>
+								([category, options]) => <React.Fragment key = {`rmui-combobox-grp-${category}`}>
+										<small>{category}</small>
 										{
-											category[1].map (
+											options.map (
 												o => <ComboboxOption
 														key = {o.value}
 														option = {o}
@@ -184,7 +205,7 @@ export default function Combobox ({id, className, name, options, label, value, h
 													/>
 											)
 										}
-									</>
+									</React.Fragment>
 							)
 			}</Menu>
 		</InputBase>
