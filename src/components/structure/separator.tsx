@@ -1,69 +1,59 @@
 /** @jsxImportSource @emotion/react */
 import styled from "@emotion/styled";
-import { colour, spacing } from "../../styles/styles";
-import { Style, useDarkMode, useTheme, useThemeParser } from "../../styles/theme";
-import { ThemeType } from "../../types/theme";
+import { spacing } from "../../styles/styles";
+import { Style, useThemeParser } from "../../styles/theme";
 import SeparatorProps from "../../types/components/Separator/SeparatorProps";
 import { useEffect, useState } from "react";
-
-const HR = styled.hr<{$title?: string, $isDark: boolean, $theme: ThemeType}>
-`
-	margin: 0;
-	padding: 0;
-	text-align: left;
-	overflow: visible;
-	height: 1px;
-	border: 0;
-	border-top: 1px solid ${props => colour ("primary", props.$theme)};
-	color: ${props => colour ("primary", props.$theme)};
-`;
 
 const Wrapper = styled.div
 `
 	display: flex;
 	flex-direction: row;
+	align-items: center;
 	gap: ${spacing.small};
 `;
 
 const DEFAULT_STYLE = {
-	margin: 0,
-	padding: 0,
-	overflow: "visible",
 	height: 1,
-	border: 0,
-	borderTop: "1px solid primary",
-	color: "primary",
+	width: "100%",
+	backgroundColor: "primary",
+} satisfies Style;
+
+const DEFAULT_PARENT_STYLE = {
+	display: "flex",
+	flexDirection: "row",
+	alignItems: "center",
+	gap: spacing.small,
+	"> small": {
+		color: "primary",
+		flexGrow: 1,
+		flexShrink: 0.5
+	}
 } satisfies Style;
 
 /**
  * Draws a horizontal separator with or without a title to distinguish parts
  */
-export default function Separator ({id, className, style, title}: SeparatorProps)
+export default function Separator ({id, className, style, parentStyle, title}: SeparatorProps)
 {
-	const {theme} = useTheme();
-	const isDark = useDarkMode();
-	
 	const parseCss = useThemeParser();
-	const [css, setCss] = useState<Style> (DEFAULT_STYLE);
+	const [css, setCss] = useState<Style> ({});
+	const [parentCss, setParentCss] = useState<Style> ({});
 
 	useEffect (
-		() =>
-		{
-			if (style)
-				setCss (parseCss ({...DEFAULT_STYLE, ...style}));
-		},
+		() => setCss (parseCss ({...DEFAULT_STYLE, ...style})),
 		[style, parseCss]
+	);
+	
+	useEffect (
+		() => setParentCss (parseCss ({...DEFAULT_PARENT_STYLE, ...parentStyle})),
+		[parentStyle, parseCss]
 	);
 
 	return (
-		// <Wrapper>
-		// 	{title}
-			<HR $isDark={isDark} $theme={theme}/>
-			// <hr
-			// 	css = {css}
-			// 	className = {className}
-			// 	id = {id}
-		// 	/>
-		// </Wrapper>
+		<Wrapper id = {id} className = {className} css = {parentCss}>
+			<small>{title}</small>
+			<div css = {css}/>
+		</Wrapper>
 	);
 }
