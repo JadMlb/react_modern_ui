@@ -12,8 +12,6 @@ export const TAG_LEVEL_MAPPING: TagColour[] = [
 export interface TagProps extends GenericProps
 {
 	colour?: TagColour;
-	rounded?: boolean;
-	centered?: boolean;
 	onClick?: React.MouseEventHandler<HTMLDivElement>;
 	children: React.ReactNode;
 }
