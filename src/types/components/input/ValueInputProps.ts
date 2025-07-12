@@ -1,4 +1,4 @@
-import { GenericProps } from "../components/GenericProps";
+import { GenericProps } from "../GenericProps";
 
 export interface ValueInputProps extends GenericProps
 {

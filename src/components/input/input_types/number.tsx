@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { NumberInputProps } from "../../../types/input/number/NumberInputProps";
+import { NumberInputProps } from "../../../types/components/input/number/NumberInputProps";
 /** @jsxImportSource @emotion/react */
 import styled from "@emotion/styled";
 import { radius } from "../../../styles/styles";

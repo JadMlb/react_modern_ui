@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import DateTimeInputProps from "../../../types/input/datetime/DateTimeInputProps";
-import TimeInputProps from "../../../types/input/datetime/TimeInputProps";
-import DateInputProps from "../../../types/input/datetime/DateInputProps";
+import DateTimeInputProps from "../../../types/components/input/datetime/DateTimeInputProps";
+import TimeInputProps from "../../../types/components/input/datetime/TimeInputProps";
+import DateInputProps from "../../../types/components/input/datetime/DateInputProps";
 import InputBase from "./input_base";
 import { spacing } from "../../../styles";
 import X from "./combo_components/x";

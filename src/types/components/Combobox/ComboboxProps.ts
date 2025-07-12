@@ -1,5 +1,5 @@
 import { Option } from "../../Option";
-import { CommonInputProps } from "../../input/CommonInputProps";
+import { CommonInputProps } from "../input/CommonInputProps";
 
 export interface ComboboxProps extends CommonInputProps
 {

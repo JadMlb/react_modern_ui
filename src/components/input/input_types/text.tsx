@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useDarkMode, useThemeColours } from "../../../styles/theme";
-import { TextInputProps } from "../../../types/input/text/TextInputProps";
+import { TextInputProps } from "../../../types/components/input/text/TextInputProps";
 /** @jsxImportSource @emotion/react */
 import styled from "@emotion/styled";
 import { Colour } from "../../../types";
 import { radius, spacing } from "../../../styles/styles";
-import EmailInputProps from "../../../types/input/text/EmailInputProps";
-import PasswordInputProps from "../../../types/input/text/PasswordInputProps";
+import EmailInputProps from "../../../types/components/input/text/EmailInputProps";
+import PasswordInputProps from "../../../types/components/input/text/PasswordInputProps";
 import InputBase from "./input_base";
 import X from "./combo_components/x";
 

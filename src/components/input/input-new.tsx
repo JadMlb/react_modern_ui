@@ -1,13 +1,13 @@
-import { NumberInputProps } from "../../types/input/number/NumberInputProps";
-import { TextInputProps } from "../../types/input/text/TextInputProps";
+import { NumberInputProps } from "../../types/components/input/number/NumberInputProps";
+import { TextInputProps } from "../../types/components/input/text/TextInputProps";
 import NumberInput from "./input_types/number";
 import TextInput from "./input_types/text";
-import EmailInputProps from "../../types/input/text/EmailInputProps";
-import PasswordInputProps from "../../types/input/text/PasswordInputProps";
+import EmailInputProps from "../../types/components/input/text/EmailInputProps";
+import PasswordInputProps from "../../types/components/input/text/PasswordInputProps";
 import DateInput from "./input_types/date";
-import DateInputProps from "../../types/input/datetime/DateInputProps";
-import DateTimeInputProps from "../../types/input/datetime/DateTimeInputProps";
-import TimeInputProps from "../../types/input/datetime/TimeInputProps";
+import DateInputProps from "../../types/components/input/datetime/DateInputProps";
+import DateTimeInputProps from "../../types/components/input/datetime/DateTimeInputProps";
+import TimeInputProps from "../../types/components/input/datetime/TimeInputProps";
 
 type InputProps = NumberInputProps |
 					TextInputProps |

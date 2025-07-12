@@ -1,5 +1,5 @@
 import { Style } from "../../../styles";
-import { ValueInputProps } from "../../input/ValueInputProps";
+import { ValueInputProps } from "../input/ValueInputProps";
 import { CheckboxStylingProps } from "../Checkbox/CheckboxProps";
 
 export interface RadioButtonsGroupProps extends ValueInputProps
