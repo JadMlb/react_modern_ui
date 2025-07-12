@@ -4,3 +4,4 @@ export * from "./Toast";
 export * from "./theme";
 export * from "./TableRow";
 export * from "./TableStructure";
+export * from "./components";
