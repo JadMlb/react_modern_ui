@@ -1,10 +1,10 @@
-import React from "react";
 /** @jsxImportSource @emotion/react */
 import styled from "@emotion/styled";
 import { keyframes } from "@emotion/react";
-import { spacing } from "../../styles/styles";
-import { ToastItem } from "../../types/Toast";
+import { spacing } from "../../../styles/styles";
 import Toast from "./toast";
+import ToasterProps from "../../../types/components/Toaster/ToasterProps";
+import { useToasts } from "./toasts_context";
 
 const toastFromRight = keyframes
 `
@@ -51,55 +51,30 @@ const Container = styled.div<{$position: "top-left" | "top-right" | "bottom-left
 	}
 `;
 
-type ToasterProps = {
-	/**
-	 * The corner from which the toats are to appear. Any bottom corner will reverse the order of the toasts.
-	 */
-	position?: "top-left" | "top-right" | "bottom-left" | "bottom-right",
-	/**
-	 * The toasts to display
-	 */
-	data: ToastItem[],
-	/**
-	 * The handler function called to remove Toats from the list. When the `autoClear` flag is raised it is called automatically (rather than on the "close" button click).
-	 * @param id The id of the toast to remove
-	 */
-	removeToast: (id: number) => void,
-	/**
-	 * Determines if the toast is automatically cleared after the value of `clearAfter`, or if it sticks until the close button in clicked. Defaults to `false`.
-	 */
-	autoClear?: boolean,
-	/**
-	 * The number of seconds after which the toast will automatically diappear if `autoClear` is enabled. Defaults to 5 seconds.
-	 */
-	clearAfter?: number
-};
-
 // code inspired by https://blog.logrocket.com/how-to-create-custom-toast-component-react/
 /**
  * Establishes component to display toasts
  */
-export default function Toaster ({position = "bottom-right", data, removeToast, autoClear, clearAfter = 5}: ToasterProps)
+export default function Toaster ({position = "bottom-right", autoClear, clearAfter = 5}: ToasterProps)
 {
+	const {toasts, clearToast} = useToasts();
 	// reverse order of toasts if from bottom
 	const reversed = position.split("-")[0] === "bottom";
-	const sortedData = reversed ? [...data].reverse() : [...data];
+	const sortedData = reversed ? [...toasts].reverse() : [...toasts];
 	
 	return (
-		<Container $position = {position}>
-		{
+		<Container $position = {position}>{
 			sortedData.length > 0 &&
 				sortedData.map (
 					(toast) => <Toast
 									key = {toast.id}
 									message = {toast.message}
 									type = {toast.type}
-									onClose = {() => removeToast (toast.id)}	
+									onClose = {() => clearToast (toast.id)}	
 									autoClear = {autoClear}
 									clearAfter = {clearAfter}
 								/>
 				)
-		}
-		</Container>
+		}</Container>
 	);
 }

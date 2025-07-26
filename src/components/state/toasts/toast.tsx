@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 /** @jsxImportSource @emotion/react */
 import styled from "@emotion/styled";
-import { TOAST_TYPE_SYMBOL_MAP, ToastType } from "../../types/Toast";
-import { colour, radius, spacing } from "../../styles/styles";
-import { Colour } from "../../types/Colours";
-import { ThemeType } from "../../types/theme";
-import { useDarkMode, useTheme } from "../../styles/theme";
-import { Button } from "../input";
-import ProgressBar from "./progress_bar";
+import { TOAST_TYPE_SYMBOL_MAP, ToastType } from "../../../types/components/Toaster/Toast";
+import { colour, radius, spacing } from "../../../styles/styles";
+import { Colour } from "../../../types/Colours";
+import { ThemeType } from "../../../types/theme";
+import { useDarkMode, useTheme } from "../../../styles/theme";
+import Button from "../../input/button";
+import ProgressBar from "../progress_bar";
 
 const ToastBackground = styled.div<{$type: ToastType, $isDark: boolean, $theme: ThemeType}>
 `
@@ -124,7 +124,13 @@ export default function Toast ({message, type = "info", onClose, autoClear, clea
 						<ProgressBar percentage = {countdown} thin/>
 					</ProgressBarContainer>
 			}
-			<Button rounded role = "alert" onClick = {onClose}>{TOAST_TYPE_SYMBOL_MAP["fail"].icon}</Button>
+			<Button
+				style = {{width: "30px", height: "30px", borderRadius: radius.round}}
+				role = "alert"
+				onClick = {onClose}
+			>
+				{TOAST_TYPE_SYMBOL_MAP["fail"].icon}
+			</Button>
 		</ToastBackground>
 	);
 }
