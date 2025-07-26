@@ -30,6 +30,8 @@ const Header = styled.div
 	flex-direction: row;
 	justify-contents: space-between;
 	align-items: center;
+	position: sticky;
+	top: 0;
 `;
 
 const ScrollArea = styled.div
@@ -87,12 +89,11 @@ export default function Panel ({id, className, style, title, collapsible = false
 						<Button
 							onClick = {() => setIsCollapsed (old => !old)}
 							style = {{
-								position: "sticky",
-								top: 0,
 								height: 30,
 								width: 30,
 								backgroundColor: "unset",
-								borderRadius: "100%"
+								borderRadius: "100%",
+								marginLeft: "auto"
 							}}
 						>
 							<Chevron $getColour = {getColour} $up = {!isCollapsed}/>
