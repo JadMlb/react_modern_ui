@@ -2,8 +2,14 @@ export type ToastType = "info" | "success" | "warn" | "fail";
 
 export type ToastItem = {
 	id: number,
-	message: string,
-	type?: ToastType
+	type?: ToastType,
+	contents: React.ReactNode
+};
+
+export type ToastIconType = {icon: React.ReactNode, colour: string};
+
+export type ToastIconMap = {
+	[toastType in ToastType]: ToastIconType
 };
 
 export const TOAST_TYPE_SYMBOL_MAP = {

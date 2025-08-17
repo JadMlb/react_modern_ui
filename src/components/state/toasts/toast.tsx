@@ -1,90 +1,37 @@
 import { useEffect, useState } from "react";
 /** @jsxImportSource @emotion/react */
 import styled from "@emotion/styled";
-import { TOAST_TYPE_SYMBOL_MAP, ToastType } from "../../../types/components/Toaster/Toast";
-import { colour, radius, spacing } from "../../../styles/styles";
-import { Colour } from "../../../types/Colours";
-import { ThemeType } from "../../../types/theme";
-import { useDarkMode, useTheme } from "../../../styles/theme";
-import Button from "../../input/button";
+import { type ToastIconType, ToastType } from "../../../types/components/Toaster/Toast";
+import { Style } from "../../../styles/theme";
 import ProgressBar from "../progress_bar";
-
-const ToastBackground = styled.div<{$type: ToastType, $isDark: boolean, $theme: ThemeType}>
-`
-	padding: ${spacing.xsmall};
-	border-radius: ${radius.small};
-	background-color: ${props => colour (props.$isDark ? "black" : "white", props.$theme)};
-	box-shadow: ${props => colour ("gray", props.$theme)} 0px 1px 3px 0px;
-	opacity: 0.99;
-	position: relative;
-
-	overflow: hidden;
-
-	display: grid;
-	grid-template-columns: 30px 1fr 30px;
-	gap: ${spacing.small};
-	align-items: center;
-
-	&:hover
-	{
-		opacity: 1;
-	}
-
-	& + &
-	{
-		margin-top: ${spacing.small};
-	}
-
-	> button
-	{
-		margin-left: auto;
-	}
-`;
-
-const ToastIcon = styled.div<{$colour: string, $isDark: boolean, $theme: ThemeType}>
-`
-	width: 30px;
-	height: 30px;
-	
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	
-	background-color: ${props => colour (props.$colour + (props.$isDark ? "Dark" : "") as Colour, props.$theme)};
-	border-radius: ${radius.round};
-	
-	color: ${props => colour ("white", props.$theme)};
-	font-weight: bold;
-`;
+import ToastIcon from "./toast_icon";
+import ToastClearButton from "./clear_button";
+import ToastBackground from "./background";
 
 const ProgressBarContainer = styled.div
 `
 	position: absolute;
-	bottom: calc(-${spacing.xsmall} / 2 + 3px);
+	bottom: 0;
 	left: 0;
 	width: 100%;
 `;
 
 type ToastProps = {
-	key?: number | string | bigint | null
-	message: string,
 	type?: ToastType,
 	onClose?: () => void,
-	/**
-	 * Determines if the toast is automatically cleared after the value of `clearAfter`, or if it sticks until the close button in clicked. Defaults to `false`.
-	 */
 	autoClear?: boolean,
-	/**
-	 * Number of seconds after which the toast will automatically diappear if `autoClear` is enabled. Defaults to 5 seconds.
-	 */
-	clearAfter?: number
+	clearAfter?: number,
+	children?: React.ReactNode,
+	containerStyle?: Style,
+	clearButton?: React.ReactNode,
+	clearButtonStyle?: Style,
+	progressBar?: React.ReactNode,
+	progressBarStyle?: Style,
+	icon?: ToastIconType
 };
 
-export default function Toast ({message, type = "info", onClose, autoClear, clearAfter = 5}: ToastProps)
+export default function Toast ({type = "info", onClose, autoClear, clearAfter = 5, containerStyle, clearButton, clearButtonStyle, icon, progressBar, progressBarStyle, children}: ToastProps)
 {
-	const {theme} = useTheme();
-	const isDark = useDarkMode();
-
 	const [countdown, setCountdown] = useState (100);
 
 	useEffect (
@@ -109,28 +56,20 @@ export default function Toast ({message, type = "info", onClose, autoClear, clea
 	);
 
 	return (
-		<ToastBackground $type = {type} $isDark = {isDark} $theme = {theme}>
-			<ToastIcon
-				$colour = {TOAST_TYPE_SYMBOL_MAP[type].colour}
-				$isDark = {isDark}
-				$theme = {theme}
-			>
-				{TOAST_TYPE_SYMBOL_MAP[type].icon}
-			</ToastIcon>
-			{message}
+		<ToastBackground style = {containerStyle}>
+			<ToastIcon type = {type} icon = {icon}/>
+			{children}
 			{
 				autoClear &&
-					<ProgressBarContainer>
-						<ProgressBar percentage = {countdown} thin/>
-					</ProgressBarContainer>
+					<ProgressBarContainer>{
+						progressBar ??
+						<ProgressBar percentage = {countdown} thin style = {progressBarStyle}/>
+					}</ProgressBarContainer>
 			}
-			<Button
-				style = {{width: "30px", height: "30px", borderRadius: radius.round}}
-				role = "alert"
-				onClick = {onClose}
-			>
-				{TOAST_TYPE_SYMBOL_MAP["fail"].icon}
-			</Button>
+			{
+				clearButton ??
+				<ToastClearButton onClose = {onClose} style = {clearButtonStyle} />
+			}
 		</ToastBackground>
 	);
 }

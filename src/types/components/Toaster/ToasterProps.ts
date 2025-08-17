@@ -1,3 +1,6 @@
+import { Style } from "../../../styles";
+import { ToastIconMap } from "./Toast";
+
 export default interface ToasterProps
 {
 	/**
@@ -12,4 +15,28 @@ export default interface ToasterProps
 	 * The number of seconds after which the toast will automatically diappear if `autoClear` is enabled. Defaults to 5 seconds.
 	 */
 	clearAfter?: number;
+	/**
+	 * Styles the toasts container
+	 */
+	containerStyle?: Style;
+	/**
+	 * Sets the toasts clear button
+	 */
+	clearButton?: React.ReactNode;
+	/**
+	 * Styles the toasts clear button
+	 */
+	clearButtonStyle?: Style;
+	/**
+	 * Sets the toasts progress bar if shown
+	 */
+	progressBar?: React.ReactNode;
+	/**
+	 * Styles the toasts progress bar if shown
+	 */
+	progressBarStyle?: Style;
+	/**
+	 * Sets the toasts icons by toast type
+	 */
+	icons?: Partial<ToastIconMap>;
 }

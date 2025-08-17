@@ -41,6 +41,10 @@ const Container = styled.div<{$position: "top-left" | "top-right" | "bottom-left
 	max-height: 100vh;
 	overflow: hidden auto;
 
+	display: flex;
+	flex-direction: column${props => props.$position.startsWith ("bottom") ? "-reverse" : ""};
+	gap: ${spacing.normal};
+
 	${props => `${props.$position.split("-")[0]}: 0;`}
 	${props => `${props.$position.split("-")[1]}: 0;`}
 
@@ -55,26 +59,30 @@ const Container = styled.div<{$position: "top-left" | "top-right" | "bottom-left
 /**
  * Establishes component to display toasts
  */
-export default function Toaster ({position = "bottom-right", autoClear, clearAfter = 5}: ToasterProps)
+export default function Toaster ({position = "bottom-right", autoClear, clearAfter = 5, containerStyle, clearButton, clearButtonStyle, icons, progressBar, progressBarStyle}: ToasterProps)
 {
 	const {toasts, clearToast} = useToasts();
-	// reverse order of toasts if from bottom
-	const reversed = position.split("-")[0] === "bottom";
-	const sortedData = reversed ? [...toasts].reverse() : [...toasts];
 	
 	return (
 		<Container $position = {position}>{
-			sortedData.length > 0 &&
-				sortedData.map (
-					(toast) => <Toast
-									key = {toast.id}
-									message = {toast.message}
-									type = {toast.type}
-									onClose = {() => clearToast (toast.id)}	
-									autoClear = {autoClear}
-									clearAfter = {clearAfter}
-								/>
-				)
+			toasts.length > 0 &&
+			toasts.map (
+				toast => <Toast
+							key = {toast.id}
+							type = {toast.type}
+							onClose = {() => clearToast (toast.id)}	
+							autoClear = {autoClear}
+							clearAfter = {clearAfter}
+							containerStyle = {containerStyle}
+							clearButton = {clearButton}
+							clearButtonStyle = {clearButtonStyle}
+							icon = {icons?.[toast.type ?? "info"]}
+							progressBar = {progressBar}
+							progressBarStyle = {progressBarStyle}
+						>
+							{toast.contents}
+						</Toast>
+			)
 		}</Container>
 	);
 }
