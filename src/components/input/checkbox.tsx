@@ -75,7 +75,7 @@ function DashComponent ()
 /**
  * Renders a Checkbox component with specified value, either in normal checked/unchecked, or in tri-value
  */
-export default function Checkbox ({value, className, style, label, labelStyle, intermediateStyle, checkedStyle, checkedComponent = <CheckComponent/>, intermediateComponent = <DashComponent/>, onChange}: CheckboxProps)
+export default function Checkbox ({name, value, className, style, label, labelStyle, intermediateStyle, checkedStyle, checkedComponent = <CheckComponent/>, intermediateComponent = <DashComponent/>, onChange}: CheckboxProps)
 {
 	const isDark = useDarkMode();
 	const colour = useThemeColours();
@@ -152,6 +152,7 @@ export default function Checkbox ({value, className, style, label, labelStyle, i
 			</CheckBoxBox>
 			<HiddenInput
 				type = "checkbox"
+				name = {name}
 				checked = {isReallyChecked}
 				onChange = {e => onChange?. (e, e.target.value)}
 			/>
