@@ -5,7 +5,7 @@ import { Colour, Option } from "../../../types";
 import { useDarkMode, useThemeColours } from "../../../styles/theme";
 import { radius, spacing } from "../../../styles/styles";
 import Button from "../button";
-import Combobox from "./combobox-new";
+import Combobox from "./combobox";
 import NumberInput from "./number";
 import Menu from "../menu";
 

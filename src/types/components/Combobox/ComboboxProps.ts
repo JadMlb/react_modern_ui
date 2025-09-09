@@ -1,4 +1,5 @@
 import { Option } from "../../Option";
+import { OnChangeFunction } from "../input";
 import { CommonInputProps } from "../input/CommonInputProps";
 
 export interface ComboboxProps extends CommonInputProps
@@ -20,4 +21,10 @@ export interface ComboboxProps extends CommonInputProps
 	 * Customizes the icon displayed instead of the classical arrow
 	 */
 	arrowComponent?: {open: React.ReactNode, closed: React.ReactNode};
+	/**
+	 * Renders the options of the combobox
+	 */
+	renderOption?: RenderOptionFunction;
 }
+
+export type RenderOptionFunction = (option: Option, selected?: boolean, onClick?: OnChangeFunction<Option>) => React.ReactNode;

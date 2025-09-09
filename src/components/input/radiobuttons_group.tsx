@@ -2,8 +2,8 @@ import Checkbox from "./checkbox";
 import { useCallback, useEffect, useState } from "react";
 import { RadioButtonsGroupProps } from "../../types/components/RadioButtonsGroup/RadioButtonsGroupProps";
 import Button from "./button";
-import X from "./input_types/combo_components/x";
-import { Panel } from "../structure";
+import X from "./input_types/combobox/x";
+import Panel from "../structure/panel";
 import InputLabel from "./input_types/label";
 import InputHint from "./input_types/hint";
 

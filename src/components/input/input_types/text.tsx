@@ -8,7 +8,7 @@ import { radius, spacing } from "../../../styles/styles";
 import EmailInputProps from "../../../types/components/input/text/EmailInputProps";
 import PasswordInputProps from "../../../types/components/input/text/PasswordInputProps";
 import InputBase from "./input_base";
-import X from "./combo_components/x";
+import X from "./combobox/x";
 
 const StyledTextInput = styled.input
 `

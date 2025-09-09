@@ -1,12 +1,14 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { ComboboxProps } from "../../../types/components/Combobox/ComboboxProps";
-import InputBase from "./input_base";
-import { spacing, useDarkMode, useThemeParser } from "../../../styles";
-import Menu from "../menu";
-import ComboboxOption from "./combo_components/option";
-import { Option } from "../../../types";
-import Tag from "../../state/tag";
-import X from "./combo_components/x";
+import { ComboboxProps } from "../../../../types/components/Combobox/ComboboxProps";
+import InputBase from "../input_base";
+import { spacing, useDarkMode, useThemeParser } from "../../../../styles";
+import Menu from "../../menu";
+import ComboboxOption from "./option";
+import { OnChangeFunction, Option } from "../../../../types";
+import Tag from "../../../state/tag";
+import X from "./x";
+import ComboboxTrailing from "./trailing";
+import ComboboxOptionsRenderer from "./options_renderer";
 
 function Arrow ({up}: {up?: boolean})
 {
@@ -33,7 +35,19 @@ const DEFAULT_ARROW_COMPONENT = {
 	closed: <Arrow/>
 };
 
-export default function Combobox ({id, className, name, options, label, value, hint, leading, readonly, disabled, hideLabel, position, optional, style, arrowComponent = DEFAULT_ARROW_COMPONENT, onChange}: ComboboxProps)
+function defaultRenderOption (option: Option, selected?: boolean, onClick?: OnChangeFunction<Option>)
+{
+	return (
+		<ComboboxOption
+			key = {option.value}
+			option = {option}
+			selected = {selected}
+			onClick = {option => onClick?. (null, option)}
+		/>
+	);
+}
+
+export default function Combobox ({id, className, name, options, label, value, hint, leading, readonly, disabled, hideLabel, position, optional, style, arrowComponent = DEFAULT_ARROW_COMPONENT, onChange, renderOption = defaultRenderOption}: ComboboxProps)
 {
 	const [isExpanded, setIsExpanded] = useState (false);
 	const inputRef = useRef<HTMLDivElement | null> (null);
@@ -147,24 +161,15 @@ export default function Combobox ({id, className, name, options, label, value, h
 			ref = {inputRef}
 			label = {label}
 			trailing = {
-				<div style = {{display: "flex", gap: spacing.large, alignItems: "center"}}>
-					{
-						optional && value && (value?.length ?? 0) > 0 &&
-						<X
-							large
-							onClick = {
-								e =>
-								{
-									e.stopPropagation();
-									e.preventDefault();
-									if (!disabled && !readonly) 
-										onChange?. (null, null);
-								}
-							}
-						/>
-					}
-					{arrowComponent[isExpanded ? "open" : "closed"]}
-				</div>
+				<ComboboxTrailing
+					arrowComponent = {arrowComponent}
+					expanded = {isExpanded}
+					optional = {optional}
+					value = {value}
+					readonly = {readonly}
+					disabled = {disabled}
+					onChange = {onChange}
+				/>
 			}
 			hint = {hint}
 			hideLabel = {hideLabel}
@@ -181,33 +186,16 @@ export default function Combobox ({id, className, name, options, label, value, h
 				onClose = {() => setIsExpanded (false)}
 				position = {isFromTop() ? "top" : "bottom"}
 				anchorElement = {inputRef.current}
-			>{
-				Array.isArray (options) ?
-					options.map (
-						o => <ComboboxOption
-								key = {o.value}
-								option = {o}
-								selected = {Array.isArray (value) && value.findIndex (v => v === o.value) > -1 || value === o.value}
-								onClick = {option => disabled || readonly ? undefined : handleChange (null, option)}
-							/>
-					) :
-					Object.entries (options)
-							.map (
-								([category, options]) => <React.Fragment key = {`rmui-combobox-grp-${category}`}>
-										<small>{category}</small>
-										{
-											options.map (
-												o => <ComboboxOption
-														key = {o.value}
-														option = {o}
-														selected = {Array.isArray (value) && getSelected (o.value) !== undefined || value === o.value}
-														onClick = {option => handleChange (null, option)}
-													/>
-											)
-										}
-									</React.Fragment>
-							)
-			}</Menu>
+			>
+				<ComboboxOptionsRenderer
+					options = {options}
+					renderOption = {renderOption}
+					disabled = {disabled}
+					readonly = {readonly}
+					onClick = {handleChange}
+					value = {value}
+				/>
+			</Menu>
 		</InputBase>
 	);
 }

@@ -29,7 +29,7 @@ export interface ValueInputProps extends GenericProps
 	/**
 	 * Change event handler fired when input value is changed
 	 */
-	onChange?: (e: React.ChangeEvent | null, value: any) => void;
+	onChange?: GenericOnChangeFunction;
 	/**
 	 * Hides the label of the input
 	 */
@@ -47,3 +47,6 @@ export interface ValueInputProps extends GenericProps
 	 */
 	optional?: boolean;
 }
+
+export type OnChangeFunction<T> = (e: React.ChangeEvent | null, value: T) => void;
+export type GenericOnChangeFunction = OnChangeFunction<any>;

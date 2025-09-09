@@ -4,7 +4,7 @@ import TimeInputProps from "../../../types/components/input/datetime/TimeInputPr
 import DateInputProps from "../../../types/components/input/datetime/DateInputProps";
 import InputBase from "./input_base";
 import { spacing } from "../../../styles";
-import X from "./combo_components/x";
+import X from "./combobox/x";
 
 export default function DateInput (props: DateTimeInputProps | TimeInputProps | DateInputProps)
 {

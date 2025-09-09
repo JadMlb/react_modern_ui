@@ -6,6 +6,7 @@ import Button from "../input/button";
 import { useState } from "react";
 import { Style, ThemeColourFunction, useThemeColours, useThemeParser } from "../../styles/theme";
 import { PanelProps } from "../../types/components/Panel/PanelProps";
+import Chevron from "../chevron";
 
 const PanelDiv = styled.div<{$border: boolean, $colour: ThemeColourFunction}>
 `
@@ -41,15 +42,6 @@ const ScrollArea = styled.div
 	display: flex;
 	flex-direction: column;
 	gap: ${spacing.small};
-`;
-
-const Chevron = styled.div<{$getColour: ThemeColourFunction, $up?: boolean}>
-`
-	width: 10px;
-	height: 10px;
-	border-bottom: 2px solid ${props => props.$getColour ("primary")};
-	border-right: 2px solid ${props => props.$getColour ("primary")};
-	transform: rotate(${props => props.$up ? -135 : 45}deg) translate(-2.5px, -2.5px);
 `;
 
 /**
@@ -96,7 +88,7 @@ export default function Panel ({id, className, style, title, collapsible = false
 								marginLeft: "auto"
 							}}
 						>
-							<Chevron $getColour = {getColour} $up = {!isCollapsed}/>
+							<Chevron up = {!isCollapsed}/>
 						</Button>
 					}
 				</Header>
