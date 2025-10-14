@@ -5,7 +5,8 @@ const TRAILING_STYLE = {
 	display: "flex",
 	gap: spacing.large,
 	alignItems: "center",
-	width: "fit-content"
+	width: "fit-content",
+	marginLeft: spacing.large
 } satisfies Style;
 
 interface ComboboxTrailingProps
