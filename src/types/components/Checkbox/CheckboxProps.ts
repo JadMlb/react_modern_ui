@@ -1,7 +1,7 @@
 import { Style } from "../../../styles";
-import { ValueInputProps } from "../input/ValueInputProps";
+import { BoxValueInputProps } from "../input/BoxValueInputProps";
 
-export interface CheckboxProps extends ValueInputProps, CheckboxStylingProps
+export interface CheckboxProps extends BoxValueInputProps, CheckboxStylingProps
 {
 	/**
 	 * The label to be displayed next to the checkbox

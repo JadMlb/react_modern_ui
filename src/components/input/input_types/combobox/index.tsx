@@ -4,11 +4,12 @@ import InputBase from "../input_base";
 import { spacing, useDarkMode, useThemeParser } from "../../../../styles";
 import Menu from "../../menu";
 import ComboboxOption from "./option";
-import { OnChangeFunction, Option } from "../../../../types";
+import { Option } from "../../../../types";
 import Tag from "../../../state/tag";
 import X from "./x";
 import ComboboxTrailing from "./trailing";
 import ComboboxOptionsRenderer from "./options_renderer";
+import { OnChangeFunction } from "../../../../types/components/input/BoxValueInputProps";
 
 function Arrow ({up}: {up?: boolean})
 {

@@ -73,6 +73,8 @@ export default function RadioButtonsGroup ({className, id, name, optionsLabels, 
 									value = {checked === index}
 									onChange = {e => updateSelection (e, l, index)}
 									style = {{borderRadius: "100%"}}
+									readonly = {readonly}
+									disabled = {disabled}
 									{...checkboxProps}
 								/>
 				)
@@ -83,6 +85,5 @@ export default function RadioButtonsGroup ({className, id, name, optionsLabels, 
 			}
 			<InputHint hint = {hint} textOnError = {textOnError} isError = {isError}/>
 		</Panel>
-		// </div>
 	);
 }

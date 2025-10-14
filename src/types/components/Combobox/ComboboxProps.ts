@@ -1,5 +1,5 @@
 import { Option } from "../../Option";
-import { OnChangeFunction } from "../input";
+import { OnChangeFunction } from "../input/BoxValueInputProps";
 import { CommonInputProps } from "../input/CommonInputProps";
 
 export interface ComboboxProps extends CommonInputProps

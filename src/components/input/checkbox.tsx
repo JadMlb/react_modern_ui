@@ -75,7 +75,7 @@ function DashComponent ()
 /**
  * Renders a Checkbox component with specified value, either in normal checked/unchecked, or in tri-value
  */
-export default function Checkbox ({name, value, className, style, label, labelStyle, intermediateStyle, checkedStyle, checkedComponent = <CheckComponent/>, intermediateComponent = <DashComponent/>, onChange}: CheckboxProps)
+export default function Checkbox ({id, name, value, className, style, label, labelStyle, intermediateStyle, checkedStyle, checkedComponent = <CheckComponent/>, intermediateComponent = <DashComponent/>, disabled, readonly, hideLabel, onChange}: CheckboxProps)
 {
 	const isDark = useDarkMode();
 	const colour = useThemeColours();
@@ -92,13 +92,20 @@ export default function Checkbox ({name, value, className, style, label, labelSt
 					old =>
 					({
 						...old,
-						checkbox: parseTheme ({...DEFAULT_STYLE.checkbox, ...style}),
+						checkbox: parseTheme ({
+							...DEFAULT_STYLE.checkbox,
+							":hover": {
+								borderColor: disabled || readonly ? "gray" : "primaryDark"
+							},
+							borderColor: disabled || readonly ? "gray" : "primary",
+							...style
+						}),
 						checked: parseTheme ({...DEFAULT_STYLE.checked, ...checkedStyle}),
 						intermediate: parseTheme ({...DEFAULT_STYLE.intermediate, ...intermediateStyle})
 					})
 				);
 		},
-		[style, checkedStyle, intermediateStyle, isDark, parseTheme]
+		[style, checkedStyle, intermediateStyle, disabled, readonly, isDark, parseTheme]
 	);
 
 	useEffect (
@@ -127,6 +134,7 @@ export default function Checkbox ({name, value, className, style, label, labelSt
 			$hasLabel = {label !== undefined && label !== null && label !== ""}
 			onClick = {e => e.stopPropagation()}
 			css = {css.label}
+			id = {id}
 		>
 			<CheckBoxBox
 				$isDark = {isDark}
@@ -143,20 +151,23 @@ export default function Checkbox ({name, value, className, style, label, labelSt
 				}}
 			>
 			{
-				value === true || value === 2 ?
-					checkedComponent :
-					value === 1 ?
-						intermediateComponent :
-						<></>
+				!readonly && !disabled &&
+					value === true || value === 2 ?
+						checkedComponent :
+						value === 1 ?
+							intermediateComponent :
+							<></>
 			}
 			</CheckBoxBox>
 			<HiddenInput
 				type = "checkbox"
 				name = {name}
 				checked = {isReallyChecked}
-				onChange = {e => onChange?. (e, e.target.value)}
+				onChange = {disabled || readonly ? undefined : e => onChange?. (e, e.target.value)}
+				disabled = {disabled}
+				readOnly = {readonly}
 			/>
-			{label}
+			{!hideLabel && label}
 		</Label>
 	);
 }

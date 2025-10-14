@@ -26,10 +26,7 @@ export const DEFAULT_CHECKBOX_STYLE: (theme?: "dark" | "light") => CheckboxStyle
 		width: "17px",
 		height: "17px",
 		border: "2px solid primary",
-		borderRadius: radius.small,
-		":hover": {
-			border: "2px solid primaryDark"
-		}
+		borderRadius: radius.small
 	},
 	checked: {
 		backgroundColor: "primary",

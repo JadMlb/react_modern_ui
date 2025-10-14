@@ -26,7 +26,7 @@ interface MenuProps
 	onClose?: () => void;
 }
 
-export default function Menu ({anchorElement, isOpen, children, position, fitContent}: MenuProps)
+export default function Menu ({anchorElement, isOpen, children, fitContent}: MenuProps)
 {
 	const isDark = useDarkMode();
 	const parseTheme = useThemeParser();
