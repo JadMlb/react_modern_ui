@@ -25,7 +25,7 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "./node_modules/.bin/babel src --out-file index.ts",
+    "build": "babel src --out-file index.ts",
     "rollup:components": "rollup -c",
     "rollup:theme": "rollup -c rollup.config.theme.mjs",
     "rollup": "npm run rollup:components && npm run rollup:theme"
