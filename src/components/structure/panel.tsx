@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 /** @jsxImportSource @emotion/react */
 import styled from "@emotion/styled";
 import { radius, spacing } from "../../styles/styles";
@@ -88,7 +88,7 @@ export default function Panel ({id, className, style, title, collapsible = false
 								marginLeft: "auto"
 							}}
 						>
-							<Chevron up = {!isCollapsed}/>
+							<Chevron orientation = {isCollapsed ? "down" : "up"}/>
 						</Button>
 					}
 				</Header>

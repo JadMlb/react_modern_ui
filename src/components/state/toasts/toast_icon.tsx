@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from "react";
+import { useMemo } from "react";
 import { Style, radius, useDarkMode, useThemeParser } from "../../../styles";
 import { TOAST_TYPE_SYMBOL_MAP, ToastIconType, ToastType } from "../../../types";
 
@@ -30,8 +30,6 @@ export default function ToastIcon ({type, icon}: DefaultToastIconProps)
 		}),
 		[icon]
 	);
-
-	useEffect (() => {console.log (realMap);}, [realMap])
 
 	const realStyle = useMemo (
 		() => parseCss ({

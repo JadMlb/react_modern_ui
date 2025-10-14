@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Button from "../button";
 import DraggableList, { DraggableListProps } from ".";
 import { colour, radius, spacing } from "../../../styles/styles";

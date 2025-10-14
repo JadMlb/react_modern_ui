@@ -1,0 +1,1 @@
+export type TableRowData = {[key: string]: string | number};

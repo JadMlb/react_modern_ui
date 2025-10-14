@@ -9,3 +9,7 @@ export * from "./RadioButtonsGroup/RadioButtonsGroupProps";
 export * from "./Separator/SeparatorProps";
 export * from "./Tag/TagProps";
 export * from "./input";
+export * from "./Table/TableProps";
+export * from "./Table/TableColumn";
+export * from "./Table/TableRowData";
+export {default as TableColumn} from "./Table/TableColumn";

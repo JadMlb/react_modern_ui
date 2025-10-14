@@ -28,5 +28,5 @@ export interface ButtonProps extends GenericProps
 	/**
 	 * Callback function to be executed on button click
 	 */
-	onClick?: React.MouseEventHandler<HTMLButtonElement>,
+	onClick?: React.MouseEventHandler<HTMLButtonElement>;
 }
