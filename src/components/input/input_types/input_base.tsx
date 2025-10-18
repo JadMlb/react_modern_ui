@@ -47,6 +47,7 @@ interface InputBaseProps
 	label?: string;
 	children?: React.ReactNode;
 	style?: Style;
+	labelStyle?: Style;
 	trailing?: React.ReactNode;
 	hint?: string;
 	textOnError?: string;
@@ -62,7 +63,7 @@ interface InputBaseProps
 }
 
 const InputBase = React.forwardRef<HTMLDivElement, InputBaseProps> (
-	({id, className, inputId, label, style, trailing, hint, textOnError, isError = false, hideLabel, disabled, readonly, children, onClick, onFocus, onBlur}, ref) =>
+	({id, className, inputId, label, style, labelStyle, trailing, hint, textOnError, isError = false, hideLabel, disabled, readonly, children, onClick, onFocus, onBlur}, ref) =>
 	{
 		const colour = useThemeColours();
 		const isDark = useDarkMode();
@@ -71,8 +72,8 @@ const InputBase = React.forwardRef<HTMLDivElement, InputBaseProps> (
 		const [css, setCss] = useState<Style> ({});
 
 		const fontColorStyle = useMemo (
-			() => parseTheme ({color: disabled ? "gray" : "inherit"}),
-			[disabled, parseTheme]
+			() => parseTheme ({color: disabled ? "gray" : "inherit", ...labelStyle}),
+			[disabled, parseTheme, labelStyle]
 		);
 
 		useEffect (

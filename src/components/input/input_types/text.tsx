@@ -76,7 +76,7 @@ const ShowHide = styled.div<{$shown: boolean, $isDark: boolean, $colour: (col: C
 
 export default function TextInput (props: (TextInputProps | EmailInputProps | PasswordInputProps))
 {
-	const {id, className, name, label, type, value, leading, trailing, style, onChange, readonly, disabled, optional, hideLabel, hint, textOnError, isError} = props;
+	const {id, className, name, label, labelStyle, type, value, leading, trailing, style, onChange, readonly, disabled, optional, hideLabel, hint, textOnError, isError} = props;
 	
 	const isDark = useDarkMode();
 	const colour = useThemeColours();
@@ -115,6 +115,7 @@ export default function TextInput (props: (TextInputProps | EmailInputProps | Pa
 			hint = {hint}
 			textOnError = {textOnError}
 			label = {label}
+			labelStyle = {labelStyle}
 			trailing = {
 				<div style = {{display: "flex", gap: spacing.small, alignItems: "center"}}>
 					{trailing}

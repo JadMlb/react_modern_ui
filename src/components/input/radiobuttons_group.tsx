@@ -10,7 +10,7 @@ import InputHint from "./input_types/hint";
 /**
  * Renders a group of radio buttons showing multiple options
  */
-export default function RadioButtonsGroup ({className, id, name, optionsLabels, label, hideLabel, value, optional, style, checkboxProps, hint, isError, textOnError, readonly, disabled, onChange}: RadioButtonsGroupProps)
+export default function RadioButtonsGroup ({className, id, name, optionsLabels, label, labelStyle, hideLabel, value, optional, style, checkboxProps, hint, isError, textOnError, readonly, disabled, onChange}: RadioButtonsGroupProps)
 {
 	const [checked, setChecked] = useState<number | null> (null);
 
@@ -59,7 +59,7 @@ export default function RadioButtonsGroup ({className, id, name, optionsLabels, 
 
 	return (
 		<Panel
-			title = {<InputLabel hidden = {hideLabel}>{label}</InputLabel>}
+			title = {<InputLabel hidden = {hideLabel} style = {labelStyle}>{label}</InputLabel>}
 			style = {{width: "fit-content", ...style}}
 			className = {className}
 			id = {id}

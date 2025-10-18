@@ -55,7 +55,7 @@ const Plus = styled.div<{$isDark: boolean, $colour: (col: Colour) => string}>
 	}
 `;
 
-export default function NumberInput ({id, className, name, label, value, range, step, precision, hideLabel, hint, textOnError, leading, trailing, style, isError, onChange, readonly, disabled, optional}: NumberInputProps)
+export default function NumberInput ({id, className, name, label, labelStyle, value, range, step, precision, hideLabel, hint, textOnError, leading, trailing, style, isError, onChange, readonly, disabled, optional}: NumberInputProps)
 {	
 	const isDark = useDarkMode();
 	const colour = useThemeColours();
@@ -122,6 +122,7 @@ export default function NumberInput ({id, className, name, label, value, range, 
 			textOnError = {textOnError}
 			disabled = {disabled}
 			hideLabel = {hideLabel}
+			labelStyle = {labelStyle}
 			leading = {
 				<>
 					{leading}

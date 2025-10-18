@@ -1,3 +1,4 @@
+import { Style } from "../../../styles";
 import { GenericProps } from "../GenericProps";
 
 export interface BoxValueInputProps extends GenericProps
@@ -14,6 +15,10 @@ export interface BoxValueInputProps extends GenericProps
 	 * The label to be displayed on this input. If no label is provided, the provided `name` property will be used as a label with the first letter capitalized.
 	 */
 	label?: string;
+	/**
+	 * The style to apply on the label
+	 */
+	labelStyle?: Style;
 	/**
 	 * Change event handler fired when input value is changed
 	 */

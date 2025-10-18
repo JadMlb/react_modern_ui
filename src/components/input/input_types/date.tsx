@@ -8,7 +8,7 @@ import X from "./combobox/x";
 
 export default function DateInput (props: DateTimeInputProps | TimeInputProps | DateInputProps)
 {
-	const {id, className, name, label, hideLabel, hint, textOnError, isError, value, range, type, leading, trailing, style, onChange, readonly, disabled, optional} = props;
+	const {id, className, name, label, labelStyle, hideLabel, hint, textOnError, isError, value, range, type, leading, trailing, style, onChange, readonly, disabled, optional} = props;
 	const [shownValue, setShownValue] = useState (value ? value.toString() : "");
 	const popupRef = useRef<HTMLDivElement> (null);
 	const inputRef = useRef<HTMLInputElement> (null);
@@ -87,6 +87,7 @@ export default function DateInput (props: DateTimeInputProps | TimeInputProps | 
 			hint = {hint}
 			textOnError = {textOnError}
 			label = {label}
+			labelStyle = {labelStyle}
 			trailing = {
 				<div style = {{display: "flex", gap: spacing.small, alignItems: "center"}}>
 					{trailing}
