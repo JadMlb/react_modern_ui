@@ -1,14 +1,18 @@
-import { Style, radius } from "../../../styles";
+import { Style } from "../../../styles";
 
 export const DEFAULT_CARD_STYLE: (clickable?: boolean, theme?: "dark" | "light") => Style = (clickable, theme = "light") =>
 {
 	let style = {
-		borderRadius: radius.normal,
+		gap: "spacing.small",
+		borderRadius: "radius.medium",
 		border: `0.5px solid ${theme === "dark" ? "grayDark" : "grayLight"}`,
 		boxShadow: `0 0 5px ${theme === "dark" ? "grayDark" : "grayLight"}`,
 		width: "fit-content",
 		height: "fit-content !important",
-		":hover": {}
+		":hover": {},
+		"> .rmui-card-content": {
+			padding: "spacing.medium"
+		}
 	} satisfies Style;
 
 	if (clickable)

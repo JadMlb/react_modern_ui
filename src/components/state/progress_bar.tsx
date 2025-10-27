@@ -1,6 +1,5 @@
 /** @jsxImportSource @emotion/react */
 import styled from "@emotion/styled";
-import { radius, spacing } from "../../styles/styles";
 import { Style, ThemeColourFunction, useDarkMode, useThemeColours, useThemeParser } from "../../styles/theme";
 import { ProgressBarProps } from "../../types/components/ProgressBar/ProgressBarProps";
 import { useEffect, useState } from "react";
@@ -10,8 +9,7 @@ const Bar = styled.div<{$percentage: number, $getColour: ThemeColourFunction}>
 	height: 100%;
 	width: ${props => props.$percentage}%;
 	
-	background-color: ${props => props.$getColour ("primary")};;
-	border-radius: ${radius.normal};
+	background-color: ${props => props.$getColour ("primary")};
 
 	transition: width 100ms;
 `;
@@ -22,7 +20,6 @@ const BarContainer = styled.div<{$thin?: boolean, $isDark: boolean, $getColour: 
 	width: 100%;
 	height: ${props => props.$thin ? 3 : 10}px;
 	background-color: ${props => props.$getColour (props.$isDark ? "grayDark" : "grayLight")};
-	border-radius: ${radius.normal};
 `;
 
 const Container = styled.div<{$thin?: boolean}>
@@ -32,7 +29,6 @@ const Container = styled.div<{$thin?: boolean}>
 	display: grid;
 	grid-template-columns: 1fr ${props => !props.$thin && `30px`};
 	align-items: center;
-	gap: ${spacing.small};
 `;
 
 /** Renders a progress bar with given percentage */
@@ -53,8 +49,12 @@ export default function ProgressBar ({id, className, percentage, showPercentage,
 	useEffect (
 		() =>
 		{
-			if (style)
-				setCss (parseTheme (style));
+			setCss (
+				parseTheme ({
+					borderRadius: "radius.medium",
+					...style
+				})
+			);
 		},
 		[style, parseTheme]
 	);
@@ -62,17 +62,25 @@ export default function ProgressBar ({id, className, percentage, showPercentage,
 	useEffect (
 		() =>
 		{
-			if (parentStyle)
-				setParentCss (parseTheme (parentStyle));
+			setParentCss (
+				parseTheme ({
+					gap: "spacing.small",
+					...parentStyle
+				})
+			);
 		},
-		[parentStyle, parseTheme]
+		[parentStyle, thin, parseTheme]
 	);
 	
 	useEffect (
 		() =>
 		{
-			if (backgroundStyle)
-				setBgCss (parseTheme (backgroundStyle));
+			setBgCss (
+				parseTheme ({
+					borderRadius: "radius.medium",
+					...backgroundStyle
+				})
+			);
 		},
 		[backgroundStyle, parseTheme]
 	);

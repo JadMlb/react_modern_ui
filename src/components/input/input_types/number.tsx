@@ -2,13 +2,11 @@ import React, { useEffect, useState } from "react";
 import { NumberInputProps } from "../../../types/components/input/number/NumberInputProps";
 /** @jsxImportSource @emotion/react */
 import styled from "@emotion/styled";
-import { radius } from "../../../styles/styles";
-import { Colour } from "../../../types";
-import { useDarkMode, useThemeColours } from "../../../styles/theme";
+import { Style, ThemeColourFunction, useDarkMode, useThemeColours } from "../../../styles/theme";
 import TextInput from "./text";
 import Button from "../button";
 
-const Dash = styled.div<{$isDark: boolean, $colour: (col: Colour) => string}>
+const Dash = styled.div<{$isDark: boolean, $colour: ThemeColourFunction}>
 `
 	position: relative;
 	width: 25px;
@@ -26,7 +24,7 @@ const Dash = styled.div<{$isDark: boolean, $colour: (col: Colour) => string}>
 	}
 `;
 
-const Plus = styled.div<{$isDark: boolean, $colour: (col: Colour) => string}>
+const Plus = styled.div<{$isDark: boolean, $colour: ThemeColourFunction}>
 `
 	position: relative;
 	width: 100%;
@@ -55,10 +53,75 @@ const Plus = styled.div<{$isDark: boolean, $colour: (col: Colour) => string}>
 	}
 `;
 
-export default function NumberInput ({id, className, name, label, labelStyle, value, range, step, precision, hideLabel, hint, textOnError, leading, trailing, style, isError, onChange, readonly, disabled, optional}: NumberInputProps)
-{	
+interface LeadingTrailingProps
+{
+	children?: React.ReactNode;
+	disabled?: boolean;
+	onChange?: () => void;
+}
+
+interface EdgeButtonProps
+{
+	dec?: boolean;
+	disabled?: boolean;
+	onChange?: () => void;
+}
+
+const EDGE_BUTTON_STYLE = {
+	width: "25px",
+	height: "25px",
+	borderRadius: "radius.small"
+} satisfies Style;
+
+function EdgeButton ({disabled, dec, onChange}: EdgeButtonProps)
+{
 	const isDark = useDarkMode();
 	const colour = useThemeColours();
+	
+	return (
+		<Button
+			style = {EDGE_BUTTON_STYLE}
+			onClick = {!disabled ? onChange : undefined}
+			disabled = {disabled}
+			type = "outlined"
+		>{
+			dec ?
+				<Dash $isDark = {isDark} $colour = {colour}/> :
+				<Plus $isDark = {isDark} $colour = {colour}/>
+		}</Button>
+	);
+}
+
+
+function Leading ({disabled, children, onChange}: LeadingTrailingProps)
+{
+	return (
+		<>
+			{children}
+			<EdgeButton
+				onChange = {onChange}
+				disabled = {disabled}
+				dec
+			/>
+		</>
+	);
+}
+
+function Trailing ({disabled, children, onChange}: LeadingTrailingProps)
+{
+	return (
+		<>
+			{children}
+			<EdgeButton
+				onChange = {onChange}
+				disabled = {disabled}
+			/>
+		</>
+	);
+}
+
+export default function NumberInput ({id, className, name, label, labelStyle, value, range, step, precision, hideLabel, hint, textOnError, leading, trailing, style, isError, onChange, readonly, disabled, optional}: NumberInputProps)
+{	
 	const [error, setError] = useState (isError);
 	
 	const [realValue, setRealValue] = useState (0);
@@ -124,30 +187,10 @@ export default function NumberInput ({id, className, name, label, labelStyle, va
 			hideLabel = {hideLabel}
 			labelStyle = {labelStyle}
 			leading = {
-				<>
-					{leading}
-					<Button
-						style = {{width: "25px", height: "25px", borderRadius: radius.small}}
-						onClick = {!disabled ? dec : undefined}
-						disabled = {disabled}
-						type = "outlined"
-					>
-						<Dash $isDark = {isDark} $colour = {colour}/>
-					</Button>
-				</>
+				<Leading onChange = {dec}>{leading}</Leading>
 			}
 			trailing = {
-				<>
-					{trailing}
-					<Button
-						style = {{width: "25px", height: "25px", borderRadius: radius.small}}
-						onClick = {!disabled ? inc : undefined}
-						disabled = {disabled}
-						type = "outlined"
-					>
-						<Plus $isDark = {isDark} $colour = {colour}/>
-					</Button>
-				</>
+				<Trailing onChange = {inc}>{trailing}</Trailing>
 			}
 			onChange = {handleChange}
 			optional = {optional}

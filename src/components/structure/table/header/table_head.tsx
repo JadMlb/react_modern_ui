@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { Style, radius, useThemeParser } from "../../../../styles";
+import { Style, useThemeParser } from "../../../../styles";
 import TableHeadCell from "./table_head_cell";
 import TableRowProps from "../body/TableRowProps";
 import useTableColumns from "../../../../hooks/useTableColumns";
@@ -15,8 +15,8 @@ const DEFAULT_HEADER_STYLE = {
 	border: "1px solid gray",
 	backgroundColor: "primary",
 	color: "white",
-	borderTopLeftRadius: radius.normal,
-	borderTopRightRadius: radius.normal
+	borderTopLeftRadius: "radius.medium",
+	borderTopRightRadius: "radius.medium"
 } satisfies Style;
 
 export default function TableHead ({columns, style, cellStyle, onSort}: TableHeadProps)

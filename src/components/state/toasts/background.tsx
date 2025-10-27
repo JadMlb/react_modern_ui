@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { Style, radius, spacing, useDarkMode, useThemeParser } from "../../../styles";
+import { Style, useDarkMode, useThemeParser } from "../../../styles";
 
 interface ToastBackgroundProps
 {
@@ -8,15 +8,15 @@ interface ToastBackgroundProps
 }
 
 const BG_STYLE = {
-	padding: spacing.xsmall,
-	borderRadius: radius.small,
+	padding: "spacing.xsmall",
+	borderRadius: "radius.small",
 	boxShadow: "gray 0px 1px 3px 0px",
 	opacity: 0.99,
 	position: "relative",
 	overflow: "hidden",
 	display: "grid",
 	gridTemplateColumns: "30px 1fr 30px",
-	gap: spacing.small,
+	gap: "spacing.small",
 	alignItems: "center",
 } satisfies Style;
 

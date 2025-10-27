@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 import useTableColumns from "../../../../hooks/useTableColumns";
-import { Style, radius, useThemeParser } from "../../../../styles";
+import { Style, useThemeParser } from "../../../../styles";
 import TableRowProps from "./TableRowProps";
 import TableRow from "./table_row";
 import { TableRowData } from "../../../../types/components/Table/TableRowData";
@@ -16,8 +16,8 @@ const DEFAULT_ROW_STYLE = {
 	display: "grid",
 	border: "1px solid gray",
 	":last-of-type": {
-		borderBottomLeftRadius: radius.normal,
-		borderBottomRightRadius: radius.normal
+		borderBottomLeftRadius: "radius.medium",
+		borderBottomRightRadius: "radius.medium"
 	}
 } satisfies Style;
 

@@ -1,13 +1,13 @@
 import { useEffect, useMemo, useState } from "react";
 import TextSkeletonLoaderProps from "../../../types/components/SkeletonLoader/TextSkeletonLoaderProps";
 import TextLineLoader from "./line";
-import { Style, spacing, useThemeParser } from "../../../styles";
+import { Style, useThemeParser } from "../../../styles";
 import AnimatedLoaderWrapper from "./animated_wrapper";
 
 const DEFAULT_PARENT_STYLE = {
 	display: "flex",
 	flexDirection: "column",
-	gap: spacing.normal
+	gap: "spacing.medium"
 } satisfies Style;
 
 export default function TextSkeletonLoader ({id, className, style, parentStyle, lines = 5}: TextSkeletonLoaderProps)

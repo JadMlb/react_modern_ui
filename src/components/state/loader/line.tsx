@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { Style, radius, useDarkMode, useThemeParser } from "../../../styles";
+import { Style, useDarkMode, useThemeParser } from "../../../styles";
 import { GenericProps } from "../../../types/components/GenericProps";
 
 export default function TextLineLoader ({id, className, style}: GenericProps)
@@ -17,7 +17,7 @@ export default function TextLineLoader ({id, className, style}: GenericProps)
 			const DEFAULT_STYLE = {
 				height: 20,
 				width: `${width * 100}%`,
-				borderRadius: radius.small,
+				borderRadius: "radius.small",
 				backgroundColor: isDark ? "grayDark" : "grayLight"
 			} satisfies Style;
 

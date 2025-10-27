@@ -1,10 +1,8 @@
-import React, { useEffect, useState } from "react";
-import { useDarkMode, useThemeColours } from "../../../styles/theme";
+import React, { useEffect, useMemo, useState } from "react";
+import { ThemeColourFunction, useDarkMode, useTheme, useThemeColours } from "../../../styles/theme";
 import { TextInputProps } from "../../../types/components/input/text/TextInputProps";
 /** @jsxImportSource @emotion/react */
 import styled from "@emotion/styled";
-import { Colour } from "../../../types";
-import { radius, spacing } from "../../../styles/styles";
 import EmailInputProps from "../../../types/components/input/text/EmailInputProps";
 import PasswordInputProps from "../../../types/components/input/text/PasswordInputProps";
 import InputBase from "./input_base";
@@ -25,14 +23,14 @@ const StyledTextArea = styled.textarea
 	resize: vertical;
 `;
 
-const Small = styled.small<{$isDark: boolean, $colour: (col: Colour) => string}>
+const Small = styled.small<{$isDark: boolean, $colour: ThemeColourFunction}>
 `
 	color: ${props => props.$colour ("gray")};
 `;
 
-const ShowHide = styled.div<{$shown: boolean, $isDark: boolean, $colour: (col: Colour) => string}>
+const ShowHide = styled.div<{$shown: boolean, $isDark: boolean, $spacingSmall: string, $radiusRound: string, $colour: ThemeColourFunction}>
 `
-	margin-inline: ${spacing.small};
+	margin-inline: ${({$spacingSmall}) => $spacingSmall};
 	cursor: pointer;
 	width: 20px;
 	height: 20px;
@@ -47,7 +45,7 @@ const ShowHide = styled.div<{$shown: boolean, $isDark: boolean, $colour: (col: C
 		width: 15px;
 		height: 10px;
 		border: 1px solid ${props => props.$colour (props.$isDark ? "white" : "black")};
-		border-radius: ${radius.round};
+		border-radius: ${({$radiusRound}) => $radiusRound};
 	}
 
 	&:after
@@ -68,18 +66,67 @@ const ShowHide = styled.div<{$shown: boolean, $isDark: boolean, $colour: (col: C
 				`
 					width: 7px;
 					height: 7px;
-					border-radius: ${radius.round};
+					border-radius: ${props.$radiusRound};
 				`
 		}
 	}
 `;
 
+interface TrailingProps
+{
+	type: "text" | "password" | "email";
+	displayType: "text" | "password" | "email";
+	handleDisplayChange: () => void;
+	optional?: boolean;
+	handleClear?: () => void;
+	multiline?: boolean;
+	maxCharCount?: number;
+	shownValue: string;
+	children?: React.ReactNode;
+}
+
+function Trailing ({type, displayType, handleDisplayChange, optional, handleClear, multiline, maxCharCount, shownValue, children}: TrailingProps)
+{
+	const {theme} = useTheme();
+	const {spacing, radius} = theme.measurements;
+	const isDark = useDarkMode();
+	const colour = useThemeColours();
+
+	const WRAPPER_STYLE = useMemo (
+		() => ({
+			display: "flex",
+			gap: spacing.small,
+			alignItems: "center"
+		}),
+		[spacing.small]
+	);
+	
+	return (
+		<div style = {WRAPPER_STYLE}>
+			{children}
+			{
+				type === "text" && multiline && maxCharCount !== undefined &&
+					<Small $isDark = {isDark} $colour = {colour}>{shownValue.length}/{maxCharCount}</Small>
+			}
+			{
+				type === "password" &&
+				<ShowHide
+					$spacingSmall = {spacing.small}
+					$radiusRound = {radius.round}
+					$shown = {displayType === "text"}
+					$isDark = {isDark}
+					$colour = {colour}
+					onClick = {handleDisplayChange}
+				/>
+			}
+			{optional && <X onClick = {handleClear}/>}
+		</div>
+	);
+}
+
 export default function TextInput (props: (TextInputProps | EmailInputProps | PasswordInputProps))
 {
 	const {id, className, name, label, labelStyle, type, value, leading, trailing, style, onChange, readonly, disabled, optional, hideLabel, hint, textOnError, isError} = props;
-	
-	const isDark = useDarkMode();
-	const colour = useThemeColours();
 	
 	const [shownValue, setShownValue] = useState (value ?? "");
 	const [displayType, setDisplayType] = useState (type);
@@ -117,23 +164,18 @@ export default function TextInput (props: (TextInputProps | EmailInputProps | Pa
 			label = {label}
 			labelStyle = {labelStyle}
 			trailing = {
-				<div style = {{display: "flex", gap: spacing.small, alignItems: "center"}}>
+				<Trailing
+					type = {type}
+					displayType = {displayType}
+					handleDisplayChange = {() => setDisplayType (old => old === "password" ? "text" : "password")}
+					optional = {optional}
+					handleClear = {handleClear}
+					multiline = {(type === "text" && props.multiline) ?? false}
+					maxCharCount = {type === "text" ? props.maxCharCount : undefined}
+					shownValue = {shownValue}
+				>
 					{trailing}
-					{
-						type === "text" && props.multiline && props.maxCharCount !== undefined &&
-							<Small $isDark = {isDark} $colour = {colour}>{shownValue.length}/{props.maxCharCount}</Small>
-					}
-					{
-						type === "password" &&
-						<ShowHide
-							$shown = {displayType === "text"}
-							$isDark = {isDark}
-							$colour = {colour}
-							onClick = {() => setDisplayType (old => old === "password" ? "text" : "password")}
-						/>
-					}
-					{optional && <X onClick = {handleClear}/>}
-				</div>
+				</Trailing>
 			}
 			isError = {isError}
 			style = {style}

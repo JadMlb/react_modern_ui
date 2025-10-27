@@ -1,12 +1,13 @@
-import { Style, spacing } from "../../../../styles";
+import { useMemo } from "react";
+import { Style, useThemeParser } from "../../../../styles";
 import X from "./x";
 
 const TRAILING_STYLE = {
 	display: "flex",
-	gap: spacing.large,
+	gap: "spacing.large",
 	alignItems: "center",
 	width: "fit-content",
-	marginLeft: spacing.large
+	marginLeft: "spacing.large"
 } satisfies Style;
 
 interface ComboboxTrailingProps
@@ -22,8 +23,14 @@ interface ComboboxTrailingProps
 
 export default function ComboboxTrailing ({optional, value, expanded, arrowComponent, disabled, readonly, onChange}: ComboboxTrailingProps)
 {
+	const parseCss = useThemeParser();
+	const WRAPPER_STYLE = useMemo (
+		() => parseCss (TRAILING_STYLE),
+		[parseCss]
+	);
+	
 	return (
-		<div style = {TRAILING_STYLE}>
+		<div style = {WRAPPER_STYLE}>
 			{
 				optional && value && (value?.length ?? 0) > 0 &&
 				<X

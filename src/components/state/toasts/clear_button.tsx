@@ -1,9 +1,9 @@
 import { useMemo } from "react";
-import { Style, radius } from "../../../styles";
+import { Style } from "../../../styles";
 import { TOAST_TYPE_SYMBOL_MAP } from "../../../types";
 import { Button } from "../../input";
 
-const BASE_STYLE = {width: "30px", height: "30px", borderRadius: radius.round} satisfies Style;
+const BASE_STYLE = {width: "30px", height: "30px", borderRadius: "radius.round"} satisfies Style;
 
 interface ToastClearButtonProps
 {

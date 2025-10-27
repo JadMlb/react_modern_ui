@@ -1,17 +1,7 @@
 /** @jsxImportSource @emotion/react */
-import styled from "@emotion/styled";
-import { spacing } from "../../styles/styles";
 import { Style, useThemeParser } from "../../styles/theme";
 import SeparatorProps from "../../types/components/Separator/SeparatorProps";
 import { useEffect, useState } from "react";
-
-const Wrapper = styled.div
-`
-	display: flex;
-	flex-direction: row;
-	align-items: center;
-	gap: ${spacing.small};
-`;
 
 const DEFAULT_STYLE = {
 	height: 1,
@@ -23,7 +13,7 @@ const DEFAULT_PARENT_STYLE = {
 	display: "flex",
 	flexDirection: "row",
 	alignItems: "center",
-	gap: spacing.small,
+	gap: "spacing.small",
 	"> small": {
 		color: "primary",
 		flexGrow: 1,
@@ -51,9 +41,9 @@ export default function Separator ({id, className, style, parentStyle, title}: S
 	);
 
 	return (
-		<Wrapper id = {id} className = {className} css = {parentCss}>
+		<div id = {id} className = {className} css = {parentCss}>
 			<small>{title}</small>
 			<div css = {css}/>
-		</Wrapper>
+		</div>
 	);
 }

@@ -1,15 +1,7 @@
-import { useMemo } from "react";
 /** @jsxImportSource @emotion/react */
-import styled from "@emotion/styled";
+import { useMemo } from "react";
 import { Option } from "../../../../types";
-import { radius, spacing, useDarkMode, useThemeParser } from "../../../../styles";
-
-const Container = styled.div
-`
-	cursor: pointer;
-	padding-inline: ${spacing.xsmall};
-	border-radius: calc(${radius.small} - ${spacing.xsmall});
-`;
+import { useDarkMode, useThemeParser } from "../../../../styles";
 
 interface ComboboxOptionProps
 {
@@ -25,6 +17,9 @@ export default function ComboboxOption ({option, selected, onClick}: ComboboxOpt
 	const parseCss = useThemeParser();
 	const css = useMemo (
 		() => parseCss ({
+					cursor: "pointer",
+					paddingInline: "spacing.xsmall",
+					borderRadius: "calc(radius.small - spacing.xsmall)",
 					backgroundColor: selected ? "primary" : "transparent",
 					color: selected || isDark ? "white" : "black",
 					":hover": {
@@ -36,8 +31,8 @@ export default function ComboboxOption ({option, selected, onClick}: ComboboxOpt
 	);
 	
 	return (
-		<Container onClick = {() => onClick (option)} css = {css}>
+		<div onClick = {() => onClick (option)} css = {css}>
 			{option.display}
-		</Container>
+		</div>
 	);
 }

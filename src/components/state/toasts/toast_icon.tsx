@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { Style, radius, useDarkMode, useThemeParser } from "../../../styles";
+import { Style, useDarkMode, useThemeParser } from "../../../styles";
 import { TOAST_TYPE_SYMBOL_MAP, ToastIconType, ToastType } from "../../../types";
 
 const BG_STYLE = {
@@ -8,7 +8,7 @@ const BG_STYLE = {
 	display: "flex",
 	justifyContent: "center",
 	alignItems: "center",
-	borderRadius: radius.round,
+	borderRadius: "radius.round",
 	color: "white",
 	fontWeight: "bold"
 } satisfies Style;

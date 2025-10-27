@@ -1,4 +1,4 @@
-import { Style, radius } from "../../../styles";
+import { Style } from "../../../styles";
 
 export interface CheckboxStyle
 {
@@ -26,7 +26,7 @@ export const DEFAULT_CHECKBOX_STYLE: (theme?: "dark" | "light") => CheckboxStyle
 		width: "17px",
 		height: "17px",
 		border: "2px solid primary",
-		borderRadius: radius.small
+		borderRadius: "radius.small"
 	},
 	checked: {
 		backgroundColor: "primary",

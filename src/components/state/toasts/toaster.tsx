@@ -1,10 +1,10 @@
 /** @jsxImportSource @emotion/react */
 import styled from "@emotion/styled";
 import { keyframes } from "@emotion/react";
-import { spacing } from "../../../styles/styles";
 import Toast from "./toast";
 import ToasterProps from "../../../types/components/Toaster/ToasterProps";
 import { useToasts } from "./toasts_context";
+import { useTheme } from "../../../styles";
 
 const toastFromRight = keyframes
 `
@@ -32,10 +32,10 @@ const toastFromLeft = keyframes
 
 const ANIMATION_SPEED = "250ms";
 
-const Container = styled.div<{$position: "top-left" | "top-right" | "bottom-left" | "bottom-right"}>
+const Container = styled.div<{$spacingSmall: string, $spacingMedium: string, $position: "top-left" | "top-right" | "bottom-left" | "bottom-right"}>
 `
 	position: fixed;
-	padding: ${spacing.small};
+	padding: ${({$spacingSmall}) => $spacingSmall};
 	width: 100%;
 	max-width: 400px;
 	max-height: 100vh;
@@ -43,7 +43,7 @@ const Container = styled.div<{$position: "top-left" | "top-right" | "bottom-left
 
 	display: flex;
 	flex-direction: column${props => props.$position.startsWith ("bottom") ? "-reverse" : ""};
-	gap: ${spacing.normal};
+	gap: ${({$spacingMedium}) => $spacingMedium};
 
 	${props => `${props.$position.split("-")[0]}: 0;`}
 	${props => `${props.$position.split("-")[1]}: 0;`}
@@ -62,9 +62,15 @@ const Container = styled.div<{$position: "top-left" | "top-right" | "bottom-left
 export default function Toaster ({position = "bottom-right", autoClear, clearAfter = 5, containerStyle, clearButton, clearButtonStyle, icons, progressBar, progressBarStyle}: ToasterProps)
 {
 	const {toasts, clearToast} = useToasts();
+	const {theme} = useTheme();
+	const {spacing} = theme.measurements;
 	
 	return (
-		<Container $position = {position}>{
+		<Container
+			$spacingSmall = {spacing.small}
+			$spacingMedium = {spacing.medium}
+			$position = {position}
+		>{
 			toasts.length > 0 &&
 			toasts.map (
 				toast => <Toast

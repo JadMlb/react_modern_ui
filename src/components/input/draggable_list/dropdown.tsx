@@ -1,12 +1,28 @@
 import { useEffect, useRef, useState } from "react";
 import Button from "../button";
 import DraggableList, { DraggableListProps } from ".";
-import { colour, radius, spacing } from "../../../styles/styles";
+// import { radius, spacing } from "../../../styles/styles";
 import { useDarkMode, useTheme } from "../../../styles/theme";
 /** @jsxImportSource @emotion/react */
 import styled from "@emotion/styled";
 import { ThemeType } from "../../../types/theme";
 
+// const Container = styled.div<{$expanded: boolean, $isDark: boolean, $theme: ThemeType}>
+// `
+// 	position: absolute;
+// 	z-index: 100;
+// 	top: 100%;
+// 	right: 0;
+
+// 	max-height: 200px;
+// 	overflow-y: auto;
+
+// 	display: ${props => props.$expanded ? "block" : "none"};
+// 	background-color: ${props => colour (props.$isDark ? "black" : "white", props.$theme)};
+// 	border-radius: ${radius.normal};
+// 	box-shadow: 0 0 5px ${props => colour (props.$isDark ? "grayDark" : "grayLight", props.$theme)};
+// 	padding: ${spacing.small};
+// `;
 const Container = styled.div<{$expanded: boolean, $isDark: boolean, $theme: ThemeType}>
 `
 	position: absolute;
@@ -18,10 +34,6 @@ const Container = styled.div<{$expanded: boolean, $isDark: boolean, $theme: Them
 	overflow-y: auto;
 
 	display: ${props => props.$expanded ? "block" : "none"};
-	background-color: ${props => colour (props.$isDark ? "black" : "white", props.$theme)};
-	border-radius: ${radius.normal};
-	box-shadow: 0 0 5px ${props => colour (props.$isDark ? "grayDark" : "grayLight", props.$theme)};
-	padding: ${spacing.small};
 `;
 
 type DropDownDraggableListProps = {

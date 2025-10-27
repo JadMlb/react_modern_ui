@@ -1,17 +1,19 @@
 import React, { useMemo } from "react";
 /** @jsxImportSource @emotion/react */
 import styled from "@emotion/styled";
-import { Style, radius, spacing, useDarkMode, useThemeColours, useThemeParser } from "../../../styles";
+import { Style, useDarkMode, useThemeParser } from "../../../styles";
 import { useEffect, useState } from "react";
-import { Colour } from "../../../types";
 import InputLabel from "./label";
 import InputHint from "./hint";
 
 const DEFAULT_STYLE: (isDark: boolean, disabled?: boolean, readonly?: boolean) => Style = (isDark, disabled = false, readonly = false) => ({
 	backgroundColor: disabled || readonly ? "unset" : `gray${isDark ? "Dark" : "Light"}`,
-	borderRadius: radius.normal,
-	border: "1px solid gray",
-	padding: spacing.small,
+	borderRadius: "radius.medium",
+	padding: "spacing.small",
+	display: "flex",
+	alignItems: "center",
+	position: "relative",
+	gap: "spacing.small",
 	color: disabled ? "gray" : undefined,
 	":hover": {
 		border: `1px solid ${disabled || readonly ? "gray" : `primary${isDark ? "Dark" : "Elevated"}`}`
@@ -25,15 +27,6 @@ const Container = styled.div
 `
 	display: flex;
 	flex-direction: column;
-`;
-
-const Wrapper = styled.div<{$isError?: boolean, $colour: (col: Colour) => string}>
-`
-	display: flex;
-	gap: ${spacing.small};
-	align-items: center;
-	position: relative;
-	${props => props.$isError && `border-color: ${props.$colour ("error")} !important;`}
 `;
 
 const Trailing = styled.div
@@ -65,7 +58,6 @@ interface InputBaseProps
 const InputBase = React.forwardRef<HTMLDivElement, InputBaseProps> (
 	({id, className, inputId, label, style, labelStyle, trailing, hint, textOnError, isError = false, hideLabel, disabled, readonly, children, onClick, onFocus, onBlur}, ref) =>
 	{
-		const colour = useThemeColours();
 		const isDark = useDarkMode();
 
 		const parseTheme = useThemeParser();
@@ -81,10 +73,11 @@ const InputBase = React.forwardRef<HTMLDivElement, InputBaseProps> (
 			{
 				setCss (parseTheme ({
 					...DEFAULT_STYLE (isDark, disabled, readonly),
+					border: `1px solid ${isError ? "error" : "gray"}`,
 					...style
 				}));
 			},
-			[style, isDark, parseTheme, disabled, readonly]
+			[style, isDark, parseTheme, disabled, readonly, isError]
 		);
 		
 		return (
@@ -96,10 +89,8 @@ const InputBase = React.forwardRef<HTMLDivElement, InputBaseProps> (
 				>
 					{label}
 				</InputLabel>
-				<Wrapper
+				<div
 					css = {css}
-					$isError = {isError}
-					$colour = {colour}
 					tabIndex = {0}
 					onClick = {onClick}
 					onFocus = {onFocus}
@@ -113,7 +104,7 @@ const InputBase = React.forwardRef<HTMLDivElement, InputBaseProps> (
 						trailing &&
 							<Trailing>{trailing}</Trailing>
 					}
-				</Wrapper>
+				</div>
 				<InputHint
 					isError = {isError}
 					hint = {hint}

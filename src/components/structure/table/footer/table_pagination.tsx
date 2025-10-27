@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import TablePaginationProps from "./TablePaginationProps";
-import { Style, spacing, useThemeParser } from "../../../../styles";
+import { Style, useThemeParser } from "../../../../styles";
 import PaginationButtons from "./pagination_buttons";
 import PaginationPageSizes from "./page_sizes";
 
@@ -8,7 +8,7 @@ const DEFAULT_PAGE_OPTIONS = [5, 10, 15, 20];
 
 const DEFAULT_STYLE = {
 	display: "flex",
-	gap: spacing.small,
+	gap: "spacing.small",
 	alignItems: "center"
 } satisfies Style;
 

@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { Style, spacing, useThemeParser } from "../../../../styles";
+import { Style, useThemeParser } from "../../../../styles";
 import TablePaginationProps from "./TablePaginationProps";
 import TablePagination from "./table_pagination";
 
@@ -11,8 +11,8 @@ interface TableFooterProps extends TablePaginationProps
 
 const DEFAULT_STYLE = {
 	display: "flex",
-	gap: spacing.normal,
-	paddingBlock: spacing.small,
+	gap: "spacing.medium",
+	paddingBlock: "spacing.small",
 	justifyContent: "flex-end",
 	alignItems: "baseline"
 } satisfies Style;

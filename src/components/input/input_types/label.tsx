@@ -1,14 +1,12 @@
 /** @jsxImportSource @emotion/react */
-import styled from "@emotion/styled";
-import { Style, spacing, useThemeParser } from "../../../styles";
+import { Style, useThemeParser } from "../../../styles";
 import { useEffect, useState } from "react";
 
-const Lbl = styled.label
-`
-	font-size: 0.8rem;
-	font-weight: bold;
-	margin-left: calc(2 * ${spacing.xsmall});
-`;
+const DEFAULT_STYLE = {
+	fontSize: "0.8rem",
+	fontWeight: "bold",
+	marginLeft: "calc(2 * spacing.xsmall)"
+} satisfies Style;
 
 interface InputLabelProps
 {
@@ -26,8 +24,12 @@ export default function InputLabel ({children, hidden, htmlFor, style}: InputLab
 	useEffect (
 		() =>
 		{
-			if (style)
-				setCss (parseStyle (style));
+			setCss (
+					parseStyle ({
+						...DEFAULT_STYLE,
+						...style
+					})
+			);
 		},
 		[style, setCss]
 	);
@@ -35,12 +37,12 @@ export default function InputLabel ({children, hidden, htmlFor, style}: InputLab
 	return (
 		<>{
 			!hidden && children &&
-			<Lbl
+			<label
 				htmlFor = {htmlFor}
 				css = {css}
 			>
 				{children}
-			</Lbl>
+			</label>
 		}</>
 	);
 }

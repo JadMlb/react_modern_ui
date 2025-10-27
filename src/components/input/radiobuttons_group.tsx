@@ -6,6 +6,9 @@ import X from "./input_types/combobox/x";
 import Panel from "../structure/panel";
 import InputLabel from "./input_types/label";
 import InputHint from "./input_types/hint";
+import { Style } from "../../styles";
+
+const CHECKBOX_RADIO_STYLE = {borderRadius: "100%"} satisfies Style;
 
 /**
  * Renders a group of radio buttons showing multiple options
@@ -72,7 +75,7 @@ export default function RadioButtonsGroup ({className, id, name, optionsLabels, 
 									label = {l}
 									value = {checked === index}
 									onChange = {e => updateSelection (e, l, index)}
-									style = {{borderRadius: "100%"}}
+									style = {CHECKBOX_RADIO_STYLE}
 									readonly = {readonly}
 									disabled = {disabled}
 									{...checkboxProps}

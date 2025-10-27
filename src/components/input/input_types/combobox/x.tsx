@@ -1,9 +1,8 @@
 /** @jsxImportSource @emotion/react */
 import styled from "@emotion/styled";
-import { radius, useDarkMode, useThemeColours } from "../../../../styles";
-import { Colour } from "../../../../types";
+import { ThemeColourFunction, useDarkMode, useTheme, useThemeColours } from "../../../../styles";
 
-const XComponent = styled.div<{$large?: boolean, $isDark: boolean, $colour: (colour: Colour) => string}>
+const XComponent = styled.div<{$large?: boolean, $radiusSmall: string, $isDark: boolean, $colour: ThemeColourFunction}>
 `
 	position: relative;
 	width: ${props => props.$large ? 15 : 10}px;
@@ -17,7 +16,7 @@ const XComponent = styled.div<{$large?: boolean, $isDark: boolean, $colour: (col
 		width: 1px;
 		height: 100%;
 		background-color: ${props => props.$colour (props.$isDark ? "white" : "black")};
-		border-radius: ${radius.small};
+		border-radius: ${({$radiusSmall}) => $radiusSmall};
 		left: calc(50% - 1px);
 	}
 
@@ -42,9 +41,12 @@ export default function X ({large, onClick}: XProps)
 {
 	const colour = useThemeColours();
 	const isDark = useDarkMode();
+	const {theme} = useTheme();
+	const {radius} = theme.measurements;
 	
 	return (
 		<XComponent
+			$radiusSmall = {radius.small}
 			$large = {large}
 			onClick = {onClick}
 			$isDark = {isDark}

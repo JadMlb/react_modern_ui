@@ -1,13 +1,13 @@
 import { useMemo } from "react";
-import { Style, spacing, useThemeParser } from "../../../styles";
+import { Style, useThemeParser } from "../../../styles";
 import TableCellProps from "./TableCellProps";
 
 const DEFAULT_CELL_STYLE = {
 	":not(:first-of-type)": {
 		borderLeft: "1px solid gray",
 	},
-	paddingBlock: spacing.xxsmall,
-	paddingInline: spacing.xsmall,
+	paddingBlock: "spacing.xxsmall",
+	paddingInline: "spacing.xsmall",
 	display: "flex"
 } satisfies Style;
 

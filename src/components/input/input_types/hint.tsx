@@ -1,13 +1,6 @@
 /** @jsxImportSource @emotion/react */
-import styled from "@emotion/styled";
-import { ThemeColourFunction, spacing, useThemeColours } from "../../../styles";
+import { useThemeParser } from "../../../styles";
 import { useMemo } from "react";
-
-const Text = styled.small<{$isError: boolean, $colour: ThemeColourFunction}>
-`
-	margin-left: ${spacing.small};
-	color: ${props => props.$colour (props.$isError ? "error" : "gray")};
-`;
 
 interface InputHintProps
 {
@@ -18,7 +11,14 @@ interface InputHintProps
 
 export default function InputHint ({hint, isError = false, textOnError}: InputHintProps)
 {
-	const getColour = useThemeColours();
+	const parseCss = useThemeParser();
+	const css = useMemo (
+		() => parseCss ({
+			marginLeft: "spacing.small",
+			color: isError ? "error" : "gray"
+		}),
+		[parseCss, isError]
+	);
 	const shouldRender = useMemo (
 		() => !!hint || isError && !!textOnError,
 		[hint, isError, textOnError]
@@ -27,9 +27,9 @@ export default function InputHint ({hint, isError = false, textOnError}: InputHi
 	return (
 		<>{
 			shouldRender &&
-				<Text $isError = {isError} $colour = {getColour}>
+				<small css = {css}>
 					{isError ? textOnError : hint}
-				</Text>
+				</small>
 		}</>
 	);
 }

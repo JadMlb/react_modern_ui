@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { ComboboxProps } from "../../../../types/components/Combobox/ComboboxProps";
 import InputBase from "../input_base";
-import { spacing, useDarkMode, useThemeParser } from "../../../../styles";
+import { useDarkMode, useThemeParser } from "../../../../styles";
 import Menu from "../../menu";
 import ComboboxOption from "./option";
 import { Option } from "../../../../types";
@@ -21,7 +21,7 @@ function Arrow ({up}: {up?: boolean})
 			height: "7px",
 			borderBottom: `2px solid ${isDark ? "white" : "black"}`,
 			borderRight: `2px solid ${isDark ? "white" : "black"}`,
-			transform: `translate(-${spacing.small}, ${up ? "" : "-"}1.75px) rotate(${up ? -13 : 4}5deg)`
+			transform: `translate(-spacing.small, ${up ? "" : "-"}1.75px) rotate(${up ? -13 : 4}5deg)`
 		}),
 		[parseCss, up]
 	);

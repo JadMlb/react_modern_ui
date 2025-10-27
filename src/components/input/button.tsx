@@ -1,24 +1,8 @@
-import { useEffect, useState } from "react";
 /** @jsxImportSource @emotion/react */
-import styled from "@emotion/styled";
+import { useEffect, useState } from "react";
 import { Style, useDarkMode, useThemeParser } from "../../styles/theme";
 import { ButtonProps } from "../../types/components/Button/ButtonProps";
 import { DEFAULT_BUTTON_STYLES } from "../../types/components/Button/ButtonStyle";
-import { spacing } from "../../styles";
-
-const StyledButton = styled.button
-`
-	border: none;
-	font-size: inherit;
-	transition: transform 0.25s ease-in-out;
-	cursor: pointer;
-
-	display: flex;
-	flex-direction: row;
-	gap: ${spacing.small};
-	align-items: center;
-	justify-content: center;
-`;
 
 /**
  * Button component
@@ -41,7 +25,7 @@ export default function Button ({id, role = "normal", type = "filled", onClick, 
 	);
 
 	return (
-		<StyledButton
+		<button
 			css = {css}
 			className = {className}
 			id = {id}
@@ -49,6 +33,6 @@ export default function Button ({id, role = "normal", type = "filled", onClick, 
 			disabled = {disabled}
 		>
 			{children}
-		</StyledButton>
+		</button>
 	);
 }

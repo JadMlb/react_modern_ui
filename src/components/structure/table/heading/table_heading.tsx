@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { Style, spacing, useThemeParser } from "../../../../styles";
+import { Style, useThemeParser } from "../../../../styles";
 
 interface TableHeadingProps
 {
@@ -10,8 +10,8 @@ interface TableHeadingProps
 const DEFAULT_STYLE = {
 	display: "flex",
 	flexDirection: "row",
-	gap: spacing.normal,
-	marginBlock: spacing.large
+	gap: "spacing.medium",
+	marginBlock: "spacing.large"
 } satisfies Style;
 
 export default function TableHeading ({style, children}: TableHeadingProps)

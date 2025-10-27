@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 /** @jsxImportSource @emotion/react */
 import styled from "@emotion/styled";
-import { spacing } from "../../styles/styles";
 import { Style, useDarkMode, useThemeColours, useThemeParser } from "../../styles/theme";
 import { Colour } from "../../types";
 import { CardProps } from "../../types/components/Card/CardProps";
@@ -16,7 +15,6 @@ const CardBg = styled.div<{$mediaPosition: "left" | "top" | "right" | "bottom", 
 	}
 	
 	display: grid;
-	gap: ${spacing.small};
 	grid-template-${props => ["left", "right"].includes (props.$mediaPosition) ? "column" : "row"}s: repeat(${props => props.$containsMedia ? 2 : 1}, auto);
 	grid-template-areas: ${
 		props => props.$mediaPosition === "left" ?
@@ -50,10 +48,9 @@ const Small = styled.p<{$colour: (col: Colour) => string}>
 	margin: unset;
 `;
 
-const CardContent = styled.div<{$width?: number, $height?: number, $mediaPosition: "left" | "top" | "right" | "bottom", $containsMedia: boolean}>
+const CardContent = styled.div<{$mediaPosition: "left" | "top" | "right" | "bottom", $containsMedia: boolean}>
 `
 	grid-area: c;
-	padding: ${spacing.normal};
 	${props => props.$containsMedia && `padding-${props.$mediaPosition}: unset;`}
 
 	width: 1fr;

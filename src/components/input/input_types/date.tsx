@@ -1,10 +1,37 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import DateTimeInputProps from "../../../types/components/input/datetime/DateTimeInputProps";
 import TimeInputProps from "../../../types/components/input/datetime/TimeInputProps";
 import DateInputProps from "../../../types/components/input/datetime/DateInputProps";
 import InputBase from "./input_base";
-import { spacing } from "../../../styles";
+import { useTheme } from "../../../styles";
 import X from "./combobox/x";
+
+interface TrailingProps
+{
+	trailing?: React.ReactNode;
+	optional?: boolean;
+	handleClear?: (e: React.MouseEvent) => void;
+}
+
+function Trailing ({trailing, optional, handleClear}: TrailingProps)
+{
+	const {theme} = useTheme();
+	const STYLE = useMemo (
+		() => ({
+			display: "flex",
+			gap: theme.measurements.spacing.small,
+			alignItems: "center"
+		}),
+		[]
+	);
+
+	return (
+		<div style = {STYLE}>
+			{trailing}
+			{optional && <X onClick = {handleClear}/>}
+		</div>
+	);
+}
 
 export default function DateInput (props: DateTimeInputProps | TimeInputProps | DateInputProps)
 {
@@ -89,10 +116,11 @@ export default function DateInput (props: DateTimeInputProps | TimeInputProps | 
 			label = {label}
 			labelStyle = {labelStyle}
 			trailing = {
-				<div style = {{display: "flex", gap: spacing.small, alignItems: "center"}}>
-					{trailing}
-					{optional && <X onClick = {handleClear}/>}
-				</div>
+				<Trailing
+					trailing = {trailing}
+					optional = {optional}
+					handleClear = {handleClear}
+				/>
 			}
 			isError = {isError}
 			style = {style}

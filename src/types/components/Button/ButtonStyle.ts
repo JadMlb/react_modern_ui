@@ -1,14 +1,27 @@
-import { Style, radius, spacing } from "../../../styles";
+import { Style } from "../../../styles";
 import { ButtonRoles, ButtonTypes } from "./ButtonProps";
 
 type DefaultButtonStyles = {
 	[key in ButtonTypes]?: (role: ButtonRoles, theme?: "dark" | "light") => Style
 }
 
+const BASE_BUTTON_STYLES = {
+	border: "none",
+	fontSize: "inherit",
+	transition: "transform 0.25s ease-in-out",
+	cursor: "pointer",
+	display: "flex",
+	flexDirection: "row",
+	gap: "spacing.small",
+	alignItems: "center",
+	justifyContent: "center"
+} satisfies Style;
+
 export const DEFAULT_BUTTON_STYLES: DefaultButtonStyles = {
 	filled: (role, theme = "light") => ({
-		borderRadius: radius.normal,
-		padding: spacing.small,
+		...BASE_BUTTON_STYLES,
+		borderRadius: "radius.medium",
+		padding: "spacing.small",
 		fontWeight: ["primary", "transparent", "warn"].includes (role) ? "bold" : "normal",
 		backgroundColor: role === "primary" ?
 							"primary" :
@@ -36,9 +49,10 @@ export const DEFAULT_BUTTON_STYLES: DefaultButtonStyles = {
 		}
 	}),
 	outlined: (role, theme = "light") => ({
-		borderRadius: radius.normal,
+		...BASE_BUTTON_STYLES,
+		borderRadius: "radius.medium",
 		border: `1.5px solid ${role === "primary" ? "primary" : role === "warn" ? "error" : `gray${theme[0].toUpperCase()}${theme.slice (1)}`}`,
-		padding: `calc(${spacing.small} - 1.5px)`,
+		padding: `calc(spacing.small - 1.5px)`,
 		fontWeight: ["primary", "transparent", "warn"].includes (role) ? "bold" : "normal",
 		backgroundColor: "transparent",
 		color: ["primary", "normal"].includes (role) ?
@@ -51,6 +65,7 @@ export const DEFAULT_BUTTON_STYLES: DefaultButtonStyles = {
 		}
 	}),
 	link: (role, theme = "light") => ({
+		...BASE_BUTTON_STYLES,
 		backgroundColor: "transparent",
 		border: "unset",
 		textDecorationLine: "underline",

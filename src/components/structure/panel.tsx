@@ -1,25 +1,21 @@
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 /** @jsxImportSource @emotion/react */
 import styled from "@emotion/styled";
-import { radius, spacing } from "../../styles/styles";
 import Button from "../input/button";
 import { useState } from "react";
-import { Style, ThemeColourFunction, useThemeColours, useThemeParser } from "../../styles/theme";
+import { Style, ThemeColourFunction, useTheme, useThemeColours, useThemeParser } from "../../styles/theme";
 import { PanelProps } from "../../types/components/Panel/PanelProps";
 import Chevron from "../chevron";
 
 const PanelDiv = styled.div<{$border: boolean, $colour: ThemeColourFunction}>
 `
 	position: relative;
-	padding: ${spacing.small};
 	display: flex;
 	flex-direction: column;
-	gap: ${spacing.small};
 
 	${
 		props => props.$border &&
 					`
-						border-radius: ${radius.normal};
 						border: 1px solid ${props.$colour ("primary")};
 					`
 	}
@@ -35,14 +31,31 @@ const Header = styled.div
 	top: 0;
 `;
 
-const ScrollArea = styled.div
+const ScrollAreaElement = styled.div<{$spacingSmall: string}>
 `
 	min-height: 15px;
 	overflow: auto;
 	display: flex;
 	flex-direction: column;
-	gap: ${spacing.small};
+	gap: ${({$spacingSmall}) => $spacingSmall};
 `;
+
+interface ScrollAreaProps
+{
+	children?: React.ReactNode;
+}
+
+function ScrollArea ({children}: ScrollAreaProps)
+{
+	const {theme} = useTheme();
+	const {spacing} = theme.measurements;
+
+	return (
+		<ScrollAreaElement $spacingSmall = {spacing.small}>
+			{children}
+		</ScrollAreaElement>
+	);
+}
 
 /**
  * Wraps the contents inside their own division, with the ability to add a title. In the latter case, a border is shown around the panel.
@@ -52,21 +65,31 @@ export default function Panel ({id, className, style, title, collapsible = false
 	const getColour = useThemeColours();
 	const [isCollapsed, setIsCollapsed] = useState (true);
 
+	const hasBorder = useMemo (
+		() => title !== undefined && title !== null,
+		[title]
+	);
 	const parseTheme = useThemeParser();
 	const [css, setCss] = useState<Style> ({});
 
 	useEffect (
 		() =>
 		{
-			if (style)
-				setCss (parseTheme (style));
+			setCss (
+				parseTheme ({
+					padding: "spacing.small",
+					gap: "spacing.small",
+					borderRadius: "radius.medium",
+					...style
+				})
+			);
 		},
 		[style, parseTheme]
 	);
 
 	return (
 		<PanelDiv
-			$border = {title !== undefined && title !== null}
+			$border = {hasBorder}
 			$colour = {getColour}
 			css = {css}
 			className = {className}
