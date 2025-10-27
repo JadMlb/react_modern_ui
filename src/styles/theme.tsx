@@ -1,47 +1,54 @@
 import React, { CSSProperties, createContext, useCallback, useContext, useReducer } from "react";
-import { ThemeType } from "../types/theme";
-import { COLOURS_ALT_NAMES, Colour } from "../types";
+import { PartialThemeType, ThemeType } from "../types/theme";
+import { COLOURS_ALT_NAMES, Colour, Measurements } from "../types";
+import { DEFAULT_RADIUS, DEFAULT_SPACING } from "./styles";
 
 const DEFAULT_THEME: ThemeType = {
 	mode: "auto",
-	primary: {
-		dark: "123D56",
-		medium: "2274A5",
-		light: "DDE8EF"
+	measurements: {
+		radius: DEFAULT_RADIUS,
+		spacing: DEFAULT_SPACING
 	},
-	accent: {
-		dark: "40260A",
-		medium: "F2D0A9",
-		light: "F9EDE0"
-	},
-	neutral: {
-		dark: "131B23",
-		medium: "7E7F81",
-		light: "FEFEFF"
-	},
-	gray: {
-		dark: "555555",
-		medium: "AAAAAA",
-		light: "EEEEEE"
-	},
-	affirmative: {
-		dark: "014A22",
-		medium: "018E42",
-		light: "76D4A2"
-	},
-	error: {
-		dark: "9A1E2F",
-		medium: "D52941",
-		light: "EDD0D4"
-	},
-	alert: {
-		dark: "A16A09",
-		medium: "FFBF00",
-		light: "FFF3D0"
+	colours: {
+		primary: {
+			dark: "123D56",
+			medium: "2274A5",
+			light: "DDE8EF"
+		},
+		accent: {
+			dark: "40260A",
+			medium: "F2D0A9",
+			light: "F9EDE0"
+		},
+		neutral: {
+			dark: "131B23",
+			medium: "7E7F81",
+			light: "FEFEFF"
+		},
+		gray: {
+			dark: "555555",
+			medium: "AAAAAA",
+			light: "EEEEEE"
+		},
+		affirmative: {
+			dark: "014A22",
+			medium: "018E42",
+			light: "76D4A2"
+		},
+		error: {
+			dark: "9A1E2F",
+			medium: "D52941",
+			light: "EDD0D4"
+		},
+		alert: {
+			dark: "A16A09",
+			medium: "FFBF00",
+			light: "FFF3D0"
+		}
 	}
 };
 
-type ThemeDispatchAction = {type: "set", values: Partial<ThemeType>} | {type: "reset"}
+type ThemeDispatchAction = {type: "set", values: PartialThemeType} | {type: "reset"}
 
 type ThemeContextType = {
 	theme: ThemeType,
@@ -50,24 +57,48 @@ type ThemeContextType = {
 
 const ThemeContext = createContext<ThemeContextType> ({theme: DEFAULT_THEME, dispatch: ()=>{}});
 
+function mergeThemeValues (base: ThemeType, modifications: PartialThemeType) : ThemeType
+{
+	return {
+		mode: modifications.mode ?? base.mode,
+		measurements: {
+			radius: {...base.measurements.radius, ...modifications.measurements?.radius},
+			spacing: {...base.measurements.spacing, ...modifications.measurements?.spacing},
+		},
+		colours: {...base.colours, ...modifications.colours}
+	};
+}
+
+export function createTheme (theme: PartialThemeType) : ThemeType
+{
+	return mergeThemeValues (DEFAULT_THEME, theme);
+}
+
 function themeReducer (state: ThemeType, action: ThemeDispatchAction)
 {
 	switch (action.type)
 	{
-		case "set": return {...state, ...action.values};
+		case "set": return mergeThemeValues (state, action.values);
 		case "reset": return DEFAULT_THEME;
 	}
 }
 
+interface ThemeProviderProps
+{
+	theme?: ThemeType;
+	children: React.ReactNode;
+}
+
 /**
  * Theme provider to wrap the app components so they can use a theme and be displayed
+ * @param theme Sets the inital values of the theme
  */
-export function ThemeProvider ({children}: {children: React.ReactNode})
+export function ThemeProvider ({theme, children}: ThemeProviderProps)
 {
-	const [theme, dispatch] = useReducer (themeReducer, DEFAULT_THEME);
+	const [realTheme, dispatch] = useReducer (themeReducer, theme ?? DEFAULT_THEME);
 
 	return (
-		<ThemeContext.Provider value = {{theme, dispatch}}>
+		<ThemeContext.Provider value = {{theme: realTheme, dispatch}}>
 			{children}
 		</ThemeContext.Provider>
 	);
@@ -118,8 +149,8 @@ export function useThemeColours (): ThemeColourFunction
 		(role: Colour) =>
 		{
 			let roleTree = COLOURS_ALT_NAMES[role].split (".");
-			const COLOUR_TYPE = roleTree[0] as keyof Omit<ThemeType, "mode">;
-			return "#" + theme[COLOUR_TYPE][roleTree[1] as "dark" | "medium" | "light"];
+			const COLOUR_TYPE = roleTree[0] as keyof ThemeType["colours"];
+			return "#" + theme.colours[COLOUR_TYPE][roleTree[1] as "dark" | "medium" | "light"];
 		},
 		[theme]
 	);
@@ -134,6 +165,8 @@ export type Style = CSSProperties & {
 export function useThemeParser ()
 {
 	const getColour = useThemeColours();
+	const {theme} = useTheme();
+	const {spacing, radius} = theme.measurements;
 
 	const processValue = useCallback (
 		function process (value: any): any
@@ -144,8 +177,21 @@ export function useThemeParser ()
 				for (const colourCode in COLOURS_ALT_NAMES)
 				{
 					const pattern = new RegExp (`\\b${colourCode}\\b`, "g");
-					replaced = replaced.replace (pattern, getColour (colourCode as keyof typeof COLOURS_ALT_NAMES))
+					replaced = replaced.replace (pattern, getColour (colourCode as keyof typeof COLOURS_ALT_NAMES));
 				}
+
+				for (let size of Object.keys (DEFAULT_SPACING))
+				{
+					const pattern = new RegExp (`\\bspacing\\.${size}\\b`, "g");
+					replaced = replaced.replace (pattern, spacing[size as keyof Measurements["spacing"]]);
+				}
+				
+				for (let size of Object.keys (DEFAULT_RADIUS))
+				{
+					const pattern = new RegExp (`\\bradius\\.${size}\\b`, "g");
+					replaced = replaced.replace (pattern, radius[size as keyof Measurements["radius"]]);
+				}
+
 				return replaced;
 			}
 			else if (Array.isArray (value))
