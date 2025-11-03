@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { ThemeColourFunction, useDarkMode, useTheme, useThemeColours } from "../../../styles/theme";
+import { ThemeColourFunction, useDarkMode, useTheme, useThemeColours } from "../../../styles";
 import { TextInputProps } from "../../../types/components/input/text/TextInputProps";
 /** @jsxImportSource @emotion/react */
 import styled from "@emotion/styled";

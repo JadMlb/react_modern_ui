@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 /** @jsxImportSource @emotion/react */
 import styled from "@emotion/styled";
-import { Style, useDarkMode, useThemeColours, useThemeParser } from "../../styles/theme";
+import { Style, useDarkMode, useThemeColours, useThemeParser } from "../../styles";
 import { Colour } from "../../types";
 import { CardProps } from "../../types/components/Card/CardProps";
 import { DEFAULT_CARD_STYLE } from "../../types/components/Card/CardStyle";

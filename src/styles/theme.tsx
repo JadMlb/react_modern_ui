@@ -2,6 +2,7 @@ import React, { CSSProperties, createContext, useCallback, useContext, useReduce
 import { PartialThemeType, ThemeType } from "../types/theme";
 import { COLOURS_ALT_NAMES, Colour, Measurements } from "../types";
 import { DEFAULT_RADIUS, DEFAULT_SPACING } from "./styles";
+import { ThemeModeProvider } from "./mode";
 
 const DEFAULT_THEME: ThemeType = {
 	mode: "auto",
@@ -99,7 +100,9 @@ export function ThemeProvider ({theme, children}: ThemeProviderProps)
 
 	return (
 		<ThemeContext.Provider value = {{theme: realTheme, dispatch}}>
-			{children}
+			<ThemeModeProvider mode = {realTheme.mode}>
+				{children}
+			</ThemeModeProvider>
 		</ThemeContext.Provider>
 	);
 }
@@ -114,28 +117,7 @@ export function ThemeProvider ({theme, children}: ThemeProviderProps)
  */
 export function useTheme ()
 {
-	return useContext(ThemeContext);
-}
-
-function doesPreferDarkMode ()
-{
-	if (window.matchMedia("(prefers-color-scheme: dark)").matches)
-		return true;
-	return false;
-}
-
-/**
- * Gets which mode is being used, either dark mode, light mode or set to auto. The former 2 are meant to be fixed, while "auto" is meant to represent a mode that changes with the system, and thus is affected by it.
- * 
- * @returns true if theme.mode is "dark", or "auto" and the system prefers dark mode, false otherwise
- */
-export function useDarkMode ()
-{
-	const context = useContext (ThemeContext);
-	
-	if (context.theme.mode === "auto")
-		return doesPreferDarkMode();
-	return context.theme.mode === "dark";
+	return useContext (ThemeContext);
 }
 
 /**

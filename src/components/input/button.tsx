@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import { useEffect, useState } from "react";
-import { Style, useDarkMode, useThemeParser } from "../../styles/theme";
+import { Style, useDarkMode, useThemeParser } from "../../styles";
 import { ButtonProps } from "../../types/components/Button/ButtonProps";
 import { DEFAULT_BUTTON_STYLES } from "../../types/components/Button/ButtonStyle";
 

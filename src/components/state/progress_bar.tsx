@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import styled from "@emotion/styled";
-import { Style, ThemeColourFunction, useDarkMode, useThemeColours, useThemeParser } from "../../styles/theme";
+import { Style, ThemeColourFunction, useDarkMode, useThemeColours, useThemeParser } from "../../styles";
 import { ProgressBarProps } from "../../types/components/ProgressBar/ProgressBarProps";
 import { useEffect, useState } from "react";
 

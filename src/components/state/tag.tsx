@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { Style, useDarkMode, useThemeParser } from "../../styles/theme";
+import { Style, useDarkMode, useThemeParser } from "../../styles";
 import { TagProps } from "../../types/components/Tag/TagProps";
 import DEFAULT_TAG_STYLE from "../../types/components/Tag/TagStyle";
 

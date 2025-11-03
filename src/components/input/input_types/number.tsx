@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { NumberInputProps } from "../../../types/components/input/number/NumberInputProps";
 /** @jsxImportSource @emotion/react */
 import styled from "@emotion/styled";
-import { Style, ThemeColourFunction, useDarkMode, useThemeColours } from "../../../styles/theme";
+import { Style, ThemeColourFunction, useDarkMode, useThemeColours } from "../../../styles";
 import TextInput from "./text";
 import Button from "../button";
 

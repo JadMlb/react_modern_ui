@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 /** @jsxImportSource @emotion/react */
 import styled from "@emotion/styled";
-import { useDarkMode, useThemeColours, useThemeParser } from "../../styles/theme";
+import { useDarkMode, useThemeColours, useThemeParser } from "../../styles";
 import { spacing } from "../../styles/styles";
 import { CheckboxProps } from "../../types/components/Checkbox/CheckboxProps";
 import { Colour } from "../../types";

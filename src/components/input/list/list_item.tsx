@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import React, { useMemo } from "react";
-import { Style, useDarkMode, useThemeParser } from "../../../styles/theme";
+import { Style, useDarkMode, useThemeParser } from "../../../styles";
 import DefaultDragHandle from "./drag_handle";
 
 const DEFAULT_LI_STYLE = {
