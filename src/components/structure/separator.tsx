@@ -42,7 +42,7 @@ export default function Separator ({id, className, style, parentStyle, title}: S
 
 	return (
 		<div id = {id} className = {className} css = {parentCss}>
-			<small>{title}</small>
+			{title && <small>{title}</small>}
 			<div css = {css}/>
 		</div>
 	);
