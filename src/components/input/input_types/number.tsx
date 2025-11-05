@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { forwardRef, useEffect, useState } from "react";
 import { NumberInputProps } from "../../../types/components/input/number/NumberInputProps";
 /** @jsxImportSource @emotion/react */
 import styled from "@emotion/styled";
@@ -120,83 +120,89 @@ function Trailing ({disabled, children, onChange}: LeadingTrailingProps)
 	);
 }
 
-export default function NumberInput ({id, className, name, label, labelStyle, value, range, step, precision, hideLabel, hint, textOnError, leading, trailing, style, isError, onChange, readonly, disabled, optional}: NumberInputProps)
-{	
-	const [error, setError] = useState (isError);
-	
-	const [realValue, setRealValue] = useState (0);
-	const [shownValue, setShownValue] = useState ("0");
-
-	function valueChanged (e: React.ChangeEvent | null, newVal: number)
+const NumberInput = forwardRef<HTMLInputElement, NumberInputProps> (
+	(props, ref) =>
 	{
-		// only update if range is undefined, or the new value respects the boundaries of the range, when provided
-		if (!range || (range[0] == null || newVal >= range[0]) && (range[1] == null || newVal <= range[1]))
-		{
-			setRealValue (newVal);
-			setShownValue (newVal.toFixed (precision));
-			if (onChange)
-				onChange (e, newVal);
-		}
-		else
-			setError (true);
-	}
-
-	function handleChange (e: React.ChangeEvent | null, value: string)
-	{
-		e?.stopPropagation();
-		e?.preventDefault();
+		const {id, className, name, label, labelStyle, value, range, step, precision, hideLabel, hint, textOnError, leading, trailing, style, isError, onChange, readonly, disabled, optional} = props;
+		const [error, setError] = useState (isError);
 		
-		const number = +value;
-		if (Number.isNaN (number))
-			return;
+		const [realValue, setRealValue] = useState (0);
+		const [shownValue, setShownValue] = useState ("0");
 
-		valueChanged (e, number);
-	}
-
-	function inc ()
-	{
-		valueChanged (null, realValue + (step ?? 1));
-	}
-
-	function dec ()
-	{
-		valueChanged (null, realValue - (step ?? 1));
-	}
-
-	useEffect (
-		() =>
+		function valueChanged (e: React.ChangeEvent | null, newVal: number)
 		{
-			const realInitVal = value !== undefined ? value : 0;
-			setRealValue (realInitVal);
-			setShownValue (realInitVal.toFixed (precision));
-		},
-		[value]
-	);
-	
-	return (
-		<TextInput
-			id = {id}
-			className = {className}
-			name = {name}
-			label = {label}
-			type = "text"
-			hint = {hint}
-			isError = {error}
-			textOnError = {textOnError}
-			disabled = {disabled}
-			hideLabel = {hideLabel}
-			labelStyle = {labelStyle}
-			leading = {
-				<Leading onChange = {dec}>{leading}</Leading>
+			// only update if range is undefined, or the new value respects the boundaries of the range, when provided
+			if (!range || (range[0] == null || newVal >= range[0]) && (range[1] == null || newVal <= range[1]))
+			{
+				setRealValue (newVal);
+				setShownValue (newVal.toFixed (precision));
+				if (onChange)
+					onChange (e, newVal);
 			}
-			trailing = {
-				<Trailing onChange = {inc}>{trailing}</Trailing>
-			}
-			onChange = {handleChange}
-			optional = {optional}
-			readonly = {readonly}
-			style = {{...style, width: "fit-content"}}
-			value = {shownValue}
-		/>
-	);
-}
+			else
+				setError (true);
+		}
+
+		function handleChange (e: React.ChangeEvent | null, value: string)
+		{
+			e?.stopPropagation();
+			e?.preventDefault();
+			
+			const number = +value;
+			if (Number.isNaN (number))
+				return;
+
+			valueChanged (e, number);
+		}
+
+		function inc ()
+		{
+			valueChanged (null, realValue + (step ?? 1));
+		}
+
+		function dec ()
+		{
+			valueChanged (null, realValue - (step ?? 1));
+		}
+
+		useEffect (
+			() =>
+			{
+				const realInitVal = value !== undefined ? value : 0;
+				setRealValue (realInitVal);
+				setShownValue (realInitVal.toFixed (precision));
+			},
+			[value]
+		);
+		
+		return (
+			<TextInput
+				ref = {ref}
+				id = {id}
+				className = {className}
+				name = {name}
+				label = {label}
+				type = "text"
+				hint = {hint}
+				isError = {error}
+				textOnError = {textOnError}
+				disabled = {disabled}
+				hideLabel = {hideLabel}
+				labelStyle = {labelStyle}
+				leading = {
+					<Leading onChange = {dec}>{leading}</Leading>
+				}
+				trailing = {
+					<Trailing onChange = {inc}>{trailing}</Trailing>
+				}
+				onChange = {handleChange}
+				optional = {optional}
+				readonly = {readonly}
+				style = {{...style, width: "fit-content"}}
+				value = {shownValue}
+			/>
+		);
+	}
+);
+
+export default NumberInput;

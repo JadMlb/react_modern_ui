@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import React, { forwardRef, useCallback, useEffect, useImperativeHandle, useMemo, useRef, useState } from "react";
 import DateTimeInputProps from "../../../types/components/input/datetime/DateTimeInputProps";
 import TimeInputProps from "../../../types/components/input/datetime/TimeInputProps";
 import DateInputProps from "../../../types/components/input/datetime/DateInputProps";
@@ -33,115 +33,121 @@ function Trailing ({trailing, optional, handleClear}: TrailingProps)
 	);
 }
 
-export default function DateInput (props: DateTimeInputProps | TimeInputProps | DateInputProps)
-{
-	const {id, className, name, label, labelStyle, hideLabel, hint, textOnError, isError, value, range, type, leading, trailing, style, onChange, readonly, disabled, optional} = props;
-	const [shownValue, setShownValue] = useState (value ? value.toString() : "");
-	const popupRef = useRef<HTMLDivElement> (null);
-	const inputRef = useRef<HTMLInputElement> (null);
-
-	function handleClear (e: React.MouseEvent)
+const DateInput = forwardRef<HTMLInputElement | null, DateTimeInputProps | TimeInputProps | DateInputProps> (
+	(props, ref) =>
 	{
-		e.preventDefault();
-		setShownValue ("");
-		onChange?. (null, "");
-	}
+		const {id, className, name, label, labelStyle, hideLabel, hint, textOnError, isError, value, range, type, leading, trailing, style, onChange, readonly, disabled, optional} = props;
+		const [shownValue, setShownValue] = useState (value ? value.toString() : "");
+		const popupRef = useRef<HTMLDivElement> (null);
+		const inputRef = useRef<HTMLInputElement> (null);
+		
+		useImperativeHandle<HTMLInputElement | null, HTMLInputElement | null> (ref, () => inputRef.current);
 
-	function padDateTime (number: number)
-	{
-		return number.toString().padStart (2, "0");
-	}
-
-	const formatDate = useCallback (
-		(date: Date) =>
+		function handleClear (e: React.MouseEvent)
 		{
-			const dateStr = `${date.getFullYear().toString().padStart (4, "0")}-${padDateTime (date.getMonth() + 1)}-${padDateTime(date.getDate())}`;
-			const timeStr = `${padDateTime (date.getHours())}:${padDateTime (date.getMinutes())}${(props.type === "datetime" || props.type === "time") && props.withSeconds ? `:${padDateTime (date.getSeconds())}` : ""}`;
-
-			switch (type)
-			{
-				case "date": return dateStr;
-				case "time": return timeStr;
-				case "datetime": return dateStr + " " + timeStr;
-			}
-		},
-	[]
-	)
-
-	function expand (e: React.FocusEvent)
-	{
-		e.stopPropagation();
-		if (!disabled && !readonly)
-		{
-			inputRef.current?.showPicker?.();
-			inputRef.current?.click();
+			e.preventDefault();
+			setShownValue ("");
+			onChange?. (null, "");
 		}
-	}
 
-	function close (e: React.FocusEvent)
-	{
-		e.stopPropagation();
-		inputRef.current?.blur();
-	}
-
-	useEffect (
-		() =>
+		function padDateTime (number: number)
 		{
-			function handleClickOutside (e: MouseEvent)
+			return number.toString().padStart (2, "0");
+		}
+
+		const formatDate = useCallback (
+			(date: Date) =>
 			{
-				if (popupRef.current && inputRef.current && !popupRef.current.contains (e.target as Element) && !inputRef.current.contains (e.target as Element))
-					inputRef.current?.blur();
-			}
-			
-			window.addEventListener ("click", handleClickOutside);
+				const dateStr = `${date.getFullYear().toString().padStart (4, "0")}-${padDateTime (date.getMonth() + 1)}-${padDateTime(date.getDate())}`;
+				const timeStr = `${padDateTime (date.getHours())}:${padDateTime (date.getMinutes())}${(props.type === "datetime" || props.type === "time") && props.withSeconds ? `:${padDateTime (date.getSeconds())}` : ""}`;
 
-			return () => window.removeEventListener ("click", handleClickOutside);
-		},
+				switch (type)
+				{
+					case "date": return dateStr;
+					case "time": return timeStr;
+					case "datetime": return dateStr + " " + timeStr;
+				}
+			},
 		[]
-	);
+		)
 
-	useEffect (
-		() => setShownValue (value?.toString() ?? ""),
-		[value]
-	);
-
-	return (
-		<InputBase
-			id = {id}
-			className = {className}
-			inputId = {`${name}-${type}-input`}
-			hideLabel = {hideLabel}
-			hint = {hint}
-			textOnError = {textOnError}
-			label = {label}
-			labelStyle = {labelStyle}
-			trailing = {
-				<Trailing
-					trailing = {trailing}
-					optional = {optional}
-					handleClear = {handleClear}
-				/>
+		function expand (e: React.FocusEvent)
+		{
+			e.stopPropagation();
+			if (!disabled && !readonly)
+			{
+				inputRef.current?.showPicker?.();
+				inputRef.current?.click();
 			}
-			isError = {isError}
-			style = {style}
-			onFocus = {expand}
-			onBlur = {close}
-			disabled = {disabled}
-			readonly = {readonly}
-		>
-			{leading}
-			<input
-				ref = {inputRef}
-				name = {name}
-				type = {type === "datetime" ? "datetime-local" : type}
-				value = {shownValue}
-				onChange = {e => onChange?. (e as React.ChangeEvent<Element>, formatDate (new Date (e.target.value)))}
-				min = {(range && range[0] && formatDate (range[0])) || undefined}
-				max = {(range && range[1] && formatDate (range[1])) || undefined}
-				style = {{all: "unset", height: "auto", font: "inherit", flex: 1}}
+		}
+
+		function close (e: React.FocusEvent)
+		{
+			e.stopPropagation();
+			inputRef.current?.blur();
+		}
+
+		useEffect (
+			() =>
+			{
+				function handleClickOutside (e: MouseEvent)
+				{
+					if (popupRef.current && inputRef.current && !popupRef.current.contains (e.target as Element) && !inputRef.current.contains (e.target as Element))
+						inputRef.current?.blur();
+				}
+				
+				window.addEventListener ("click", handleClickOutside);
+
+				return () => window.removeEventListener ("click", handleClickOutside);
+			},
+			[]
+		);
+
+		useEffect (
+			() => setShownValue (value?.toString() ?? ""),
+			[value]
+		);
+
+		return (
+			<InputBase
+				id = {id}
+				className = {className}
+				inputId = {`${name}-${type}-input`}
+				hideLabel = {hideLabel}
+				hint = {hint}
+				textOnError = {textOnError}
+				label = {label}
+				labelStyle = {labelStyle}
+				trailing = {
+					<Trailing
+						trailing = {trailing}
+						optional = {optional}
+						handleClear = {handleClear}
+					/>
+				}
+				isError = {isError}
+				style = {style}
+				onFocus = {expand}
+				onBlur = {close}
 				disabled = {disabled}
-				readOnly = {readonly}
-			/>
-		</InputBase>
-	);
-}
+				readonly = {readonly}
+			>
+				{leading}
+				<input
+					ref = {inputRef}
+					name = {name}
+					type = {type === "datetime" ? "datetime-local" : type}
+					value = {shownValue}
+					onChange = {e => onChange?. (e as React.ChangeEvent<Element>, formatDate (new Date (e.target.value)))}
+					min = {(range && range[0] && formatDate (range[0])) || undefined}
+					max = {(range && range[1] && formatDate (range[1])) || undefined}
+					style = {{all: "unset", height: "auto", font: "inherit", flex: 1}}
+					disabled = {disabled}
+					readOnly = {readonly}
+				/>
+			</InputBase>
+		);
+	}
+);
+
+export default DateInput;
