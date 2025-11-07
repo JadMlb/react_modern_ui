@@ -3,10 +3,6 @@ import BasicTextInputProps from "./BasicTextInputProps";
 export interface TextInputProps extends BasicTextInputProps
 {
 	/**
-	 * Switches to multiline mode, i.e. turns this input into a textarea. Defaults to `false`.
-	 */
-	multiline?: boolean;
-	/**
 	 * Sets the default number of rows when `multiline` is set. Defaults to `2`
 	 */
 	rows?: number;

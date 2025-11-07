@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import * as React from "react";
 /** @jsxImportSource @emotion/react */
 import styled from "@emotion/styled";
 import { Style, useDarkMode, useThemeParser } from "../../../styles";
@@ -63,7 +63,7 @@ const InputBase = React.forwardRef<HTMLDivElement, InputBaseProps> (
 		const parseTheme = useThemeParser();
 		const [css, setCss] = useState<Style> ({});
 
-		const fontColorStyle = useMemo (
+		const fontColorStyle = React.useMemo (
 			() => parseTheme ({color: disabled ? "gray" : "inherit", ...labelStyle}),
 			[disabled, parseTheme, labelStyle]
 		);

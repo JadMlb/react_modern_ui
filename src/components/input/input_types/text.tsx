@@ -1,8 +1,9 @@
-import React, { forwardRef, useEffect, useMemo, useState } from "react";
-import { ThemeColourFunction, useDarkMode, useTheme, useThemeColours } from "../../../styles";
-import { TextInputProps } from "../../../types/components/input/text/TextInputProps";
 /** @jsxImportSource @emotion/react */
+import * as React from "react";
+import { ThemeColourFunction, useDarkMode, useTheme, useThemeColours } from "../../../styles";
 import styled from "@emotion/styled";
+import SingleLineTextInputProps from "../../../types/components/input/text/SingleLineTextInputProps";
+import MultiLineTextInputProps from "../../../types/components/input/text/MultiLineTextInputProps";
 import EmailInputProps from "../../../types/components/input/text/EmailInputProps";
 import PasswordInputProps from "../../../types/components/input/text/PasswordInputProps";
 import InputBase from "./input_base";
@@ -92,7 +93,7 @@ function Trailing ({type, displayType, handleDisplayChange, optional, handleClea
 	const isDark = useDarkMode();
 	const colour = useThemeColours();
 
-	const WRAPPER_STYLE = useMemo (
+	const WRAPPER_STYLE = React.useMemo (
 		() => ({
 			display: "flex",
 			gap: spacing.small,
@@ -124,94 +125,110 @@ function Trailing ({type, displayType, handleDisplayChange, optional, handleClea
 	);
 }
 
-const TextInput = forwardRef<HTMLInputElement | HTMLTextAreaElement, TextInputProps | EmailInputProps | PasswordInputProps> (
-	(props, ref) =>
+export default function TextInput (props: SingleLineTextInputProps | MultiLineTextInputProps | EmailInputProps | PasswordInputProps)
+{
+	const {
+		id,
+		className,
+		ref,
+		name,
+		label,
+		labelStyle,
+		type,
+		value,
+		leading,
+		trailing,
+		style,
+		onChange,
+		readonly,
+		disabled,
+		optional,
+		hideLabel,
+		hint,
+		textOnError,
+		isError
+	} = props;
+	
+	const [shownValue, setShownValue] = React.useState (value ?? "");
+	const [displayType, setDisplayType] = React.useState (type);
+
+	function handleChange (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>)
 	{
-		const {id, className, name, label, labelStyle, type, value, leading, trailing, style, onChange, readonly, disabled, optional, hideLabel, hint, textOnError, isError} = props;
-		
-		const [shownValue, setShownValue] = useState (value ?? "");
-		const [displayType, setDisplayType] = useState (type);
-
-		function handleChange (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>)
+		try
 		{
-			try
-			{
-				setShownValue (e.target.value);
-				if (onChange)
-					onChange (e, e.target.value);
-			}
-			catch {}
+			setShownValue (e.target.value);
+			if (onChange)
+				onChange (e, e.target.value);
 		}
-
-		function handleClear ()
-		{
-			setShownValue ("");
-			onChange?. (null, "");
-		}
-
-		useEffect (
-			() => {setShownValue (value ?? "")},
-			[value]
-		);
-
-		return (
-			<InputBase
-				id = {id}
-				className = {className}
-				inputId = {`${name}-${type}-input`}
-				hideLabel = {hideLabel}
-				hint = {hint}
-				textOnError = {textOnError}
-				label = {label}
-				labelStyle = {labelStyle}
-				trailing = {
-					<Trailing
-						type = {type}
-						displayType = {displayType}
-						handleDisplayChange = {() => setDisplayType (old => old === "password" ? "text" : "password")}
-						optional = {optional}
-						handleClear = {handleClear}
-						multiline = {(type === "text" && props.multiline) ?? false}
-						maxCharCount = {type === "text" ? props.maxCharCount : undefined}
-						shownValue = {shownValue}
-					>
-						{trailing}
-					</Trailing>
-				}
-				isError = {isError}
-				style = {style}
-				disabled = {disabled}
-				readonly = {readonly}
-			>
-				{leading}
-				{
-					type === "text" && props.multiline ?
-					<StyledTextArea
-						ref = {ref as React.ForwardedRef<HTMLTextAreaElement>}
-						id = {`${name}-${type}-input`}
-						name = {name}
-						rows = {props.rows ?? 2}
-						value = {shownValue}
-						onChange = {handleChange}
-						maxLength = {props.maxCharCount}
-						readOnly = {readonly}
-						disabled = {disabled}
-					/> :
-					<StyledTextInput
-						ref = {ref as React.ForwardedRef<HTMLInputElement>}
-						id = {`${name}-${type}-input`}
-						name = {name}
-						type = {displayType}
-						value = {shownValue}
-						onChange = {handleChange}
-						maxLength = {type === "text" ? props.maxCharCount : undefined}
-						readOnly = {readonly}
-						disabled = {disabled}
-					/>
-				}
-			</InputBase>
-		);
+		catch {}
 	}
-);
 
-export default TextInput;
+	function handleClear ()
+	{
+		setShownValue ("");
+		onChange?. (null, "");
+	}
+
+	React.useEffect (
+		() => {setShownValue (value ?? "")},
+		[value]
+	);
+
+	return (
+		<InputBase
+			id = {id}
+			className = {className}
+			inputId = {`${name}-${type}-input`}
+			hideLabel = {hideLabel}
+			hint = {hint}
+			textOnError = {textOnError}
+			label = {label}
+			labelStyle = {labelStyle}
+			trailing = {
+				<Trailing
+					type = {type}
+					displayType = {displayType}
+					handleDisplayChange = {() => setDisplayType (old => old === "password" ? "text" : "password")}
+					optional = {optional}
+					handleClear = {handleClear}
+					multiline = {(type === "text" && props.multiline) ?? false}
+					maxCharCount = {type === "text" ? props.maxCharCount : undefined}
+					shownValue = {shownValue}
+				>
+					{trailing}
+				</Trailing>
+			}
+			isError = {isError}
+			style = {style}
+			disabled = {disabled}
+			readonly = {readonly}
+		>
+			{leading}
+			{
+				type === "text" && props.multiline ?
+				<StyledTextArea
+					ref = {ref as React.ForwardedRef<HTMLTextAreaElement>}
+					id = {`${name}-${type}-input`}
+					name = {name}
+					rows = {props.rows ?? 2}
+					value = {shownValue}
+					onChange = {handleChange}
+					maxLength = {props.maxCharCount}
+					readOnly = {readonly}
+					disabled = {disabled}
+				/> :
+				<StyledTextInput
+					ref = {ref as React.ForwardedRef<HTMLInputElement>}
+					id = {`${name}-${type}-input`}
+					name = {name}
+					type = {displayType}
+					value = {shownValue}
+					onChange = {handleChange}
+					maxLength = {type === "text" ? props.maxCharCount : undefined}
+					readOnly = {readonly}
+					disabled = {disabled}
+				/>
+			}
+		</InputBase>
+	);
+}

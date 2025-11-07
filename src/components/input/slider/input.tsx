@@ -1,4 +1,4 @@
-import { forwardRef, useEffect, useMemo, useState } from "react";
+import * as React from "react";
 import { Style, useThemeParser } from "../../../styles";
 import { translateSliderStyles, translateSliderThumbStyles } from "./translateSliderStyles";
 import { DEFAULT_SLIDER_STYLE, DEFAULT_SLIDER_THUMB_STYLE } from "../../../types/components/Slider/SliderStyle";
@@ -7,6 +7,7 @@ interface SliderInputProps
 {
 	id?: string;
 	className?: string;
+	ref?: React.Ref<HTMLInputElement>;
 	name?: string;
 	value: number;
 	onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
@@ -19,12 +20,12 @@ interface SliderInputProps
 	thumbStyle?: Style;
 }
 
-const SliderInput = forwardRef<HTMLInputElement, SliderInputProps> (
-	(props, ref) =>
+export default function SliderInput (props: SliderInputProps)
 	{
 		const {
 			id,
 			className,
+			ref,
 			name,
 			value,
 			onChange,
@@ -38,11 +39,11 @@ const SliderInput = forwardRef<HTMLInputElement, SliderInputProps> (
 		} = props;
 
 		const parseCss = useThemeParser();
-		const processedThumbStyle = useMemo (
+		const processedThumbStyle = React.useMemo (
 			() => parseCss (translateSliderThumbStyles ({...DEFAULT_SLIDER_THUMB_STYLE, ...thumbStyle})),
 			[parseCss, thumbStyle]
 		);
-		const baseStyle = useMemo (
+		const baseStyle = React.useMemo (
 			() => ({
 				...DEFAULT_SLIDER_STYLE,
 				...style
@@ -50,10 +51,10 @@ const SliderInput = forwardRef<HTMLInputElement, SliderInputProps> (
 			[style]
 		);
 
-		const [processedStyle, setProcessedStyle] = useState<Style> ({});
-		const [css, setCss] = useState<Style> ({});
+		const [processedStyle, setProcessedStyle] = React.useState<Style> ({});
+		const [css, setCss] = React.useState<Style> ({});
 
-		useEffect (
+		React.useEffect (
 			() =>
 			{
 				const percentage = ((value - min) / (max - min)) * 100;
@@ -70,7 +71,7 @@ const SliderInput = forwardRef<HTMLInputElement, SliderInputProps> (
 			[value, setProcessedStyle, baseStyle, min, max, parseCss]
 		);
 
-		useEffect (
+		React.useEffect (
 			() => setCss ({...processedThumbStyle, ...processedStyle}),
 			[setCss, processedThumbStyle, processedStyle]
 		);
@@ -94,6 +95,3 @@ const SliderInput = forwardRef<HTMLInputElement, SliderInputProps> (
 			/>
 		);
 	}
-);
-
-export default SliderInput;

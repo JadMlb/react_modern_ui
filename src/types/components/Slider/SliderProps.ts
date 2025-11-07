@@ -4,6 +4,7 @@ import { BoxValueInputProps, OnChangeFunction } from "../input";
 
 export interface SliderProps extends Omit<BoxValueInputProps, "label" | "labelStyle" | "hideLabel">
 {
+	ref?: React.Ref<HTMLInputElement>;
 	/**
 	 * The initial value of this slider
 	 */

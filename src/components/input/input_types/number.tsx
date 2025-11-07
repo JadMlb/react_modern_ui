@@ -1,8 +1,8 @@
-import React, { forwardRef, useEffect, useState } from "react";
-import { NumberInputProps } from "../../../types/components/input/number/NumberInputProps";
 /** @jsxImportSource @emotion/react */
+import * as React from "react";
 import styled from "@emotion/styled";
 import { Style, ThemeColourFunction, useDarkMode, useThemeColours } from "../../../styles";
+import { NumberInputProps } from "../../../types/components/input/number/NumberInputProps";
 import TextInput from "./text";
 import Button from "../button";
 
@@ -120,89 +120,107 @@ function Trailing ({disabled, children, onChange}: LeadingTrailingProps)
 	);
 }
 
-const NumberInput = forwardRef<HTMLInputElement, NumberInputProps> (
-	(props, ref) =>
+export default function NumberInput (props: NumberInputProps)
+{
+	const {
+		id,
+		className,
+		ref,
+		name,
+		label,
+		labelStyle,
+		value,
+		range,
+		step,
+		precision,
+		hideLabel,
+		hint,
+		textOnError,
+		leading,
+		trailing,
+		style,
+		isError,
+		onChange,
+		readonly,
+		disabled,
+		optional
+	} = props;
+	const [error, setError] = React.useState (isError);
+	
+	const [realValue, setRealValue] = React.useState (0);
+	const [shownValue, setShownValue] = React.useState ("0");
+
+	function valueChanged (e: React.ChangeEvent | null, newVal: number)
 	{
-		const {id, className, name, label, labelStyle, value, range, step, precision, hideLabel, hint, textOnError, leading, trailing, style, isError, onChange, readonly, disabled, optional} = props;
-		const [error, setError] = useState (isError);
-		
-		const [realValue, setRealValue] = useState (0);
-		const [shownValue, setShownValue] = useState ("0");
-
-		function valueChanged (e: React.ChangeEvent | null, newVal: number)
+		// only update if range is undefined, or the new value respects the boundaries of the range, when provided
+		if (!range || (range[0] == null || newVal >= range[0]) && (range[1] == null || newVal <= range[1]))
 		{
-			// only update if range is undefined, or the new value respects the boundaries of the range, when provided
-			if (!range || (range[0] == null || newVal >= range[0]) && (range[1] == null || newVal <= range[1]))
-			{
-				setRealValue (newVal);
-				setShownValue (newVal.toFixed (precision));
-				if (onChange)
-					onChange (e, newVal);
-			}
-			else
-				setError (true);
+			setRealValue (newVal);
+			setShownValue (newVal.toFixed (precision));
+			if (onChange)
+				onChange (e, newVal);
 		}
-
-		function handleChange (e: React.ChangeEvent | null, value: string)
-		{
-			e?.stopPropagation();
-			e?.preventDefault();
-			
-			const number = +value;
-			if (Number.isNaN (number))
-				return;
-
-			valueChanged (e, number);
-		}
-
-		function inc ()
-		{
-			valueChanged (null, realValue + (step ?? 1));
-		}
-
-		function dec ()
-		{
-			valueChanged (null, realValue - (step ?? 1));
-		}
-
-		useEffect (
-			() =>
-			{
-				const realInitVal = value !== undefined ? value : 0;
-				setRealValue (realInitVal);
-				setShownValue (realInitVal.toFixed (precision));
-			},
-			[value]
-		);
-		
-		return (
-			<TextInput
-				ref = {ref}
-				id = {id}
-				className = {className}
-				name = {name}
-				label = {label}
-				type = "text"
-				hint = {hint}
-				isError = {error}
-				textOnError = {textOnError}
-				disabled = {disabled}
-				hideLabel = {hideLabel}
-				labelStyle = {labelStyle}
-				leading = {
-					<Leading onChange = {dec}>{leading}</Leading>
-				}
-				trailing = {
-					<Trailing onChange = {inc}>{trailing}</Trailing>
-				}
-				onChange = {handleChange}
-				optional = {optional}
-				readonly = {readonly}
-				style = {{...style, width: "fit-content"}}
-				value = {shownValue}
-			/>
-		);
+		else
+			setError (true);
 	}
-);
 
-export default NumberInput;
+	function handleChange (e: React.ChangeEvent | null, value: string)
+	{
+		e?.stopPropagation();
+		e?.preventDefault();
+		
+		const number = +value;
+		if (Number.isNaN (number))
+			return;
+
+		valueChanged (e, number);
+	}
+
+	function inc ()
+	{
+		valueChanged (null, realValue + (step ?? 1));
+	}
+
+	function dec ()
+	{
+		valueChanged (null, realValue - (step ?? 1));
+	}
+
+	React.useEffect (
+		() =>
+		{
+			const realInitVal = value !== undefined ? value : 0;
+			setRealValue (realInitVal);
+			setShownValue (realInitVal.toFixed (precision));
+		},
+		[value]
+	);
+	
+	return (
+		<TextInput
+			ref = {ref}
+			id = {id}
+			className = {className}
+			name = {name}
+			label = {label}
+			type = "text"
+			hint = {hint}
+			isError = {error}
+			textOnError = {textOnError}
+			disabled = {disabled}
+			hideLabel = {hideLabel}
+			labelStyle = {labelStyle}
+			leading = {
+				<Leading onChange = {dec}>{leading}</Leading>
+			}
+			trailing = {
+				<Trailing onChange = {inc}>{trailing}</Trailing>
+			}
+			onChange = {handleChange}
+			optional = {optional}
+			readonly = {readonly}
+			style = {{...style, width: "fit-content"}}
+			value = {shownValue}
+		/>
+	);
+}

@@ -1,6 +1,8 @@
 import { BasicInputProps } from "../BasicInputProps";
+import { OnChangeFunction } from "../BoxValueInputProps";
+import ReffableInput from "../ReffableInput";
 
-export interface NumberInputProps extends BasicInputProps
+export interface NumberInputProps extends BasicInputProps, ReffableInput
 {
 	value?: number;
 	type: "number";
@@ -16,5 +18,5 @@ export interface NumberInputProps extends BasicInputProps
 	 * Defines the precision of the value inside of the number field. If precision <= 0, the value is an integer, otherwise a real number with `precision` amount of digits in the decimal places. Defaults to `0`.
 	 */
 	precision?: number;
-	onChange?: (e: React.ChangeEvent | null, value: number) => void;
+	onChange?: OnChangeFunction<number>;
 }
