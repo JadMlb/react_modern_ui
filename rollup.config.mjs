@@ -5,6 +5,15 @@ import dts from "rollup-plugin-dts";
 import packageJson from "./package.json" with {type: "json"};
 import postcss from "rollup-plugin-postcss";
 
+const external = [
+	"react",
+	"react-dom",
+	"@emotion/react",
+	"@emotion/styled",
+	/^react\/.*/,
+	/^react-dom\/.*/,
+];
+
 export default [
 	{
 		input: "src/index.ts",
@@ -20,34 +29,33 @@ export default [
 				sourcemap: true,
 			},
 		],
+		external,
 		plugins: [
-			resolve(),
+			resolve ({
+				preferBuiltins: true,
+				extensions: [".js", ".jsx", ".ts", ".tsx"]
+			}),
 			commonjs(),
-			typescript({ tsconfig: "./tsconfig.json" }),
-			postcss (
-				{
-					extract: file => file.replace (/\.js$/, ".css"),
-					minimize: true,
-					sourceMap: true
-			  	}
-			)
-		],
-		external: ["react", "react-dom", "@emotion/react", "@emotion/styled"]
+			typescript ({tsconfig: "./tsconfig.json"}),
+			postcss ({
+				extract: file => file.replace (/\.js$/, ".css"),
+				minimize: true,
+				sourceMap: true
+			})
+		]
 	},
 	{
 		input: "dist/esm/types/index.d.ts",
-		output: [{ file: "dist/index.d.ts", format: "esm" }],
+		output: [{file: "dist/index.d.ts", format: "esm"}],
 		plugins: [
-			dts (
-				{
-					respectExternal: true,
-					compilerOptions: {
-						"skipLibCheck": true,
-						"skipDefaultLibCheck": true
-					}
+			dts ({
+				respectExternal: true,
+				compilerOptions: {
+					"skipLibCheck": true,
+					"skipDefaultLibCheck": true
 				}
-			)
+			})
 		],
-		external: [/\.css$/, "react", "react-dom", "@emotion/react"]
+		external: [/\.css$/, ...external]
 	},
 ];
