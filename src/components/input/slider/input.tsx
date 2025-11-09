@@ -20,12 +20,12 @@ interface SliderInputProps
 	thumbStyle?: Style;
 }
 
-export default function SliderInput (props: SliderInputProps)
+const SliderInput = React.forwardRef<HTMLInputElement, SliderInputProps> (
+	(props, ref) =>
 	{
 		const {
 			id,
 			className,
-			ref,
 			name,
 			value,
 			onChange,
@@ -95,3 +95,6 @@ export default function SliderInput (props: SliderInputProps)
 			/>
 		);
 	}
+);
+
+export default SliderInput;

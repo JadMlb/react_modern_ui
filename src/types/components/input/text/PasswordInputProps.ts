@@ -1,7 +1,6 @@
-import ReffableInput from "../ReffableInput";
 import BasicTextInputProps from "./BasicTextInputProps";
 
-export default interface PasswordInputProps extends BasicTextInputProps, ReffableInput
+export default interface PasswordInputProps extends BasicTextInputProps
 {
 	type: "password";
 }

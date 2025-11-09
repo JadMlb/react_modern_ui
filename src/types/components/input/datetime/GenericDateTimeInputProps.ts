@@ -1,8 +1,7 @@
 import { BasicInputProps } from "../BasicInputProps";
 import { OnChangeFunction } from "../BoxValueInputProps";
-import ReffableInput from "../ReffableInput";
 
-export default interface GenericDateTimeInputProps extends BasicInputProps, ReffableInput
+export default interface GenericDateTimeInputProps extends BasicInputProps
 {
 	value?: string | Date;
 	type: "date" | "datetime" | "time";

@@ -56,8 +56,28 @@ interface InputBaseProps
 }
 
 const InputBase = React.forwardRef<HTMLDivElement, InputBaseProps> (
-	({id, className, inputId, label, style, labelStyle, trailing, hint, textOnError, isError = false, hideLabel, disabled, readonly, children, onClick, onFocus, onBlur}, ref) =>
+	(props, ref) =>
 	{
+		const {
+			id,
+			className,
+			inputId,
+			label,
+			style,
+			labelStyle,
+			trailing,
+			hint,
+			textOnError,
+			isError = false,
+			hideLabel,
+			disabled,
+			readonly,
+			children,
+			onClick,
+			onFocus,
+			onBlur
+		} = props;
+		
 		const isDark = useDarkMode();
 
 		const parseTheme = useThemeParser();

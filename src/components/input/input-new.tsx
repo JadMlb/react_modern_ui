@@ -1,3 +1,4 @@
+import * as React from "react";
 import { NumberInputProps } from "../../types/components/input/number/NumberInputProps";
 import NumberInput from "./input_types/number";
 import TextInput from "./input_types/text";
@@ -19,25 +20,29 @@ type InputProps = NumberInputProps |
 					DateTimeInputProps |
 					TimeInputProps;
 
-export default function NewInput (props: InputProps)
-{
-	function getInputFromType ()
+const NewInput = React.forwardRef<HTMLInputElement | HTMLTextAreaElement, InputProps> (
+	(props, ref) =>
 	{
-		switch (props.type)
+		function getInputFromType ()
 		{
-			case "number":
-				return <NumberInput {...props}/>;
-			case "text":
-			case "email":
-			case "password":
-				return <TextInput {...props}/>;
-			case "date":
-			case "datetime":
-			case "time":
-				return <DateInput {...props}/>;
-			default: return null;
+			switch (props.type)
+			{
+				case "number":
+					return <NumberInput {...props} ref = {ref as React.ForwardedRef<HTMLInputElement>}/>;
+				case "text":
+				case "email":
+				case "password":
+					return <TextInput {...props} ref = {ref}/>;
+				case "date":
+				case "datetime":
+				case "time":
+					return <DateInput {...props} ref = {ref as React.ForwardedRef<HTMLInputElement>}/>;
+				default: return null;
+			}
 		}
+		
+		return getInputFromType();	
 	}
-	
-	return getInputFromType();	
-}
+);
+
+export default NewInput;
