@@ -46,13 +46,22 @@ const DateInput = React.forwardRef<HTMLInputElement, DateTimeInputProps | TimeIn
 			hint,
 			textOnError,
 			isError,
+			placeholder,
+			defaultValue,
 			value,
 			range,
 			type,
 			leading,
 			trailing,
 			style,
+			form,
+			autoComplete,
+			autoFocus,
 			onChange,
+			onBlur,
+			onFocus,
+			onKeyDown,
+			onKeyUp,
 			readonly,
 			disabled,
 			optional
@@ -156,12 +165,21 @@ const DateInput = React.forwardRef<HTMLInputElement, DateTimeInputProps | TimeIn
 				<input
 					ref = {inputRef}
 					name = {name}
+					placeholder = {placeholder}
 					type = {type === "datetime" ? "datetime-local" : type}
+					defaultValue = {defaultValue}
 					value = {shownValue}
 					onChange = {e => onChange?. (e as React.ChangeEvent<Element>, formatDate (new Date (e.target.value)))}
+					onBlur = {onBlur}
+					onFocus = {onFocus}
+					onKeyDown = {onKeyDown}
+					onKeyUp = {onKeyUp}
 					min = {(range && range[0] && formatDate (range[0])) || undefined}
 					max = {(range && range[1] && formatDate (range[1])) || undefined}
 					style = {{all: "unset", height: "auto", font: "inherit", flex: 1}}
+					form = {form}
+					autoComplete = {autoComplete}
+					autoFocus = {autoFocus}
 					disabled = {disabled}
 					readOnly = {readonly}
 				/>
