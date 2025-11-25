@@ -129,6 +129,8 @@ const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps> (
 			name,
 			label,
 			labelStyle,
+			placeholder,
+			defaultValue,
 			value,
 			range,
 			step,
@@ -140,7 +142,14 @@ const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps> (
 			trailing,
 			style,
 			isError,
+			autoComplete,
+			autoFocus,
+			form,
 			onChange,
+			onBlur,
+			onFocus,
+			onKeyDown,
+			onKeyUp,
 			readonly,
 			disabled,
 			optional
@@ -220,7 +229,16 @@ const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps> (
 				optional = {optional}
 				readonly = {readonly}
 				style = {{...style, width: "fit-content"}}
+				defaultValue = {defaultValue}
 				value = {shownValue}
+				placeholder = {placeholder}
+				autoComplete = {autoComplete}
+				autoFocus = {autoFocus}
+				form = {form}
+				onBlur = {onBlur}
+				onFocus = {onFocus}
+				onKeyDown = {onKeyDown}
+				onKeyUp = {onKeyUp}
 			/>
 		);
 	}
