@@ -2,8 +2,7 @@ import * as React from "react";
 import { NumberInputProps } from "../../types/components/input/number/NumberInputProps";
 import NumberInput from "./input_types/number";
 import TextInput from "./input_types/text";
-import EmailInputProps from "../../types/components/input/text/EmailInputProps";
-import PasswordInputProps from "../../types/components/input/text/PasswordInputProps";
+import NonTextTextualInputProps from "../../types/components/input/text/NonTextTextualInputProps";
 import DateInput from "./input_types/date";
 import DateInputProps from "../../types/components/input/datetime/DateInputProps";
 import DateTimeInputProps from "../../types/components/input/datetime/DateTimeInputProps";
@@ -14,8 +13,7 @@ import MultiLineTextInputProps from "../../types/components/input/text/MultiLine
 type InputProps = NumberInputProps |
 					SingleLineTextInputProps |
 					MultiLineTextInputProps |
-					EmailInputProps |
-					PasswordInputProps |
+					NonTextTextualInputProps |
 					DateInputProps |
 					DateTimeInputProps |
 					TimeInputProps;
@@ -32,6 +30,9 @@ const NewInput = React.forwardRef<HTMLInputElement | HTMLTextAreaElement, InputP
 				case "text":
 				case "email":
 				case "password":
+				case "search":
+				case "tel":
+				case "url":
 					return <TextInput {...props} ref = {ref}/>;
 				case "date":
 				case "datetime":
