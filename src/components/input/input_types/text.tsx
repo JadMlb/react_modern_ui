@@ -4,8 +4,7 @@ import { ThemeColourFunction, useDarkMode, useTheme, useThemeColours } from "../
 import styled from "@emotion/styled";
 import SingleLineTextInputProps from "../../../types/components/input/text/SingleLineTextInputProps";
 import MultiLineTextInputProps from "../../../types/components/input/text/MultiLineTextInputProps";
-import EmailInputProps from "../../../types/components/input/text/EmailInputProps";
-import PasswordInputProps from "../../../types/components/input/text/PasswordInputProps";
+import NonTextTextualInputProps from "../../../types/components/input/text/NonTextTextualInputProps";
 import InputBase from "./input_base";
 import X from "./combobox/x";
 
@@ -75,18 +74,19 @@ const ShowHide = styled.div<{$shown: boolean, $isDark: boolean, $spacingSmall: s
 
 interface TrailingProps
 {
-	type: "text" | "password" | "email";
-	displayType: "text" | "password" | "email";
+	type: NonTextTextualInputProps["type"] | "text";
+	displayType: NonTextTextualInputProps["type"] | "text";
 	handleDisplayChange: () => void;
 	optional?: boolean;
 	handleClear?: () => void;
 	multiline?: boolean;
 	maxCharCount?: number;
 	shownValue: string;
+	displayLength?: boolean;
 	children?: React.ReactNode;
 }
 
-function Trailing ({type, displayType, handleDisplayChange, optional, handleClear, multiline, maxCharCount, shownValue, children}: TrailingProps)
+function Trailing ({type, displayType, handleDisplayChange, optional, handleClear, multiline, maxCharCount, shownValue, displayLength, children}: TrailingProps)
 {
 	const {theme} = useTheme();
 	const {spacing, radius} = theme.measurements;
@@ -101,12 +101,20 @@ function Trailing ({type, displayType, handleDisplayChange, optional, handleClea
 		}),
 		[spacing.small]
 	);
+
+	if (
+		(type !== "text" || !multiline || maxCharCount === undefined || !displayLength) &&
+		type !== "password" &&
+		!optional &&
+		!children
+	)
+		return null;
 	
 	return (
 		<div style = {WRAPPER_STYLE}>
 			{children}
 			{
-				type === "text" && multiline && maxCharCount !== undefined &&
+				type === "text" && multiline && maxCharCount !== undefined && displayLength &&
 					<Small $isDark = {isDark} $colour = {colour}>{shownValue.length}/{maxCharCount}</Small>
 			}
 			{
@@ -125,7 +133,7 @@ function Trailing ({type, displayType, handleDisplayChange, optional, handleClea
 	);
 }
 
-const TextInput = React.forwardRef<HTMLInputElement | HTMLTextAreaElement, SingleLineTextInputProps | MultiLineTextInputProps | EmailInputProps | PasswordInputProps> (
+const TextInput = React.forwardRef<HTMLInputElement | HTMLTextAreaElement, SingleLineTextInputProps | MultiLineTextInputProps | NonTextTextualInputProps> (
 	(props, ref) =>
 	{
 		const {
@@ -136,17 +144,31 @@ const TextInput = React.forwardRef<HTMLInputElement | HTMLTextAreaElement, Singl
 			labelStyle,
 			type,
 			value,
+			defaultValue,
+			placeholder,
 			leading,
 			trailing,
 			style,
-			onChange,
 			readonly,
 			disabled,
 			optional,
 			hideLabel,
 			hint,
 			textOnError,
-			isError
+			isError,
+			pattern,
+			autoComplete,
+			autoFocus,
+			form,
+			minLength,
+			maxLength,
+			displayLength,
+			inputMode,
+			onChange,
+			onBlur,
+			onFocus,
+			onKeyDown,
+			onKeyUp
 		} = props;
 		
 		const [shownValue, setShownValue] = React.useState (value ?? "");
@@ -156,6 +178,13 @@ const TextInput = React.forwardRef<HTMLInputElement | HTMLTextAreaElement, Singl
 		{
 			try
 			{
+				if ((type !== "text" || !props.multiline) && pattern)
+				{
+					const regex = new RegExp (pattern);
+					if (!regex.test (e.target.value))
+						return;
+				};
+
 				setShownValue (e.target.value);
 				if (onChange)
 					onChange (e, e.target.value);
@@ -192,8 +221,9 @@ const TextInput = React.forwardRef<HTMLInputElement | HTMLTextAreaElement, Singl
 						optional = {optional}
 						handleClear = {handleClear}
 						multiline = {(type === "text" && props.multiline) ?? false}
-						maxCharCount = {type === "text" ? props.maxCharCount : undefined}
+						maxCharCount = {maxLength}
 						shownValue = {shownValue}
+						displayLength = {displayLength}
 					>
 						{trailing}
 					</Trailing>
@@ -211,22 +241,45 @@ const TextInput = React.forwardRef<HTMLInputElement | HTMLTextAreaElement, Singl
 						id = {`${name}-${type}-input`}
 						name = {name}
 						rows = {props.rows ?? 2}
+						placeholder = {placeholder}
+						defaultValue = {defaultValue}
 						value = {shownValue}
 						onChange = {handleChange}
-						maxLength = {props.maxCharCount}
+						wrap = {props.wrap ?? "soft"}
+						minLength = {minLength}
+						maxLength = {maxLength}
+						autoComplete = {autoComplete}
+						autoFocus = {autoFocus}
+						form = {form}
 						readOnly = {readonly}
 						disabled = {disabled}
+						onBlur = {onBlur}
+						onFocus = {onFocus}
+						onKeyDown = {onKeyDown}
+						onKeyUp = {onKeyUp}
 					/> :
 					<StyledTextInput
 						ref = {ref as React.ForwardedRef<HTMLInputElement>}
 						id = {`${name}-${type}-input`}
 						name = {name}
 						type = {displayType}
+						placeholder = {placeholder}
+						defaultValue = {defaultValue}
 						value = {shownValue}
 						onChange = {handleChange}
-						maxLength = {type === "text" ? props.maxCharCount : undefined}
+						minLength = {minLength}
+						maxLength = {maxLength}
+						pattern = {pattern}
+						autoComplete = {autoComplete}
+						autoFocus = {autoFocus}
+						form = {form}
+						inputMode = {inputMode}
 						readOnly = {readonly}
 						disabled = {disabled}
+						onBlur = {onBlur}
+						onFocus = {onFocus}
+						onKeyDown = {onKeyDown}
+						onKeyUp = {onKeyUp}
 					/>
 				}
 			</InputBase>
