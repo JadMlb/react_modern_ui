@@ -148,6 +148,7 @@ const TextInput = React.forwardRef<HTMLInputElement | HTMLTextAreaElement, Singl
 			placeholder,
 			leading,
 			trailing,
+			fieldsetStyle,
 			style,
 			readonly,
 			disabled,
@@ -231,6 +232,7 @@ const TextInput = React.forwardRef<HTMLInputElement | HTMLTextAreaElement, Singl
 				}
 				isError = {isError}
 				style = {style}
+				fieldsetStyle = {fieldsetStyle}
 				disabled = {disabled}
 				readonly = {readonly}
 			>

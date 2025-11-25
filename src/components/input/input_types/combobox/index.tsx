@@ -48,7 +48,7 @@ function defaultRenderOption (option: Option, selected?: boolean, onClick?: OnCh
 	);
 }
 
-export default function Combobox ({id, className, name, options, label, labelStyle, value, hint, leading, readonly, disabled, hideLabel, position, optional, style, arrowComponent = DEFAULT_ARROW_COMPONENT, onChange, renderOption = defaultRenderOption}: ComboboxProps)
+export default function Combobox ({id, className, name, options, label, labelStyle, value, hint, leading, readonly, disabled, hideLabel, position, optional, style, fieldsetStyle, arrowComponent = DEFAULT_ARROW_COMPONENT, onChange, renderOption = defaultRenderOption}: ComboboxProps)
 {
 	const [isExpanded, setIsExpanded] = useState (false);
 	const inputRef = useRef<HTMLDivElement | null> (null);
@@ -158,6 +158,7 @@ export default function Combobox ({id, className, name, options, label, labelSty
 		<InputBase
 			className = {className}
 			id = {id}
+			fieldsetStyle = {fieldsetStyle}
 			inputId = {`combo-${name}`}
 			ref = {inputRef}
 			label = {label}

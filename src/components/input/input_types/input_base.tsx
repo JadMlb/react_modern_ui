@@ -1,10 +1,9 @@
-import * as React from "react";
 /** @jsxImportSource @emotion/react */
-import styled from "@emotion/styled";
+import * as React from "react";
 import { Style, useDarkMode, useThemeParser } from "../../../styles";
-import { useEffect, useState } from "react";
 import InputLabel from "./label";
 import InputHint from "./hint";
+import Fieldset from "./fieldset";
 
 const DEFAULT_STYLE: (isDark: boolean, disabled?: boolean, readonly?: boolean) => Style = (isDark, disabled = false, readonly = false) => ({
 	backgroundColor: disabled || readonly ? "unset" : `gray${isDark ? "Dark" : "Light"}`,
@@ -23,23 +22,13 @@ const DEFAULT_STYLE: (isDark: boolean, disabled?: boolean, readonly?: boolean) =
 	}
 });
 
-const Container = styled.div
-`
-	display: flex;
-	flex-direction: column;
-`;
-
-const Trailing = styled.div
-`
-	margin-left: auto;
-`;
-
 interface InputBaseProps
 {
 	inputId?: string;
 	label?: string;
 	children?: React.ReactNode;
 	style?: Style;
+	fieldsetStyle?: Style;
 	labelStyle?: Style;
 	trailing?: React.ReactNode;
 	hint?: string;
@@ -64,6 +53,7 @@ const InputBase = React.forwardRef<HTMLDivElement, InputBaseProps> (
 			inputId,
 			label,
 			style,
+			fieldsetStyle,
 			labelStyle,
 			trailing,
 			hint,
@@ -81,14 +71,14 @@ const InputBase = React.forwardRef<HTMLDivElement, InputBaseProps> (
 		const isDark = useDarkMode();
 
 		const parseTheme = useThemeParser();
-		const [css, setCss] = useState<Style> ({});
+		const [css, setCss] = React.useState<Style> ({});
 
 		const fontColorStyle = React.useMemo (
 			() => parseTheme ({color: disabled ? "gray" : "inherit", ...labelStyle}),
 			[disabled, parseTheme, labelStyle]
 		);
 
-		useEffect (
+		React.useEffect (
 			() =>
 			{
 				setCss (parseTheme ({
@@ -99,9 +89,9 @@ const InputBase = React.forwardRef<HTMLDivElement, InputBaseProps> (
 			},
 			[style, isDark, parseTheme, disabled, readonly, isError]
 		);
-		
+
 		return (
-			<Container aria-disabled = {disabled}>
+			<Fieldset disabled = {disabled} style = {fieldsetStyle}>
 				<InputLabel
 					htmlFor = {inputId}
 					style = {fontColorStyle}
@@ -120,17 +110,14 @@ const InputBase = React.forwardRef<HTMLDivElement, InputBaseProps> (
 					id = {id}
 				>
 					{children}
-					{
-						trailing &&
-							<Trailing>{trailing}</Trailing>
-					}
+					{trailing}
 				</div>
 				<InputHint
 					isError = {isError}
 					hint = {hint}
 					textOnError = {textOnError}
 				/>
-			</Container>
+			</Fieldset>
 		);
 	}
 );
