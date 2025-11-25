@@ -177,7 +177,7 @@ const TextInput = React.forwardRef<HTMLInputElement | HTMLTextAreaElement, Singl
 		function handleChange (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>)
 		{
 			try
-			{
+			{	
 				if ((type !== "text" || !props.multiline) && pattern)
 				{
 					const regex = new RegExp (pattern);
@@ -185,7 +185,8 @@ const TextInput = React.forwardRef<HTMLInputElement | HTMLTextAreaElement, Singl
 						return;
 				};
 
-				setShownValue (e.target.value);
+				if (!value)
+					setShownValue (e.target.value);
 				if (onChange)
 					onChange (e, e.target.value);
 			}
