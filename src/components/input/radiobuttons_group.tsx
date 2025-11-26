@@ -1,24 +1,57 @@
-import Checkbox from "./checkbox";
 import { useCallback, useEffect, useState } from "react";
 import { RadioButtonsGroupProps } from "../../types/components/RadioButtonsGroup/RadioButtonsGroupProps";
+import Checkbox from "./checkbox";
 import Button from "./button";
 import X from "./input_types/combobox/x";
-import Panel from "../structure/panel";
-import InputLabel from "./input_types/label";
-import InputHint from "./input_types/hint";
+import InputBase from "./input_types/input_base";
+
+import { Option } from "../../types";
 import { Style } from "../../styles";
 
+const CLEAR_BUTTON_STYLE = {
+	width: "fit-content"
+};
+
+interface TrailingProps
+{
+	optional?: boolean;
+	clearSelection?: () => void;
+	style?: Style;
+}
+
+function Trailing ({optional, clearSelection, style}: TrailingProps)
+{
+	
+	if (!optional)
+		return null;
+	
+	return (
+		<Button
+			onClick = {clearSelection}
+			style = {{...CLEAR_BUTTON_STYLE, ...style}}
+		>
+			<X/>
+		</Button>
+	);
+}
+
 const CHECKBOX_RADIO_STYLE = {borderRadius: "100%"} satisfies Style;
+const STYLE = {
+	flexDirection: "column",
+	alignItems: "unset",
+	width: "fit-content",
+	backgroundColor: "transparent"
+} satisfies Style;
 
 /**
  * Renders a group of radio buttons showing multiple options
  */
-export default function RadioButtonsGroup ({className, id, name, optionsLabels, label, labelStyle, hideLabel, value, optional, style, checkboxProps, hint, isError, textOnError, readonly, disabled, onChange}: RadioButtonsGroupProps)
+export default function RadioButtonsGroup ({className, id, name, options, label, labelStyle, hideLabel, value, optional, style, clearButtonStyle, checkboxProps, hint, isError, textOnError, readonly, disabled, form, fieldsetStyle, onChange, onBlur, onFocus, onKeyDown, onKeyUp}: RadioButtonsGroupProps)
 {
 	const [checked, setChecked] = useState<number | null> (null);
 
 	const updateSelection = useCallback (
-		(e: React.ChangeEvent<Element> | null, newValue: string, index: number) =>
+		(e: React.ChangeEvent<Element> | null, newValue: Option, index: number) =>
 		{
 			setChecked (index);
 
@@ -45,10 +78,7 @@ export default function RadioButtonsGroup ({className, id, name, optionsLabels, 
 			if (value !== undefined)
 			{
 				let optionIndex = 0;
-				if (typeof value === "number")
-					optionIndex = value >= optionsLabels.length ? 0 : value;
-				else
-					optionIndex = optionsLabels.indexOf (value);
+				optionIndex = options.findIndex (o => o.value === value);
 				if (optionIndex < 0)
 					optionIndex = 0;
 
@@ -61,32 +91,43 @@ export default function RadioButtonsGroup ({className, id, name, optionsLabels, 
 	);
 
 	return (
-		<Panel
-			title = {<InputLabel hidden = {hideLabel} style = {labelStyle}>{label}</InputLabel>}
-			style = {{width: "fit-content", ...style}}
+		<InputBase
+			label = {label}
+			labelStyle = {labelStyle}
+			hideLabel = {hideLabel}
+			hint = {hint}
+			textOnError = {textOnError}
+			isError = {isError}
+			disabled = {disabled}
+			readonly = {readonly}
 			className = {className}
 			id = {id}
-		>
-			{
-				optionsLabels?.map (
-					(l, index) => <Checkbox
-									key = {`radiobutton-${name}-${index}`}
-									name = {`radiobutton-${name}-${index}`}
-									label = {l}
+			style = {{...STYLE, ...style}}
+			fieldsetStyle = {fieldsetStyle}
+			onBlur = {onBlur}
+			onFocus = {onFocus}
+			trailing = {
+				<Trailing
+					optional = {optional}
+					style = {clearButtonStyle}
+					clearSelection = {clearSelection}
+				/>
+			}
+		>{
+			options?.map (
+				(l, index) => <Checkbox
+									key = {`radiobutton-${name}-${l.value}`}
+									name = {`radiobutton-${name}-${l.value}`}
+									label = {l.display}
 									value = {checked === index}
 									onChange = {e => updateSelection (e, l, index)}
 									style = {CHECKBOX_RADIO_STYLE}
 									readonly = {readonly}
 									disabled = {disabled}
+									form = {form}
 									{...checkboxProps}
 								/>
-				)
-			}
-			{
-				optional &&
-				<Button onClick = {clearSelection} style = {{width: "fit-content"}}><X/></Button>
-			}
-			<InputHint hint = {hint} textOnError = {textOnError} isError = {isError}/>
-		</Panel>
+			)
+		}</InputBase>
 	);
 }

@@ -8,6 +8,7 @@ export interface ComboboxProps extends CommonInputProps
 	 * The list of options to offer for selection
 	 */
 	options: Option[] | {[category: string]: Option[]};
+	onChange?: OnChangeFunction<Option>;
 	/**
 	 * Hides the search bar in the options list. Defaults to `false`.
 	 */
