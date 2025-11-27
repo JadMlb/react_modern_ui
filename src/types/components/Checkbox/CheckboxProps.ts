@@ -14,6 +14,7 @@ export interface CheckboxProps extends BoxValueInputProps, CheckboxStylingProps
 	 * Defaults to `false`.
 	 */
 	value?: boolean | 0 | 1 | 2;
+	defaultValue?: boolean | 0 | 1 | 2;
 }
 
 export interface CheckboxStylingProps

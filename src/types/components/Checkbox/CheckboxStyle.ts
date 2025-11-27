@@ -20,13 +20,19 @@ export interface CheckboxStyle
 	intermediate?: Style;
 }
 
-export const DEFAULT_CHECKBOX_STYLE: (theme?: "dark" | "light") => CheckboxStyle = () =>
-({
+export const DEFAULT_CHECKBOX_STYLE: CheckboxStyle = {
 	checkbox: {
 		width: "17px",
 		height: "17px",
 		border: "2px solid primary",
-		borderRadius: "radius.small"
+		borderRadius: "radius.small",
+		flexShrink: 0,
+		display: "inline-block",
+		cursor: "pointer",
+		":focus": {
+			borderColor: "primaryDark",
+			outline: "none"
+		}
 	},
 	checked: {
 		backgroundColor: "primary",
@@ -35,4 +41,4 @@ export const DEFAULT_CHECKBOX_STYLE: (theme?: "dark" | "light") => CheckboxStyle
 	intermediate: {
 		backgroundColor: "primary"
 	}
-})
+} satisfies Style;
