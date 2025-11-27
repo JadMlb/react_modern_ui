@@ -27,7 +27,7 @@ const Container = styled.div<{$thin?: boolean}>
 	width: 100%;
 
 	display: grid;
-	grid-template-columns: 1fr ${props => !props.$thin && `30px`};
+	grid-template-columns: 1fr ${props => !props.$thin && `auto`};
 	align-items: center;
 `;
 
@@ -86,7 +86,7 @@ export default function ProgressBar ({id, className, percentage, showPercentage,
 	);
 
 	return (
-		<Container $thin = {thin} css = {parentCss}>
+		<Container $thin = {thin || !showPercentage} css = {parentCss}>
 			<BarContainer
 				$isDark = {isDark}
 				$getColour = {getColour}
