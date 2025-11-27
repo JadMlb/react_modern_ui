@@ -21,12 +21,27 @@ export interface ButtonProps extends GenericProps
 	 */
 	type?: ButtonTypes;
 	/**
+	 * The underlying html button's type
+	 */
+	htmlType?: "button" | "submit" | "reset";
+	/**
 	 * Specified if the button is disabled or not. Defaults to `false`.
 	 */
 	disabled?: boolean;
-	children: React.ReactNode;
+	/**
+	 * Automatically focuses on the button on mount
+	 */
+	autoFocus?: boolean;
+	name?: string;
+	children?: React.ReactNode;
 	/**
 	 * Callback function to be executed on button click
 	 */
 	onClick?: React.MouseEventHandler<HTMLButtonElement>;
+	onMouseEnter?: React.MouseEventHandler<HTMLButtonElement>;
+	onMouseLeave?: React.MouseEventHandler<HTMLButtonElement>;
+	onFocus?: React.FocusEventHandler<HTMLButtonElement>;
+	onBlur?: React.FocusEventHandler<HTMLButtonElement>;
+	onKeyDown?: React.KeyboardEventHandler<HTMLButtonElement>;
+	onKeyUp?: React.KeyboardEventHandler<HTMLButtonElement>;
 }
