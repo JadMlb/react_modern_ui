@@ -20,6 +20,10 @@ export default interface ToasterProps
 	 */
 	containerStyle?: Style;
 	/**
+	 * Styles the toasts
+	 */
+	toastStyle?: Style;
+	/**
 	 * Sets the toasts clear button
 	 */
 	clearButton?: React.ReactNode;

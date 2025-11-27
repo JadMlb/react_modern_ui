@@ -1,9 +1,11 @@
 import { useMemo, useRef } from "react";
+import { createPortal } from "react-dom";
 import { Style, useThemeParser } from "../../../styles";
 import PopupBackdropProps from "../../../types/components/Popups/PopupBackdropProps";
 
 const DEFAULT_STYLE = {
 	position: "absolute",
+	zIndex: 100000,
 	top: 0,
 	left: 0,
 	width: "100dvw",
@@ -52,7 +54,7 @@ export default function PopupBackdrop ({id, className, style, open, position = "
 	if (!open)
 		return null;
 	
-	return (
+	return createPortal (
 		<div
 			id = {id}
 			className = {className}
@@ -61,6 +63,7 @@ export default function PopupBackdrop ({id, className, style, open, position = "
 			ref = {ref}
 		>
 			{children}
-		</div>
+		</div>,
+		document.body
 	);
 }
