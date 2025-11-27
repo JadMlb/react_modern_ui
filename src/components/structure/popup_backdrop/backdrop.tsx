@@ -19,13 +19,15 @@ const DEFAULT_STYLE = {
 const FLEX_DIRECTION = {
 	"center": "row",
 	"left": "row",
-	"right": "row-reverse"
+	"right": "row-reverse",
+	"bottom": "row"
 } as const;
 
 const JUSTIFY_CONTENT = {
 	"center": "center",
 	"left": "flex-start",
-	"right": "flex-start"
+	"right": "flex-start",
+	"bottom": "flex-start"
 } as const;
 
 export default function PopupBackdrop ({id, className, style, open, position = "center", onClose, children}: PopupBackdropProps)

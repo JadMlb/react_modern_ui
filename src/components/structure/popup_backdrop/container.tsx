@@ -9,7 +9,7 @@ interface PopupWithChildrenProps extends PopupProps, GenericProps
 {
 	children: React.ReactNode;
 	maxHeight?: boolean;
-	position?: "left" | "right" | "center";
+	position?: "left" | "right" | "center" | "bottom";
 }
 
 function Horizontal ({style, children}: {children: React.ReactNode, style?: Style})

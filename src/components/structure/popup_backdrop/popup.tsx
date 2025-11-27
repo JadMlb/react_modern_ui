@@ -4,7 +4,7 @@ import PopupContainer from "./container";
 
 interface PopupProps extends DialogProps
 {
-	position: "center" | "left" | "right";
+	position: "center" | "left" | "right" | "bottom";
 	maxHeight?: boolean;
 }
 
