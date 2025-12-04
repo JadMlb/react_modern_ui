@@ -252,6 +252,7 @@ const TextInput = React.forwardRef<HTMLInputElement | HTMLTextAreaElement, Singl
 						minLength = {minLength}
 						maxLength = {maxLength}
 						autoComplete = {autoComplete}
+						autoCorrect = {props.autoCorrect}
 						autoFocus = {autoFocus}
 						form = {form}
 						readOnly = {readonly}
@@ -274,6 +275,7 @@ const TextInput = React.forwardRef<HTMLInputElement | HTMLTextAreaElement, Singl
 						maxLength = {maxLength}
 						pattern = {pattern}
 						autoComplete = {autoComplete}
+						autoCorrect = {props.type === "text" ? props.autoCorrect : undefined}
 						autoFocus = {autoFocus}
 						form = {form}
 						inputMode = {inputMode}

@@ -18,4 +18,8 @@ export default interface MultiLineTextInputProps extends BasicTextInputProps
 	 * Sets the default number of rows when `multiline` is set. Defaults to `2`
 	 */
 	rows?: number;
+	/**
+	 * Enables device's autocorrect feature on this input
+	 */
+	autoCorrect?: string;
 }
