@@ -19,7 +19,7 @@ export default interface ListProps extends GenericProps
 	/**
 	 * Customizes the style of the wrapper `li` component that wraps the `render` function result
 	 */
-	draggableListItemStyle?: Style;
+	listItemStyle?: Style;
 	/**
 	 * Boolean flag that signals if the items can be reordered by drag and drop
 	 */

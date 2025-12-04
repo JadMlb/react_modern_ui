@@ -37,7 +37,7 @@ function ListContainer ({style, children}: ListContainerProps)
 	);
 }
 
-export default function List ({id, className, style, items, renderer, draggable, dragHandle, draggableListItemStyle, onDrag, onDrop, onChange}: ListProps)
+export default function List ({id, className, style, items, renderer, draggable, dragHandle, listItemStyle, onDrag, onDrop, onChange}: ListProps)
 {
 	const [list, setList] = useState (items);
 
@@ -99,7 +99,7 @@ export default function List ({id, className, style, items, renderer, draggable,
 								dragging = {draggedIndex.current === index}
 								draggable = {draggable}
 								handle = {dragHandle}
-								style = {draggableListItemStyle}
+								style = {listItemStyle}
 							>
 								{renderer (item)}
 							</DraggableListItem>
