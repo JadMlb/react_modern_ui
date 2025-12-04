@@ -1,7 +1,8 @@
 import React from "react";
 import { GenericProps } from "../GenericProps";
+import DivProps from "../DivProps";
 
-export interface PanelProps extends GenericProps
+export interface PanelProps extends GenericProps, DivProps
 {
 	/**
 	 * Displays a title to the panel and enables a border around it

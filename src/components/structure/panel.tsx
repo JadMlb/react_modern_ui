@@ -3,23 +3,18 @@ import { useEffect, useMemo } from "react";
 import styled from "@emotion/styled";
 import Button from "../input/button";
 import { useState } from "react";
-import { Style, ThemeColourFunction, useTheme, useThemeColours, useThemeParser } from "../../styles/theme";
+import { Style, useTheme, useThemeParser } from "../../styles/theme";
 import { PanelProps } from "../../types/components/Panel/PanelProps";
 import Chevron from "../chevron";
 
-const PanelDiv = styled.div<{$border: boolean, $colour: ThemeColourFunction}>
-`
-	position: relative;
-	display: flex;
-	flex-direction: column;
-
-	${
-		props => props.$border &&
-					`
-						border: 1px solid ${props.$colour ("primary")};
-					`
-	}
-`;
+const DEFAULT_PANEL_STYLE = {
+	padding: "spacing.small",
+	gap: "spacing.small",
+	borderRadius: "radius.medium",
+	position: "relative",
+	display: "flex",
+	flexDirection: "column",
+} satisfies Style;
 
 const Header = styled.div
 `
@@ -60,9 +55,8 @@ function ScrollArea ({children}: ScrollAreaProps)
 /**
  * Wraps the contents inside their own division, with the ability to add a title. In the latter case, a border is shown around the panel.
  */
-export default function Panel ({id, className, style, title, collapsible = false, children}: PanelProps)
+export default function Panel ({id, className, style, title, collapsible = false, children, ...rest}: PanelProps)
 {
-	const getColour = useThemeColours();
 	const [isCollapsed, setIsCollapsed] = useState (true);
 
 	const hasBorder = useMemo (
@@ -77,23 +71,21 @@ export default function Panel ({id, className, style, title, collapsible = false
 		{
 			setCss (
 				parseTheme ({
-					padding: "spacing.small",
-					gap: "spacing.small",
-					borderRadius: "radius.medium",
+					...DEFAULT_PANEL_STYLE,
+					border: hasBorder ? "1px solid primary" : undefined,
 					...style
 				})
 			);
 		},
-		[style, parseTheme]
+		[style, hasBorder, parseTheme]
 	);
 
 	return (
-		<PanelDiv
-			$border = {hasBorder}
-			$colour = {getColour}
+		<div
 			css = {css}
 			className = {className}
 			id = {id}
+			{...rest}
 		>
 			{
 				title &&
@@ -120,6 +112,6 @@ export default function Panel ({id, className, style, title, collapsible = false
 				(!collapsible || !isCollapsed) &&
 				<ScrollArea>{children}</ScrollArea>
 			}
-		</PanelDiv>
+		</div>
 	);
 }
