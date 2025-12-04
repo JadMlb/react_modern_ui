@@ -1,6 +1,7 @@
+import DivProps from "../DivProps";
 import { GenericProps } from "../GenericProps";
 
-export interface CardProps extends GenericProps
+export interface CardProps extends GenericProps, DivProps
 {
 	/**
 	 * The title of the card shown in bold
@@ -22,8 +23,4 @@ export interface CardProps extends GenericProps
 	 * The content of the card's body
 	 */
 	children?: React.ReactNode;
-	/**
-	 * Event handler fired when the card is clicked
-	 */
-	onClick?: React.MouseEventHandler;
 }

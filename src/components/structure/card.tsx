@@ -60,7 +60,7 @@ const CardContent = styled.div<{$mediaPosition: "left" | "top" | "right" | "bott
 /**
  * Renders a visible, elevated wrapper around the content with a title and a subtitle
  */
-export default function Card ({id, className, style, title, subtitle, media, mediaPosition = "top", children, onClick}: CardProps)
+export default function Card ({id, className, style, title, subtitle, media, mediaPosition = "top", children, onClick, ...rest}: CardProps)
 {
 	const colour = useThemeColours();
 	const isDark = useDarkMode();
@@ -86,6 +86,7 @@ export default function Card ({id, className, style, title, subtitle, media, med
 			$mediaPosition = {mediaPosition}
 			$containsMedia = {media !== undefined}
 			onClick = {onClick}
+			{...rest}
 		>
 			<>{
 				(title || subtitle || children) &&
