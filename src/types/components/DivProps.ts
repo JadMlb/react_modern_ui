@@ -5,6 +5,7 @@ export default interface DivProps
 	[key: `data-${string}`]: string | number | undefined;
 
 	onClick?: React.MouseEventHandler<HTMLDivElement>;
+	onContextMenu?: React.MouseEventHandler<HTMLDivElement>;
 	onMouseEnter?: React.MouseEventHandler<HTMLDivElement>;
 	onMouseMove?: React.MouseEventHandler<HTMLDivElement>;
 	onMouseLeave?: React.MouseEventHandler<HTMLDivElement>;

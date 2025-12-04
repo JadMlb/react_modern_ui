@@ -124,35 +124,17 @@ const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps> (
 	(props, ref) =>
 	{
 		const {
-			id,
-			className,
-			name,
-			label,
-			labelStyle,
-			placeholder,
-			defaultValue,
-			value,
+			type,
+			isError,
 			range,
-			step,
 			precision,
-			hideLabel,
-			hint,
-			textOnError,
+			step,
+			value,
 			leading,
 			trailing,
-			style,
-			isError,
-			autoComplete,
-			autoFocus,
-			form,
 			onChange,
-			onBlur,
-			onFocus,
-			onKeyDown,
-			onKeyUp,
-			readonly,
-			disabled,
-			optional
+			style,
+			...rest
 		} = props;
 		const [error, setError] = React.useState (isError);
 		
@@ -208,17 +190,8 @@ const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps> (
 		return (
 			<TextInput
 				ref = {ref}
-				id = {id}
-				className = {className}
-				name = {name}
-				label = {label}
 				type = "text"
-				hint = {hint}
 				isError = {error}
-				textOnError = {textOnError}
-				disabled = {disabled}
-				hideLabel = {hideLabel}
-				labelStyle = {labelStyle}
 				leading = {
 					<Leading onChange = {dec}>{leading}</Leading>
 				}
@@ -226,19 +199,9 @@ const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps> (
 					<Trailing onChange = {inc}>{trailing}</Trailing>
 				}
 				onChange = {handleChange}
-				optional = {optional}
-				readonly = {readonly}
 				style = {{...style, width: "fit-content"}}
-				defaultValue = {defaultValue}
 				value = {shownValue}
-				placeholder = {placeholder}
-				autoComplete = {autoComplete}
-				autoFocus = {autoFocus}
-				form = {form}
-				onBlur = {onBlur}
-				onFocus = {onFocus}
-				onKeyDown = {onKeyDown}
-				onKeyUp = {onKeyUp}
+				{...rest}
 			/>
 		);
 	}

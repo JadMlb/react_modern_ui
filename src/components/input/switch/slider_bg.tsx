@@ -10,9 +10,10 @@ interface SwitchSliderBackgroundProps
 	activatedStyle?: Style;
 	disabled?: boolean;
 	onClick?: () => void;
+	onContextMenu?: React.MouseEventHandler<HTMLDivElement>;
 }
 
-export default function SwitchSliderBackground ({value, style, activatedStyle, children, disabled, onClick}: SwitchSliderBackgroundProps)
+export default function SwitchSliderBackground ({value, style, activatedStyle, children, disabled, onClick, onContextMenu}: SwitchSliderBackgroundProps)
 {
 	const parseCss = useThemeParser();
 	const isDark = useDarkMode();
@@ -38,7 +39,7 @@ export default function SwitchSliderBackground ({value, style, activatedStyle, c
 	);
 	
 	return (
-		<div css = {css} onClick = {onClick}>
+		<div css = {css} onClick = {onClick} onContextMenu = {onContextMenu}>
 			{children}
 		</div>
 	);

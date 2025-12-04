@@ -66,10 +66,25 @@ const Slider = React.forwardRef<HTMLInputElement, SliderProps> (
 			thumbStyle,
 			onChange,
 			disabled,
-			readonly
+			readonly,
+			onBlur,
+			onFocus,
+			onContextMenu,
+			onKeyDown,
+			onKeyUp,
+			autoFocus,
+			defaultValue,
+			form,
+			vertical
 		} = props;
 
 		const [innerValue, setInnerValue] = React.useState (value ?? min);
+		const innerRef = React.useRef<HTMLInputElement | null> (null);
+
+		React.useImperativeHandle (
+			ref,
+			() => innerRef.current!
+		);
 
 		function handleChange (e: React.ChangeEvent<HTMLInputElement>)
 		{
@@ -105,7 +120,7 @@ const Slider = React.forwardRef<HTMLInputElement, SliderProps> (
 					id = {id}
 					className = {className}
 					name = {name}
-					ref = {ref}
+					ref = {innerRef}
 					value = {innerValue}
 					onChange = {handleChange}
 					min = {min}
@@ -115,6 +130,14 @@ const Slider = React.forwardRef<HTMLInputElement, SliderProps> (
 					disabled = {disabled}
 					style = {style}
 					thumbStyle = {thumbStyle}
+					onBlur = {onBlur}
+					onFocus = {onFocus}
+					onContextMenu = {onContextMenu}
+					onKeyDown = {onKeyDown}
+					onKeyUp = {onKeyUp}
+					autoFocus = {autoFocus}
+					defaultValue = {defaultValue}
+					form = {form}
 				/>
 				<Options divisions = {divisions}/>
 				<Marks style = {style} divisions = {divisions}/>

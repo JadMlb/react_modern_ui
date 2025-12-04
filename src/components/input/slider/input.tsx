@@ -2,6 +2,7 @@ import * as React from "react";
 import { Style, useThemeParser } from "../../../styles";
 import { translateSliderStyles, translateSliderThumbStyles } from "./translateSliderStyles";
 import { DEFAULT_SLIDER_STYLE, DEFAULT_SLIDER_THUMB_STYLE } from "../../../types/components/Slider/SliderStyle";
+import { SliderProps } from "../../../types/components/Slider/SliderProps";
 
 interface SliderInputProps
 {
@@ -18,24 +19,26 @@ interface SliderInputProps
 	disabled?: boolean;
 	style?: Style;
 	thumbStyle?: Style;
+	autoFocus?: SliderProps["autoFocus"];
+	defaultValue?: SliderProps["defaultValue"];
+	form?: SliderProps["form"];
+	onBlur?: SliderProps["onBlur"];
+	onFocus?: SliderProps["onFocus"];
+	onContextMenu?: SliderProps["onContextMenu"];
+	onKeyDown?: SliderProps["onKeyDown"];
+	onKeyUp?: SliderProps["onKeyUp"];
 }
 
 const SliderInput = React.forwardRef<HTMLInputElement, SliderInputProps> (
 	(props, ref) =>
 	{
 		const {
-			id,
-			className,
-			name,
+			thumbStyle,
+			style,
 			value,
-			onChange,
 			min,
 			max,
-			step,
-			readonly,
-			disabled,
-			style,
-			thumbStyle
+			...rest
 		} = props;
 
 		const parseCss = useThemeParser();
@@ -78,20 +81,14 @@ const SliderInput = React.forwardRef<HTMLInputElement, SliderInputProps> (
 
 		return (
 			<input
-				id = {id}
-				className = {className}
-				name = {name}
 				ref = {ref}
 				type = "range"
 				value = {value}
-				onChange = {onChange}
 				min = {min}
 				max = {max}
-				step = {step}
-				readOnly = {readonly}
-				disabled = {disabled}
 				list = "slider-marks"
 				css = {css}
+				{...rest}
 			/>
 		);
 	}

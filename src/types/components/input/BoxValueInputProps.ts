@@ -25,6 +25,7 @@ export interface BoxValueInputProps extends GenericProps
 	 * The style to apply on the label
 	 */
 	labelStyle?: Style;
+	onContextMenu?: React.MouseEventHandler;
 	/**
 	 * Change event handler fired when input value is changed
 	 */

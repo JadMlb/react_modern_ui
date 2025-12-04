@@ -7,7 +7,7 @@ import { DEFAULT_BUTTON_STYLES } from "../../types/components/Button/ButtonStyle
 /**
  * Button component
  */
-export default function Button ({id, role = "normal", type = "filled", htmlType, name, autoFocus, children, disabled = false, style, className, onClick, onBlur, onFocus, onKeyDown, onKeyUp, onMouseEnter, onMouseLeave}: ButtonProps)
+export default function Button ({role = "normal", type = "filled", htmlType, style, ...rest}: ButtonProps)
 {
 	const isDark = useDarkMode();
 
@@ -27,21 +27,8 @@ export default function Button ({id, role = "normal", type = "filled", htmlType,
 	return (
 		<button
 			type = {htmlType}
-			name = {name}
-			disabled = {disabled}
-			autoFocus = {autoFocus}
 			css = {css}
-			className = {className}
-			id = {id}
-			onClick = {onClick}
-			onBlur = {onBlur}
-			onFocus = {onFocus}
-			onKeyDown = {onKeyDown}
-			onKeyUp = {onKeyUp}
-			onMouseEnter = {onMouseEnter}
-			onMouseLeave = {onMouseLeave}
-		>
-			{children}
-		</button>
+			{...rest}
+		/>
 	);
 }

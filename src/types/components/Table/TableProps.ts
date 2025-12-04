@@ -76,9 +76,12 @@ export default interface TableProps
 	 * Callback fired when pagination changes page size
 	 */
 	onPageSizeChange?: OnPageSizeChangeFunction;
+	onContextMenu?: React.MouseEventHandler;
+	onRowContextMenu?: OnRowContextMenu;
 }
 
 export type OnTableRowClickFunction = (row: TableRowData) => void;
 export type OnTableDataSortFunction = (columnName: string, direction: "asc" | "desc" | null) => void;
 export type OnPageChangeFunction = (oldPage: number, newPage: number) => void;
 export type OnPageSizeChangeFunction = (newPageSize: number) => void;
+export type OnRowContextMenu = (e: React.MouseEvent, row: TableRowData) => void;

@@ -34,6 +34,7 @@ export interface ButtonProps extends GenericProps
 	autoFocus?: boolean;
 	name?: string;
 	children?: React.ReactNode;
+	onContextMenu?: React.MouseEventHandler<HTMLButtonElement>;
 	/**
 	 * Callback function to be executed on button click
 	 */

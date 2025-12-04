@@ -4,12 +4,13 @@ import { Style, useThemeParser } from "../../../../styles";
 import TableRowProps from "./TableRowProps";
 import TableRow from "./table_row";
 import { TableRowData } from "../../../../types/components/Table/TableRowData";
-import { OnTableRowClickFunction } from "../../../../types";
+import { OnRowContextMenu, OnTableRowClickFunction } from "../../../../types";
 
 interface TableBodyProps extends TableRowProps
 {
 	rows: TableRowData[];
 	onRowClick?: OnTableRowClickFunction;
+	onRowContextMenu?: OnRowContextMenu;
 }
 
 const DEFAULT_ROW_STYLE = {
@@ -21,7 +22,7 @@ const DEFAULT_ROW_STYLE = {
 	}
 } satisfies Style;
 
-export default function TableBody ({rows, columns, cellStyle, style, onRowClick}: TableBodyProps)
+export default function TableBody ({rows, columns, cellStyle, style, onRowClick, onRowContextMenu}: TableBodyProps)
 {
 	const gridColumns = useTableColumns (columns);
 	
@@ -51,6 +52,7 @@ export default function TableBody ({rows, columns, cellStyle, style, onRowClick}
 							cellStyle = {cellStyle}
 							row = {row}
 							onClick = {onRowClick}
+							onContextMenu = {onRowContextMenu}
 						/>
 			)
 		}</div>

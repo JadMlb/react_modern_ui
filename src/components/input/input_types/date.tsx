@@ -39,32 +39,23 @@ const DateInput = React.forwardRef<HTMLInputElement, DateTimeInputProps | TimeIn
 		const {
 			id,
 			className,
-			name,
-			label,
-			labelStyle,
 			hideLabel,
 			hint,
 			textOnError,
-			isError,
-			placeholder,
-			defaultValue,
+			label,
+			labelStyle,
 			value,
-			range,
+			onChange,
 			type,
+			range,
+			isError,
 			leading,
 			trailing,
 			style,
-			form,
-			autoComplete,
-			autoFocus,
-			onChange,
-			onBlur,
-			onFocus,
-			onKeyDown,
-			onKeyUp,
-			readonly,
+			optional,
 			disabled,
-			optional
+			readonly,
+			...rest
 		} = props;
 		const [shownValue, setShownValue] = React.useState (value ? value.toString() : "");
 		const popupRef = React.useRef<HTMLDivElement> (null);
@@ -164,24 +155,15 @@ const DateInput = React.forwardRef<HTMLInputElement, DateTimeInputProps | TimeIn
 				{leading}
 				<input
 					ref = {inputRef}
-					name = {name}
-					placeholder = {placeholder}
 					type = {type === "datetime" ? "datetime-local" : type}
-					defaultValue = {defaultValue}
 					value = {shownValue}
 					onChange = {e => onChange?. (e as React.ChangeEvent<Element>, formatDate (new Date (e.target.value)))}
-					onBlur = {onBlur}
-					onFocus = {onFocus}
-					onKeyDown = {onKeyDown}
-					onKeyUp = {onKeyUp}
 					min = {(range && range[0] && formatDate (range[0])) || undefined}
 					max = {(range && range[1] && formatDate (range[1])) || undefined}
 					style = {{all: "unset", height: "auto", font: "inherit", flex: 1}}
-					form = {form}
-					autoComplete = {autoComplete}
-					autoFocus = {autoFocus}
 					disabled = {disabled}
 					readOnly = {readonly}
+					{...rest}
 				/>
 			</InputBase>
 		);

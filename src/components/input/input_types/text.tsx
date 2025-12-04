@@ -169,7 +169,8 @@ const TextInput = React.forwardRef<HTMLInputElement | HTMLTextAreaElement, Singl
 			onBlur,
 			onFocus,
 			onKeyDown,
-			onKeyUp
+			onKeyUp,
+			onContextMenu
 		} = props;
 		
 		const [shownValue, setShownValue] = React.useState (value ?? "");
@@ -261,6 +262,7 @@ const TextInput = React.forwardRef<HTMLInputElement | HTMLTextAreaElement, Singl
 						onFocus = {onFocus}
 						onKeyDown = {onKeyDown}
 						onKeyUp = {onKeyUp}
+						onContextMenu = {onContextMenu}
 					/> :
 					<StyledTextInput
 						ref = {ref as React.ForwardedRef<HTMLInputElement>}
@@ -285,6 +287,7 @@ const TextInput = React.forwardRef<HTMLInputElement | HTMLTextAreaElement, Singl
 						onFocus = {onFocus}
 						onKeyDown = {onKeyDown}
 						onKeyUp = {onKeyUp}
+						onContextMenu = {onContextMenu}
 					/>
 				}
 			</InputBase>

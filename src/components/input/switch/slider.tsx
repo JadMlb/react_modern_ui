@@ -12,9 +12,10 @@ interface SwitchSliderBackgroundProps
 	readonly?: boolean;
 	disabled?: boolean;
 	onClick?: () => void;
+	onContextMenu?: React.MouseEventHandler;
 }
 
-export default function SwitchSlider ({value, backgroundStyle, activatedBackgroundStyle, handleStyle, activatedHandleStyle, readonly, disabled, onClick}: SwitchSliderBackgroundProps)
+export default function SwitchSlider ({value, backgroundStyle, activatedBackgroundStyle, handleStyle, activatedHandleStyle, readonly, disabled, onClick, onContextMenu}: SwitchSliderBackgroundProps)
 {
 	return (
 		<SwitchSliderBackground
@@ -23,6 +24,7 @@ export default function SwitchSlider ({value, backgroundStyle, activatedBackgrou
 			activatedStyle = {activatedBackgroundStyle}
 			disabled = {disabled}
 			onClick = {onClick}
+			onContextMenu = {onContextMenu}
 		>
 			<SwitchHandle
 				value = {value}

@@ -4,7 +4,7 @@ import SwitchWrapper from "./wrapper";
 import SwitchSlider from "./slider";
 import SwitchLabel from "./label";
 
-export default function Switch ({id, className, style, activatedStyle, label, labelStyle, hideLabel, handleStyle, activatedHandleStyle, parentStyle, name, value, readonly, disabled, onChange}: SwitchProps)
+export default function Switch ({id, className, style, activatedStyle, label, labelStyle, hideLabel, handleStyle, activatedHandleStyle, parentStyle, name, value, readonly, disabled, onChange, form, onContextMenu}: SwitchProps)
 {
 	const [isSwitched, setIsSwitched] = useState (value ?? false);
 	const inputRef = useRef<HTMLInputElement | null> (null);
@@ -38,6 +38,7 @@ export default function Switch ({id, className, style, activatedStyle, label, la
 				handleStyle = {handleStyle}
 				activatedHandleStyle = {activatedHandleStyle}
 				onClick = {handleClick}
+				onContextMenu = {onContextMenu}
 				readonly = {readonly}
 				disabled = {disabled}
 			/>
@@ -56,6 +57,7 @@ export default function Switch ({id, className, style, activatedStyle, label, la
 				onChange = {readonly || disabled ? undefined : handleChange}
 				readOnly = {readonly}
 				disabled = {disabled}
+				form = {form}
 				hidden
 			/>
 		</SwitchWrapper>

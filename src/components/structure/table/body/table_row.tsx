@@ -1,4 +1,4 @@
-import { OnTableRowClickFunction } from "../../../../types";
+import { OnRowContextMenu, OnTableRowClickFunction } from "../../../../types";
 import { TableRowData } from "../../../../types/components/Table/TableRowData";
 import TableRowProps from "./TableRowProps";
 import TableCell from "../table_cell";
@@ -7,19 +7,26 @@ interface TableDataRowProps extends TableRowProps
 {
 	row: TableRowData;
 	onClick?: OnTableRowClickFunction;
+	onContextMenu?: OnRowContextMenu;
 }
 
-export default function TableRow ({row, columns, cellStyle, style, onClick}: TableDataRowProps)
+export default function TableRow ({row, columns, cellStyle, style, onClick, onContextMenu}: TableDataRowProps)
 {
 	function handleClick ()
 	{
 		onClick?. (row);
 	}
 	
+	function handleContextMenu (e: React.MouseEvent)
+	{
+		onContextMenu?. (e, row);
+	}
+	
 	return (
 		<div
 			css = {style}
 			onClick = {handleClick}
+			onContextMenu = {handleContextMenu}
 		>{
 			columns.map (
 				col => <TableCell

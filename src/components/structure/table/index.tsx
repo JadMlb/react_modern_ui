@@ -6,7 +6,7 @@ import TableFooter from "./footer/table_footer";
 import TableHead from "./header/table_head";
 import TableHeading from "./heading/table_heading";
 
-export default function Table ({heading, headingStyle, columns, headerRowStyle, headerCellStyle, rows, tableRowStyle, tableCellStyle, footer, footerStyle, pageSizes, pageSize, paginationStyle, totalNumberOfRows, onSort, onRowClick, onPageChange, onPageSizeChange}: TableProps)
+export default function Table ({heading, headingStyle, columns, headerRowStyle, headerCellStyle, rows, tableRowStyle, tableCellStyle, footer, footerStyle, pageSizes, pageSize, paginationStyle, totalNumberOfRows, onSort, onRowClick, onPageChange, onPageSizeChange, onContextMenu, onRowContextMenu}: TableProps)
 {
 	const [activePage, setActivePage] = useState (0);
 
@@ -17,7 +17,7 @@ export default function Table ({heading, headingStyle, columns, headerRowStyle, 
 	}
 	
 	return (
-		<TableContainer>
+		<TableContainer onContextMenu = {onContextMenu}>
 			{/* heading */}
 			<TableHeading style = {headingStyle}>{heading}</TableHeading>
 			{/* header */}
@@ -34,6 +34,7 @@ export default function Table ({heading, headingStyle, columns, headerRowStyle, 
 				style = {tableRowStyle}
 				cellStyle = {tableCellStyle}
 				onRowClick = {onRowClick}
+				onRowContextMenu = {onRowContextMenu}
 			/>
 			{
 				// footer / pagination
