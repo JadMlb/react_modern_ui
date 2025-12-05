@@ -2,7 +2,6 @@ import React, { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import { ComboboxProps } from "../../../../types/components/Combobox/ComboboxProps";
 import InputBase from "../input_base";
 import { useDarkMode, useThemeParser } from "../../../../styles";
-import Menu from "../../menu";
 import ComboboxOption from "./option";
 import { Option } from "../../../../types";
 import Tag from "../../../state/tag";
@@ -10,6 +9,8 @@ import X from "./x";
 import ComboboxTrailing from "./trailing";
 import ComboboxOptionsRenderer from "./options_renderer";
 import { OnChangeFunction } from "../../../../types/components/input/BoxValueInputProps";
+import Menu from "../../../structure/menu";
+import ValueWrapper from "./value_wrapper";
 
 function Arrow ({up}: {up?: boolean})
 {
@@ -48,7 +49,7 @@ function defaultRenderOption (option: Option, selected?: boolean, onClick?: OnCh
 	);
 }
 
-export default function Combobox ({id, className, name, options, label, labelStyle, value, hint, leading, readonly, disabled, hideLabel, position, optional, style, fieldsetStyle, arrowComponent = DEFAULT_ARROW_COMPONENT, onChange, renderOption = defaultRenderOption}: ComboboxProps)
+export default function Combobox ({id, className, name, options, label, labelStyle, value, hint, leading, readonly, disabled, hideLabel, menuProps, optional, style, fieldsetStyle, arrowComponent = DEFAULT_ARROW_COMPONENT, onChange, renderOption = defaultRenderOption}: ComboboxProps)
 {
 	const [isExpanded, setIsExpanded] = useState (false);
 	const inputRef = useRef<HTMLDivElement | null> (null);
@@ -111,22 +112,6 @@ export default function Combobox ({id, className, name, options, label, labelSty
 		[formatValue, value, readonly, disabled]
 	);
 
-	function isFromTop ()
-	{
-		if (position)
-			return position === "top";
-			
-		if (inputRef.current)
-		{
-			const {top} = inputRef.current.getBoundingClientRect();
-			const {offsetHeight} = inputRef.current;
-			if (window.innerHeight - top - offsetHeight <= 200)
-				return true;
-		}
-
-		return false;
-	}
-
 	function expand (e: React.FocusEvent)
 	{
 		e.stopPropagation();
@@ -155,40 +140,42 @@ export default function Combobox ({id, className, name, options, label, labelSty
 	);
 	
 	return (
-		<InputBase
-			className = {className}
-			id = {id}
-			fieldsetStyle = {fieldsetStyle}
-			inputId = {`combo-${name}`}
-			ref = {inputRef}
-			label = {label}
-			labelStyle = {labelStyle}
-			trailing = {
-				<ComboboxTrailing
-					arrowComponent = {arrowComponent}
-					expanded = {isExpanded}
-					optional = {optional}
-					value = {value}
-					readonly = {readonly}
-					disabled = {disabled}
-					onChange = {onChange}
-				/>
-			}
-			hint = {hint}
-			hideLabel = {hideLabel}
-			style = {style}
-			onFocus = {expand}
-			onBlur = {close}
-			disabled = {disabled}
-			readonly = {readonly}
-		>
-			{leading}
-			{formattedValue}
+		<>
+			<InputBase
+				className = {className}
+				id = {id}
+				fieldsetStyle = {fieldsetStyle}
+				inputId = {`combo-${name}`}
+				ref = {inputRef}
+				label = {label}
+				labelStyle = {labelStyle}
+				trailing = {
+					<ComboboxTrailing
+						arrowComponent = {arrowComponent}
+						expanded = {isExpanded}
+						optional = {optional}
+						value = {value}
+						readonly = {readonly}
+						disabled = {disabled}
+						onChange = {onChange}
+					/>
+				}
+				hint = {hint}
+				hideLabel = {hideLabel}
+				style = {style}
+				onFocus = {expand}
+				onBlur = {close}
+				disabled = {disabled}
+				readonly = {readonly}
+			>
+				{leading}
+				<ValueWrapper>{formattedValue}</ValueWrapper>
+			</InputBase>
 			<Menu
-				isOpen = {!disabled && isExpanded}
+				open = {!disabled && isExpanded}
 				onClose = {() => setIsExpanded (false)}
-				position = {isFromTop() ? "top" : "bottom"}
 				anchorElement = {inputRef.current}
+				{...menuProps}
 			>
 				<ComboboxOptionsRenderer
 					options = {options}
@@ -199,6 +186,6 @@ export default function Combobox ({id, className, name, options, label, labelSty
 					value = {value}
 				/>
 			</Menu>
-		</InputBase>
+		</>
 	);
 }

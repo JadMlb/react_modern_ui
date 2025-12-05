@@ -1,6 +1,7 @@
 import { Option } from "../../Option";
 import { OnChangeFunction } from "../input/BoxValueInputProps";
 import { CommonInputProps } from "../input/CommonInputProps";
+import MenuProps from "../Menu/MenuProps";
 
 export interface ComboboxProps extends CommonInputProps
 {
@@ -14,10 +15,9 @@ export interface ComboboxProps extends CommonInputProps
 	 */
 	hideSearch?: boolean;
 	/**
-	 * Fixes the position of the options popup no matter the position of the combobox.
-	 * Default behaviour will check if there is enough space to display the options list below the combobox; and if not; the list will be rendered onabove.
+	 * Forwards some props to the menu of the combobox
 	 */
-	position?: "top" | "bottom";
+	menuProps?: Omit<MenuProps, "anchorElement" | "open" | "children" | "onClose">;
 	/**
 	 * Customizes the icon displayed instead of the classical arrow
 	 */
