@@ -6,3 +6,4 @@ export {default as Dialog} from "./dialog";
 export {default as Drawer} from "./drawer";
 export {default as Link} from "./link";
 export {default as List} from "./list";
+export {default as Menu} from "./menu";
