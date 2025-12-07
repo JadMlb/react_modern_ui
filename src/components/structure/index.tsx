@@ -7,3 +7,4 @@ export {default as Drawer} from "./drawer";
 export {default as Link} from "./link";
 export {default as List} from "./list";
 export {default as Menu} from "./menu";
+export {default as Badge} from "./badge";

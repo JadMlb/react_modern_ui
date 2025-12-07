@@ -1,10 +1,6 @@
 import React from "react";
 import { GenericProps } from "../GenericProps";
-
-export type Position = {
-	horizontal: "left" | "center" | "right",
-	vertical: "top" | "center" | "bottom"
-};
+import { Position } from "../../Position";
 
 export default interface MenuProps extends GenericProps
 {

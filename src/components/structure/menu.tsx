@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState } from "react";
-import MenuProps, { Position } from "../../types/components/Menu/MenuProps";
+import MenuProps from "../../types/components/Menu/MenuProps";
 import { createPortal } from "react-dom";
 import { Style, useDarkMode, useThemeParser } from "../../styles";
+import { Position } from "../../types";
 
 const DEFAULT_MENU_STYLE = {
 	position: "absolute",
