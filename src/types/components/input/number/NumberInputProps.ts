@@ -1,8 +1,7 @@
 import { BasicInputProps } from "../BasicInputProps";
 import { OnChangeFunction } from "../BoxValueInputProps";
-import ReffableInput from "../ReffableInput";
 
-export interface NumberInputProps extends BasicInputProps, ReffableInput
+export interface NumberInputProps extends BasicInputProps
 {
 	value?: number;
 	type: "number";

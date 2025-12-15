@@ -1,7 +1,7 @@
-import { Style } from "../../../styles";
-import { GenericProps } from "../GenericProps";
+import { Style } from "../../styles";
+import WrappedElementStylingProps from "../../styles/WrappedElementStylingProps";
 
-export default interface SeparatorProps extends GenericProps
+export default interface SeparatorProps extends WrappedElementStylingProps
 {
 	/**
 	 * The title of the following section
@@ -12,3 +12,5 @@ export default interface SeparatorProps extends GenericProps
 	 */
 	parentStyle?: Style;
 }
+
+export type OverridableSeparatorProps = never;

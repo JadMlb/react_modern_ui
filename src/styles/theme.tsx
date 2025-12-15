@@ -1,53 +1,11 @@
-import React, { CSSProperties, createContext, useCallback, useContext, useReducer } from "react";
-import { PartialThemeType, ThemeType } from "../types/theme";
+import React, { createContext, useCallback, useContext, useReducer } from "react";
+import { PartialThemeType, ThemeType } from "../types/styles/theme";
 import { COLOURS_ALT_NAMES, Colour, Measurements } from "../types";
-import { DEFAULT_RADIUS, DEFAULT_SPACING } from "./styles";
+import { DEFAULT_RADIUS, DEFAULT_SPACING } from "./defaults/measurements";
 import { ThemeModeProvider } from "./mode";
-
-const DEFAULT_THEME: ThemeType = {
-	mode: "auto",
-	measurements: {
-		radius: DEFAULT_RADIUS,
-		spacing: DEFAULT_SPACING
-	},
-	colours: {
-		primary: {
-			dark: "123D56",
-			medium: "2274A5",
-			light: "DDE8EF"
-		},
-		accent: {
-			dark: "40260A",
-			medium: "F2D0A9",
-			light: "F9EDE0"
-		},
-		neutral: {
-			dark: "131B23",
-			medium: "7E7F81",
-			light: "FEFEFF"
-		},
-		gray: {
-			dark: "555555",
-			medium: "AAAAAA",
-			light: "EEEEEE"
-		},
-		affirmative: {
-			dark: "014A22",
-			medium: "018E42",
-			light: "76D4A2"
-		},
-		error: {
-			dark: "9A1E2F",
-			medium: "D52941",
-			light: "EDD0D4"
-		},
-		alert: {
-			dark: "A16A09",
-			medium: "FFBF00",
-			light: "FFF3D0"
-		}
-	}
-};
+import { merge } from "lodash";
+import { DEFAULT_THEME } from "./defaults/theme";
+import { StaticStyle } from "../types";
 
 type ThemeDispatchAction = {type: "set", values: PartialThemeType} | {type: "reset"}
 
@@ -66,7 +24,8 @@ function mergeThemeValues (base: ThemeType, modifications: PartialThemeType) : T
 			radius: {...base.measurements.radius, ...modifications.measurements?.radius},
 			spacing: {...base.measurements.spacing, ...modifications.measurements?.spacing},
 		},
-		colours: {...base.colours, ...modifications.colours}
+		colours: {...base.colours, ...modifications.colours},
+		defaults: merge (base.defaults, modifications.overrides)
 	};
 }
 
@@ -140,10 +99,6 @@ export function useThemeColours (): ThemeColourFunction
 	return getColour;
 }
 
-export type Style = CSSProperties & {
-	[key: string]: any;
-};
-
 export function useThemeParser ()
 {
 	const getColour = useThemeColours();
@@ -185,9 +140,9 @@ export function useThemeParser ()
 	);
 
 	const processStyles = useCallback (
-		function process (styles: Style): Style
+		function process (styles: StaticStyle): StaticStyle
 		{
-			const res: Style = {};
+			const res: StaticStyle = {};
 			Object.entries (styles)
 					.forEach (
 						([k, v]) =>

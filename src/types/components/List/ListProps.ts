@@ -1,25 +1,14 @@
-import { Style } from "../../../styles";
-import { GenericProps } from "../GenericProps";
 import { TableRowData } from "../Table/TableRowData";
+import ListStylingProps from "./ListStylingProps";
 
 export type ListItemContents = TableRowData & {id: string | number};
 
-export default interface ListProps extends GenericProps
+export default interface ListProps extends ListStylingProps
 {
 	/**
 	 * The list of items characterized by an id and key-value content
 	 */
 	items: ListItemContents[];
-	/**
-	 * A mapper function that takes an item from the list provided and renders a JSX element placed inside of a draggable list item
-	 * @param item The raw data of an element in the list
-	 * @returns The contents of a list item
-	 */
-	renderer: (item: ListItemContents) => React.ReactNode;
-	/**
-	 * Customizes the style of the wrapper `li` component that wraps the `render` function result
-	 */
-	listItemStyle?: Style;
 	/**
 	 * Boolean flag that signals if the items can be reordered by drag and drop
 	 */
@@ -48,3 +37,5 @@ export default interface ListProps extends GenericProps
 	 */
 	onChange?: (items: ListItemContents[]) => void;
 }
+
+export type OverridableListProps = never;

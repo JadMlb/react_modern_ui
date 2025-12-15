@@ -1,21 +1,13 @@
 import { TableRowData } from "./TableRowData";
 import TableColumn from "./TableColumn";
-import { Style } from "../../../styles";
+import TableStylingProps from "./TableStylingProps";
 
-export default interface TableProps
+export default interface TableProps extends TableStylingProps
 {
 	/**
 	 * Defines the table's columns and types
 	 */
 	columns: TableColumn[];
-	/**
-	 * Defines the style of the table's header row
-	 */
-	headerRowStyle?: Style;
-	/**
-	 * Defines the style of each cell in the table's header row
-	 */
-	headerCellStyle?: Style;
 	/**
 	 * Passes the rows of the table
 	 */
@@ -25,30 +17,6 @@ export default interface TableProps
 	 */
 	totalNumberOfRows?: number;
 	/**
-	 * Defines the style of the table's data rows
-	 */
-	tableRowStyle?: Style;
-	/**
-	 * Defines the style of each cell in the table's data rows
-	 */
-	tableCellStyle?: Style;
-	/**
-	 * The elements to display in the heading of the table
-	 */
-	heading?: React.ReactNode;
-	/**
-	 * Defines the style of the table's heading
-	 */
-	headingStyle?: Style;
-	/**
-	 * Renders the following elements in the footer of the table
-	 */
-	footer?: React.ReactNode;
-	/**
-	 * Defines the style of the table's footer
-	 */
-	footerStyle?: Style;
-	/**
 	 * Page size options for pagination. Defaults to `[5, 10, 15]`.
 	 */
 	pageSizes?: number[];
@@ -56,10 +24,6 @@ export default interface TableProps
 	 * Current number of rows per page. Defaults to the first value of `pageSizes`. If `pageSizes` is not provided or incorrect, defaults to `5`.
 	 */
 	pageSize?: number;
-	/**
-	 * Defines the style of the table's pagination
-	 */
-	paginationStyle?: Style;
 	/**
 	 * Event fired when an entire row is clicked 
 	 */
@@ -85,3 +49,5 @@ export type OnTableDataSortFunction = (columnName: string, direction: "asc" | "d
 export type OnPageChangeFunction = (oldPage: number, newPage: number) => void;
 export type OnPageSizeChangeFunction = (newPageSize: number) => void;
 export type OnRowContextMenu = (e: React.MouseEvent, row: TableRowData) => void;
+
+export type OverridableTableProps = Pick<TableProps, "onRowClick" | "onContextMenu" | "onRowContextMenu" | "onPageChange" | "onPageSizeChange" | "pageSizes">;

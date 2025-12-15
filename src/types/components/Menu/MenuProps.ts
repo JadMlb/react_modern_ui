@@ -1,21 +1,12 @@
 import React from "react";
-import { GenericProps } from "../GenericProps";
-import { Position } from "../../Position";
+import MenuStylingProps from "./MenuStylingProps";
 
-export default interface MenuProps extends GenericProps
+export default interface MenuProps extends MenuStylingProps
 {
 	/**
 	 * A ref to the html parent element of the menu
 	 */
 	anchorElement: HTMLElement | null;
-	/**
-	 * The source position on the anchor from which the menu would appear
-	 */
-	position?: Partial<Position>;
-	/**
-	 * The direction of the menu relative to the anchor
-	 */
-	direction?: Partial<Position>;
 	/**
 	 * Determines if the menu is visible or not
 	 */
@@ -29,3 +20,5 @@ export default interface MenuProps extends GenericProps
 	 */
 	onClose?: () => void;
 }
+
+export type OverridableMenuProps = never;

@@ -1,14 +1,9 @@
-import { Style } from "../../../styles";
-import { GenericProps } from "../GenericProps";
+import WrappedElementStylingProps from "../../styles/WrappedElementStylingProps";
 
-export default interface SkeletonLoaderProps extends GenericProps
+export default interface SkeletonLoaderProps extends WrappedElementStylingProps
 {
 	/**
 	 * Defines the type of the SkeletonLoader. Defaults to `text`.
 	 */
 	type?: "text" | "block";
-	/**
-	 * Customizes the style of the parent component wrapping the main elements;
-	 */
-	parentStyle?: Style;
 }

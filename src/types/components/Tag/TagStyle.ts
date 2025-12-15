@@ -1,4 +1,4 @@
-import { Style } from "../../../styles";
+import { Style } from "../../styles";
 
 const DEFAULT_TAG_STYLE: (isDark: boolean, colour: "affirmative" | "alert" | "error" | "gray", clickable?: boolean) => Style = (isDark, colour, clickable) => ({
 	width: "fit-content",

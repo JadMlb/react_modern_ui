@@ -1,8 +1,7 @@
-import { Style } from "../../../styles";
 import { EdgePosition } from "../../Position";
-import { GenericProps } from "../GenericProps";
+import WrappedElementStylingProps from "../../styles/WrappedElementStylingProps";
 
-export default interface BadgeProps extends GenericProps
+export default interface BadgeProps extends WrappedElementStylingProps
 {
 	/**
 	 * The value to show inside of the badge
@@ -27,8 +26,6 @@ export default interface BadgeProps extends GenericProps
 	 * The element this badge is linked to
 	 */
 	children: React.ReactElement;
-	/**
-	 * Styles the component wrapping the child component and the badge
-	 */
-	parentStyle?: Style;
 }
+
+export type OverridableBadgeProps = Pick<BadgeProps, "force" | "position">;

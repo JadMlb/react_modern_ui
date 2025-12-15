@@ -1,8 +1,8 @@
 import React from "react";
-import { GenericProps } from "../GenericProps";
 import DivProps from "../DivProps";
+import StylingProps from "../../styles/StylingProps";
 
-export interface PanelProps extends GenericProps, DivProps
+export interface PanelProps extends StylingProps, DivProps
 {
 	/**
 	 * Displays a title to the panel and enables a border around it
@@ -17,3 +17,5 @@ export interface PanelProps extends GenericProps, DivProps
 	 */
 	children: React.ReactNode;
 }
+
+export type OverridablePanelProps = Pick<PanelProps, "collapsible">

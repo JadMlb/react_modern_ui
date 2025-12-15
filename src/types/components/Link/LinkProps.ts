@@ -1,6 +1,6 @@
-import { GenericProps } from "../GenericProps";
+import StylingProps from "../../styles/StylingProps";
 
-export interface LinkProps extends GenericProps
+export interface LinkProps extends StylingProps
 {
 	/**
 	 * The destination where the link should navigate to
@@ -22,3 +22,5 @@ export interface LinkProps extends GenericProps
 	onKeyDown?: React.KeyboardEventHandler<HTMLAnchorElement>;
 	onKeyUp?: React.KeyboardEventHandler<HTMLAnchorElement>;
 }
+
+export type OverridableLinkProps = never;

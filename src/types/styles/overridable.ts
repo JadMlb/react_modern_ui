@@ -1,0 +1,70 @@
+import { OverridableBadgeProps, OverridableBlockSkeletonLoaderProps, OverridableButtonProps, OverridableCardProps, OverridableCheckboxProps, OverridableDialogProps, OverridableDrawerProps, OverridableDrawerWithDefaultHeaderProps, OverridableLinkProps, OverridableListProps, OverridableMenuProps, OverridablePanelProps, OverridablePopupBackdropProps, OverridableProgressBarProps, OverridableRadioButtonsGroupProps, OverridableSeparatorProps, OverridableSliderProps, OverridableSwitchProps, OverridableTableProps, OverridableTagProps, OverridableTextSkeletonLoaderProps, OverridableToasterProps } from "../components";
+import { CheckboxStylingProps } from "../components/Checkbox/CheckboxStyleProps";
+import ListStylingProps from "../components/List/ListStylingProps";
+import MenuStylingProps from "../components/Menu/MenuStylingProps";
+import DialogProps from "../components/Popups/DialogProps";
+import ProgressBarStylingProps from "../components/ProgressBar/ProgressBarStylingProps";
+import RadioButtonsGroupStylingProps from "../components/RadioButtonsGroup/RadioButtonsGroupStylingProps";
+import SliderStylingProps from "../components/Slider/SliderStylingProps";
+import SwitchStylingProps from "../components/Switch/SwitchStylingProps";
+import TableStylingProps from "../components/Table/TableStylingProps";
+import ToasterStylingProps from "../components/Toaster/ToasterStylingProps";
+import StylingProps from "./StylingProps";
+import WrappedElementStylingProps from "./WrappedElementStylingProps";
+
+export type Overridable<PropsType, StylesType> = {
+	props?: PropsType;
+	styles?: StylesType;
+};
+
+export type ComponentsOverrides = {
+	badge?: Overridable<OverridableBadgeProps, WrappedElementStylingProps>,
+	button?: Overridable<OverridableButtonProps, StylingProps>,
+	card?: Overridable<OverridableCardProps, StylingProps>,
+	checkbox?: Overridable<OverridableCheckboxProps, CheckboxStylingProps>,
+	// combobox?: Overridable<OverridableComboboxProps,
+	// input,
+	link?: Overridable<OverridableLinkProps, StylingProps>,
+	list?: Overridable<OverridableListProps, ListStylingProps>,
+	menu?: Overridable<OverridableMenuProps, MenuStylingProps>,
+	panel?: Overridable<OverridablePanelProps, StylingProps>,
+	popups?: {
+		backdrop?: Overridable<OverridablePopupBackdropProps, StylingProps>,
+		dialog?: Overridable<OverridableDialogProps, DialogProps>,
+		drawer?: {
+			default?: Overridable<OverridableDrawerProps, DialogProps>,
+			withHeader?: Overridable<OverridableDrawerWithDefaultHeaderProps, DialogProps>,
+		}
+	},
+	progressBar?: Overridable<OverridableProgressBarProps, ProgressBarStylingProps>,
+	radioButtonsGroup?: Overridable<OverridableRadioButtonsGroupProps, RadioButtonsGroupStylingProps>,
+	separator?: Overridable<OverridableSeparatorProps, WrappedElementStylingProps>,
+	skeletonLoader?: {
+		block?: Overridable<OverridableBlockSkeletonLoaderProps, WrappedElementStylingProps>,
+		text?: Overridable<OverridableTextSkeletonLoaderProps, WrappedElementStylingProps>,
+	},
+	slider?: Overridable<OverridableSliderProps, SliderStylingProps>,
+	switch?: Overridable<OverridableSwitchProps, SwitchStylingProps>,
+	table?: Overridable<OverridableTableProps, TableStylingProps>,
+	tag?: Overridable<OverridableTagProps, StylingProps>,
+	toaster?: Overridable<OverridableToasterProps, ToasterStylingProps>
+};
+
+type NoUndef<T> = Exclude<T, undefined>;
+
+type NestedKeys<T extends object> = {
+	[K in keyof NoUndef<T>]-?: NoUndef<T[K]> extends Overridable<any, any> ?
+						K & string :
+						NoUndef<T[K]> extends object ?
+							`${K & string}.${NestedKeys<NoUndef<T[K]>>}` :
+							K & string
+}[keyof T];
+
+type NestedPropType<T, Path extends string> = Path extends `${infer K}.${infer Rest}` ?
+											K extends keyof T ?
+												NestedPropType<NoUndef<T[K]>, Rest> : never :
+											Path extends keyof T ?
+												NoUndef<T[Path]> : never;
+
+export type Components = NestedKeys<ComponentsOverrides>;
+export type ComponentsOverridesTypeForComponent<Path extends string> = NestedPropType<ComponentsOverrides, Path>;

@@ -1,4 +1,4 @@
-import { Style } from "../../../styles";
+import { Style } from "../../styles";
 import { GenericProps } from "../GenericProps";
 
 type InputType = HTMLInputElement | HTMLTextAreaElement;

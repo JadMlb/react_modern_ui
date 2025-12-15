@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 
 import { useMemo } from "react";
-import { Style } from "../../../styles";
+import { Style } from "../../../types";
 
 interface BadgeWrapperProps
 {

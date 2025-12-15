@@ -1,7 +1,6 @@
-import { Style } from "../../../styles";
-import { GenericProps } from "../GenericProps";
+import ProgressBarStylingProps from "./ProgressBarStylingProps";
 
-export interface ProgressBarProps extends GenericProps
+export interface ProgressBarProps extends ProgressBarStylingProps
 {
 	/**
 	 * The percentage from completion. This value must be a number **between 0 and 100** otherwise an error is thrown.
@@ -15,12 +14,6 @@ export interface ProgressBarProps extends GenericProps
 	 * Displays the current percentage of the progress bar only if the `thin` flag is not raised. Defaults to `false`.
 	 */
 	showPercentage?: boolean;
-	/**
-	 * Controls the style of the progress bar container, the parent of both the bar itself and the percentage
-	 */
-	parentStyle?: Style;
-	/**
-	 * Controls the style of the progress bar background
-	 */
-	backgroundStyle?: Style;
 }
+
+export type OverridableProgressBarProps = Pick<ProgressBarProps, "thin" | "showPercentage">;

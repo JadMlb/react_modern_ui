@@ -1,6 +1,6 @@
-import { GenericProps } from "../GenericProps";
+import StylingProps from "../../styles/StylingProps";
 
-export default interface PopupBaseProps extends GenericProps
+export default interface PopupBaseProps extends StylingProps
 {
 	open: boolean;
 	onClose?: () => void;

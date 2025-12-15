@@ -1,4 +1,4 @@
-import { RadiusMeasurementsType, SpacingMeasurementsType } from "../types";
+import { RadiusMeasurementsType, SpacingMeasurementsType } from "../../types";
 
 export const radius = {
 	small: "7px",

@@ -18,14 +18,7 @@ export interface ComboboxProps extends CommonInputProps
 	 * Forwards some props to the menu of the combobox
 	 */
 	menuProps?: Omit<MenuProps, "anchorElement" | "open" | "children" | "onClose">;
-	/**
-	 * Customizes the icon displayed instead of the classical arrow
-	 */
-	arrowComponent?: {open: React.ReactNode, closed: React.ReactNode};
-	/**
-	 * Renders the options of the combobox
-	 */
-	renderOption?: RenderOptionFunction;
 }
 
 export type RenderOptionFunction = (option: Option, selected?: boolean, onClick?: OnChangeFunction<Option>) => React.ReactNode;
+export type OverridableComboboxProps = Pick<ComboboxProps, "hideSearch" | "menuProps">;

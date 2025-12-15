@@ -1,4 +1,5 @@
-import { Measurements, PartialMeasurements } from "./Measurements";
+import { Measurements, PartialMeasurements } from "../Measurements";
+import { ComponentsOverrides } from "./overridable";
 
 export type ColourFamily = {
 	dark: string,
@@ -19,11 +20,13 @@ export type ThemeColours = {
 export type ThemeType = {
 	mode: "dark" | "light" | "auto",
 	colours: ThemeColours,
-	measurements: Measurements
+	measurements: Measurements,
+	defaults: ComponentsOverrides;
 };
 
 export type PartialThemeType = {
 	mode?: "dark" | "light" | "auto",
 	colours?: Partial<ThemeColours>,
-	measurements?: PartialMeasurements
+	measurements?: PartialMeasurements,
+	overrides?: ComponentsOverrides
 };

@@ -1,4 +1,4 @@
-import { Style } from "../../../styles";
+import { Style } from "../../styles";
 
 export const DEFAULT_CARD_STYLE: (clickable?: boolean, theme?: "dark" | "light") => Style = (clickable, theme = "light") =>
 {

@@ -1,23 +1,10 @@
-import { Style } from "../../../styles";
 import { ValueInputProps } from "../input/ValueInputProps";
-import { CheckboxStylingProps } from "../Checkbox/CheckboxProps";
+import { CheckboxStylingProps } from "../Checkbox/CheckboxStyleProps";
 import { OnChangeFunction } from "../input";
 import { Option } from "../../Option";
 
 export interface RadioButtonsGroupProps extends Omit<ValueInputProps, "autoFocus" | "defaultValue">
 {
-	/**
-	 * Sets the style of the group container
-	 */
-	style?: Style;
-	/**
-	 * Sets the style of the clear button when enabled, i.e. when `optional` is `true`.
-	 */
-	clearButtonStyle?: Style;
-	/**
-	 * Sets the style of the fieldset component wrapping the radio buttons
-	 */
-	fieldsetStyle?: Style;
 	/**
 	 * Sets some props for all checkboxes
 	 */
@@ -36,3 +23,5 @@ export interface RadioButtonsGroupProps extends Omit<ValueInputProps, "autoFocus
 	optional?: boolean;
 	onChange?: OnChangeFunction<Option | null>;
 }
+
+export type OverridableRadioButtonsGroupProps = Pick<RadioButtonsGroupProps, "checkboxProps">;

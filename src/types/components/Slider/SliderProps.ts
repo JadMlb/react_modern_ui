@@ -1,8 +1,8 @@
-import { Style } from "../../../styles";
 import { Option } from "../../Option";
 import { BoxValueInputProps, OnChangeFunction } from "../input";
+import SliderStylingProps from "./SliderStylingProps";
 
-export interface SliderProps extends Omit<BoxValueInputProps, "label" | "labelStyle" | "hideLabel">
+export interface SliderProps extends Omit<BoxValueInputProps, "label" | "labelStyle" | "hideLabel">, SliderStylingProps
 {
 	/**
 	 * The initial value of this slider
@@ -36,17 +36,9 @@ export interface SliderProps extends Omit<BoxValueInputProps, "label" | "labelSt
 	 */
 	stepsLabels?: number | true | Option[];
 	/**
-	 * Defines the style of the slider bar.
-	 * This object abstracts the underlying complex styling for `<input type = "range"/>` which is encapsulated.
-	 * For more info on how to use, check the documentation.
-	 */
-	style?: Style;
-	/**
-	 * Defines the style of the slider thumb
-	 */
-	thumbStyle?: Style;
-	/**
 	 * Sets the slider to be vertical
 	 */
 	vertical?: boolean;
 }
+
+export type OverridableSliderProps = Pick<SliderProps, "step" | "stepsLabels">;

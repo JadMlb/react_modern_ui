@@ -1,9 +1,9 @@
-import { GenericProps } from "../GenericProps";
+import StylingProps from "../../styles/StylingProps";
 
 export type ButtonRoles = "primary" | "alert" | "warn" | "normal";
 export type ButtonTypes = "filled" | "outlined" | "link";
 
-export interface ButtonProps extends GenericProps
+export interface ButtonProps extends StylingProps
 {
 	/**
 	 * The role the button will take
@@ -46,3 +46,5 @@ export interface ButtonProps extends GenericProps
 	onKeyDown?: React.KeyboardEventHandler<HTMLButtonElement>;
 	onKeyUp?: React.KeyboardEventHandler<HTMLButtonElement>;
 }
+
+export type OverridableButtonProps = Pick<ButtonProps, "role" | "type" | "htmlType">;

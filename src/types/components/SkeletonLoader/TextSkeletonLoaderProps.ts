@@ -8,3 +8,5 @@ export default interface TextSkeletonLoaderProps extends SkeletonLoaderProps
 	 */
 	lines?: number;
 }
+
+export type OverridableTextSkeletonLoaderProps = Pick<TextSkeletonLoaderProps, "lines">;

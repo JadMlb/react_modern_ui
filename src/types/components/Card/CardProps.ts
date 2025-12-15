@@ -1,7 +1,7 @@
+import StylingProps from "../../styles/StylingProps";
 import DivProps from "../DivProps";
-import { GenericProps } from "../GenericProps";
 
-export interface CardProps extends GenericProps, DivProps
+export interface CardProps extends StylingProps, DivProps
 {
 	/**
 	 * The title of the card shown in bold
@@ -24,3 +24,5 @@ export interface CardProps extends GenericProps, DivProps
 	 */
 	children?: React.ReactNode;
 }
+
+export type OverridableCardProps = never;
