@@ -2,15 +2,40 @@ import { useRef } from "react";
 import { CheckboxProps } from "../../../types";
 import CheckboxLabel from "./label";
 import HiddenInput from "./hidden";
-import DefaultCheck from "./default_check";
-import DefaultIntermediate from "./default_intermediate";
 import CheckboxBox from "./box";
+import useProps from "../../../hooks/useProps";
 
 /**
  * Renders a Checkbox component with specified value, either in normal checked/unchecked, or in tri-value
  */
-export default function Checkbox ({id, name, defaultValue, value, className, style, label, labelStyle, intermediateStyle, checkedStyle, checkedComponent = <DefaultCheck/>, intermediateComponent = <DefaultIntermediate/>, disabled, readonly, hideLabel, onChange, onBlur, onFocus, onKeyDown, onKeyUp, autoFocus, form}: CheckboxProps)
+export default function Checkbox (props: CheckboxProps)
 {
+	const {
+		autoFocus,
+		checkedComponent,
+		checkedStyle,
+		className,
+		defaultValue,
+		disabled,
+		form,
+		hideLabel,
+		id,
+		intermediateComponent,
+		intermediateStyle,
+		label,
+		labelStyle,
+		name,
+		onBlur,
+		onChange,
+		onContextMenu,
+		onFocus,
+		onKeyDown,
+		onKeyUp,
+		readonly,
+		style,
+		value
+	} = useProps ("checkbox", props);
+	
 	const ref = useRef<HTMLInputElement | null> (null);
 
 	function handleBoxFocus (e: React.FocusEvent<HTMLDivElement>)
@@ -159,8 +184,6 @@ export default function Checkbox ({id, name, defaultValue, value, className, sty
 				value = {value}
 				defaultValue = {defaultValue}
 				onChange = {onChange}
-				// onBlur = {onBlur}
-				// onFocus = {onFocus}
 				onKeyDown = {onKeyDown}
 				onKeyUp = {onKeyUp}
 				form = {form}

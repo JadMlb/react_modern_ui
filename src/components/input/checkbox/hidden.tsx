@@ -14,8 +14,6 @@ interface HiddenInputProps
 	defaultValue?: CheckboxProps["defaultValue"];
 	value?: CheckboxProps["value"];
 	onChange?: CheckboxProps["onChange"];
-	// onBlur?: CheckboxProps["onBlur"];
-	// onFocus?: CheckboxProps["onFocus"];
 	onKeyUp?: CheckboxProps["onKeyUp"];
 	onKeyDown?: CheckboxProps["onKeyDown"];
 	form?: CheckboxProps["form"];

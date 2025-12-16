@@ -1,10 +1,5 @@
-import { useMemo } from "react";
-import { Style, useThemeParser } from "../../../styles";
-
-const DEFAULT_STYLE = {
-	display: "flex",
-	alignItems: "center"
-} satisfies Style;
+import { Style } from "../../../types";
+import useStyle from "../../../hooks/useStyle";
 
 function ignoreClick (e: React.MouseEvent)
 {
@@ -23,15 +18,7 @@ interface CheckboxLabelProps
 
 export default function CheckboxLabel ({id, className, label, hideLabel, style, children}: CheckboxLabelProps)
 {
-	const parseCss = useThemeParser();
-	const css = useMemo (
-		() => parseCss ({
-			...DEFAULT_STYLE,
-			gap: "spacing.xsmall",
-			...style
-		} satisfies Style),
-		[style, parseCss]
-	);
+	const css = useStyle ("checkbox", style, undefined, "labelStyle");
 	
 	return (
 		<label

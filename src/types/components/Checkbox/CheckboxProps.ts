@@ -15,6 +15,14 @@ export interface CheckboxProps extends BoxValueInputProps, CheckboxStylingProps
 	 */
 	value?: boolean | 0 | 1 | 2;
 	defaultValue?: boolean | 0 | 1 | 2;
+		/**
+	 * Sets the component used when the checkbox's `state` is set to `true` or `2`, i.e. the check mark
+	 */
+	checkedComponent?: React.ReactNode;
+	/**
+	 * Sets the component used when the checkbox's `state` is set to `1`, i.e. the check mark
+	 */
+	intermediateComponent?: React.ReactNode;
 }
 
-export type OverridableCheckboxProps = Pick<CheckboxProps, "defaultValue">;
+export type OverridableCheckboxProps = Pick<CheckboxProps, "defaultValue" | "checkedComponent" | "intermediateComponent">;
