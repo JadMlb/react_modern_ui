@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 
-import { useMemo } from "react";
 import { Style } from "../../../types";
+import useStyle from "../../../hooks/useStyle";
 
 interface BadgeWrapperProps
 {
@@ -9,21 +9,10 @@ interface BadgeWrapperProps
 	children?: React.ReactNode;
 }
 
-const STYLE = {
-	position: "relative",
-	width: "fit-content",
-	height: "fit-content",
-} as const;
-
 export default function BadgeWrapper ({style, children}: BadgeWrapperProps)
 {
-	const css = useMemo (
-		() => ({
-			...STYLE,
-			...style
-		}),
-		[style]
-	);
+	const css = useStyle ("badge", style, undefined, "parentStyle");
+	
 	return (
 		<span css = {css}>
 			{children}

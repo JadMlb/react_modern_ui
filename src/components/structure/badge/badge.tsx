@@ -1,34 +1,21 @@
 import { useEffect, useMemo, useState } from "react";
 import BadgeProps from "../../../types/components/Badge/BadgeProps";
-import { Style, useThemeParser } from "../../../styles";
-import { EdgePosition } from "../../../types";
+import useStyle from "../../../hooks/useStyle";
+import useProps from "../../../hooks/useProps";
 
-const DEFAULT_POSITION: EdgePosition = {vertical: "top", horizontal: "right"};
-
-const DEFAULT_STYLE = {
-	position: "absolute",
-	transform: "translate(50%, -50%)",
-	borderRadius: "radius.large",
-	padding: "spacing.xsmall",
-	backgroundColor: "error",
-	color: "white",
-	fontSize: "0.8em",
-	display: "flex",
-	alignItems: "center",
-	justifyContent: "center",
-	textAlign: "center"
-} satisfies Style;
-
-export default function BadgeBadge ({value, className, id, position = DEFAULT_POSITION, style, force, max}: Omit<BadgeProps, "children">)
+export default function BadgeBadge (props: Omit<BadgeProps, "children">)
 {
+	const {
+		force,
+		id,
+		className,
+		max,
+		position,
+		style,
+		value
+	} = useProps ("badge", props);
+
 	const [display, setDisplay] = useState ("");
-	const realPosition: EdgePosition = useMemo (
-		() => ({
-			...DEFAULT_POSITION,
-			...position
-		}),
-		[position]
-	);
 
 	useEffect (
 		() =>
@@ -49,18 +36,17 @@ export default function BadgeBadge ({value, className, id, position = DEFAULT_PO
 		[value, force, max]
 	);
 	
-	const parseCss = useThemeParser();
-	const css = useMemo (
-		() => parseCss ({
-			...DEFAULT_STYLE,
-			[realPosition.horizontal]: 0,
-			[realPosition.vertical]: 0,
+	const internalStyles = useMemo (
+		() => ({
+			[position!.horizontal!]: 0,
+			[position!.vertical!]: 0,
+			transform: `translate(${position!.horizontal === "left" ? "-" : ""}50%, ${position!.vertical === "top" ? "-" : ""}50%)`,
 			height: display === "" ? undefined : 10,
 			minWidth: display === "" ? undefined : 10,
-			...style
 		}),
-		[parseCss, style, realPosition, display]
+		[position, display]
 	);
+	const css = useStyle ("badge", style, internalStyles);
 
 	if (!force && !value)
 		return null;
