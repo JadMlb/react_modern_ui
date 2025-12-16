@@ -47,4 +47,4 @@ export interface ButtonProps extends StylingProps
 	onKeyUp?: React.KeyboardEventHandler<HTMLButtonElement>;
 }
 
-export type OverridableButtonProps = Pick<ButtonProps, "role" | "type" | "htmlType">;
+export type OverridableButtonProps = Pick<ButtonProps, "role" | "htmlType">;

@@ -19,8 +19,11 @@ export type Overridable<PropsType, StylesType> = {
 
 export type ComponentsOverrides = {
 	badge?: Overridable<OverridableBadgeProps, WrappedElementStylingProps>,
-	button?: Overridable<OverridableButtonProps, StylingProps>,
-	card?: Overridable<OverridableCardProps, StylingProps>,
+	button?: {
+		filled?: Overridable<OverridableButtonProps, StylingProps>,
+		outlined?: Overridable<OverridableButtonProps, StylingProps>,
+		link?: Overridable<OverridableButtonProps, StylingProps>
+	},
 	checkbox?: Overridable<OverridableCheckboxProps, CheckboxStylingProps>,
 	// combobox?: Overridable<OverridableComboboxProps,
 	// input,

@@ -1,29 +1,86 @@
 /** @jsxImportSource @emotion/react */
-import { useEffect, useState } from "react";
-import { Style, useDarkMode, useThemeParser } from "../../styles";
 import { ButtonProps } from "../../types/components/Button/ButtonProps";
-import { DEFAULT_BUTTON_STYLES } from "../../types/components/Button/ButtonStyle";
+import useProps from "../../hooks/useProps";
+import useStyle from "../../hooks/useStyle";
+import { useCallback } from "react";
 
 /**
  * Button component
  */
-export default function Button ({role = "normal", type = "filled", htmlType, style, ...rest}: ButtonProps)
+export default function Button (props: ButtonProps)
 {
-	const isDark = useDarkMode();
+	const {
+		role = "normal",
+		type = "filled",
+		htmlType,
+		style,
+		...rest
+	} = useProps (`button.${props.type ?? "filled"}`, props);
 
-	const parseTheme = useThemeParser();
-	const [css, setCss] = useState<Style> ({});
-
-	useEffect (
-		() =>
+	const injected = useCallback (
+		(isDark: boolean) =>
 		{
-			const DEFAULT_TYPE_STYLE = DEFAULT_BUTTON_STYLES[type]!;
-			if (DEFAULT_TYPE_STYLE)
-				setCss (parseTheme ({...DEFAULT_TYPE_STYLE (role, isDark ? "dark" : "light"), ...style}));
+			switch (props.type)
+			{
+				case "filled": return {
+					fontWeight: ["primary", "transparent", "warn"].includes (role) ? "bold" : "normal",
+					backgroundColor: role === "primary" ?
+										"primary" :
+										role === "warn" ?
+											"error" :
+											`gray${isDark ? "Dark" : "Light"}`,
+					color: isDark || ["primary", "warn"].includes (role) ?
+									"white" :
+									role === "alert" ?
+										"error" :
+										"black",
+					":hover": {
+						backgroundColor: role === "warn" ?
+											"errorDark" :
+											role === "alert" ?
+												"error" :
+												role === "primary" ?
+													"primaryDark" :
+													"primaryElevated",
+						color: role === "normal" ? "black" : "white"
+					},
+				};
+				case "outlined": return {
+					borderColor: role === "primary" ? "primary" : role === "warn" ? "error" : `gray${isDark ? "Dark" : "Light"}`,
+					fontWeight: ["primary", "transparent", "warn"].includes (role) ? "bold" : "normal",
+					color: ["primary", "normal"].includes (role) ?
+									"primary" :
+									"error",
+					":hover": {
+						backgroundColor: ["warn", "alert"].includes (role) ?
+											isDark ? "errorDark" : "errorElevated":
+											isDark ? "primaryDark": "primaryElevated",
+					}
+				};
+				case "link": return {
+					color: role === "primary" ?
+						"primary" :
+						role === "warn" ?
+							"error" :
+							"inherit",
+					"::after": {
+						background: role === "normal" ? 
+										"primary" :
+										role === "primary" ?
+											`primary${isDark ? "Elevated" : "Dark"}` :
+											role === "alert" ? 
+											"error" :
+											`error${isDark ? "Elevated" : "Dark"}`
+					}
+				};
+				default: return {};
+			}
 		},
-		[style, role, type, isDark, parseTheme]
+		[type, role]
 	);
-
+	
+	const css = useStyle (`button.${type}`, style, injected);
+	
 	return (
 		<button
 			type = {htmlType}
