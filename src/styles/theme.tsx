@@ -25,7 +25,7 @@ function mergeThemeValues (base: ThemeType, modifications: PartialThemeType) : T
 			spacing: {...base.measurements.spacing, ...modifications.measurements?.spacing},
 		},
 		colours: {...base.colours, ...modifications.colours},
-		defaults: merge (base.defaults, modifications.overrides)
+		defaults: merge ({}, base.defaults, modifications.overrides)
 	};
 }
 

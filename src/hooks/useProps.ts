@@ -16,7 +16,7 @@ export default function useProps<T> (component: Components, props: T)
 {
 	const defaultProps = useComponentDefaultProps (component) as T;
 	const merged = useMemo (
-		() => merge (defaultProps, props),
+		() => merge ({}, defaultProps, props),
 		[defaultProps, props]
 	);
 	return merged;

@@ -32,7 +32,7 @@ function useComponentDefaultStyles<Component extends Components> (component: Com
 	return staticStyle;
 }
 
-export default function useStyle (component: Components, modifications?: Style, internalDefaultStyles?: Style, prop?: string) : StaticStyle
+export default function useStyle (component: Components, modifications?: Style, injectedStyles?: Style, prop?: string) : StaticStyle
 {
 	const parseCss = useThemeParser();
 	const isDark = useDarkMode();
@@ -40,17 +40,18 @@ export default function useStyle (component: Components, modifications?: Style, 
 	const defaultStyles = useComponentDefaultStyles (component, isDark, prop);
 	const staticBaseStyle = useStaticStyle (isDark, defaultStyles);
 	const staticModificationsStyle = useStaticStyle (isDark, modifications);
-	const staticInternalStyle = useStaticStyle (isDark, internalDefaultStyles);
+	const staticInjectedStyle = useStaticStyle (isDark, injectedStyles);
 
 	const css = useMemo (
 		() => parseCss (
 			merge (
+				{},
 				staticBaseStyle,
-				staticInternalStyle,
+				staticInjectedStyle,
 				staticModificationsStyle
 			)
 		),
-		[parseCss, staticBaseStyle, staticModificationsStyle]
+		[parseCss, staticBaseStyle, staticModificationsStyle, staticInjectedStyle]
 	);
 	
 	return css;
