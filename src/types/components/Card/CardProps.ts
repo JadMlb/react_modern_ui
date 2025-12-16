@@ -1,14 +1,19 @@
-import StylingProps from "../../styles/StylingProps";
 import DivProps from "../DivProps";
+import CardStylingProps from "./CardStylingProps";
 
-export interface CardProps extends StylingProps, DivProps
+export interface CardProps extends CardStylingProps, DivProps
 {
 	/**
 	 * The title of the card shown in bold
 	 */
 	title?: string;
 	/**
-	 * The subtitle of the card, displayed in a gray & smaller font size
+	 * Sets the type of the card title component, from h1 to h6, for better semantics.
+	 * @default 4
+	 */
+	level?: 1 | 2 | 3 | 4 | 5 | 6;
+	/**
+	 * The subtitle of the card
 	 */
 	subtitle?: string;
 	/**
@@ -25,4 +30,4 @@ export interface CardProps extends StylingProps, DivProps
 	children?: React.ReactNode;
 }
 
-export type OverridableCardProps = never;
+export type OverridableCardProps = Pick<CardProps, "mediaPosition" | "level">;

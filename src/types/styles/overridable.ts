@@ -1,4 +1,5 @@
 import { OverridableBadgeProps, OverridableBlockSkeletonLoaderProps, OverridableButtonProps, OverridableCardProps, OverridableCheckboxProps, OverridableDialogProps, OverridableDrawerProps, OverridableDrawerWithDefaultHeaderProps, OverridableLinkProps, OverridableListProps, OverridableMenuProps, OverridablePanelProps, OverridablePopupBackdropProps, OverridableProgressBarProps, OverridableRadioButtonsGroupProps, OverridableSeparatorProps, OverridableSliderProps, OverridableSwitchProps, OverridableTableProps, OverridableTagProps, OverridableTextSkeletonLoaderProps, OverridableToasterProps } from "../components";
+import CardStylingProps from "../components/Card/CardStylingProps";
 import { CheckboxStylingProps } from "../components/Checkbox/CheckboxStyleProps";
 import ListStylingProps from "../components/List/ListStylingProps";
 import MenuStylingProps from "../components/Menu/MenuStylingProps";
@@ -24,6 +25,7 @@ export type ComponentsOverrides = {
 		outlined?: Overridable<OverridableButtonProps, StylingProps>,
 		link?: Overridable<OverridableButtonProps, StylingProps>
 	},
+	card?: Overridable<OverridableCardProps, CardStylingProps>,
 	checkbox?: Overridable<OverridableCheckboxProps, CheckboxStylingProps>,
 	// combobox?: Overridable<OverridableComboboxProps,
 	// input,
