@@ -1,15 +1,9 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import MenuProps from "../../types/components/Menu/MenuProps";
 import { createPortal } from "react-dom";
-import { Style, useDarkMode, useThemeParser } from "../../styles";
 import { Position } from "../../types";
-
-const DEFAULT_MENU_STYLE = {
-	position: "absolute",
-	zIndex: "10000",
-	borderRadius: "radius.medium",
-	padding: "spacing.medium"
-} satisfies Style;
+import useStyle from "../../hooks/useStyle";
+import useProps from "../../hooks/useProps";
 
 type DirectionTranslationsMapType = {
 	[k in `${Position["vertical"]}-${Position["horizontal"]}`]: string | null;
@@ -68,29 +62,28 @@ function getCssFromMenuPosition (position: MenuProps["position"], direction: Men
 	return Object.fromEntries (css);
 }
 
-export default function Menu ({id, className, anchorElement, position, direction, open, style, children, onClose}: MenuProps)
+export default function Menu (props: MenuProps)
 {
+	const {
+		id,
+		className,
+		position,
+		direction,
+		style,
+		children,
+		onClose
+	} = useProps ("menu", props);
+	const open = props.open;
+	const anchorElement = props.anchorElement;
+	
 	const ref = useRef<HTMLDivElement | null> (null);
-	const [css, setCss] = useState<Style> ({});
-	const parseCss = useThemeParser();
-	const isDark = useDarkMode();
 
-	useEffect (
-		() =>
-		{
-			setCss (
-				parseCss ({
-					...DEFAULT_MENU_STYLE,
-					backgroundColor: isDark ? "black" : "white",
-					color: isDark ? "white" : "black",
-					border: `1px solid gray${isDark ? "Dark" : "Light"}`,
-					...getCssFromMenuPosition (position, direction, anchorElement),
-					...style
-				})
-			);
-		},
-		[style, anchorElement, position, direction, isDark]
+	const injectedStyles = useMemo (
+		() => getCssFromMenuPosition (position, direction, anchorElement),
+		[position, direction, anchorElement]
 	);
+
+	const css = useStyle ("menu", style, injectedStyles);
 
 	useEffect (
 		() =>

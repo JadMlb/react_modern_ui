@@ -5,6 +5,7 @@ import DEFAULT_CARD_PROPS from "./components/card";
 import DEFAULT_CHECKBOX_PROPS from "./components/checkbox";
 import DEFAULT_LINK_PROPS from "./components/link";
 import DEFAULT_LIST_PROPS from "./components/list";
+import DEFAULT_MENU_PROPS from "./components/menu";
 
 export const DEFAULT_COMPONENTS_PROPS = {
 	badge: DEFAULT_BADGE_PROPS,
@@ -17,4 +18,5 @@ export const DEFAULT_COMPONENTS_PROPS = {
 	checkbox: DEFAULT_CHECKBOX_PROPS,
 	link: DEFAULT_LINK_PROPS,
 	list: DEFAULT_LIST_PROPS,
+	menu: DEFAULT_MENU_PROPS,
 } satisfies ComponentsOverrides;

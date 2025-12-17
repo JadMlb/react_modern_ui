@@ -1,7 +1,8 @@
 import React from "react";
-import MenuStylingProps from "./MenuStylingProps";
+import { Position } from "../../Position";
+import StylingProps from "../../styles/StylingProps";
 
-export default interface MenuProps extends MenuStylingProps
+export default interface MenuProps extends StylingProps
 {
 	/**
 	 * A ref to the html parent element of the menu
@@ -12,6 +13,14 @@ export default interface MenuProps extends MenuStylingProps
 	 */
 	open: boolean;
 	/**
+	 * The source position on the anchor from which the menu would appear
+	 */
+	position?: Partial<Position>;
+	/**
+	 * The direction of the menu relative to the anchor
+	 */
+	direction?: Partial<Position>;
+	/**
 	 * The contents of the menu
 	 */
 	children?: React.ReactNode;
@@ -21,4 +30,4 @@ export default interface MenuProps extends MenuStylingProps
 	onClose?: () => void;
 }
 
-export type OverridableMenuProps = never;
+export type OverridableMenuProps = Pick<MenuProps, "position" | "direction">;
