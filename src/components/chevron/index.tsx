@@ -1,6 +1,7 @@
 /** @jsxImportSource @emotion/react */
-import { Style, useThemeParser } from "../../styles";
+import { useThemeParser } from "../../styles";
 import { useMemo } from "react";
+import { Style } from "../../types";
 
 interface ChevronArrowProps
 {

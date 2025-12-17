@@ -1,11 +1,11 @@
 import React from "react";
 import DivProps from "../DivProps";
-import StylingProps from "../../styles/StylingProps";
+import PanelStylingProps from "./PanelStylingProps";
 
-export interface PanelProps extends StylingProps, DivProps
+export interface PanelProps extends PanelStylingProps, DivProps
 {
 	/**
-	 * Displays a title to the panel and enables a border around it
+	 * Displays a title to the panel and enables a border around the panel
 	 */
 	title?: React.ReactNode;
 	/**

@@ -2,7 +2,7 @@ import { OverridableBadgeProps, OverridableBlockSkeletonLoaderProps, Overridable
 import CardStylingProps from "../components/Card/CardStylingProps";
 import { CheckboxStylingProps } from "../components/Checkbox/CheckboxStyleProps";
 import ListStylingProps from "../components/List/ListStylingProps";
-import MenuStylingProps from "../components/Menu/MenuStylingProps";
+import PanelStylingProps from "../components/Panel/PanelStylingProps";
 import DialogProps from "../components/Popups/DialogProps";
 import ProgressBarStylingProps from "../components/ProgressBar/ProgressBarStylingProps";
 import RadioButtonsGroupStylingProps from "../components/RadioButtonsGroup/RadioButtonsGroupStylingProps";
@@ -31,8 +31,8 @@ export type ComponentsOverrides = {
 	// input,
 	link?: Overridable<OverridableLinkProps, StylingProps>,
 	list?: Overridable<OverridableListProps, ListStylingProps>,
-	menu?: Overridable<OverridableMenuProps, MenuStylingProps>,
-	panel?: Overridable<OverridablePanelProps, StylingProps>,
+	menu?: Overridable<OverridableMenuProps, StylingProps>,
+	panel?: Overridable<OverridablePanelProps, PanelStylingProps>,
 	popups?: {
 		backdrop?: Overridable<OverridablePopupBackdropProps, StylingProps>,
 		dialog?: Overridable<OverridableDialogProps, DialogProps>,
