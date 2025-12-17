@@ -9,9 +9,13 @@ export default interface ListStylingProps extends StylingProps
 	 * @param item The raw data of an element in the list
 	 * @returns The contents of a list item
 	 */
-	renderer: (item: ListItemContents) => React.ReactNode;
+	renderer?: (item: ListItemContents) => React.ReactNode;
 	/**
 	 * Customizes the style of the wrapper `li` component that wraps the `render` function result
 	 */
 	listItemStyle?: Style;
+	/**
+	 * Customizes the style of the space between list elements when `draggable` is enabled.
+	 */
+	listItemDropAreaStyle?: Style;
 }

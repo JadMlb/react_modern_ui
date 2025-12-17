@@ -38,4 +38,4 @@ export default interface ListProps extends ListStylingProps
 	onChange?: (items: ListItemContents[]) => void;
 }
 
-export type OverridableListProps = never;
+export type OverridableListProps = Pick<ListProps, "draggable" | "dragHandle">;

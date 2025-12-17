@@ -1,45 +1,28 @@
 /** @jsxImportSource @emotion/react */
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import DraggableListItem from "./list_item";
-import ListSeparator from "./separator";
+import ListDropArea from "./drop_area";
 import ListProps from "../../../types/components/List/ListProps";
-import { Style, useThemeParser } from "../../../styles";
+import { ListContainer } from "./container";
+import useProps from "../../../hooks/useProps";
 
-interface ListContainerProps
+export default function List (props: ListProps)
 {
-	id?: string;
-	classname?: string;
-	style?: Style;
-	children: React.ReactNode;
-}
+	const {
+		className,
+		dragHandle,
+		draggable,
+		id,
+		listItemDropAreaStyle,
+		listItemStyle,
+		onChange,
+		onDrag,
+		onDrop,
+		renderer,
+		style
+	} = useProps ("list", props);
 
-function ListContainer ({style, children}: ListContainerProps)
-{
-	const parseCss = useThemeParser();
-
-	const styles = useMemo (
-		() => parseCss ({
-			padding: "unset",
-			margin: "unset",
-			listStyleType: "none",
-			display: "flex",
-			flexDirection: "column",
-			gap: "spacing.xsmall",
-			...style
-		}),
-		[style]
-	);
-
-	return (
-		<ul css = {styles}>
-			{children}
-		</ul>
-	);
-}
-
-export default function List ({id, className, style, items, renderer, draggable, dragHandle, listItemStyle, onDrag, onDrop, onChange}: ListProps)
-{
-	const [list, setList] = useState (items);
+	const [list, setList] = useState (props.items);
 
 	const draggedIndex = useRef<number | null> (null);
 	const draggedOverIndex = useRef<number | null> (null);
@@ -77,17 +60,17 @@ export default function List ({id, className, style, items, renderer, draggable,
 	}
 
 	useEffect (
-		() => setList (items),
-		[items]
+		() => setList (props.items),
+		[props.items]
 	);
 	
 	return (
 		<ListContainer
 			id = {id}
-			classname = {className}
+			className = {className}
 			style = {style}
 		>
-			{draggable && <ListSeparator/>}
+			{draggable && <ListDropArea style = {listItemDropAreaStyle}/>}
 			{
 				list.map (
 					(item, index) => (
@@ -101,9 +84,9 @@ export default function List ({id, className, style, items, renderer, draggable,
 								handle = {dragHandle}
 								style = {listItemStyle}
 							>
-								{renderer (item)}
+								{renderer?. (item)}
 							</DraggableListItem>
-							{draggable && <ListSeparator/>}
+							{draggable && <ListDropArea style = {listItemDropAreaStyle}/>}
 						</React.Fragment>
 					)
 				)

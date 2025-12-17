@@ -1,24 +1,26 @@
 /** @jsxImportSource @emotion/react */
-import styled from "@emotion/styled";
-import { useEffect, useRef, useState } from "react";
-import { ThemeColourFunction, useDarkMode, useThemeColours } from "../../../styles";
+import { useCallback, useEffect, useRef, useState } from "react";
+import useStyle from "../../../hooks/useStyle";
+import { Style } from "../../../types";
 
-const Separator = styled.div<{$isDark: boolean, $hover: boolean, $colour: ThemeColourFunction}>
-`
-	height: 5px;
-	width: 100%;
-	${
-		({$hover, $isDark, $colour}) => $hover && `background-color: ${$colour (`gray${$isDark ? "Dark" : "Light"}`)};`
-	}
-`;
+interface ListDropAreaProps
+{
+	style?: Style;
+}
 
-export default function ListSeparator ()
+export default function ListDropArea ({style}: ListDropAreaProps)
 {
 	const [hover, setHover] = useState (false);
 	const ref = useRef<HTMLDivElement | null> (null);
 
-	const getColour = useThemeColours();
-	const isDark = useDarkMode();
+	const injectedStyles = useCallback (
+		(isDark: boolean) => ({
+			backgroundColor: hover ? `gray${isDark ? "Dark" : "Light"}` : "transparent"
+		}),
+		[hover]
+	);
+
+	const css = useStyle ("list", style, injectedStyles, "listItemDropAreaStyle");
 
 	useEffect (
 		() =>
@@ -53,11 +55,9 @@ export default function ListSeparator ()
 	);
 
 	return (
-		<Separator
+		<div
 			ref = {ref}
-			$hover = {hover}
-			$colour = {getColour}
-			$isDark = {isDark}
+			css = {css}
 		/>
 	);
 }
