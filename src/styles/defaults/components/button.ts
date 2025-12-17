@@ -8,7 +8,7 @@ const PROPS = {
 
 const BASE_BUTTON_STYLES = {
 	border: "none",
-	fontSize: "inherit",
+	font: "inherit",
 	transition: "transform 0.25s ease-in-out",
 	cursor: "pointer",
 	display: "flex",
