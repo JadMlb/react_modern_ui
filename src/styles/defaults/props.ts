@@ -7,6 +7,7 @@ import DEFAULT_LINK_PROPS from "./components/link";
 import DEFAULT_LIST_PROPS from "./components/list";
 import DEFAULT_MENU_PROPS from "./components/menu";
 import DEFAULT_PANEL_PROPS from "./components/panel";
+import DEFAULT_PROGRESS_BAR_PROPS from "./components/progressBar";
 
 export const DEFAULT_COMPONENTS_PROPS = {
 	badge: DEFAULT_BADGE_PROPS,
@@ -21,4 +22,5 @@ export const DEFAULT_COMPONENTS_PROPS = {
 	list: DEFAULT_LIST_PROPS,
 	menu: DEFAULT_MENU_PROPS,
 	panel: DEFAULT_PANEL_PROPS,
+	progressBar: DEFAULT_PROGRESS_BAR_PROPS,
 } satisfies ComponentsOverrides;
