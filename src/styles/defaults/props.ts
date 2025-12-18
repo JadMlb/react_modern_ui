@@ -8,6 +8,7 @@ import DEFAULT_LIST_PROPS from "./components/list";
 import DEFAULT_MENU_PROPS from "./components/menu";
 import DEFAULT_PANEL_PROPS from "./components/panel";
 import DEFAULT_PROGRESS_BAR_PROPS from "./components/progressBar";
+import DEFAULT_SEPARATOR_PROPS from "./components/separator";
 
 export const DEFAULT_COMPONENTS_PROPS = {
 	badge: DEFAULT_BADGE_PROPS,
@@ -23,4 +24,5 @@ export const DEFAULT_COMPONENTS_PROPS = {
 	menu: DEFAULT_MENU_PROPS,
 	panel: DEFAULT_PANEL_PROPS,
 	progressBar: DEFAULT_PROGRESS_BAR_PROPS,
+	separator: DEFAULT_SEPARATOR_PROPS,
 } satisfies ComponentsOverrides;
