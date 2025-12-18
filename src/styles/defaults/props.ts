@@ -10,6 +10,7 @@ import DEFAULT_MENU_PROPS from "./components/menu";
 import DEFAULT_PANEL_PROPS from "./components/panel";
 import DEFAULT_PROGRESS_BAR_PROPS from "./components/progressBar";
 import DEFAULT_SEPARATOR_PROPS from "./components/separator";
+import DEFAULT_TAG_PROPS from "./components/tag";
 
 export const DEFAULT_COMPONENTS_PROPS = {
 	badge: DEFAULT_BADGE_PROPS,
@@ -30,4 +31,5 @@ export const DEFAULT_COMPONENTS_PROPS = {
 		block: DEFAULT_BLOCK_LOADER_PROPS,
 		text: DEFAULT_TEXT_LOADER_PROPS
 	},
+	tag: DEFAULT_TAG_PROPS,
 } satisfies ComponentsOverrides;
