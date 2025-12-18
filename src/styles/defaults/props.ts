@@ -5,6 +5,7 @@ import DEFAULT_CARD_PROPS from "./components/card";
 import DEFAULT_CHECKBOX_PROPS from "./components/checkbox";
 import DEFAULT_LINK_PROPS from "./components/link";
 import DEFAULT_LIST_PROPS from "./components/list";
+import { DEFAULT_BLOCK_LOADER_PROPS, DEFAULT_TEXT_LOADER_PROPS } from "./components/loaders";
 import DEFAULT_MENU_PROPS from "./components/menu";
 import DEFAULT_PANEL_PROPS from "./components/panel";
 import DEFAULT_PROGRESS_BAR_PROPS from "./components/progressBar";
@@ -25,4 +26,8 @@ export const DEFAULT_COMPONENTS_PROPS = {
 	panel: DEFAULT_PANEL_PROPS,
 	progressBar: DEFAULT_PROGRESS_BAR_PROPS,
 	separator: DEFAULT_SEPARATOR_PROPS,
+	skeletonLoader: {
+		block: DEFAULT_BLOCK_LOADER_PROPS,
+		text: DEFAULT_TEXT_LOADER_PROPS
+	},
 } satisfies ComponentsOverrides;

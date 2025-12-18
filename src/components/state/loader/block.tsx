@@ -1,28 +1,15 @@
-import { useEffect, useState } from "react";
-import { Style, useThemeParser } from "../../../styles";
 import BlockSkeletonLoaderProps from "../../../types/components/SkeletonLoader/BlockSkeletonLoaderProps";
 import TextLineLoader from "./line";
 import AnimatedLoaderWrapper from "./animated_wrapper";
+import useProps from "../../../hooks/useProps";
 
-export default function BlockSkeletonLoader ({id, className, style, parentStyle}: BlockSkeletonLoaderProps)
+export default function BlockSkeletonLoader (props: BlockSkeletonLoaderProps)
 {
-	const parseCss = useThemeParser();
-	const [parentCss, setParentCss] = useState<Style> ({});
-
-	useEffect (
-		() =>
-		{
-			if (parentStyle)
-				setParentCss (parseCss (parentStyle));
-			else
-				setParentCss ({});
-		},
-		[parentStyle, parseCss]
-	);
+	const {id, className, style, parentStyle} = useProps ("skeletonLoader.block", props);
 	
 	return (
-		<AnimatedLoaderWrapper css = {parentCss} className = {className} id = {id}>
-			<TextLineLoader style = {{height: 100, width: 100, ...style}}/>
+		<AnimatedLoaderWrapper style = {parentStyle} className = {className} id = {id}>
+			<TextLineLoader style = {style} forType = "block"/>
 		</AnimatedLoaderWrapper>
 	);
 }

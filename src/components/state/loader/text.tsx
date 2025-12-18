@@ -1,38 +1,20 @@
-import { useEffect, useMemo, useState } from "react";
+import { useMemo } from "react";
 import TextSkeletonLoaderProps from "../../../types/components/SkeletonLoader/TextSkeletonLoaderProps";
 import TextLineLoader from "./line";
-import { Style, useThemeParser } from "../../../styles";
 import AnimatedLoaderWrapper from "./animated_wrapper";
+import useProps from "../../../hooks/useProps";
 
-const DEFAULT_PARENT_STYLE = {
-	display: "flex",
-	flexDirection: "column",
-	gap: "spacing.medium"
-} satisfies Style;
-
-export default function TextSkeletonLoader ({id, className, style, parentStyle, lines = 5}: TextSkeletonLoaderProps)
+export default function TextSkeletonLoader (props: TextSkeletonLoaderProps)
 {
+	const {id, className, style, parentStyle, lines = 5} = useProps ("skeletonLoader.text", props);
+
 	const mapperArray = useMemo (
 		() => Array.from({length: lines}, (_, i) => i),
 		[lines]
 	);
 
-	const parseCss = useThemeParser();
-	const [parentCss, setParentCss] = useState<Style> ({});
-
-	useEffect (
-		() =>
-		{
-			if (parentStyle)
-				setParentCss (parseCss ({...DEFAULT_PARENT_STYLE, ...parentStyle}));
-			else
-				setParentCss (parseCss ({...DEFAULT_PARENT_STYLE}));
-		},
-		[parentStyle, parseCss]
-	);
-
 	return (
-		<AnimatedLoaderWrapper css = {parentCss} className = {className} id = {id}>{
+		<AnimatedLoaderWrapper style = {parentStyle} className = {className} id = {id}>{
 			mapperArray.map (
 				i => <TextLineLoader
 						key = {`rmui-line-loader-${i}`}
