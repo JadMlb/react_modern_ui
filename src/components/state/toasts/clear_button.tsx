@@ -1,9 +1,6 @@
-import { useMemo } from "react";
-import { Style } from "../../../styles";
-import { TOAST_TYPE_SYMBOL_MAP } from "../../../types";
+import { Style } from "../../../types";
 import { Button } from "../../input";
-
-const BASE_STYLE = {width: "30px", height: "30px", borderRadius: "radius.round"} satisfies Style;
+import useStyle from "../../../hooks/useStyle";
 
 interface ToastClearButtonProps
 {
@@ -13,18 +10,15 @@ interface ToastClearButtonProps
 
 export default function ToastClearButton ({onClose, style}: ToastClearButtonProps)
 {
-	const completeStyle = useMemo (
-		() => ({...BASE_STYLE, ...style}),
-		[style]
-	);
+	const css = useStyle ("toaster", style, undefined, "clearButtonStyle");
 
 	return (
 		<Button
-			style = {completeStyle}
+			style = {css}
 			role = "alert"
 			onClick = {onClose}
 		>
-			{TOAST_TYPE_SYMBOL_MAP["fail"].icon}
+			{"\u2715"}
 		</Button>
 	);
 }

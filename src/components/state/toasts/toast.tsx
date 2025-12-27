@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 /** @jsxImportSource @emotion/react */
 import styled from "@emotion/styled";
-import { type ToastIconType, ToastType } from "../../../types/components/Toaster/Toast";
-import { Style } from "../../../styles/theme";
-import ProgressBar from "../progress_bar";
+import { type ToastIconType } from "../../../types/components/Toaster/Toast";
+import { Style } from "../../../types";
+import ToastProgressBar from "./progress_bar";
 import ToastIcon from "./toast_icon";
 import ToastClearButton from "./clear_button";
 import ToastBackground from "./background";
@@ -17,7 +17,6 @@ const ProgressBarContainer = styled.div
 `;
 
 type ToastProps = {
-	type?: ToastType,
 	onClose?: () => void,
 	autoClear?: boolean,
 	clearAfter?: number,
@@ -27,10 +26,10 @@ type ToastProps = {
 	clearButtonStyle?: Style,
 	progressBar?: React.ReactNode,
 	progressBarStyle?: Style,
-	icon?: ToastIconType
+	icon?: Partial<ToastIconType>
 };
 
-export default function Toast ({type = "info", onClose, autoClear, clearAfter = 5, containerStyle, clearButton, clearButtonStyle, icon, progressBar, progressBarStyle, children}: ToastProps)
+export default function Toast ({onClose, autoClear, clearAfter = 5, containerStyle, clearButton, clearButtonStyle, icon, progressBar, progressBarStyle, children}: ToastProps)
 {
 	const [countdown, setCountdown] = useState (100);
 
@@ -57,13 +56,13 @@ export default function Toast ({type = "info", onClose, autoClear, clearAfter = 
 
 	return (
 		<ToastBackground style = {containerStyle}>
-			<ToastIcon type = {type} icon = {icon}/>
+			<ToastIcon icon = {icon}/>
 			{children}
 			{
 				autoClear &&
 					<ProgressBarContainer>{
 						progressBar ??
-						<ProgressBar percentage = {countdown} thin style = {progressBarStyle}/>
+						<ToastProgressBar percentage = {countdown} thin style = {progressBarStyle}/>
 					}</ProgressBarContainer>
 			}
 			{

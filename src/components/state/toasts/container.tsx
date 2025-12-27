@@ -1,7 +1,8 @@
 import { useMemo } from "react";
-import { Style, useThemeParser } from "../../../styles";
 import ToasterProps from "../../../types/components/Toaster/ToasterProps";
 import { keyframes } from "@emotion/react";
+import { Style } from "../../../types";
+import useStyle from "../../../hooks/useStyle";
 
 const toastFromRight = keyframes
 `
@@ -27,22 +28,6 @@ const toastFromLeft = keyframes
 	}
 `;
 
-const ANIMATION_SPEED = "250ms";
-
-const DEFAULT_STYLE = {
-	position: "fixed",
-	zIndex: 100000,
-	padding: "spacing.small",
-	width: "100%",
-	maxWidth: 400,
-	maxHeight: "100dvh",
-	overflow: "hidden auto",
-	display: "flex",
-	gap: "spacing.medium",
-	"> *": {
-		transition: `transform ${ANIMATION_SPEED}, opacity ${ANIMATION_SPEED}, box-shadow ${ANIMATION_SPEED} ease-in-out`
-	}
-} satisfies Style;
 
 interface ToasterContainerProps
 {
@@ -53,21 +38,19 @@ interface ToasterContainerProps
 
 export default function ToasterContainer ({position, style, children}: ToasterContainerProps)
 {
-	const parseCss = useThemeParser();
-	const css = useMemo (
-		() => parseCss ({
-			...DEFAULT_STYLE,
+	const injectedStyle = useMemo (
+		() => ({
 			flexDirection: `column${position.startsWith ("bottom") ? "-reverse" : ""}`,
 			[position.split("-")[0]]: 0,
 			[position.split("-")[1]]: 0,
 			"> *": {
-				animation: `${position.split("-")[1] === "left" ? toastFromLeft : toastFromRight} ${ANIMATION_SPEED}`,
-				...DEFAULT_STYLE["> *"]
+				animation: `${position.split("-")[1] === "left" ? toastFromLeft : toastFromRight} 250ms`,
 			},
-			...style
-		}),
-		[style, parseCss, position]
+		} satisfies Style),
+		[position]
 	);
+
+	const css = useStyle ("toaster", style, injectedStyle, "containerStyle");
 
 	return (
 		<div css = {css}>

@@ -12,6 +12,7 @@ import DEFAULT_PROGRESS_BAR_PROPS from "./components/progressBar";
 import DEFAULT_SEPARATOR_PROPS from "./components/separator";
 import DEFAULT_SWITCH_PROPS from "./components/switch";
 import DEFAULT_TAG_PROPS from "./components/tag";
+import DEFAULT_TOASTER_PROPS from "./components/toaster";
 
 export const DEFAULT_COMPONENTS_PROPS = {
 	badge: DEFAULT_BADGE_PROPS,
@@ -47,5 +48,5 @@ export const DEFAULT_COMPONENTS_PROPS = {
 	switch: DEFAULT_SWITCH_PROPS,
 	// table: Overridable<OverridableTableProps, TableStylingProps>,
 	tag: DEFAULT_TAG_PROPS,
-	// toaster: Overridable<OverridableToasterProps, ToasterStylingProps>
+	toaster: DEFAULT_TOASTER_PROPS
 } satisfies ComponentsOverrides;

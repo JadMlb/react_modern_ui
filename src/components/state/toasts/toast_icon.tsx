@@ -1,47 +1,27 @@
-import { useMemo } from "react";
-import { Style, useDarkMode, useThemeParser } from "../../../styles";
-import { TOAST_TYPE_SYMBOL_MAP, ToastIconType, ToastType } from "../../../types";
-
-const BG_STYLE = {
-	width: 30,
-	height: 30,
-	display: "flex",
-	justifyContent: "center",
-	alignItems: "center",
-	borderRadius: "radius.round",
-	color: "white",
-	fontWeight: "bold"
-} satisfies Style;
+import { useCallback } from "react";
+import { Style, ToastIconType } from "../../../types";
+import useStyle from "../../../hooks/useStyle";
 
 interface DefaultToastIconProps
 {
-	icon?: ToastIconType;
-	type: ToastType;
+	icon?: Partial<ToastIconType>;
+	style?: Style;
 }
 
-export default function ToastIcon ({type, icon}: DefaultToastIconProps)
+export default function ToastIcon ({style, icon}: DefaultToastIconProps)
 {
-	const parseCss = useThemeParser();
-	const isDark = useDarkMode();
-	const realMap = useMemo (
-		() => ({
-			...TOAST_TYPE_SYMBOL_MAP,
-			[type]: icon ? icon : TOAST_TYPE_SYMBOL_MAP[type]
+	const injectedStyle = useCallback (
+		(isDark: boolean) => ({
+			backgroundColor: `${icon!.colour}${isDark ? "Dark" : ""}`
 		}),
-		[icon]
+		[icon?.colour]
 	);
 
-	const realStyle = useMemo (
-		() => parseCss ({
-			...BG_STYLE,
-			backgroundColor: `${realMap[type].colour}${isDark ? "Dark" : ""}`
-		}),
-		[parseCss, type, isDark, realMap]
-	);
+	const css = useStyle ("toaster", style, injectedStyle, "iconContainerStyle");
 	
 	return (
-		<div css = {realStyle}>
-			{realMap[type].icon}
+		<div css = {css}>
+			{icon?.icon}
 		</div>
 	);
 }
