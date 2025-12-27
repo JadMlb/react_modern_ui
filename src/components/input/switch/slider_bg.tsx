@@ -1,6 +1,6 @@
-import React, { useMemo } from "react";
-import { Style, useDarkMode, useThemeParser } from "../../../styles";
-import { DEFAULT_ACTIVATED_SWITCH_BACKGROUND_STYLE, DEFAULT_SWITCH_BACKGROUND_STYLE } from "../../../types/components/Switch/SwitchStyle";
+import React, { useCallback } from "react";
+import { Style } from "../../../types";
+import useStyle from "../../../hooks/useStyle";
 
 interface SwitchSliderBackgroundProps
 {
@@ -15,28 +15,29 @@ interface SwitchSliderBackgroundProps
 
 export default function SwitchSliderBackground ({value, style, activatedStyle, children, disabled, onClick, onContextMenu}: SwitchSliderBackgroundProps)
 {
-	const parseCss = useThemeParser();
-	const isDark = useDarkMode();
-
-	const css = useMemo (
-		() =>
+	const injectedActivatedStyle = useCallback (
+		(isDark: boolean) => ({
+			backgroundColor: !disabled ? `affirmative${isDark ? "Dark" : ""}` : "transparent",
+			borderColor: disabled ? `gray${isDark ? "Dark" : "Light"}` : `affirmative${isDark ? "" : "Elevated"}`
+		}),
+		[disabled]
+	);
+	const activatedCss = useStyle ("switch", activatedStyle, injectedActivatedStyle, "activatedStyle");
+	const injectedStyles = useCallback (
+		(isDark: boolean) =>
 		{
-			let styleObject: Style = {
-				...DEFAULT_SWITCH_BACKGROUND_STYLE (isDark, disabled),
-				...style
-			};
+			let additionalStyles = {};
 
 			if (value)
-				styleObject = {
-					...styleObject,
-					...DEFAULT_ACTIVATED_SWITCH_BACKGROUND_STYLE (isDark, disabled),
-					...activatedStyle
-				};
-				
-			return parseCss (styleObject);
+				additionalStyles = activatedCss;
+			return {
+				borderColor: disabled ? `gray${isDark ? "Dark" : "Light"}` : "gray",
+				...additionalStyles
+			};
 		},
-		[parseCss, value, isDark, style, disabled, activatedStyle]
+		[value, disabled, activatedCss]
 	);
+	const css = useStyle ("switch", style, injectedStyles);
 	
 	return (
 		<div css = {css} onClick = {onClick} onContextMenu = {onContextMenu}>

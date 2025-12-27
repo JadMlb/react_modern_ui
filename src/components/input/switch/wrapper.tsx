@@ -1,12 +1,5 @@
-import { useMemo } from "react";
-import { Style, useThemeParser } from "../../../styles";
-
-const DEFAULT_SWITCH_WRAPPER_PROPS: Style = {
-	display: "flex",
-	gap: "spacing.medium",
-	alignItems: "center",
-	width: "fit-content"
-};
+import { Style } from "../../../types";
+import useStyle from "../../../hooks/useStyle";
 
 interface SwitchWrapperProps
 {
@@ -18,14 +11,7 @@ interface SwitchWrapperProps
 
 export default function SwitchWrapper ({style, children}: SwitchWrapperProps)
 {
-	const parseCss = useThemeParser();
-	const css = useMemo (
-		() => parseCss ({
-			...DEFAULT_SWITCH_WRAPPER_PROPS,
-			...style
-		}),
-		[parseCss, style]
-	);
+	const css = useStyle ("switch", style, undefined, "parentStyle");
 
 	return (
 		<div css = {css}>

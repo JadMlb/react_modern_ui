@@ -10,6 +10,7 @@ import DEFAULT_MENU_PROPS from "./components/menu";
 import DEFAULT_PANEL_PROPS from "./components/panel";
 import DEFAULT_PROGRESS_BAR_PROPS from "./components/progressBar";
 import DEFAULT_SEPARATOR_PROPS from "./components/separator";
+import DEFAULT_SWITCH_PROPS from "./components/switch";
 import DEFAULT_TAG_PROPS from "./components/tag";
 
 export const DEFAULT_COMPONENTS_PROPS = {
@@ -21,15 +22,30 @@ export const DEFAULT_COMPONENTS_PROPS = {
 	},
 	card: DEFAULT_CARD_PROPS,
 	checkbox: DEFAULT_CHECKBOX_PROPS,
+	// // combobox: Overridable<OverridableComboboxProps,
+	// // input,
 	link: DEFAULT_LINK_PROPS,
 	list: DEFAULT_LIST_PROPS,
 	menu: DEFAULT_MENU_PROPS,
 	panel: DEFAULT_PANEL_PROPS,
+	// popups: {
+	// 	backdrop: Overridable<OverridablePopupBackdropProps, StylingProps>,
+	// 	dialog: Overridable<OverridableDialogProps, DialogProps>,
+	// 	drawer: {
+	// 		default: Overridable<OverridableDrawerProps, DialogProps>,
+	// 		withHeader: Overridable<OverridableDrawerWithDefaultHeaderProps, DialogProps>,
+	// 	}
+	// },
 	progressBar: DEFAULT_PROGRESS_BAR_PROPS,
+	// radioButtonsGroup: Overridable<OverridableRadioButtonsGroupProps, RadioButtonsGroupStylingProps>,
 	separator: DEFAULT_SEPARATOR_PROPS,
 	skeletonLoader: {
 		block: DEFAULT_BLOCK_LOADER_PROPS,
 		text: DEFAULT_TEXT_LOADER_PROPS
 	},
+	// slider: Overridable<OverridableSliderProps, SliderStylingProps>,
+	switch: DEFAULT_SWITCH_PROPS,
+	// table: Overridable<OverridableTableProps, TableStylingProps>,
 	tag: DEFAULT_TAG_PROPS,
+	// toaster: Overridable<OverridableToasterProps, ToasterStylingProps>
 } satisfies ComponentsOverrides;

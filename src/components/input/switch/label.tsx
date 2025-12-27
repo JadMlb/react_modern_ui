@@ -1,5 +1,6 @@
-import React, { useMemo } from "react";
-import { Style, useThemeParser } from "../../../styles";
+import React from "react";
+import { Style } from "../../../types";
+import useStyle from "../../../hooks/useStyle";
 
 interface SwitchLabelProps
 {
@@ -11,11 +12,7 @@ interface SwitchLabelProps
 
 export default function SwitchLabel ({hideLabel, style, children, onClick}: SwitchLabelProps)
 {
-	const parseCss = useThemeParser();
-	const css = useMemo (
-		() => parseCss ({...style}),
-		[style, parseCss]
-	);
+	const css = useStyle ("switch", style, undefined, "labelStyle");
 
 	if (hideLabel)
 		return null;

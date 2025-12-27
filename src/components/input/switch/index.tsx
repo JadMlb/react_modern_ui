@@ -3,9 +3,12 @@ import { SwitchProps } from "../../../types/components/Switch/SwitchProps";
 import SwitchWrapper from "./wrapper";
 import SwitchSlider from "./slider";
 import SwitchLabel from "./label";
+import useProps from "../../../hooks/useProps";
 
-export default function Switch ({id, className, style, activatedStyle, label, labelStyle, hideLabel, handleStyle, activatedHandleStyle, parentStyle, name, value, readonly, disabled, onChange, form, onContextMenu}: SwitchProps)
+export default function Switch (props: SwitchProps)
 {
+	const {id, className, style, activatedStyle, label, labelStyle, hideLabel, handleStyle, activatedHandleStyle, parentStyle, name, readonly, disabled, onChange, form, onContextMenu} = useProps ("switch", props);
+	const value = props.value;
 	const [isSwitched, setIsSwitched] = useState (value ?? false);
 	const inputRef = useRef<HTMLInputElement | null> (null);
 

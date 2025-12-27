@@ -1,5 +1,5 @@
 export * from "./BasicInputProps";
-export * from "./BoxValueInputProps"
+export * from "./BoxValue";
 export * from "./CommonInputProps";
 export * from "./ValueInputProps";
 export * from "./datetime";

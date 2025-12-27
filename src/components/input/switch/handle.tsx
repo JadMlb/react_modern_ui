@@ -1,6 +1,6 @@
-import { useMemo } from "react";
-import { Style, useDarkMode, useThemeParser } from "../../../styles";
-import { DEFAULT_ACTIVATED_SWITCH_HANDLE_STYLE, DEFAULT_SWITCH_HANDLE_STYLE } from "../../../types/components/Switch/SwitchStyle";
+import { useCallback } from "react";
+import { Style } from "../../../types";
+import useStyle from "../../../hooks/useStyle";
 
 interface SwitchHandleProps
 {
@@ -13,27 +13,23 @@ interface SwitchHandleProps
 
 export default function SwitchHandle ({value, readonly, disabled, style, activatedStyle}: SwitchHandleProps)
 {
-	const parseCss = useThemeParser();
-	const isDark = useDarkMode();
-	const css = useMemo (
-		() => {
-			let styleObject: Style = {
-				...DEFAULT_SWITCH_HANDLE_STYLE (isDark, disabled),
-				...style
-			};
+	const activatedCss = useStyle ("switch", activatedStyle, undefined, "activatedHandleStyle");
+	const injectedStyles = useCallback (
+		(isDark: boolean) =>
+		{
+			let additionalStyles = {};
 
 			if (value)
-				styleObject = {
-					...styleObject,
-					...DEFAULT_ACTIVATED_SWITCH_HANDLE_STYLE,
-					...activatedStyle
-				};
-
-			return parseCss (styleObject);
+				additionalStyles = activatedCss;
+			return {
+				backgroundColor: readonly || disabled ? `gray${isDark ? "Dark" : "Light"}` : "white",
+				...additionalStyles
+			};
 		},
-		[parseCss, style, activatedStyle, value, readonly, disabled, isDark]
+		[value, readonly, disabled, activatedCss]
 	);
-
+	const css = useStyle ("switch", style, injectedStyles, "handleStyle");
+	
 	return (
 		<div css = {css}/>
 	);

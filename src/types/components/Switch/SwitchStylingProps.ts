@@ -1,7 +1,8 @@
 import { Style } from "../../styles";
 import WrappedElementStylingProps from "../../styles/WrappedElementStylingProps";
+import BoxValueInputStylingProps from "../input/BoxValue/BoxValueInputStylingProps";
 
-export default interface SwitchStylingProps extends WrappedElementStylingProps
+export default interface SwitchStylingProps extends WrappedElementStylingProps, BoxValueInputStylingProps
 {
 	/**
 	 * Customises the styling of the slider background

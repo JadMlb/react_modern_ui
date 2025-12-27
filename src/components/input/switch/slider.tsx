@@ -1,4 +1,4 @@
-import { Style } from "../../../styles";
+import { Style } from "../../../types";
 import SwitchHandle from "./handle";
 import SwitchSliderBackground from "./slider_bg";
 

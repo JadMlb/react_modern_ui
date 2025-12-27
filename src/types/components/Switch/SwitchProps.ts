@@ -1,4 +1,4 @@
-import { BoxValueInputProps, OnChangeFunction } from "../input/BoxValueInputProps";
+import { BoxValueInputProps, OnChangeFunction } from "../input";
 import SwitchStylingProps from "./SwitchStylingProps";
 
 export interface SwitchProps extends BoxValueInputProps, SwitchStylingProps
