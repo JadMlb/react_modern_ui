@@ -1,4 +1,4 @@
-import { Style } from "../../../styles";
+import { Style } from "../../../types";
 
 interface TableContainerProps
 {

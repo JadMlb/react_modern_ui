@@ -1,7 +1,7 @@
-import { useMemo } from "react";
-import { Style, useThemeParser } from "../../../../styles";
 import TablePaginationProps from "./TablePaginationProps";
 import TablePagination from "./table_pagination";
+import { Style } from "../../../../types";
+import useStyle from "../../../../hooks/useStyle";
 
 interface TableFooterProps extends TablePaginationProps
 {
@@ -9,27 +9,12 @@ interface TableFooterProps extends TablePaginationProps
 	paginationStyle?: Style;
 }
 
-const DEFAULT_STYLE = {
-	display: "flex",
-	gap: "spacing.medium",
-	paddingBlock: "spacing.small",
-	justifyContent: "flex-end",
-	alignItems: "baseline"
-} satisfies Style;
-
 export default function TableFooter ({children, style, paginationStyle, ...paginationProps}: TableFooterProps)
 {	
-	const parseCss = useThemeParser();
-	const realStyle = useMemo (
-		() => parseCss ({
-			...DEFAULT_STYLE,
-			style
-		}),
-		[parseCss, style]
-	);
+	const css = useStyle ("table", style, undefined, "footerStyle");
 	
 	return (
-		<div css = {realStyle}>
+		<div css = {css}>
 			{children}
 			<TablePagination {...paginationProps} style = {paginationStyle}/>
 		</div>

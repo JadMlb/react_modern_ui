@@ -1,9 +1,8 @@
-import { Style } from "../../../../styles";
-import { TableColumn } from "../../../../types";
+import { StaticStyle, TableColumn } from "../../../../types";
 
 export default interface TableRowProps
 {
 	columns: TableColumn[];
-	cellStyle?: Style;
-	style?: Style;
+	cellStyle?: StaticStyle;
+	style?: StaticStyle;
 }

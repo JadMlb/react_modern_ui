@@ -5,9 +5,32 @@ import TableContainer from "./table_container";
 import TableFooter from "./footer/table_footer";
 import TableHead from "./header/table_head";
 import TableHeading from "./heading/table_heading";
+import useProps from "../../../hooks/useProps";
 
-export default function Table ({heading, headingStyle, columns, headerRowStyle, headerCellStyle, rows, tableRowStyle, tableCellStyle, footer, footerStyle, pageSizes, pageSize, paginationStyle, totalNumberOfRows, onSort, onRowClick, onPageChange, onPageSizeChange, onContextMenu, onRowContextMenu}: TableProps)
+export default function Table (props: TableProps)
 {
+	const {
+		heading,
+		headingStyle,
+		columns,
+		headerRowStyle,
+		headerCellStyle,
+		rows,
+		tableRowStyle,
+		tableCellStyle,
+		footer,
+		footerStyle,
+		pageSizes,
+		pageSize,
+		paginationStyle,
+		totalNumberOfRows,
+		onSort,
+		onRowClick,
+		onPageChange,
+		onPageSizeChange,
+		onContextMenu,
+		onRowContextMenu
+	} = useProps ("table", props);
 	const [activePage, setActivePage] = useState (0);
 
 	function handlePageChange (oldPage: number, newPage: number)

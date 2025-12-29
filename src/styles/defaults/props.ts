@@ -11,6 +11,7 @@ import DEFAULT_PANEL_PROPS from "./components/panel";
 import DEFAULT_PROGRESS_BAR_PROPS from "./components/progressBar";
 import DEFAULT_SEPARATOR_PROPS from "./components/separator";
 import DEFAULT_SWITCH_PROPS from "./components/switch";
+import DEFAULT_TABLE_PROPS from "./components/table";
 import DEFAULT_TAG_PROPS from "./components/tag";
 import DEFAULT_TOASTER_PROPS from "./components/toaster";
 
@@ -46,7 +47,7 @@ export const DEFAULT_COMPONENTS_PROPS = {
 	},
 	// slider: Overridable<OverridableSliderProps, SliderStylingProps>,
 	switch: DEFAULT_SWITCH_PROPS,
-	// table: Overridable<OverridableTableProps, TableStylingProps>,
+	table: DEFAULT_TABLE_PROPS,
 	tag: DEFAULT_TAG_PROPS,
 	toaster: DEFAULT_TOASTER_PROPS
 } satisfies ComponentsOverrides;

@@ -1,5 +1,5 @@
-import { useMemo } from "react";
-import { Style, useThemeParser } from "../../../../styles";
+import { Style } from "../../../../types";
+import useStyle from "../../../../hooks/useStyle";
 
 interface TableHeadingProps
 {
@@ -7,29 +7,14 @@ interface TableHeadingProps
 	style?: Style
 }
 
-const DEFAULT_STYLE = {
-	display: "flex",
-	flexDirection: "row",
-	gap: "spacing.medium",
-	marginBlock: "spacing.large"
-} satisfies Style;
-
 export default function TableHeading ({style, children}: TableHeadingProps)
 {
-	const parseCss = useThemeParser();
-
-	const realStyle = useMemo (
-		() => parseCss ({
-			...DEFAULT_STYLE,
-			...style
-		}),
-		[style]
-	);
+	const css = useStyle ("table", style, undefined, "headingStyle");
 
 	if (!children)
 		return null;
 
 	return (
-		<div css = {realStyle}>{children}</div>
+		<div css = {css}>{children}</div>
 	);
 }

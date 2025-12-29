@@ -1,6 +1,7 @@
 import { Style } from "../../styles";
+import StylingProps from "../../styles/StylingProps";
 
-export default interface TableStylingProps
+export default interface TableStylingProps extends Omit<StylingProps, "style">
 {
 	/**
 	 * Defines the style of the table's header row
@@ -19,17 +20,9 @@ export default interface TableStylingProps
 	 */
 	tableCellStyle?: Style;
 	/**
-	 * The elements to display in the heading of the table
-	 */
-	heading?: React.ReactNode;
-	/**
 	 * Defines the style of the table's heading
 	 */
 	headingStyle?: Style;
-	/**
-	 * Renders the following elements in the footer of the table
-	 */
-	footer?: React.ReactNode;
 	/**
 	 * Defines the style of the table's footer
 	 */

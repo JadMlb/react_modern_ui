@@ -17,13 +17,23 @@ export default interface TableProps extends TableStylingProps
 	 */
 	totalNumberOfRows?: number;
 	/**
-	 * Page size options for pagination. Defaults to `[5, 10, 15]`.
+	 * Page size options for pagination.
+	 * @default [5, 10, 15, 20]
 	 */
 	pageSizes?: number[];
 	/**
-	 * Current number of rows per page. Defaults to the first value of `pageSizes`. If `pageSizes` is not provided or incorrect, defaults to `5`.
+	 * Current number of rows per page. Defaults to the first value of `pageSizes`. If `pageSizes` is not provided or incorrect.
+	 * @default 5
 	 */
 	pageSize?: number;
+	/**
+	 * The elements to display in the heading of the table
+	 */
+	heading?: React.ReactNode;
+	/**
+	 * Renders the following elements in the footer of the table
+	 */
+	footer?: React.ReactNode;
 	/**
 	 * Event fired when an entire row is clicked 
 	 */
@@ -50,4 +60,4 @@ export type OnPageChangeFunction = (oldPage: number, newPage: number) => void;
 export type OnPageSizeChangeFunction = (newPageSize: number) => void;
 export type OnRowContextMenu = (e: React.MouseEvent, row: TableRowData) => void;
 
-export type OverridableTableProps = Pick<TableProps, "onRowClick" | "onContextMenu" | "onRowContextMenu" | "onPageChange" | "onPageSizeChange" | "pageSizes">;
+export type OverridableTableProps = Pick<TableProps, "onRowClick" | "onContextMenu" | "onRowContextMenu" | "onPageChange" | "onPageSizeChange" | "pageSizes" | "heading" | "footer">;

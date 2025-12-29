@@ -1,9 +1,8 @@
-import { useMemo } from "react";
-import { Style, useThemeParser } from "../../../../styles";
 import TableSortButton from "../sort_button";
 import TableCellProps from "../TableCellProps";
 import TableCell from "../table_cell";
 import { OnTableDataSortFunction } from "../../../../types";
+import useStyle from "../../../../hooks/useStyle";
 
 interface TableHeadCellProps extends TableCellProps
 {
@@ -14,23 +13,9 @@ interface TableHeadCellProps extends TableCellProps
 	}
 }
 
-const DEFAULT_HEADER_CELL_STYLE = {
-	fontWeight: "bold",
-	alignItems: "center",
-	cursor: "default"
-} satisfies Style;
-
 export default function TableHeadCell ({def, style, sorting, onSort}: TableHeadCellProps)
 {
-	const parseCss = useThemeParser();
-
-	const cellStyle = useMemo (
-		() => parseCss ({
-			...DEFAULT_HEADER_CELL_STYLE,
-			...style
-		}),
-		[parseCss, style, def.spanH, def.align]
-	);
+	const css = useStyle ("table", style, undefined, "headerCellStyle");
 
 	function handleSort ()
 	{
@@ -43,7 +28,7 @@ export default function TableHeadCell ({def, style, sorting, onSort}: TableHeadC
 	return (
 		<TableCell
 			def = {def}
-			style = {cellStyle}
+			style = {css}
 		>
 			{def.displayName}
 			{

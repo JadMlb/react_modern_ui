@@ -1,23 +1,14 @@
 import { useMemo, useState } from "react";
-import { Style, useThemeParser } from "../../../../styles";
 import TableHeadCell from "./table_head_cell";
 import TableRowProps from "../body/TableRowProps";
 import useTableColumns from "../../../../hooks/useTableColumns";
 import { OnTableDataSortFunction } from "../../../../types";
+import useStyle from "../../../../hooks/useStyle";
 
 interface TableHeadProps extends TableRowProps
 {
 	onSort?: OnTableDataSortFunction;
 }
-
-const DEFAULT_HEADER_STYLE = {
-	display: "grid",
-	border: "1px solid gray",
-	backgroundColor: "primary",
-	color: "white",
-	borderTopLeftRadius: "radius.medium",
-	borderTopRightRadius: "radius.medium"
-} satisfies Style;
 
 export default function TableHead ({columns, style, cellStyle, onSort}: TableHeadProps)
 {
@@ -62,15 +53,16 @@ export default function TableHead ({columns, style, cellStyle, onSort}: TableHea
 		};
 	}
 
-	const parseCss = useThemeParser();
-
-	const headerStyle = useMemo (
-		() => parseCss ({...DEFAULT_HEADER_STYLE, gridTemplateColumns: gridColumns, ...style}),
-		[parseCss, style, gridColumns]
+	const injectedStyles = useMemo (
+		() => ({
+			gridTemplateColumns: gridColumns
+		}),
+		[style, gridColumns]
 	);
+	const css = useStyle ("table", style, injectedStyles, "headerRowStyle");
 	
 	return (
-		<div css = {headerStyle}>{
+		<div css = {css}>{
 			columns.map (
 				col => <TableHeadCell
 							key = {col.name}
