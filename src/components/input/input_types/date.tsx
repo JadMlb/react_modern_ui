@@ -4,7 +4,7 @@ import TimeInputProps from "../../../types/components/input/datetime/TimeInputPr
 import DateInputProps from "../../../types/components/input/datetime/DateInputProps";
 import InputBase from "./input_base";
 import { useTheme } from "../../../styles";
-import X from "./combobox/x";
+import X from "./x";
 
 interface TrailingProps
 {

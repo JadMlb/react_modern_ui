@@ -1,7 +1,8 @@
-import { BasicInputProps } from "../BasicInputProps";
-import { OnChangeFunction } from "../BoxValueInputProps";
+import InputBaseStylingProps from "../Base/InputBaseStylingProps";
+import { BasicInputProps, OverridableBasicInputProps } from "../BasicInputProps";
+import { OnChangeFunction } from "../BoxValue";
 
-export default interface GenericDateTimeInputProps extends BasicInputProps
+export default interface GenericDateTimeInputProps extends BasicInputProps, InputBaseStylingProps
 {
 	value?: string | Date;
 	type: "date" | "datetime" | "time";
@@ -11,3 +12,5 @@ export default interface GenericDateTimeInputProps extends BasicInputProps
 	 */
 	range?: [Date | null, Date | null];
 }
+
+export type OverridableDateTimeInputProps = OverridableBasicInputProps;

@@ -1,7 +1,8 @@
-import { BasicInputProps } from "../BasicInputProps";
-import { OnChangeFunction } from "../BoxValueInputProps";
+import { BasicInputProps, OverridableBasicInputProps } from "../BasicInputProps";
+import { OnChangeFunction } from "../BoxValue";
+import InputBaseStylingProps from "../Base/InputBaseStylingProps";
 
-export default interface BasicTextInputProps extends BasicInputProps
+export default interface BasicTextInputProps extends BasicInputProps, InputBaseStylingProps
 {
 	value?: string
 	type: "text" | "email" | "password" | "search" | "url" | "tel";
@@ -27,3 +28,5 @@ export default interface BasicTextInputProps extends BasicInputProps
 	inputMode?: "none" | "text" | "tel" | "url" | "email" | "numeric" | "decimal" | "search";
 	onChange?: OnChangeFunction<string>;
 }
+
+export type OverridableTextInputProps = OverridableBasicInputProps & Pick<BasicTextInputProps, "minLength" | "maxLength" | "displayLength">;

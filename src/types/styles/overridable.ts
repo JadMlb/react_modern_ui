@@ -1,6 +1,8 @@
-import { OverridableBadgeProps, OverridableBlockSkeletonLoaderProps, OverridableButtonProps, OverridableCardProps, OverridableCheckboxProps, OverridableDialogProps, OverridableDrawerProps, OverridableDrawerWithDefaultHeaderProps, OverridableLinkProps, OverridableListProps, OverridableMenuProps, OverridablePanelProps, OverridablePopupBackdropProps, OverridableProgressBarProps, OverridableRadioButtonsGroupProps, OverridableSeparatorProps, OverridableSliderProps, OverridableSwitchProps, OverridableTableProps, OverridableTagProps, OverridableTextSkeletonLoaderProps, OverridableToasterProps } from "../components";
+import { OverridableBadgeProps, OverridableBlockSkeletonLoaderProps, OverridableButtonProps, OverridableCardProps, OverridableCheckboxProps, OverridableComboboxProps, OverridableDateTimeInputProps, OverridableDialogProps, OverridableDrawerProps, OverridableDrawerWithDefaultHeaderProps, OverridableLinkProps, OverridableListProps, OverridableMenuProps, OverridableNumberInputProps, OverridablePanelProps, OverridableProgressBarProps, OverridableRadioButtonsGroupProps, OverridableSeparatorProps, OverridableSliderProps, OverridableSwitchProps, OverridableTableProps, OverridableTagProps, OverridableTextInputProps, OverridableTextSkeletonLoaderProps, OverridableToasterProps } from "../components";
 import CardStylingProps from "../components/Card/CardStylingProps";
 import { CheckboxStylingProps } from "../components/Checkbox/CheckboxStyleProps";
+import InputBaseStylingProps from "../components/input/Base/InputBaseStylingProps";
+import { OverridableInputBaseProps } from "../components/input/Base/InputBaseProps";
 import ListStylingProps from "../components/List/ListStylingProps";
 import PanelStylingProps from "../components/Panel/PanelStylingProps";
 import DialogProps from "../components/Popups/DialogProps";
@@ -27,8 +29,21 @@ export type ComponentsOverrides = {
 	},
 	card?: Overridable<OverridableCardProps, CardStylingProps>,
 	checkbox?: Overridable<OverridableCheckboxProps, CheckboxStylingProps>,
-	// combobox?: Overridable<OverridableComboboxProps,
-	// input,
+	input?: {
+		base?: Overridable<OverridableInputBaseProps, InputBaseStylingProps>,
+		text?: Overridable<OverridableTextInputProps, InputBaseStylingProps>,
+		email?: Overridable<OverridableTextInputProps, InputBaseStylingProps>,
+		password?: Overridable<OverridableTextInputProps, InputBaseStylingProps>,
+		search?: Overridable<OverridableTextInputProps, InputBaseStylingProps>,
+		url?: Overridable<OverridableTextInputProps, InputBaseStylingProps>,
+		tel?: Overridable<OverridableTextInputProps, InputBaseStylingProps>,
+		number?: Overridable<OverridableNumberInputProps, InputBaseStylingProps>,
+		date?: Overridable<OverridableDateTimeInputProps, InputBaseStylingProps>,
+		datetime?: Overridable<OverridableDateTimeInputProps, InputBaseStylingProps>,
+		time?: Overridable<OverridableDateTimeInputProps, InputBaseStylingProps>,
+		month?: Overridable<OverridableDateTimeInputProps, InputBaseStylingProps>,
+		week?: Overridable<OverridableDateTimeInputProps, InputBaseStylingProps>,
+	},
 	link?: Overridable<OverridableLinkProps, StylingProps>,
 	list?: Overridable<OverridableListProps, ListStylingProps>,
 	menu?: Overridable<OverridableMenuProps, StylingProps>,

@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import styled from "@emotion/styled";
-import { ThemeColourFunction, useDarkMode, useTheme, useThemeColours } from "../../../../styles";
+import { ThemeColourFunction, useDarkMode, useTheme, useThemeColours } from "../../../styles";
 
 const XComponent = styled.div<{$large?: boolean, $radiusSmall: string, $isDark: boolean, $colour: ThemeColourFunction}>
 `

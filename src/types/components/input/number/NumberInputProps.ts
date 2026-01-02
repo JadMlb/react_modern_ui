@@ -1,7 +1,8 @@
-import { BasicInputProps } from "../BasicInputProps";
-import { OnChangeFunction } from "../BoxValueInputProps";
+import InputBaseStylingProps from "../Base/InputBaseStylingProps";
+import { BasicInputProps, OverridableBasicInputProps } from "../BasicInputProps";
+import { OnChangeFunction } from "../BoxValue";
 
-export interface NumberInputProps extends BasicInputProps
+export interface NumberInputProps extends BasicInputProps, InputBaseStylingProps
 {
 	value?: number;
 	type: "number";
@@ -19,3 +20,5 @@ export interface NumberInputProps extends BasicInputProps
 	precision?: number;
 	onChange?: OnChangeFunction<number>;
 }
+
+export type OverridableNumberInputProps = OverridableBasicInputProps & Pick<NumberInputProps, "range" | "step" | "precision">;

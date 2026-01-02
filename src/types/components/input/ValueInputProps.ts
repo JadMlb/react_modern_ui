@@ -1,4 +1,4 @@
-import { BoxValueInputProps } from "./BoxValueInputProps";
+import { BoxValueInputProps } from "./BoxValue";
 
 export interface ValueInputProps extends BoxValueInputProps
 {

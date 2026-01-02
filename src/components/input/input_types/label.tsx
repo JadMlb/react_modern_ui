@@ -1,12 +1,7 @@
 /** @jsxImportSource @emotion/react */
-import { Style, useThemeParser } from "../../../styles";
-import { useEffect, useState } from "react";
-
-const DEFAULT_STYLE = {
-	fontSize: "0.8rem",
-	fontWeight: "bold",
-	marginLeft: "calc(2 * spacing.xsmall)"
-} satisfies Style;
+import { Style } from "../../../types";
+import useStyle from "../../../hooks/useStyle";
+import { useMemo } from "react";
 
 interface InputLabelProps
 {
@@ -14,26 +9,19 @@ interface InputLabelProps
 	htmlFor?: string;
 	style?: Style;
 	hidden?: boolean;
+	disabled?: boolean;
 }
 
-export default function InputLabel ({children, hidden, htmlFor, style}: InputLabelProps)
+export default function InputLabel ({children, disabled, hidden, htmlFor, style}: InputLabelProps)
 {
-	const parseStyle = useThemeParser();
-	const [css, setCss] = useState<Style> ({});
-
-	useEffect (
-		() =>
-		{
-			setCss (
-					parseStyle ({
-						...DEFAULT_STYLE,
-						...style
-					})
-			);
-		},
-		[style, setCss]
+	const injectedStyles = useMemo (
+		() => ({
+			color: disabled ? "gray" : "inherit"
+		}),
+		[disabled]
 	);
-
+	const css = useStyle ("input.base", style, injectedStyles, "labelStyle");
+	
 	return (
 		<>{
 			!hidden && children &&

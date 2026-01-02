@@ -1,5 +1,6 @@
 import { useMemo } from "react";
-import { Style, useThemeParser } from "../../../styles";
+import { useThemeParser } from "../../../styles";
+import { Style } from "../../../types";
 
 const DEFAULT_STYLE = {
 	display: "flex",

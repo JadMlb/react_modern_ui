@@ -1,4 +1,4 @@
-import { CommonInputProps } from "./CommonInputProps";
+import { CommonInputProps } from "./CommonInput";
 
 export interface BasicInputProps extends CommonInputProps
 {
@@ -19,3 +19,5 @@ export interface BasicInputProps extends CommonInputProps
 	 */
 	autoComplete?: string;
 }
+
+export type OverridableBasicInputProps = Pick<BasicInputProps, "autoComplete" | "autoFocus" | "hideLabel" | "leading" | "trailing">;

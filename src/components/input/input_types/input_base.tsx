@@ -1,48 +1,10 @@
 /** @jsxImportSource @emotion/react */
 import * as React from "react";
-import { Style, useDarkMode, useThemeParser } from "../../../styles";
 import InputLabel from "./label";
 import InputHint from "./hint";
 import Fieldset from "./fieldset";
-
-const DEFAULT_STYLE: (isDark: boolean, disabled?: boolean, readonly?: boolean) => Style = (isDark, disabled = false, readonly = false) => ({
-	backgroundColor: disabled || readonly ? "unset" : `gray${isDark ? "Dark" : "Light"}`,
-	borderRadius: "radius.medium",
-	padding: "spacing.small",
-	display: "flex",
-	alignItems: "center",
-	position: "relative",
-	gap: "spacing.small",
-	color: disabled ? "gray" : undefined,
-	":hover": {
-		border: `1px solid ${disabled || readonly ? "gray" : `primary${isDark ? "Dark" : "Elevated"}`}`
-	},
-	":focus": {
-		border: `1px solid ${disabled || readonly ? "gray" : "primary"}`
-	}
-});
-
-interface InputBaseProps
-{
-	inputId?: string;
-	label?: string;
-	children?: React.ReactNode;
-	style?: Style;
-	fieldsetStyle?: Style;
-	labelStyle?: Style;
-	trailing?: React.ReactNode;
-	hint?: string;
-	textOnError?: string;
-	isError?: boolean;
-	hideLabel?: boolean;
-	className?: string;
-	id?: string;
-	disabled?: boolean;
-	readonly?: boolean;
-	onClick?: React.MouseEventHandler;
-	onFocus?: React.FocusEventHandler;
-	onBlur?: React.FocusEventHandler;
-}
+import InputBaseProps from "../../../types/components/input/Base/InputBaseProps";
+import useStyle from "../../../hooks/useStyle";
 
 const InputBase = React.forwardRef<HTMLDivElement, InputBaseProps> (
 	(props, ref) =>
@@ -57,7 +19,9 @@ const InputBase = React.forwardRef<HTMLDivElement, InputBaseProps> (
 			labelStyle,
 			trailing,
 			hint,
+			hintStyle,
 			textOnError,
+			errorTextStyle,
 			isError = false,
 			hideLabel,
 			disabled,
@@ -67,35 +31,30 @@ const InputBase = React.forwardRef<HTMLDivElement, InputBaseProps> (
 			onFocus,
 			onBlur
 		} = props;
-		
-		const isDark = useDarkMode();
 
-		const parseTheme = useThemeParser();
-		const [css, setCss] = React.useState<Style> ({});
-
-		const fontColorStyle = React.useMemo (
-			() => parseTheme ({color: disabled ? "gray" : "inherit", ...labelStyle}),
-			[disabled, parseTheme, labelStyle]
+		const injectedStyles = React.useCallback (
+			(isDark: boolean) => ({
+				border: `1px solid ${isError ? "error" : "gray"}`,
+				color: disabled ? "gray" : undefined,
+				backgroundColor: disabled || readonly ? "unset" : `gray${isDark ? "Dark" : "Light"}`,
+				":hover": {
+					border: `1px solid ${disabled || readonly ? "gray" : `primary${isDark ? "Dark" : "Elevated"}`}`
+				},
+				":focus": {
+					border: `1px solid ${disabled || readonly ? "gray" : "primary"}`
+				}
+			}),
+			[isError, disabled, readonly]
 		);
-
-		React.useEffect (
-			() =>
-			{
-				setCss (parseTheme ({
-					...DEFAULT_STYLE (isDark, disabled, readonly),
-					border: `1px solid ${isError ? "error" : "gray"}`,
-					...style
-				}));
-			},
-			[style, isDark, parseTheme, disabled, readonly, isError]
-		);
+		const css = useStyle ("input.base", style, injectedStyles);
 
 		return (
 			<Fieldset disabled = {disabled} style = {fieldsetStyle}>
 				<InputLabel
 					htmlFor = {inputId}
-					style = {fontColorStyle}
+					style = {labelStyle}
 					hidden = {hideLabel}
+					disabled = {disabled}
 				>
 					{label}
 				</InputLabel>
@@ -115,7 +74,9 @@ const InputBase = React.forwardRef<HTMLDivElement, InputBaseProps> (
 				<InputHint
 					isError = {isError}
 					hint = {hint}
+					hintStyle = {hintStyle}
 					textOnError = {textOnError}
+					errorTextStyle = {errorTextStyle}
 				/>
 			</Fieldset>
 		);

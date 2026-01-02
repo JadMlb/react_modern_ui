@@ -3,6 +3,8 @@ import DEFAULT_BADGE_PROPS from "./components/badge";
 import { DEFAULT_FILLED_BUTTON_PROPS, DEFAULT_LINK_BUTTON_PROPS, DEFAULT_OUTLINED_BUTTON_PROPS } from "./components/button";
 import DEFAULT_CARD_PROPS from "./components/card";
 import DEFAULT_CHECKBOX_PROPS from "./components/checkbox";
+import DEFAULT_INPUT_BASE_PROPS from "./components/input_base";
+import { DEFAULT_NUMBER_INPUT_PROPS } from "./components/inputs";
 import DEFAULT_LINK_PROPS from "./components/link";
 import DEFAULT_LIST_PROPS from "./components/list";
 import { DEFAULT_BLOCK_LOADER_PROPS, DEFAULT_TEXT_LOADER_PROPS } from "./components/loaders";
@@ -24,8 +26,10 @@ export const DEFAULT_COMPONENTS_PROPS = {
 	},
 	card: DEFAULT_CARD_PROPS,
 	checkbox: DEFAULT_CHECKBOX_PROPS,
-	// // combobox: Overridable<OverridableComboboxProps,
-	// // input,
+	input: {
+		base: DEFAULT_INPUT_BASE_PROPS,
+		number: DEFAULT_NUMBER_INPUT_PROPS
+	},
 	link: DEFAULT_LINK_PROPS,
 	list: DEFAULT_LIST_PROPS,
 	menu: DEFAULT_MENU_PROPS,

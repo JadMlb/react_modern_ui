@@ -1,27 +1,30 @@
 /** @jsxImportSource @emotion/react */
-import { useThemeParser } from "../../../styles";
 import { useMemo } from "react";
+import { Style } from "../../../types";
+import useStyle from "../../../hooks/useStyle";
 
 interface InputHintProps
 {
 	hint?: string;
+	hintStyle?: Style;
 	isError?: boolean;
 	textOnError?: string;
+	errorTextStyle?: Style;
 }
 
-export default function InputHint ({hint, isError = false, textOnError}: InputHintProps)
+export default function InputHint ({hint, hintStyle, isError = false, textOnError, errorTextStyle}: InputHintProps)
 {
-	const parseCss = useThemeParser();
-	const css = useMemo (
-		() => parseCss ({
-			marginLeft: "spacing.small",
-			color: isError ? "error" : "gray"
-		}),
-		[parseCss, isError]
-	);
+	const normalCss = useStyle ("input.base", hintStyle, undefined, "hintStyle");
+	const errorCss = useStyle ("input.base", errorTextStyle, undefined, "errorTextStyle");
+	
 	const shouldRender = useMemo (
 		() => !!hint || isError && !!textOnError,
 		[hint, isError, textOnError]
+	);
+
+	const css = useMemo (
+		() => isError ? errorCss : normalCss,
+		[isError]
 	);
 
 	return (
