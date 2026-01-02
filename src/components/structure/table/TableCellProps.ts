@@ -1,5 +1,4 @@
-import { Style } from "../../../styles";
-import { TableColumn } from "../../../types";
+import { Style, TableColumn } from "../../../types";
 
 export default interface TableCellProps
 {

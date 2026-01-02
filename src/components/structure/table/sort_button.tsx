@@ -1,6 +1,6 @@
 import { Button } from "../../input";
 import Chevron from "../../chevron";
-import { Style } from "../../../styles";
+import { Style } from "../../../types";
 
 interface TableSortButtonProps
 {

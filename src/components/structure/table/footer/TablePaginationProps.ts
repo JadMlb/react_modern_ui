@@ -1,5 +1,4 @@
-import { Style } from "../../../../styles";
-import { OnPageChangeFunction, OnPageSizeChangeFunction } from "../../../../types";
+import { OnPageChangeFunction, OnPageSizeChangeFunction, Style } from "../../../../types";
 
 export default interface TablePaginationProps
 {
