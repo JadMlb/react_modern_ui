@@ -1,14 +1,15 @@
 import { ValueInputProps } from "../input/ValueInputProps";
-import { CheckboxStylingProps } from "../Checkbox/CheckboxStyleProps";
 import { OnChangeFunction } from "../input";
 import { Option } from "../../Option";
+import { CheckboxProps } from "../Checkbox/CheckboxProps";
+import RadioButtonsGroupStylingProps from "./RadioButtonsGroupStylingProps";
 
-export interface RadioButtonsGroupProps extends Omit<ValueInputProps, "autoFocus" | "defaultValue">
+export interface RadioButtonsGroupProps extends Omit<ValueInputProps, "autoFocus" | "defaultValue" | "onKeyUp" | "onKeyDown">, RadioButtonsGroupStylingProps
 {
 	/**
 	 * Sets some props for all checkboxes
 	 */
-	checkboxProps?: CheckboxStylingProps;
+	checkboxProps?: Omit<CheckboxProps, "label" | "value" | "defaultValue" | "style" | "labelStyle" | "checkedStyle" | "intermediateStyle">;
 	/**
 	 * The different options of the group. Displayed in their order of appearance.
 	 */
@@ -24,4 +25,4 @@ export interface RadioButtonsGroupProps extends Omit<ValueInputProps, "autoFocus
 	onChange?: OnChangeFunction<Option | null>;
 }
 
-export type OverridableRadioButtonsGroupProps = Pick<RadioButtonsGroupProps, "checkboxProps">;
+export type OverridableRadioButtonsGroupProps = never/* Pick<RadioButtonsGroupProps, "checkboxProps"> */;

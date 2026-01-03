@@ -29,7 +29,8 @@ const InputBase = React.forwardRef<HTMLDivElement, InputBaseProps> (
 			children,
 			onClick,
 			onFocus,
-			onBlur
+			onBlur,
+			onContextMenu
 		} = props;
 
 		const injectedStyles = React.useCallback (
@@ -49,7 +50,7 @@ const InputBase = React.forwardRef<HTMLDivElement, InputBaseProps> (
 		const css = useStyle ("input.base", style, injectedStyles);
 
 		return (
-			<Fieldset disabled = {disabled} style = {fieldsetStyle}>
+			<Fieldset disabled = {disabled} style = {fieldsetStyle} onContextMenu = {onContextMenu}>
 				<InputLabel
 					htmlFor = {inputId}
 					style = {labelStyle}

@@ -14,9 +14,10 @@ interface CheckboxLabelProps
 	id?: string;
 	className?: string;
 	children?: React.ReactNode;
+	onContextMenu?: React.MouseEventHandler;
 }
 
-export default function CheckboxLabel ({id, className, label, hideLabel, style, children}: CheckboxLabelProps)
+export default function CheckboxLabel ({id, className, label, hideLabel, style, onContextMenu, children}: CheckboxLabelProps)
 {
 	const css = useStyle ("checkbox", style, undefined, "labelStyle");
 	
@@ -26,6 +27,7 @@ export default function CheckboxLabel ({id, className, label, hideLabel, style, 
 			className = {className}
 			css = {css}
 			onClick = {ignoreClick}
+			onContextMenu = {onContextMenu}
 		>
 			{children}
 			{!hideLabel && label}

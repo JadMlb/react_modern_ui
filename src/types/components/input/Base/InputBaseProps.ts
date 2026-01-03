@@ -17,6 +17,7 @@ export default interface InputBaseProps extends InputBaseStylingProps
 	onClick?: React.MouseEventHandler;
 	onFocus?: React.FocusEventHandler;
 	onBlur?: React.FocusEventHandler;
+	onContextMenu?: React.MouseEventHandler;
 }
 
 export type OverridableInputBaseProps = never;

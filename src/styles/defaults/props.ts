@@ -11,6 +11,7 @@ import { DEFAULT_BLOCK_LOADER_PROPS, DEFAULT_TEXT_LOADER_PROPS } from "./compone
 import DEFAULT_MENU_PROPS from "./components/menu";
 import DEFAULT_PANEL_PROPS from "./components/panel";
 import DEFAULT_PROGRESS_BAR_PROPS from "./components/progressBar";
+import DEFAULT_RADIO_BUTTONS_GROUP_PROPS from "./components/radio";
 import DEFAULT_SEPARATOR_PROPS from "./components/separator";
 import DEFAULT_SWITCH_PROPS from "./components/switch";
 import DEFAULT_TABLE_PROPS from "./components/table";
@@ -43,7 +44,7 @@ export const DEFAULT_COMPONENTS_PROPS = {
 	// 	}
 	// },
 	progressBar: DEFAULT_PROGRESS_BAR_PROPS,
-	// radioButtonsGroup: Overridable<OverridableRadioButtonsGroupProps, RadioButtonsGroupStylingProps>,
+	radioButtonsGroup: DEFAULT_RADIO_BUTTONS_GROUP_PROPS,
 	separator: DEFAULT_SEPARATOR_PROPS,
 	skeletonLoader: {
 		block: DEFAULT_BLOCK_LOADER_PROPS,

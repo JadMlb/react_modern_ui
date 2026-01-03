@@ -161,6 +161,7 @@ export default function Checkbox (props: CheckboxProps)
 			label = {label}
 			style = {labelStyle}
 			id = {id}
+			onContextMenu = {onContextMenu}
 		>
 			<CheckboxBox
 				value = {value}

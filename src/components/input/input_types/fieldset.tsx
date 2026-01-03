@@ -15,9 +15,10 @@ interface FieldsetProps
 	disabled?: boolean;
 	style?: Style;
 	children?: React.ReactNode;
+	onContextMenu?: React.MouseEventHandler;
 }
 
-export default function Fieldset ({disabled, style, children}: FieldsetProps)
+export default function Fieldset ({disabled, style, onContextMenu, children}: FieldsetProps)
 {
 	const parseCss = useThemeParser();
 	const css = useMemo (
@@ -29,7 +30,7 @@ export default function Fieldset ({disabled, style, children}: FieldsetProps)
 	);
 
 	return (
-		<fieldset css = {css} aria-disabled = {disabled}>
+		<fieldset css = {css} aria-disabled = {disabled} onContextMenu = {onContextMenu}>
 			{children}
 		</fieldset>
 	);

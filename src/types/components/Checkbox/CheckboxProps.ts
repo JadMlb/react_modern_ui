@@ -1,4 +1,4 @@
-import { BoxValueInputProps } from "../input/BoxValueInputProps";
+import { BoxValueInputProps } from "../input";
 import { CheckboxStylingProps } from "./CheckboxStyleProps";
 
 export interface CheckboxProps extends BoxValueInputProps, CheckboxStylingProps
@@ -15,7 +15,7 @@ export interface CheckboxProps extends BoxValueInputProps, CheckboxStylingProps
 	 */
 	value?: boolean | 0 | 1 | 2;
 	defaultValue?: boolean | 0 | 1 | 2;
-		/**
+	/**
 	 * Sets the component used when the checkbox's `state` is set to `true` or `2`, i.e. the check mark
 	 */
 	checkedComponent?: React.ReactNode;

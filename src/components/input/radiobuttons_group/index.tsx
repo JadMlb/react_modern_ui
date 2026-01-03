@@ -1,53 +1,52 @@
 import { useCallback, useEffect, useState } from "react";
-import { RadioButtonsGroupProps } from "../../types/components/RadioButtonsGroup/RadioButtonsGroupProps";
-import Checkbox from "./checkbox";
-import Button from "./button";
-import X from "./input_types/combobox/x";
-import InputBase from "./input_types/input_base";
+import { RadioButtonsGroupProps } from "../../../types/components/RadioButtonsGroup/RadioButtonsGroupProps";
+import Checkbox from "../checkbox";
+import InputBase from "../input_types/input_base";
+import Trailing from "../radiobuttons_group/trailing";
 
-import { Option } from "../../types";
-import { Style } from "../../styles";
-
-const CLEAR_BUTTON_STYLE = {
-	width: "fit-content"
-};
-
-interface TrailingProps
-{
-	optional?: boolean;
-	clearSelection?: () => void;
-	style?: Style;
-}
-
-function Trailing ({optional, clearSelection, style}: TrailingProps)
-{
-	
-	if (!optional)
-		return null;
-	
-	return (
-		<Button
-			onClick = {clearSelection}
-			style = {{...CLEAR_BUTTON_STYLE, ...style}}
-		>
-			<X/>
-		</Button>
-	);
-}
-
-const CHECKBOX_RADIO_STYLE = {borderRadius: "100%"} satisfies Style;
-const STYLE = {
-	flexDirection: "column",
-	alignItems: "unset",
-	width: "fit-content",
-	backgroundColor: "transparent"
-} satisfies Style;
+import { Option } from "../../../types";
+import useProps from "../../../hooks/useProps";
+import useStyle from "../../../hooks/useStyle";
 
 /**
  * Renders a group of radio buttons showing multiple options
  */
-export default function RadioButtonsGroup ({className, id, name, options, label, labelStyle, hideLabel, value, optional, style, clearButtonStyle, checkboxProps, hint, isError, textOnError, readonly, disabled, form, fieldsetStyle, onChange, onBlur, onFocus, onKeyDown, onKeyUp}: RadioButtonsGroupProps)
+export default function RadioButtonsGroup (props: RadioButtonsGroupProps)
 {
+	const {
+		className,
+		id,
+		name,
+		options,
+		label,
+		labelStyle,
+		hideLabel,
+		value,
+		optional,
+		style,
+		clearButtonStyle,
+		checkboxProps,
+		hint,
+		isError,
+		textOnError,
+		readonly,
+		disabled,
+		form,
+		fieldsetStyle,
+		onChange,
+		onBlur,
+		onFocus,
+		checkboxActiveStyle,
+		checkboxLabelStyle,
+		checkboxStyle,
+		onContextMenu
+	} = useProps ("radioButtonsGroup", props);
+	
+	const css = useStyle ("radioButtonsGroup", style);
+	const checkboxCss = useStyle ("radioButtonsGroup", checkboxStyle, undefined, "checkboxStyle");
+	const checkboxActiveCss = useStyle ("radioButtonsGroup", checkboxActiveStyle, undefined, "checkboxActiveStyle");
+	const labelCss = useStyle ("radioButtonsGroup", checkboxLabelStyle, undefined, "checkboxLabelStyle");
+	
 	const [checked, setChecked] = useState<number | null> (null);
 
 	const updateSelection = useCallback (
@@ -102,10 +101,11 @@ export default function RadioButtonsGroup ({className, id, name, options, label,
 			readonly = {readonly}
 			className = {className}
 			id = {id}
-			style = {{...STYLE, ...style}}
+			style = {css}
 			fieldsetStyle = {fieldsetStyle}
 			onBlur = {onBlur}
 			onFocus = {onFocus}
+			onContextMenu = {onContextMenu}
 			trailing = {
 				<Trailing
 					optional = {optional}
@@ -121,7 +121,9 @@ export default function RadioButtonsGroup ({className, id, name, options, label,
 									label = {l.display}
 									value = {checked === index}
 									onChange = {e => updateSelection (e, l, index)}
-									style = {CHECKBOX_RADIO_STYLE}
+									style = {checkboxCss}
+									checkedStyle = {checkboxActiveCss}
+									labelStyle = {labelCss}
 									readonly = {readonly}
 									disabled = {disabled}
 									form = {form}
