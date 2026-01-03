@@ -64,13 +64,9 @@ export default function Button (props: ButtonProps)
 							"error" :
 							"inherit",
 					"::after": {
-						background: role === "normal" ? 
-										"primary" :
-										role === "primary" ?
-											`primary${isDark ? "Elevated" : "Dark"}` :
-											role === "alert" ? 
-											"error" :
-											`error${isDark ? "Elevated" : "Dark"}`
+						background: role === "normal" || role === "primary" ? 
+										`primary${isDark ? "Dark" : "Elevated"}` :
+										`error${isDark ? "Dark" : "Elevated"}`
 					}
 				};
 				default: return {};
