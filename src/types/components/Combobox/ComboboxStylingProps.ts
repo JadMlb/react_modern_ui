@@ -1,14 +1,14 @@
-import StylingProps from "../../styles/StylingProps";
-import { RenderOptionFunction } from "./ComboboxProps";
+import { Style } from "../../styles";
+import InputBaseStylingProps from "../input/Base/InputBaseStylingProps";
 
-export default interface ComboboxStylingProps extends StylingProps
+export default interface ComboboxStylingProps extends InputBaseStylingProps
 {
 	/**
-	 * Customizes the icon displayed instead of the classical arrow
+	 * Styles the menu, i.e. the popover component rendering the options
 	 */
-	arrowComponent?: {open: React.ReactNode, closed: React.ReactNode};
+	menuStyle?: Style;
 	/**
-	 * Renders the options of the combobox
+	 * Styles the tag components shown when value is an array
 	 */
-	renderOption?: RenderOptionFunction;
+	tagsStyle?: Style;
 }

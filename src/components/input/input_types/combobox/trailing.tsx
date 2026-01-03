@@ -1,6 +1,7 @@
 import { useMemo } from "react";
-import { Style, useThemeParser } from "../../../../styles";
-import X from "./x";
+import { useThemeParser } from "../../../../styles";
+import X from "../x";
+import { Style } from "../../../../types";
 
 const TRAILING_STYLE = {
 	display: "flex",

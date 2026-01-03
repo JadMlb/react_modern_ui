@@ -1,41 +1,16 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { ComboboxProps } from "../../../../types/components/Combobox/ComboboxProps";
 import InputBase from "../input_base";
-import { useDarkMode, useThemeParser } from "../../../../styles";
 import ComboboxOption from "./option";
-import { Option } from "../../../../types";
+import { OnChangeFunction, Option } from "../../../../types";
 import Tag from "../../../state/tag";
-import X from "./x";
+import X from "../x";
 import ComboboxTrailing from "./trailing";
 import ComboboxOptionsRenderer from "./options_renderer";
-import { OnChangeFunction } from "../../../../types/components/input/BoxValueInputProps";
 import Menu from "../../../structure/menu";
 import ValueWrapper from "./value_wrapper";
-
-function Arrow ({up}: {up?: boolean})
-{
-	const isDark = useDarkMode();
-	const parseCss = useThemeParser();
-	const css = useMemo (
-		() => parseCss ({
-			width: "7px",
-			height: "7px",
-			borderBottom: `2px solid ${isDark ? "white" : "black"}`,
-			borderRight: `2px solid ${isDark ? "white" : "black"}`,
-			transform: `translate(-spacing.small, ${up ? "" : "-"}1.75px) rotate(${up ? -13 : 4}5deg)`
-		}),
-		[parseCss, up]
-	);
-	
-	return (
-		<div css = {css}/>
-	);
-}
-
-const DEFAULT_ARROW_COMPONENT = {
-	open: <Arrow up/>,
-	closed: <Arrow/>
-};
+import useProps from "../../../../hooks/useProps";
+import useStyle from "../../../../hooks/useStyle";
 
 function defaultRenderOption (option: Option, selected?: boolean, onClick?: OnChangeFunction<Option>)
 {
@@ -49,13 +24,44 @@ function defaultRenderOption (option: Option, selected?: boolean, onClick?: OnCh
 	);
 }
 
-export default function Combobox ({id, className, name, options, label, labelStyle, value, hint, leading, readonly, disabled, hideLabel, menuProps, optional, style, fieldsetStyle, arrowComponent = DEFAULT_ARROW_COMPONENT, onChange, renderOption = defaultRenderOption}: ComboboxProps)
+export default function Combobox (props: ComboboxProps)
 {
+	const {
+		name,
+		options,
+		labelStyle,
+		value,
+		hintStyle,
+		leading,
+		readonly,
+		disabled,
+		menuProps,
+		optional,
+		style,
+		fieldsetStyle,
+		arrowComponent,
+		menuStyle,
+		tagsStyle,
+		errorTextStyle,
+		onChange,
+		renderOption = defaultRenderOption,
+		...baseProps
+	} = useProps ("combobox", props);
+
+	const css = useStyle ("combobox", style);
+	const fieldsetCss = useStyle ("combobox", fieldsetStyle, undefined, "fieldsetStyle");
+	const labelCss = useStyle ("combobox", labelStyle, undefined, "labelStyle");
+	const hintCss = useStyle ("combobox", hintStyle, undefined, "hintStyle");
+	const errorCss = useStyle ("combobox", errorTextStyle, undefined, "errorTextStyle");
+	const menuCss = useStyle ("combobox", menuStyle, undefined, "menuStyle");
+	const tagCss = useStyle ("combobox", tagsStyle, undefined, "tagsStyle");
+	
 	const [isExpanded, setIsExpanded] = useState (false);
 	const inputRef = useRef<HTMLDivElement | null> (null);
 
 	function handleChange (e: React.ChangeEvent | null, option: Option)
 	{
+		e?.stopPropagation();
 		onChange?. (e, option);
 		setIsExpanded (false);
 	}
@@ -95,6 +101,7 @@ export default function Combobox ({id, className, name, options, label, labelSty
 												handleChange (null, option);
 										}
 									}
+									style = {tagCss}
 								>
 									{option.display} {!readonly && !disabled && <X/>}
 								</Tag>;
@@ -104,7 +111,7 @@ export default function Combobox ({id, className, name, options, label, labelSty
 
 			return getSelected(value)?.display;
 		},
-		[getSelected]
+		[getSelected, tagCss]
 	);
 
 	const formattedValue = useMemo (
@@ -112,16 +119,10 @@ export default function Combobox ({id, className, name, options, label, labelSty
 		[formatValue, value, readonly, disabled]
 	);
 
-	function expand (e: React.FocusEvent)
+	function expand (e: React.SyntheticEvent)
 	{
 		e.stopPropagation();
 		setIsExpanded (!disabled && !readonly);
-	}
-
-	function close (e: React.FocusEvent)
-	{
-		e.stopPropagation();
-		setIsExpanded (false);
 	}
 
 	useEffect (
@@ -142,16 +143,15 @@ export default function Combobox ({id, className, name, options, label, labelSty
 	return (
 		<>
 			<InputBase
-				className = {className}
-				id = {id}
-				fieldsetStyle = {fieldsetStyle}
+				fieldsetStyle = {fieldsetCss}
 				inputId = {`combo-${name}`}
 				ref = {inputRef}
-				label = {label}
-				labelStyle = {labelStyle}
+				labelStyle = {labelCss}
+				hintStyle = {hintCss}
+				errorTextStyle = {errorCss}
 				trailing = {
 					<ComboboxTrailing
-						arrowComponent = {arrowComponent}
+						arrowComponent = {arrowComponent!}
 						expanded = {isExpanded}
 						optional = {optional}
 						value = {value}
@@ -160,13 +160,11 @@ export default function Combobox ({id, className, name, options, label, labelSty
 						onChange = {onChange}
 					/>
 				}
-				hint = {hint}
-				hideLabel = {hideLabel}
-				style = {style}
-				onFocus = {expand}
-				onBlur = {close}
+				style = {css}
+				onClick = {expand}
 				disabled = {disabled}
 				readonly = {readonly}
+				{...baseProps}
 			>
 				{leading}
 				<ValueWrapper>{formattedValue}</ValueWrapper>
@@ -176,6 +174,7 @@ export default function Combobox ({id, className, name, options, label, labelSty
 				onClose = {() => setIsExpanded (false)}
 				anchorElement = {inputRef.current}
 				{...menuProps}
+				style = {menuCss}
 			>
 				<ComboboxOptionsRenderer
 					options = {options}

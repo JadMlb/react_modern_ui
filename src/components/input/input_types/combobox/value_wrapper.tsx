@@ -1,4 +1,11 @@
 import { useMemo } from "react";
+import { useThemeParser } from "../../../../styles";
+
+const WRAPPER_STYLE = {
+	display: "flex",
+	gap: "spacing.small",
+	flexGrow: 1
+};
 
 interface ValueWrapperProps
 {
@@ -7,12 +14,12 @@ interface ValueWrapperProps
 
 export default function ValueWrapper ({children}: ValueWrapperProps)
 {
+	const parseCss = useThemeParser();
 	const css = useMemo (
-		() => ({
-			flexGrow: 1
-		}),
-		[]
+		() => parseCss (WRAPPER_STYLE),
+		[parseCss]
 	);
+	
 	return (
 		<div css = {css}>
 			{children}
