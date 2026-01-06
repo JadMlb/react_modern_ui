@@ -41,4 +41,4 @@ export interface SliderProps extends Omit<BoxValueInputProps, "label" | "labelSt
 	vertical?: boolean;
 }
 
-export type OverridableSliderProps = Pick<SliderProps, "step" | "stepsLabels">;
+export type OverridableSliderProps = Pick<SliderProps, "min" | "max" | "step" | "stepsLabels">;

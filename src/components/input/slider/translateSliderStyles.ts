@@ -1,4 +1,5 @@
-import { Style } from "../../../styles";
+import { Style } from "../../../types";
+
 
 function toString (value: number | string)
 {

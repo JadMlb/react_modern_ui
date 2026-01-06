@@ -1,46 +1,23 @@
 import { useMemo } from "react";
-import { Style, useDarkMode, useThemeParser } from "../../../styles";
-import { Option } from "../../../types";
+import { useDarkMode, useThemeParser } from "../../../styles";
 
 interface MarkProps
 {
-	data: Option;
-	noTick?: boolean;
+	invisible?: boolean;
 }
 
-const DEFAULT_STYLE = {
-	textAlign: "center",
-	position: "relative",
-	"&:before": {
-		content: '""',
-		position: "absolute",
-		width: 1,
-		height: 4,
-		left: `calc(50% - 0.5px)`,
-		top: -4
-	}
-} satisfies Style;
-
-export default function Mark ({data, noTick}: MarkProps)
+export default function Mark ({invisible}: MarkProps)
 {
-	const parseCss = useThemeParser();
 	const isDark = useDarkMode();
-
+	const parseCss = useThemeParser();
 	const css = useMemo (
 		() => parseCss ({
-			...DEFAULT_STYLE,
-			color: isDark ? "white" : "black",
-			width: 20,
-			"&:before": {
-				...DEFAULT_STYLE["&:before"],
-				backgroundColor: isDark ? "white" : "black",
-				display: noTick ? "none" : "block"
-			}
+			borderLeft: invisible ? "none" : `1px solid ${isDark ? "white" : "black"}`
 		}),
-		[parseCss, isDark, noTick]
+		[invisible, isDark]
 	);
 	
 	return (
-		<div css = {css}>{data.display}</div>
+		<div css = {css}/>
 	);
 }

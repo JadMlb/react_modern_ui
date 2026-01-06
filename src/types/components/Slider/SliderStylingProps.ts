@@ -1,6 +1,7 @@
 import { Style } from "../../styles";
+import WrappedElementStylingProps from "../../styles/WrappedElementStylingProps";
 
-export default interface SliderStylingProps
+export default interface SliderStylingProps extends WrappedElementStylingProps
 {
 	/**
 	 * Defines the style of the slider bar.

@@ -1,21 +1,8 @@
 import { useMemo } from "react";
-import { Style, useThemeParser } from "../../../styles";
 import SliderDivisionsProps from "./SliderDivisionProps";
 import Mark from "./mark";
-import { Option } from "../../../types";
-import { DEFAULT_SLIDER_STYLE } from "../../../types/components/Slider/SliderStyle";
-import { getMargin } from "./translateSliderStyles";
-
-const DEFAULT_STYLE = {
-	display: "flex",
-	justifyContent: "space-between",
-	fontSize: "0.7em"
-};
-
-const EDGE_DATA = {
-	value: "",
-	display: ""
-} satisfies Option;
+import { Style } from "../../../types";
+import useGrid from "./useGrid";
 
 interface MarksProps extends SliderDivisionsProps
 {
@@ -24,21 +11,16 @@ interface MarksProps extends SliderDivisionsProps
 
 export default function Marks ({style, divisions}: MarksProps)
 {
-	const parseCss = useThemeParser();
-	const margin = useMemo (
-		() => getMargin ({
-			...DEFAULT_SLIDER_STYLE,
-			...style
-		}),
-		[style]
+	const css = useGrid (
+		divisions.length + 1,
+		style
 	);
-	
-	const css = useMemo (
-		() => parseCss ({
-			...DEFAULT_STYLE,
-			marginInline: margin
-		}),
-		[parseCss, margin]
+
+	const marks = useMemo (
+		() => divisions.map (
+			d => <Mark invisible = {!d.display}/>
+		),
+		[divisions.length]
 	);
 	
 	if (divisions.length === 0)
@@ -46,13 +28,8 @@ export default function Marks ({style, divisions}: MarksProps)
 
 	return (
 		<div css = {css}>
-			<Mark data = {EDGE_DATA} noTick/>
-			{
-				divisions.map (
-					d => <Mark key = {d.value} data = {d}/>
-				)
-			}
-			<Mark data = {EDGE_DATA} noTick/>
+			<Mark invisible/>
+			{marks}
 		</div>
 	);
 }

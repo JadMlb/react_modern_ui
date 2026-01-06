@@ -1,8 +1,8 @@
 import * as React from "react";
-import { Style, useThemeParser } from "../../../styles";
 import { translateSliderStyles, translateSliderThumbStyles } from "./translateSliderStyles";
-import { DEFAULT_SLIDER_STYLE, DEFAULT_SLIDER_THUMB_STYLE } from "../../../types/components/Slider/SliderStyle";
 import { SliderProps } from "../../../types/components/Slider/SliderProps";
+import { Style } from "../../../types";
+import useStyle from "../../../hooks/useStyle";
 
 interface SliderInputProps
 {
@@ -41,42 +41,33 @@ const SliderInput = React.forwardRef<HTMLInputElement, SliderInputProps> (
 			...rest
 		} = props;
 
-		const parseCss = useThemeParser();
-		const processedThumbStyle = React.useMemo (
-			() => parseCss (translateSliderThumbStyles ({...DEFAULT_SLIDER_THUMB_STYLE, ...thumbStyle})),
-			[parseCss, thumbStyle]
-		);
-		const baseStyle = React.useMemo (
-			() => ({
-				...DEFAULT_SLIDER_STYLE,
-				...style
-			}),
-			[style]
+		const unprocessedThumbCss = useStyle ("slider", thumbStyle, undefined, "thumbStyle");
+		const thumbCss = React.useMemo (
+			() => translateSliderThumbStyles (unprocessedThumbCss),
+			[unprocessedThumbCss]
 		);
 
-		const [processedStyle, setProcessedStyle] = React.useState<Style> ({});
-		const [css, setCss] = React.useState<Style> ({});
-
-		React.useEffect (
+		const unprocessedBackgroundCss = useStyle ("slider", style);
+		const backgroundCss = React.useMemo (
 			() =>
 			{
 				const percentage = ((value - min) / (max - min)) * 100;
-				const from = baseStyle?.color ?? "primary";
-				const to = baseStyle?.backgroundColor ?? "transparent";
-
-				const fullStyle = {
-					...baseStyle,
+				const from = unprocessedBackgroundCss?.color ?? "primary";
+				const to = unprocessedBackgroundCss?.backgroundColor ?? "transparent";
+				return translateSliderStyles ({
+					...unprocessedBackgroundCss,
 					background: `linear-gradient(to right, ${from} ${percentage}%, ${to} ${percentage}%)`
-				};
-
-				setProcessedStyle (parseCss (translateSliderStyles (fullStyle)));
+				});
 			},
-			[value, setProcessedStyle, baseStyle, min, max, parseCss]
+			[unprocessedBackgroundCss, value, min, max]
 		);
 
-		React.useEffect (
-			() => setCss ({...processedThumbStyle, ...processedStyle}),
-			[setCss, processedThumbStyle, processedStyle]
+		const css = React.useMemo (
+			() => ({
+				...thumbCss,
+				...backgroundCss
+			}),
+			[backgroundCss, thumbCss]
 		);
 
 		return (

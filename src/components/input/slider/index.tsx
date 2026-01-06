@@ -3,15 +3,10 @@ import { SliderProps } from "../../../types/components/Slider/SliderProps";
 import { Option } from "../../../types";
 import Options from "./options";
 import Marks from "./marks";
-import styled from "@emotion/styled";
 import SliderInput from "./input";
-
-const SliderContainer = styled.div
-`
-	display: flex;
-	flex-direction: column;
-	width: fit-content;
-`;
+import useProps from "../../../hooks/useProps";
+import SliderContainer from "./container";
+import Labels from "./labels";
 
 function labelsToMap (labels?: Option[])
 {
@@ -54,31 +49,22 @@ const Slider = React.forwardRef<HTMLInputElement, SliderProps> (
 	(props, ref) =>
 	{
 		const {
-			id,
-			className,
 			style,
-			name,
-			min = 0,
-			max = 100,
-			step = 1,
+			min,
+			max,
+			step,
 			stepsLabels,
 			value,
 			thumbStyle,
 			onChange,
 			disabled,
 			readonly,
-			onBlur,
-			onFocus,
-			onContextMenu,
-			onKeyDown,
-			onKeyUp,
-			autoFocus,
-			defaultValue,
-			form,
-			vertical
-		} = props;
+			vertical,
+			parentStyle,
+			...inputProps
+		} = useProps ("slider", props);
 
-		const [innerValue, setInnerValue] = React.useState (value ?? min);
+		const [innerValue, setInnerValue] = React.useState (value ?? min!);
 		const innerRef = React.useRef<HTMLInputElement | null> (null);
 
 		React.useImperativeHandle (
@@ -106,41 +92,30 @@ const Slider = React.forwardRef<HTMLInputElement, SliderProps> (
 					return [];
 
 				if (stepsLabels === true)
-					return generateDivisionsAtInterval (step, min, max);
+					return generateDivisionsAtInterval (step!, min!, max!);
 				if (typeof stepsLabels === "number")
-					return generateDivisionsAtInterval (stepsLabels, min, max);
-				return generateDivisionsAtInterval (step, min, max, stepsLabels);
+					return generateDivisionsAtInterval (stepsLabels, min!, max!);
+				return generateDivisionsAtInterval (step!, min!, max!, stepsLabels);
 			},
 			[stepsLabels, step, min, max]
 		);
 
 		return (
-			<SliderContainer>
+			<SliderContainer style = {parentStyle}>
 				<SliderInput
-					id = {id}
-					className = {className}
-					name = {name}
 					ref = {innerRef}
 					value = {innerValue}
-					onChange = {handleChange}
-					min = {min}
-					max = {max}
+					min = {min!}
+					max = {max!}
 					step = {step}
-					readonly = {readonly}
-					disabled = {disabled}
+					onChange = {handleChange}
 					style = {style}
 					thumbStyle = {thumbStyle}
-					onBlur = {onBlur}
-					onFocus = {onFocus}
-					onContextMenu = {onContextMenu}
-					onKeyDown = {onKeyDown}
-					onKeyUp = {onKeyUp}
-					autoFocus = {autoFocus}
-					defaultValue = {defaultValue}
-					form = {form}
+					{...inputProps}
 				/>
 				<Options divisions = {divisions}/>
 				<Marks style = {style} divisions = {divisions}/>
+				<Labels style = {style} divisions = {divisions}/>
 			</SliderContainer>
 		);
 	}

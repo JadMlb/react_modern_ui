@@ -14,6 +14,7 @@ import DEFAULT_PANEL_PROPS from "./components/panel";
 import DEFAULT_PROGRESS_BAR_PROPS from "./components/progressBar";
 import DEFAULT_RADIO_BUTTONS_GROUP_PROPS from "./components/radio";
 import DEFAULT_SEPARATOR_PROPS from "./components/separator";
+import DEFAULT_SLIDER_PROPS from "./components/slider";
 import DEFAULT_SWITCH_PROPS from "./components/switch";
 import DEFAULT_TABLE_PROPS from "./components/table";
 import DEFAULT_TAG_PROPS from "./components/tag";
@@ -52,7 +53,7 @@ export const DEFAULT_COMPONENTS_PROPS = {
 		block: DEFAULT_BLOCK_LOADER_PROPS,
 		text: DEFAULT_TEXT_LOADER_PROPS
 	},
-	// slider: Overridable<OverridableSliderProps, SliderStylingProps>,
+	slider: DEFAULT_SLIDER_PROPS,
 	switch: DEFAULT_SWITCH_PROPS,
 	table: DEFAULT_TABLE_PROPS,
 	tag: DEFAULT_TAG_PROPS,
