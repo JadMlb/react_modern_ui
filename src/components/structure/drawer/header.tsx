@@ -1,7 +1,7 @@
 import React, { useMemo } from "react";
 import { Button } from "../../input";
-import X from "../../input/input_types/combobox/x";
-import { Style } from "../../../styles";
+import X from "../../input/input_types/x";
+import { Style } from "../../../types";
 
 interface OnCloseButtonProps
 {

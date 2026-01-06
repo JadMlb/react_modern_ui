@@ -4,6 +4,6 @@ import Popup from "../popup_backdrop/popup";
 export default function Dialog (props: DialogProps)
 {
 	return (
-		<Popup position = "center" {...props}/>
+		<Popup position = "center" forComponent = "dialog" {...props}/>
 	);
 }

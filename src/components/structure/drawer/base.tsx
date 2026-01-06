@@ -9,6 +9,7 @@ export default function DrawerNoHeader (props: DrawerProps)
 		<Popup
 			position = {position ?? "right"}
 			maxHeight
+			forComponent = "drawer.default"
 			{...popupProps}
 		/>
 	);

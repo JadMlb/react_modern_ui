@@ -26,6 +26,7 @@ export default function DrawerWithHeader (props: DrawerWithDefaultHeaderProps)
 			}
 			headerStyle = {realHeaderStyle}
 			maxHeight
+			forComponent = "drawer.withHeader"
 			{...popupProps}
 		/>
 	);

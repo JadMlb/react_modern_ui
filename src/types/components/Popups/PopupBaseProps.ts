@@ -1,6 +1,4 @@
-import StylingProps from "../../styles/StylingProps";
-
-export default interface PopupBaseProps extends StylingProps
+export default interface PopupBaseProps
 {
 	open: boolean;
 	onClose?: () => void;

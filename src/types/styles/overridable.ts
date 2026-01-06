@@ -1,11 +1,12 @@
 import { OverridableBadgeProps, OverridableBlockSkeletonLoaderProps, OverridableButtonProps, OverridableCardProps, OverridableCheckboxProps, OverridableComboboxProps, OverridableDateTimeInputProps, OverridableDialogProps, OverridableDrawerProps, OverridableDrawerWithDefaultHeaderProps, OverridableLinkProps, OverridableListProps, OverridableMenuProps, OverridableNumberInputProps, OverridablePanelProps, OverridableProgressBarProps, OverridableRadioButtonsGroupProps, OverridableSeparatorProps, OverridableSliderProps, OverridableSwitchProps, OverridableTableProps, OverridableTagProps, OverridableTextInputProps, OverridableTextSkeletonLoaderProps, OverridableToasterProps } from "../components";
 import CardStylingProps from "../components/Card/CardStylingProps";
 import { CheckboxStylingProps } from "../components/Checkbox/CheckboxStyleProps";
+import ComboboxStylingProps from "../components/Combobox/ComboboxStylingProps";
 import InputBaseStylingProps from "../components/input/Base/InputBaseStylingProps";
 import { OverridableInputBaseProps } from "../components/input/Base/InputBaseProps";
 import ListStylingProps from "../components/List/ListStylingProps";
 import PanelStylingProps from "../components/Panel/PanelStylingProps";
-import DialogProps from "../components/Popups/DialogProps";
+import PopupStylingProps from "../components/Popups/PopupStylingProps";
 import ProgressBarStylingProps from "../components/ProgressBar/ProgressBarStylingProps";
 import RadioButtonsGroupStylingProps from "../components/RadioButtonsGroup/RadioButtonsGroupStylingProps";
 import SliderStylingProps from "../components/Slider/SliderStylingProps";
@@ -29,6 +30,7 @@ export type ComponentsOverrides = {
 	},
 	card?: Overridable<OverridableCardProps, CardStylingProps>,
 	checkbox?: Overridable<OverridableCheckboxProps, CheckboxStylingProps>,
+	combobox?: Overridable<OverridableComboboxProps, ComboboxStylingProps>,
 	input?: {
 		base?: Overridable<OverridableInputBaseProps, InputBaseStylingProps>,
 		text?: Overridable<OverridableTextInputProps, InputBaseStylingProps>,
@@ -48,14 +50,11 @@ export type ComponentsOverrides = {
 	list?: Overridable<OverridableListProps, ListStylingProps>,
 	menu?: Overridable<OverridableMenuProps, StylingProps>,
 	panel?: Overridable<OverridablePanelProps, PanelStylingProps>,
-	popups?: {
-		backdrop?: Overridable<OverridablePopupBackdropProps, StylingProps>,
-		dialog?: Overridable<OverridableDialogProps, DialogProps>,
-		drawer?: {
-			default?: Overridable<OverridableDrawerProps, DialogProps>,
-			withHeader?: Overridable<OverridableDrawerWithDefaultHeaderProps, DialogProps>,
-		}
-	},
+	dialog?: Overridable<OverridableDialogProps, PopupStylingProps>,
+	drawer?: {
+		default?: Overridable<OverridableDrawerProps, PopupStylingProps>,
+		withHeader?: Overridable<OverridableDrawerWithDefaultHeaderProps, PopupStylingProps>,
+	}
 	progressBar?: Overridable<OverridableProgressBarProps, ProgressBarStylingProps>,
 	radioButtonsGroup?: Overridable<OverridableRadioButtonsGroupProps, RadioButtonsGroupStylingProps>,
 	separator?: Overridable<OverridableSeparatorProps, WrappedElementStylingProps>,
