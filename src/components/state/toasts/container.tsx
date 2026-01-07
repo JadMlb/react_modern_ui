@@ -31,12 +31,14 @@ const toastFromLeft = keyframes
 
 interface ToasterContainerProps
 {
+	id?: string;
+	className?: string;
 	children?: React.ReactNode;
 	position: Exclude<ToasterProps["position"], undefined>;
 	style?: Style;
 }
 
-export default function ToasterContainer ({position, style, children}: ToasterContainerProps)
+export default function ToasterContainer ({id, className, position, style, children}: ToasterContainerProps)
 {
 	const injectedStyle = useMemo (
 		() => ({
@@ -53,7 +55,7 @@ export default function ToasterContainer ({position, style, children}: ToasterCo
 	const css = useStyle ("toaster", style, injectedStyle, "containerStyle");
 
 	return (
-		<div css = {css}>
+		<div id = {id} className = {className} css = {css}>
 			{children}
 		</div>
 	);

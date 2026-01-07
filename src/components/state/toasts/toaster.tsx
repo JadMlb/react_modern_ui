@@ -13,6 +13,8 @@ import useProps from "../../../hooks/useProps";
 export default function Toaster (props: ToasterProps)
 {
 	const {
+		id,
+		className,
 		position,
 		autoClear,
 		clearAfter,
@@ -28,6 +30,8 @@ export default function Toaster (props: ToasterProps)
 	
 	return createPortal (
 		<ToasterContainer
+			id = {id}
+			className = {className}
 			position = {position!}
 			style = {containerStyle}
 		>{

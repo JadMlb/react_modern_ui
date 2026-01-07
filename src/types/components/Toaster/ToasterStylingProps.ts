@@ -1,6 +1,7 @@
 import { Style } from "../../styles";
+import StylingProps from "../../styles/StylingProps";
 
-export default interface ToasterStylingProps
+export default interface ToasterStylingProps extends Omit<StylingProps, "style">
 {
 	/**
 	 * Styles the toasts container
