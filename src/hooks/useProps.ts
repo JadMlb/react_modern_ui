@@ -2,6 +2,8 @@ import { at, merge } from "lodash";
 import { useTheme } from "../styles";
 import { Components, ComponentsOverridesTypeForComponent } from "../types";
 import { useMemo } from "react";
+import useClassNameAndId from "./useClassNameAndId";
+import BasicCssStylingProps from "../types/styles/BasicCssStylingProps";
 
 function useComponentDefaultProps<Component extends Components> (component: Component)
 {
@@ -12,12 +14,13 @@ function useComponentDefaultProps<Component extends Components> (component: Comp
 	return defaultsForComponent.props ?? {};
 }
 
-export default function useProps<T> (component: Components, props: T)
+export default function useProps<T extends BasicCssStylingProps> (component: Components, props: T)
 {
 	const defaultProps = useComponentDefaultProps (component) as T;
+	const classNameAndId = useClassNameAndId (component, {id: props.id, className: props.className});
 	const merged = useMemo (
-		() => merge ({}, defaultProps, props),
-		[defaultProps, props]
+		() => merge ({}, defaultProps, props, classNameAndId),
+		[defaultProps, props, classNameAndId]
 	);
 	return merged;
 }

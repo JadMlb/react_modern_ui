@@ -1,8 +1,7 @@
+import BasicCssStylingProps from "./BasicCssStylingProps";
 import { Style } from "./type";
 
-export default interface StylingProps
+export default interface StylingProps extends BasicCssStylingProps
 {
 	style?: Style;
-	className?: string;
-	id?: string;
 }
