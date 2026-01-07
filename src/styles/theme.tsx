@@ -1,11 +1,12 @@
 import React, { createContext, useCallback, useContext, useReducer } from "react";
 import { PartialThemeType, ThemeType } from "../types/styles/theme";
-import { COLOURS_ALT_NAMES, Colour, Measurements } from "../types";
+import { COLOURS_ALT_NAMES, Colour } from "../types/styles/Colours";
+import { Measurements } from "../types/Measurements";
 import { DEFAULT_RADIUS, DEFAULT_SPACING } from "./defaults/measurements";
 import { ThemeModeProvider } from "./mode";
-import { merge } from "lodash";
+import { merge, mergeWith } from "lodash";
 import { DEFAULT_THEME } from "./defaults/theme";
-import { StaticStyle } from "../types";
+import { StaticStyle } from "../types/styles/type";
 
 type ThemeDispatchAction = {type: "set", values: PartialThemeType} | {type: "reset"}
 
@@ -16,16 +17,34 @@ type ThemeContextType = {
 
 const ThemeContext = createContext<ThemeContextType> ({theme: DEFAULT_THEME, dispatch: ()=>{}});
 
+function propsMergeCustomizer (base: any, modifications: any, key: string)
+{
+	if (Array.isArray (modifications))
+		return modifications;
+
+	if (key.toLowerCase().endsWith ("style"))
+	{
+		const isBaseAFunction = typeof base === "function";
+		const isModificationsAFunction = typeof modifications === "function";
+		if (isBaseAFunction || isModificationsAFunction)
+			return (isDark: boolean) => merge (
+				{},
+				isBaseAFunction ? base (isDark) : base,
+				isModificationsAFunction ? modifications (isDark) : modifications
+			);
+		return merge ({}, base, modifications);
+	}
+
+	return undefined;
+}
+
 function mergeThemeValues (base: ThemeType, modifications: PartialThemeType) : ThemeType
 {
 	return {
 		mode: modifications.mode ?? base.mode,
-		measurements: {
-			radius: {...base.measurements.radius, ...modifications.measurements?.radius},
-			spacing: {...base.measurements.spacing, ...modifications.measurements?.spacing},
-		},
-		colours: {...base.colours, ...modifications.colours},
-		defaults: merge ({}, base.defaults, modifications.overrides)
+		measurements: merge ({}, base.measurements, modifications.measurements),
+		colours: merge ({}, base.colours, modifications.colours),
+		defaults: mergeWith ({}, base.defaults, modifications.overrides, propsMergeCustomizer)
 	};
 }
 

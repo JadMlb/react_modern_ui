@@ -1,4 +1,4 @@
-import { ThemeType } from "../../types";
+import { ThemeType } from "../../types/styles/theme";
 import { DEFAULT_COLOURS } from "./colours";
 import { DEFAULT_RADIUS, DEFAULT_SPACING } from "./measurements";
 import { DEFAULT_COMPONENTS_PROPS } from "./props";
