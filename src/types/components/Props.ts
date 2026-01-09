@@ -1,0 +1,1 @@
+export type Props<ConfigProps, StylingProps> = ConfigProps & StylingProps;

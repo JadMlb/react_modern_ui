@@ -27,10 +27,10 @@ function propsMergeCustomizer (base: any, modifications: any, key: string)
 		const isBaseAFunction = typeof base === "function";
 		const isModificationsAFunction = typeof modifications === "function";
 		if (isBaseAFunction || isModificationsAFunction)
-			return (isDark: boolean) => merge (
+			return (isDark: boolean, props: any) => merge (
 				{},
-				isBaseAFunction ? base (isDark) : base,
-				isModificationsAFunction ? modifications (isDark) : modifications
+				isBaseAFunction ? base (isDark, props) : base,
+				isModificationsAFunction ? modifications (isDark, props) : modifications
 			);
 		return merge ({}, base, modifications);
 	}
