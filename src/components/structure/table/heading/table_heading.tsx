@@ -1,20 +1,17 @@
-import { Style } from "../../../../types";
-import useStyle from "../../../../hooks/useStyle";
+import { StaticStyle } from "../../../../types";
 
 interface TableHeadingProps
 {
 	children?: React.ReactNode;
-	style?: Style
+	style?: StaticStyle
 }
 
 export default function TableHeading ({style, children}: TableHeadingProps)
 {
-	const css = useStyle ("table", style, undefined, "headingStyle");
-
 	if (!children)
 		return null;
 
 	return (
-		<div css = {css}>{children}</div>
+		<div css = {style}>{children}</div>
 	);
 }

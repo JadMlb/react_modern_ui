@@ -1,7 +1,8 @@
 import { BoxValueInputProps } from "../input";
-import { CheckboxStylingProps } from "./CheckboxStyleProps";
+import { Props } from "../Props";
+import { GenericCheckboxStylingProps } from "./CheckboxStyleProps";
 
-export interface CheckboxProps extends BoxValueInputProps, CheckboxStylingProps
+export interface CheckboxConfigProps extends BoxValueInputProps
 {
 	/**
 	 * The label to be displayed next to the checkbox
@@ -24,5 +25,8 @@ export interface CheckboxProps extends BoxValueInputProps, CheckboxStylingProps
 	 */
 	intermediateComponent?: React.ReactNode;
 }
+
+export type CheckboxStylingProps = GenericCheckboxStylingProps<CheckboxConfigProps>;
+export type CheckboxProps = Props<CheckboxConfigProps, CheckboxStylingProps>;
 
 export type OverridableCheckboxProps = Pick<CheckboxProps, "defaultValue" | "checkedComponent" | "intermediateComponent">;

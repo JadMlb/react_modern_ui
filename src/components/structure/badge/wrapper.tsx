@@ -1,20 +1,16 @@
 /** @jsxImportSource @emotion/react */
-
-import { Style } from "../../../types";
-import useStyle from "../../../hooks/useStyle";
+import { StaticStyle } from "../../../types";
 
 interface BadgeWrapperProps
 {
-	style?: Style;
+	style?: StaticStyle;
 	children?: React.ReactNode;
 }
 
 export default function BadgeWrapper ({style, children}: BadgeWrapperProps)
 {
-	const css = useStyle ("badge", style, undefined, "parentStyle");
-	
 	return (
-		<span css = {css}>
+		<span css = {style}>
 			{children}
 		</span>
 	);

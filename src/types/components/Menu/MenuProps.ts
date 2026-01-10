@@ -1,8 +1,9 @@
 import React from "react";
 import { Position } from "../../Position";
 import StylingProps from "../../styles/StylingProps";
+import { Props } from "../Props";
 
-export default interface MenuProps extends StylingProps
+export default interface MenuConfigProps
 {
 	/**
 	 * A ref to the html parent element of the menu
@@ -29,5 +30,8 @@ export default interface MenuProps extends StylingProps
 	 */
 	onClose?: () => void;
 }
+
+export type MenuStylingProps = StylingProps<MenuConfigProps>;
+export type MenuProps = Props<MenuConfigProps, MenuStylingProps>;
 
 export type OverridableMenuProps = Pick<MenuProps, "position" | "direction">;

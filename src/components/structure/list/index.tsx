@@ -1,13 +1,15 @@
 /** @jsxImportSource @emotion/react */
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import DraggableListItem from "./list_item";
 import ListDropArea from "./drop_area";
-import ListProps from "../../../types/components/List/ListProps";
+import { ListProps } from "../../../types/components/List/ListProps";
 import { ListContainer } from "./container";
 import useProps from "../../../hooks/useProps";
+import useStyle from "../../../hooks/useStyle";
 
-export default function List (props: ListProps)
+export default function List (instanceProps: ListProps)
 {
+	const props = useProps ("list", instanceProps);
 	const {
 		className,
 		dragHandle,
@@ -20,7 +22,11 @@ export default function List (props: ListProps)
 		onDrop,
 		renderer,
 		style
-	} = useProps ("list", props);
+	} = props;
+
+	const css = useStyle ("list", props, style);
+	const listItemDropAreaCss = useStyle ("list", props, listItemDropAreaStyle, "listItemDropAreaStyle");
+	const listItemCss = useStyle ("list", props, listItemStyle, "listItemStyle");
 
 	const [list, setList] = useState (props.items);
 
@@ -58,19 +64,14 @@ export default function List (props: ListProps)
 		draggedOverIndex.current = null;
 		draggedIndex.current = null;
 	}
-
-	useEffect (
-		() => setList (props.items),
-		[props.items]
-	);
 	
 	return (
 		<ListContainer
 			id = {id}
 			className = {className}
-			style = {style}
+			style = {css}
 		>
-			{draggable && <ListDropArea style = {listItemDropAreaStyle}/>}
+			{draggable && <ListDropArea style = {listItemDropAreaCss}/>}
 			{
 				list.map (
 					(item, index) => (
@@ -82,11 +83,11 @@ export default function List (props: ListProps)
 								dragging = {draggedIndex.current === index}
 								draggable = {draggable}
 								handle = {dragHandle}
-								style = {listItemStyle}
+								style = {listItemCss}
 							>
 								{renderer?. (item)}
 							</DraggableListItem>
-							{draggable && <ListDropArea style = {listItemDropAreaStyle}/>}
+							{draggable && <ListDropArea style = {listItemDropAreaCss}/>}
 						</React.Fragment>
 					)
 				)

@@ -5,6 +5,7 @@ import DEFAULT_CARD_PROPS from "./components/card";
 import DEFAULT_CHECKBOX_PROPS from "./components/checkbox";
 import DEFAULT_COMBOBOX_PROPS from "./components/combobox";
 import DEFAULT_DIALOG_PROPS from "./components/dialog";
+import DEFAULT_DRAWER_PROPS from "./components/drawer";
 import DEFAULT_INPUT_BASE_PROPS from "./components/input_base";
 import { DEFAULT_NUMBER_INPUT_PROPS } from "./components/inputs";
 import DEFAULT_LINK_PROPS from "./components/link";
@@ -40,10 +41,7 @@ export const DEFAULT_COMPONENTS_PROPS = {
 	menu: DEFAULT_MENU_PROPS,
 	panel: DEFAULT_PANEL_PROPS,
 	dialog: DEFAULT_DIALOG_PROPS,
-	drawer: {
-		default: DEFAULT_DIALOG_PROPS,
-		withHeader: DEFAULT_DIALOG_PROPS,
-	},
+	drawer: DEFAULT_DRAWER_PROPS,
 	progressBar: DEFAULT_PROGRESS_BAR_PROPS,
 	radioButtonsGroup: DEFAULT_RADIO_BUTTONS_GROUP_PROPS,
 	separator: DEFAULT_SEPARATOR_PROPS,

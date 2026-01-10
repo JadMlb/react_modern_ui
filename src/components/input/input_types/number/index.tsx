@@ -23,10 +23,11 @@ const StyledInput = styled.input
 `;
 
 const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps> (
-	(props, ref) =>
+	(instanceProps, ref) =>
 	{
-		const value = props.value;
+		const props = useProps ("input.number", instanceProps);
 		const {
+			value,
 			type,
 			onChange,
 			id,
@@ -51,12 +52,12 @@ const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps> (
 			precision,
 			step,
 			...rest
-		} = useProps ("input.number", props);
-		const css = useStyle ("input.number", style);
-		const fieldsetCss = useStyle ("input.number", fieldsetStyle, undefined, "fieldsetStyle");
-		const labelCss = useStyle ("input.number", labelStyle, undefined, "labelStyle");
-		const hintCss = useStyle ("input.number", hintStyle, undefined, "hintStyle");
-		const errorCss = useStyle ("input.number", errorTextStyle, undefined, "errorTextStyle");
+		} = props;
+		const css = useStyle ("input.number", props, style);
+		const fieldsetCss = useStyle ("input.number", props, fieldsetStyle, "fieldsetStyle");
+		const labelCss = useStyle ("input.number", props, labelStyle, "labelStyle");
+		const hintCss = useStyle ("input.number", props, hintStyle, "hintStyle");
+		const errorCss = useStyle ("input.number", props, errorTextStyle, "errorTextStyle");
 		
 		const [error, setError] = React.useState (isError);
 		

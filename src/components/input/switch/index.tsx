@@ -4,11 +4,38 @@ import SwitchWrapper from "./wrapper";
 import SwitchSlider from "./slider";
 import SwitchLabel from "./label";
 import useProps from "../../../hooks/useProps";
+import useStyle from "../../../hooks/useStyle";
 
-export default function Switch (props: SwitchProps)
+export default function Switch (instanceProps: SwitchProps)
 {
-	const {id, className, style, activatedStyle, label, labelStyle, hideLabel, handleStyle, activatedHandleStyle, parentStyle, name, readonly, disabled, onChange, form, onContextMenu} = useProps ("switch", props);
-	const value = props.value;
+	const props = useProps ("switch", instanceProps)
+	const {
+		id,
+		className,
+		style,
+		activatedStyle,
+		label,
+		labelStyle,
+		hideLabel,
+		handleStyle,
+		activatedHandleStyle,
+		parentStyle,
+		name,
+		value,
+		readonly,
+		disabled,
+		form,
+		onChange,
+		onContextMenu
+	} = props;
+
+	const parentCss = useStyle ("switch", props, parentStyle, "parentStyle");
+	const css = useStyle ("switch", props, style);
+	const activatedCss = useStyle ("switch", props, activatedStyle, "activatedStyle");
+	const handleCss = useStyle ("switch", props, handleStyle, "handleStyle");
+	const activatedHandleCss = useStyle ("switch", props, activatedHandleStyle, "activatedHandleStyle");
+	const labelCss = useStyle ("switch", props, labelStyle, "labelStyle");
+	
 	const [isSwitched, setIsSwitched] = useState (value ?? false);
 	const inputRef = useRef<HTMLInputElement | null> (null);
 
@@ -32,22 +59,20 @@ export default function Switch (props: SwitchProps)
 		<SwitchWrapper
 			id = {id}
 			className = {className}
-			style = {parentStyle}
+			style = {parentCss}
 		>
 			<SwitchSlider
 				value = {isSwitched}
-				backgroundStyle = {style}
-				activatedBackgroundStyle = {activatedStyle}
-				handleStyle = {handleStyle}
-				activatedHandleStyle = {activatedHandleStyle}
+				backgroundStyle = {css}
+				activatedBackgroundStyle = {activatedCss}
+				handleStyle = {handleCss}
+				activatedHandleStyle = {activatedHandleCss}
 				onClick = {handleClick}
 				onContextMenu = {onContextMenu}
-				readonly = {readonly}
-				disabled = {disabled}
 			/>
 			<SwitchLabel
 				hideLabel = {hideLabel}
-				style = {labelStyle}
+				style = {labelCss}
 				onClick = {handleClick}
 			>
 				{label}

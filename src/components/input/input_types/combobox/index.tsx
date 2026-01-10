@@ -24,8 +24,9 @@ function defaultRenderOption (option: Option, selected?: boolean, onClick?: OnCh
 	);
 }
 
-export default function Combobox (props: ComboboxProps)
+export default function Combobox (instanceProps: ComboboxProps)
 {
+	const props = useProps ("combobox", instanceProps);
 	const {
 		name,
 		options,
@@ -46,15 +47,15 @@ export default function Combobox (props: ComboboxProps)
 		onChange,
 		renderOption = defaultRenderOption,
 		...baseProps
-	} = useProps ("combobox", props);
+	} = props;
 
-	const css = useStyle ("combobox", style);
-	const fieldsetCss = useStyle ("combobox", fieldsetStyle, undefined, "fieldsetStyle");
-	const labelCss = useStyle ("combobox", labelStyle, undefined, "labelStyle");
-	const hintCss = useStyle ("combobox", hintStyle, undefined, "hintStyle");
-	const errorCss = useStyle ("combobox", errorTextStyle, undefined, "errorTextStyle");
-	const menuCss = useStyle ("combobox", menuStyle, undefined, "menuStyle");
-	const tagCss = useStyle ("combobox", tagsStyle, undefined, "tagsStyle");
+	const css = useStyle ("combobox", props, style);
+	const fieldsetCss = useStyle ("combobox", props, fieldsetStyle, "fieldsetStyle");
+	const labelCss = useStyle ("combobox", props, labelStyle, "labelStyle");
+	const hintCss = useStyle ("combobox", props, hintStyle, "hintStyle");
+	const errorCss = useStyle ("combobox", props, errorTextStyle, "errorTextStyle");
+	const menuCss = useStyle ("combobox", props, menuStyle, "menuStyle");
+	const tagCss = useStyle ("combobox", props, tagsStyle, "tagsStyle");
 	
 	const [isExpanded, setIsExpanded] = useState (false);
 	const inputRef = useRef<HTMLDivElement | null> (null);

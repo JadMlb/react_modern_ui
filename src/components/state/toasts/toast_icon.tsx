@@ -1,24 +1,22 @@
-import { useCallback } from "react";
-import { Style, ToastIconType } from "../../../types";
-import useStyle from "../../../hooks/useStyle";
+import { useMemo } from "react";
+import { StaticStyle, ToastIconType } from "../../../types";
+import { useDarkMode } from "../../../styles";
+import { merge } from "lodash";
 
 interface DefaultToastIconProps
 {
 	icon?: Partial<ToastIconType>;
-	style?: Style;
+	style?: StaticStyle;
 }
 
 export default function ToastIcon ({style, icon}: DefaultToastIconProps)
 {
-	const injectedStyle = useCallback (
-		(isDark: boolean) => ({
-			backgroundColor: `${icon!.colour}${isDark ? "Dark" : ""}`
-		}),
-		[icon?.colour]
+	const isDark = useDarkMode();
+	const css = useMemo (
+		() => merge ({}, style, {backgroundColor: `${icon!.colour}${isDark ? "Dark" : ""}`}),
+		[isDark, icon?.colour, style]
 	);
 
-	const css = useStyle ("toaster", style, injectedStyle, "iconContainerStyle");
-	
 	return (
 		<div css = {css}>
 			{icon?.icon}

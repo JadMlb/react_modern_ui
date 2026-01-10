@@ -1,34 +1,25 @@
-import { useCallback } from "react";
-import { Style } from "../../../types";
-import useStyle from "../../../hooks/useStyle";
+import { useMemo } from "react";
+import { StaticStyle } from "../../../types";
+import { merge } from "lodash";
 
 interface SwitchHandleProps
 {
-	style?: Style;
-	activatedStyle?: Style;
-	readonly?: boolean;
-	disabled?: boolean;
+	style?: StaticStyle;
+	activatedStyle?: StaticStyle;
 	value: boolean;
 }
 
-export default function SwitchHandle ({value, readonly, disabled, style, activatedStyle}: SwitchHandleProps)
+export default function SwitchHandle ({value, style, activatedStyle}: SwitchHandleProps)
 {
-	const activatedCss = useStyle ("switch", activatedStyle, undefined, "activatedHandleStyle");
-	const injectedStyles = useCallback (
-		(isDark: boolean) =>
+	const css = useMemo (
+		() =>
 		{
-			let additionalStyles = {};
-
 			if (value)
-				additionalStyles = activatedCss;
-			return {
-				backgroundColor: readonly || disabled ? `gray${isDark ? "Dark" : "Light"}` : "white",
-				...additionalStyles
-			};
+				return merge ({}, style, activatedStyle);
+			return style;
 		},
-		[value, readonly, disabled, activatedCss]
+		[value, style, activatedStyle]
 	);
-	const css = useStyle ("switch", style, injectedStyles, "handleStyle");
 	
 	return (
 		<div css = {css}/>

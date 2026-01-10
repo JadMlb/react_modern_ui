@@ -3,41 +3,33 @@ import DateTimeInputProps from "../../../types/components/input/datetime/DateTim
 import TimeInputProps from "../../../types/components/input/datetime/TimeInputProps";
 import DateInputProps from "../../../types/components/input/datetime/DateInputProps";
 import InputBase from "./input_base";
-import { useTheme } from "../../../styles";
-import X from "./x";
+import useProps from "../../../hooks/useProps";
+import Trailing from "./trailing/trailing";
+import styled from "@emotion/styled";
+import useStyle from "../../../hooks/useStyle";
 
-interface TrailingProps
+function padDateTime (number: number)
 {
-	trailing?: React.ReactNode;
-	optional?: boolean;
-	handleClear?: (e: React.MouseEvent) => void;
+	return number.toString().padStart (2, "0");
 }
 
-function Trailing ({trailing, optional, handleClear}: TrailingProps)
-{
-	const {theme} = useTheme();
-	const STYLE = React.useMemo (
-		() => ({
-			display: "flex",
-			gap: theme.measurements.spacing.small,
-			alignItems: "center"
-		}),
-		[]
-	);
-
-	return (
-		<div style = {STYLE}>
-			{trailing}
-			{optional && <X onClick = {handleClear}/>}
-		</div>
-	);
-}
+const Input = styled.input
+`
+	all: unset;
+	height: auto;
+	font: inherit;
+	flex: 1;
+`;
 
 const DateInput = React.forwardRef<HTMLInputElement, DateTimeInputProps | TimeInputProps | DateInputProps> (
-	(props, ref) =>
+	(instanceProps, ref) =>
 	{
+		const type = instanceProps.type;
+		const props = useProps (`input.${type}`, instanceProps);
 		const {
+			type: _,
 			id,
+			name,
 			className,
 			hideLabel,
 			hint,
@@ -46,7 +38,6 @@ const DateInput = React.forwardRef<HTMLInputElement, DateTimeInputProps | TimeIn
 			labelStyle,
 			value,
 			onChange,
-			type,
 			range,
 			isError,
 			leading,
@@ -55,24 +46,28 @@ const DateInput = React.forwardRef<HTMLInputElement, DateTimeInputProps | TimeIn
 			optional,
 			disabled,
 			readonly,
+			fieldsetStyle,
+			hintStyle,
+			errorTextStyle,
 			...rest
 		} = props;
+		
+		const css = useStyle (`input.${type}`, props, style);
+		const fieldsetCss = useStyle (`input.${type}`, props, fieldsetStyle, "fieldsetStyle");
+		const labelCss = useStyle (`input.${type}`, props, labelStyle, "labelStyle");
+		const hintCss = useStyle (`input.${type}`, props, hintStyle, "hintStyle");
+		const errorCss = useStyle (`input.${type}`, props, errorTextStyle, "errorTextStyle");
+		
 		const [shownValue, setShownValue] = React.useState (value ? value.toString() : "");
 		const popupRef = React.useRef<HTMLDivElement> (null);
 		const inputRef = React.useRef<HTMLInputElement> (null);
 		
 		React.useImperativeHandle<HTMLInputElement | null, HTMLInputElement | null> (ref, () => inputRef.current);
 
-		function handleClear (e: React.MouseEvent)
+		function handleClear ()
 		{
-			e.preventDefault();
 			setShownValue ("");
 			onChange?. (null, "");
-		}
-
-		function padDateTime (number: number)
-		{
-			return number.toString().padStart (2, "0");
 		}
 
 		const formatDate = React.useCallback (
@@ -88,7 +83,7 @@ const DateInput = React.forwardRef<HTMLInputElement, DateTimeInputProps | TimeIn
 					case "datetime": return dateStr + " " + timeStr;
 				}
 			},
-		[]
+			[type, (props.type === "datetime" || props.type === "time") && props.withSeconds]
 		)
 
 		function expand (e: React.FocusEvent)
@@ -135,32 +130,35 @@ const DateInput = React.forwardRef<HTMLInputElement, DateTimeInputProps | TimeIn
 				inputId = {`${name}-${type}-input`}
 				hideLabel = {hideLabel}
 				hint = {hint}
+				hintStyle = {hintCss}
 				textOnError = {textOnError}
+				errorTextStyle = {errorCss}
 				label = {label}
-				labelStyle = {labelStyle}
+				labelStyle = {labelCss}
 				trailing = {
 					<Trailing
-						trailing = {trailing}
 						optional = {optional}
 						handleClear = {handleClear}
-					/>
+					>
+						{trailing}
+					</Trailing>
 				}
 				isError = {isError}
-				style = {style}
+				style = {css}
+				fieldsetStyle = {fieldsetCss}
 				onFocus = {expand}
 				onBlur = {close}
 				disabled = {disabled}
 				readonly = {readonly}
 			>
 				{leading}
-				<input
+				<Input
 					ref = {inputRef}
 					type = {type === "datetime" ? "datetime-local" : type}
 					value = {shownValue}
 					onChange = {e => onChange?. (e as React.ChangeEvent<Element>, formatDate (new Date (e.target.value)))}
 					min = {(range && range[0] && formatDate (range[0])) || undefined}
 					max = {(range && range[1] && formatDate (range[1])) || undefined}
-					style = {{all: "unset", height: "auto", font: "inherit", flex: 1}}
 					disabled = {disabled}
 					readOnly = {readonly}
 					{...rest}

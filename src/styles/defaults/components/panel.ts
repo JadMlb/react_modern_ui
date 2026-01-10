@@ -1,5 +1,4 @@
-import { Overridable, OverridablePanelProps } from "../../../types";
-import PanelStylingProps from "../../../types/components/Panel/PanelStylingProps";
+import { Overridable, OverridablePanelProps, PanelStylingProps } from "../../../types";
 
 const DEFAULT_PANEL_PROPS: Overridable<OverridablePanelProps, PanelStylingProps> = {
 	styles: {
@@ -18,14 +17,15 @@ const DEFAULT_PANEL_PROPS: Overridable<OverridablePanelProps, PanelStylingProps>
 			position: "sticky",
 			top: 0,
 		},
-		style: {
+		style: (_, {title}) => ({
 			padding: "spacing.small",
 			gap: "spacing.small",
 			borderRadius: "radius.medium",
 			position: "relative",
 			display: "flex",
 			flexDirection: "column",
-		}
+			border: title !== undefined && title !== null ? "1px solid primary" : undefined
+		})
 	}
 };
 

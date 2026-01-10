@@ -1,26 +1,26 @@
 import { Style } from "../../styles";
-import StylingProps from "../../styles/StylingProps";
+import BasicCssStylingProps from "../../styles/BasicCssStylingProps";
 
-export default interface ToasterStylingProps extends Omit<StylingProps, "style">
+export default interface GenericToasterStylingProps<T> extends BasicCssStylingProps
 {
 	/**
 	 * Styles the toasts container
 	 */
-	containerStyle?: Style;
+	containerStyle?: Style<T>;
 	/**
 	 * Styles the toasts
 	 */
-	toastStyle?: Style;
+	toastStyle?: Style<T>;
 	/**
 	 * Styles the toasts clear button
 	 */
-	clearButtonStyle?: Style;
+	clearButtonStyle?: Style<T>;
 	/**
 	 * Styles the toasts progress bar if shown
 	 */
-	progressBarStyle?: Style;
+	progressBarStyle?: Style<T>;
 	/**
 	 * Styles the toast icon background
 	 */
-	iconContainerStyle?: Style;
+	iconContainerStyle?: Style<T>;
 }

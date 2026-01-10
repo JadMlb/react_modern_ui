@@ -1,14 +1,21 @@
+import { Props } from "../Props";
 import { TableRowData } from "../Table/TableRowData";
-import ListStylingProps from "./ListStylingProps";
+import GenericListStylingProps from "./ListStylingProps";
 
 export type ListItemContents = TableRowData & {id: string | number};
 
-export default interface ListProps extends ListStylingProps
+export default interface ListConfigProps
 {
 	/**
 	 * The list of items characterized by an id and key-value content
 	 */
 	items: ListItemContents[];
+	/**
+	 * A mapper function that takes an item from the list provided and renders a JSX element placed inside of a draggable list item
+	 * @param item The raw data of an element in the list
+	 * @returns The contents of a list item
+	 */
+	renderer?: (item: ListItemContents) => React.ReactNode;
 	/**
 	 * Boolean flag that signals if the items can be reordered by drag and drop
 	 */
@@ -38,4 +45,7 @@ export default interface ListProps extends ListStylingProps
 	onChange?: (items: ListItemContents[]) => void;
 }
 
-export type OverridableListProps = Pick<ListProps, "draggable" | "dragHandle">;
+export type ListStylingProps = GenericListStylingProps<ListConfigProps>;
+export type ListProps = Props<ListConfigProps, ListStylingProps>;
+
+export type OverridableListProps = Pick<ListProps, "draggable" | "dragHandle" | "renderer">;

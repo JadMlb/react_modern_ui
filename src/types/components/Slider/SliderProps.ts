@@ -1,8 +1,9 @@
 import { Option } from "../../Option";
 import { BoxValueInputProps, OnChangeFunction } from "../input";
-import SliderStylingProps from "./SliderStylingProps";
+import { Props } from "../Props";
+import GenericSliderStylingProps from "./SliderStylingProps";
 
-export interface SliderProps extends Omit<BoxValueInputProps, "label" | "labelStyle" | "hideLabel">, SliderStylingProps
+export interface SliderConfigProps extends Omit<BoxValueInputProps, "label" | "labelStyle" | "hideLabel">
 {
 	/**
 	 * The initial value of this slider
@@ -40,5 +41,8 @@ export interface SliderProps extends Omit<BoxValueInputProps, "label" | "labelSt
 	 */
 	vertical?: boolean;
 }
+
+export type SliderStylingProps = GenericSliderStylingProps<SliderConfigProps>;
+export type SliderProps = Props<SliderConfigProps, SliderStylingProps>;
 
 export type OverridableSliderProps = Pick<SliderProps, "min" | "max" | "step" | "stepsLabels">;

@@ -1,5 +1,4 @@
-import { Style } from "../../../types";
-import useStyle from "../../../hooks/useStyle";
+import { StaticStyle } from "../../../types";
 
 function ignoreClick (e: React.MouseEvent)
 {
@@ -10,7 +9,7 @@ interface CheckboxLabelProps
 {
 	label?: string;
 	hideLabel?: boolean;
-	style?: Style;
+	style?: StaticStyle;
 	id?: string;
 	className?: string;
 	children?: React.ReactNode;
@@ -19,13 +18,11 @@ interface CheckboxLabelProps
 
 export default function CheckboxLabel ({id, className, label, hideLabel, style, onContextMenu, children}: CheckboxLabelProps)
 {
-	const css = useStyle ("checkbox", style, undefined, "labelStyle");
-	
 	return (
 		<label
 			id = {id}
 			className = {className}
-			css = {css}
+			css = {style}
 			onClick = {ignoreClick}
 			onContextMenu = {onContextMenu}
 		>

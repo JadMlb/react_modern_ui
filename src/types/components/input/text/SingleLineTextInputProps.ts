@@ -1,4 +1,4 @@
-import BasicTextInputProps from "./BasicTextInputProps";
+import { BasicTextInputProps } from "./BasicTextInputProps";
 
 export default interface SingleLineTextInputProps extends BasicTextInputProps
 {

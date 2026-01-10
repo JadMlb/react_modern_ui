@@ -1,9 +1,21 @@
-import { Overridable, OverridableTagProps } from "../../../types";
-import StylingProps from "../../../types/styles/StylingProps";
+import { Overridable, OverridableTagProps, TagColour, TagStylingProps } from "../../../types";
 
-const DEFAULT_TAG_PROPS: Overridable<OverridableTagProps, StylingProps> = {
+function getTagColour (colour: TagColour)
+{
+	switch (colour)
+	{
+		case "success": return "affirmative";
+		case "warning": return "alert";
+		case "error": return "error";
+		case "neutral":
+		default:
+			return "gray" as const;
+	}
+}
+
+const DEFAULT_TAG_PROPS: Overridable<OverridableTagProps, TagStylingProps> = {
 	styles: {
-		style: {
+		style: (isDark, {colour = "neutral", onClick}) => ({
 			width: "fit-content",
 			textAlign: "center",
 			paddingInline: "spacing.xsmall",
@@ -11,7 +23,10 @@ const DEFAULT_TAG_PROPS: Overridable<OverridableTagProps, StylingProps> = {
 			gap: "spacing.xsmall",
 			alignItems: "center",
 			borderRadius: "radius.small",
-		}
+			cursor: onClick ? "pointer" : "default",
+			backgroundColor: `${getTagColour (colour)}${isDark ? "Dark" : ["affirmative"].includes (colour) ? "Elevated" : ""}`,
+			color: isDark || ["error"].includes (colour) ? "white" : "black"
+		})
 	}
 };
 

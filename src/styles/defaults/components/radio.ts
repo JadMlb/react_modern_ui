@@ -1,5 +1,4 @@
-import { Overridable, OverridableRadioButtonsGroupProps } from "../../../types";
-import RadioButtonsGroupStylingProps from "../../../types/components/RadioButtonsGroup/RadioButtonsGroupStylingProps";
+import { Overridable, OverridableRadioButtonsGroupProps, RadioButtonsGroupStylingProps } from "../../../types";
 
 const DEFAULT_RADIO_BUTTONS_GROUP_PROPS: Overridable<OverridableRadioButtonsGroupProps, RadioButtonsGroupStylingProps> = {
 	styles: {

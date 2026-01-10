@@ -1,5 +1,4 @@
-import { Overridable, OverridableComboboxProps } from "../../../types";
-import ComboboxStylingProps from "../../../types/components/Combobox/ComboboxStylingProps";
+import { ComboboxStylingProps, Overridable, OverridableComboboxProps } from "../../../types";
 import Arrow from "./combobox_arrow";
 
 const DEFAULT_ARROW_COMPONENT = {

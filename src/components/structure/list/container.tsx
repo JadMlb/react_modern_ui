@@ -1,23 +1,20 @@
-import useStyle from "../../../hooks/useStyle";
-import { Style } from "../../../types";
+import { StaticStyle } from "../../../types";
 
 interface ListContainerProps
 {
 	id?: string;
 	className?: string;
-	style?: Style;
+	style?: StaticStyle;
 	children: React.ReactNode;
 }
 
 export function ListContainer ({id, className, style, children}: ListContainerProps)
 {
-	const css = useStyle ("list", style, undefined);
-
 	return (
 		<ul
 			id = {id}
 			className = {className}
-			css = {css}
+			css = {style}
 		>
 			{children}
 		</ul>

@@ -4,12 +4,15 @@ import CheckboxLabel from "./label";
 import HiddenInput from "./hidden";
 import CheckboxBox from "./box";
 import useProps from "../../../hooks/useProps";
+import useStyle from "../../../hooks/useStyle";
 
 /**
  * Renders a Checkbox component with specified value, either in normal checked/unchecked, or in tri-value
  */
-export default function Checkbox (props: CheckboxProps)
+export default function Checkbox (instanceProps: CheckboxProps)
 {
+	const props = useProps ("checkbox", instanceProps);
+	
 	const {
 		autoFocus,
 		checkedComponent,
@@ -34,7 +37,12 @@ export default function Checkbox (props: CheckboxProps)
 		readonly,
 		style,
 		value
-	} = useProps ("checkbox", props);
+	} = props;
+	
+	const labelCss = useStyle ("checkbox", props, labelStyle, "labelStyle");
+	const css = useStyle ("checkbox", props, style);
+	const checkedCss = useStyle ("checkbox", props, checkedStyle, "checkedStyle");
+	const intermediateCss = useStyle ("checkbox", props, intermediateStyle, "intermediateStyle");
 	
 	const ref = useRef<HTMLInputElement | null> (null);
 
@@ -159,7 +167,7 @@ export default function Checkbox (props: CheckboxProps)
 			className = {className}
 			hideLabel = {hideLabel}
 			label = {label}
-			style = {labelStyle}
+			style = {labelCss}
 			id = {id}
 			onContextMenu = {onContextMenu}
 		>
@@ -168,16 +176,14 @@ export default function Checkbox (props: CheckboxProps)
 				defaultValue = {defaultValue}
 				checkedComponent = {checkedComponent}
 				intermediateComponent = {intermediateComponent}
-				checkedStyle = {checkedStyle}
-				intermediateStyle = {intermediateStyle}
-				style = {style}
+				checkedStyle = {checkedCss}
+				intermediateStyle = {intermediateCss}
+				style = {css}
 				autoFocus = {autoFocus}
 				onBlur = {handleBoxBlur}
 				onFocus = {handleBoxFocus}
 				onKeyDown = {handleBoxKeyDown}
 				onKeyUp = {handleBoxKeyUp}
-				readonly = {readonly}
-				disabled = {disabled}
 			/>
 			<HiddenInput
 				ref = {ref}

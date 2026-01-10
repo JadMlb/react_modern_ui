@@ -1,8 +1,9 @@
 import { TableRowData } from "./TableRowData";
 import TableColumn from "./TableColumn";
-import TableStylingProps from "./TableStylingProps";
+import GenericTableStylingProps from "./TableStylingProps";
+import { Props } from "../Props";
 
-export default interface TableProps extends TableStylingProps
+export default interface TableConfigProps
 {
 	/**
 	 * Defines the table's columns and types
@@ -59,5 +60,8 @@ export type OnTableDataSortFunction = (columnName: string, direction: "asc" | "d
 export type OnPageChangeFunction = (oldPage: number, newPage: number) => void;
 export type OnPageSizeChangeFunction = (newPageSize: number) => void;
 export type OnRowContextMenu = (e: React.MouseEvent, row: TableRowData) => void;
+
+export type TableStylingProps = GenericTableStylingProps<TableConfigProps>;
+export type TableProps = Props<TableConfigProps, TableStylingProps>;
 
 export type OverridableTableProps = Pick<TableProps, "onRowClick" | "onContextMenu" | "onRowContextMenu" | "onPageChange" | "onPageSizeChange" | "pageSizes" | "heading" | "footer">;

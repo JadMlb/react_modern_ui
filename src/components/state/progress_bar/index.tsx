@@ -1,33 +1,36 @@
 import useProps from "../../../hooks/useProps";
+import useStyle from "../../../hooks/useStyle";
 import { ProgressBarProps } from "../../../types";
 import ProgressBarBar from "./bar";
 import ProgressBarContainer from "./container";
 import ProgressBarPercentage from "./percentage";
 
-export default function ProgressBar (props: ProgressBarProps)
+export default function ProgressBar (instanceProps: ProgressBarProps)
 {
+	const props = useProps ("progressBar", instanceProps);
 	const {
 		backgroundStyle,
 		parentStyle,
 		style,
 		className,
 		id,
-		thin,
-		showPercentage
-	} = useProps ("progressBar", props);
-	const percentage = props.percentage;
+		showPercentage,
+		percentage
+	} = props;
+
+	const css = useStyle ("progressBar", props, style);
+	const backgroundCss = useStyle ("progressBar", props, backgroundStyle, "backgroundStyle");
+	const parentCss = useStyle ("progressBar", props, parentStyle, "parentStyle");
 
 	return (
 		<ProgressBarContainer
-			style = {parentStyle}
+			style = {parentCss}
 			id = {id}
 			className = {className}
 		>
 			<ProgressBarBar
-				value = {percentage}
-				backgroundStyle = {backgroundStyle}
-				style = {style}
-				thin = {thin}
+				backgroundStyle = {backgroundCss}
+				style = {css}
 			/>
 			<ProgressBarPercentage value = {percentage} show = {showPercentage}/>
 		</ProgressBarContainer>

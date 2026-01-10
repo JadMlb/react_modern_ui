@@ -1,7 +1,8 @@
 import { Style } from "../../styles";
 import WrappedElementStylingProps from "../../styles/WrappedElementStylingProps";
+import { Props } from "../Props";
 
-export default interface SeparatorProps extends WrappedElementStylingProps
+export default interface SeparatorConfigProps
 {
 	/**
 	 * The title of the following section
@@ -12,5 +13,8 @@ export default interface SeparatorProps extends WrappedElementStylingProps
 	 */
 	parentStyle?: Style;
 }
+
+export type SeparatorStylingProps = WrappedElementStylingProps<SeparatorConfigProps>;
+export type SeparatorProps = Props<SeparatorConfigProps, SeparatorStylingProps>;
 
 export type OverridableSeparatorProps = never;

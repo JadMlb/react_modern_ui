@@ -1,36 +1,17 @@
-import { useMemo } from "react";
-import { useThemeParser } from "../../../styles";
-import { Style } from "../../../types";
-
-const DEFAULT_STYLE = {
-	display: "flex",
-	flexDirection: "column",
-	padding: "unset",
-	margin: "unset",
-	border: "unset"
-} satisfies Style;
+import { StaticStyle } from "../../../types";
 
 interface FieldsetProps
 {
 	disabled?: boolean;
-	style?: Style;
+	style?: StaticStyle;
 	children?: React.ReactNode;
 	onContextMenu?: React.MouseEventHandler;
 }
 
 export default function Fieldset ({disabled, style, onContextMenu, children}: FieldsetProps)
 {
-	const parseCss = useThemeParser();
-	const css = useMemo (
-		() => parseCss ({
-			...DEFAULT_STYLE,
-			...style
-		}),
-		[style, parseCss]
-	);
-
 	return (
-		<fieldset css = {css} aria-disabled = {disabled} onContextMenu = {onContextMenu}>
+		<fieldset css = {style} aria-disabled = {disabled} onContextMenu = {onContextMenu}>
 			{children}
 		</fieldset>
 	);

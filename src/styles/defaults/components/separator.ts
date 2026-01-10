@@ -1,7 +1,6 @@
-import { Overridable, OverridableSeparatorProps } from "../../../types";
-import WrappedElementStylingProps from "../../../types/styles/WrappedElementStylingProps";
+import { Overridable, OverridableSeparatorProps, SeparatorStylingProps } from "../../../types";
 
-const DEFAULT_SEPARATOR_PROPS: Overridable<OverridableSeparatorProps, WrappedElementStylingProps> = {
+const DEFAULT_SEPARATOR_PROPS: Overridable<OverridableSeparatorProps, SeparatorStylingProps> = {
 	styles: {
 		parentStyle: {
 			display: "flex",

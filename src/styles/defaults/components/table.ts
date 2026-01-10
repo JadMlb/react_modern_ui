@@ -1,5 +1,16 @@
-import { Overridable, OverridableTableProps } from "../../../types";
-import TableStylingProps from "../../../types/components/Table/TableStylingProps";
+import { Overridable, OverridableTableProps, TableColumn, TableStylingProps } from "../../../types";
+
+function getColumnGrid (columns: TableColumn[])
+{
+	return columns.map (
+		(column) : string =>
+		{
+			const isNumber = typeof column.width === "number";
+			return column.width !== undefined ? isNumber ? `${column.width}px` : `${column.width}` : "1fr";
+		}
+	)
+	.join (" ");
+}
 
 const DEFAULT_TABLE_PROPS: Overridable<OverridableTableProps, TableStylingProps> = {
 	// FIXME: must be overridden and not merged
@@ -13,21 +24,23 @@ const DEFAULT_TABLE_PROPS: Overridable<OverridableTableProps, TableStylingProps>
 			gap: "spacing.medium",
 			marginBlock: "spacing.large"
 		},
-		headerRowStyle: {
+		headerRowStyle: (_, {columns}) => ({
 			display: "grid",
+			gridTemplateColumns: getColumnGrid (columns),
 			border: "1px solid gray",
 			backgroundColor: "primary",
 			color: "white",
 			borderTopLeftRadius: "radius.medium",
 			borderTopRightRadius: "radius.medium"
-		},
+		}),
 		headerCellStyle: {
 			fontWeight: "bold",
 			alignItems: "center",
 			cursor: "default"
 		},
-		tableRowStyle: {
+		tableRowStyle: (_, {columns}) => ({
 			display: "grid",
+			gridTemplateColumns: getColumnGrid (columns),
 			border: "1px solid gray",
 			":last-of-type": {
 				borderBottomLeftRadius: "radius.medium",
@@ -38,7 +51,7 @@ const DEFAULT_TABLE_PROPS: Overridable<OverridableTableProps, TableStylingProps>
 			":hover": {
 				backgroundColor: "color(from gray srgb r g b / 0.1)"
 			}
-		},
+		}),
 		tableCellStyle: {
 			":not(:first-of-type)": {
 				borderLeft: "1px solid gray",

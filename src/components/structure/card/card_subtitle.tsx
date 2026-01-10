@@ -1,20 +1,18 @@
-import useStyle from "../../../hooks/useStyle";
-import { CardProps } from "../../../types";
+import { CardProps, StaticStyle } from "../../../types";
 
 interface CardSubtitleProps
 {
 	contents?: CardProps["subtitle"];
-	style?: CardProps["subtitleStyle"];
+	style?: StaticStyle;
 }
 
 export default function CardSubtitle ({contents, style}: CardSubtitleProps)
 {
-	const css = useStyle ("card", style, undefined, "subtitleStyle");
 	if (!contents)
 		return null;
 
 	return (
-		<p css = {css}>
+		<p css = {style}>
 			{contents}
 		</p>
 	);

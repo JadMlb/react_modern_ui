@@ -1,4 +1,5 @@
 import useProps from "../../../hooks/useProps";
+import useStyle from "../../../hooks/useStyle";
 import { CardProps } from "../../../types";
 import CardContainer from "./card_container";
 import CardContents from "./card_contents";
@@ -9,9 +10,11 @@ import CardTitle from "./card_title";
 /**
  * Renders a visible, elevated wrapper around the content with a title and a subtitle
  */
-export default function Card (props: CardProps)
+export default function Card (instanceProps: CardProps)
 {
+	const props = useProps ("card", instanceProps);
 	const {
+		style,
 		level,
 		title,
 		titleStyle,
@@ -21,7 +24,11 @@ export default function Card (props: CardProps)
 		mediaPosition,
 		children,
 		...rest
-	} = useProps ("card", props);
+	} = props;
+
+	const css = useStyle ("card", props, style);
+	const titleCss = useStyle ("card", props, titleStyle, "titleStyle");
+	const subtitleCss = useStyle ("card", props, subtitleStyle, "subtitleStyle");
 	
 	return (
 		<CardContainer
@@ -30,9 +37,10 @@ export default function Card (props: CardProps)
 			media = {media}
 			mediaPosition = {mediaPosition}
 			{...rest}
+			css = {css}
 		>
-			<CardTitle contents = {title} style = {titleStyle} level = {level}/>
-			<CardSubtitle contents = {subtitle} style = {subtitleStyle}/>
+			<CardTitle contents = {title} style = {titleCss} level = {level}/>
+			<CardSubtitle contents = {subtitle} style = {subtitleCss}/>
 			<CardContents>{children}</CardContents>
 			<CardMedia>{media}</CardMedia>
 		</CardContainer>

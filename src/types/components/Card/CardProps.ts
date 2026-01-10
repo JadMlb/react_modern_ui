@@ -1,7 +1,8 @@
 import DivProps from "../DivProps";
-import CardStylingProps from "./CardStylingProps";
+import { Props } from "../Props";
+import GenericCardStylingProps from "./CardStylingProps";
 
-export interface CardProps extends CardStylingProps, DivProps
+export interface CardConfigProps extends DivProps
 {
 	/**
 	 * The title of the card shown in bold
@@ -29,5 +30,8 @@ export interface CardProps extends CardStylingProps, DivProps
 	 */
 	children?: React.ReactNode;
 }
+
+export type CardStylingProps = GenericCardStylingProps<CardConfigProps>;
+export type CardProps = Props<CardConfigProps, CardStylingProps>;
 
 export type OverridableCardProps = Pick<CardProps, "mediaPosition" | "level">;

@@ -1,4 +1,4 @@
-import { OnPageChangeFunction, OnPageSizeChangeFunction, Style } from "../../../../types";
+import { OnPageChangeFunction, OnPageSizeChangeFunction, StaticStyle } from "../../../../types";
 
 export default interface TablePaginationProps
 {
@@ -6,7 +6,7 @@ export default interface TablePaginationProps
 	page?: number;
 	rowsPerPage?: number;
 	dataSize: number;
-	style?: Style;
+	style?: StaticStyle;
 	onPageChange?: OnPageChangeFunction;
 	onPageSizeChange?: OnPageSizeChangeFunction;
 }

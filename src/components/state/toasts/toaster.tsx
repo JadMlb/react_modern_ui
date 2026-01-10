@@ -1,21 +1,22 @@
 /** @jsxImportSource @emotion/react */
 import Toast from "./toast";
-import ToasterProps from "../../../types/components/Toaster/ToasterProps";
+import { ToasterProps } from "../../../types/components/Toaster/ToasterProps";
 import { useToasts } from "./toasts_context";
 import { createPortal } from "react-dom";
 import ToasterContainer from "./container";
 import useProps from "../../../hooks/useProps";
+import useStyle from "../../../hooks/useStyle";
 
 /**
  * Establishes component to display toasts.
  * Code inspired by https://blog.logrocket.com/how-to-create-custom-toast-component-react/
  */
-export default function Toaster (props: ToasterProps)
+export default function Toaster (instanceProps: ToasterProps)
 {
+	const props = useProps ("toaster", instanceProps);
 	const {
 		id,
 		className,
-		position,
 		autoClear,
 		clearAfter,
 		containerStyle,
@@ -23,17 +24,24 @@ export default function Toaster (props: ToasterProps)
 		clearButton,
 		clearButtonStyle,
 		icons,
+		iconContainerStyle,
 		progressBar,
 		progressBarStyle
-	} = useProps ("toaster", props);
+	} = props;
+
+	const containerCss = useStyle ("toaster", props, containerStyle, "containerStyle");
+	const toastCss = useStyle ("toaster", props, toastStyle, "toastStyle");
+	const clearButtonCss = useStyle ("toaster", props, clearButtonStyle, "clearButtonStyle");
+	const progressBarCss = useStyle ("toaster", props, progressBarStyle, "progressBarStyle");
+	const iconContainerCss = useStyle ("toaster", props, iconContainerStyle, "iconContainerStyle");
+
 	const {toasts, clearToast} = useToasts();
 	
 	return createPortal (
 		<ToasterContainer
 			id = {id}
 			className = {className}
-			position = {position!}
-			style = {containerStyle}
+			style = {containerCss}
 		>{
 			toasts.length > 0 &&
 			toasts.map (
@@ -42,12 +50,13 @@ export default function Toaster (props: ToasterProps)
 							onClose = {() => clearToast (toast.id)}	
 							autoClear = {autoClear}
 							clearAfter = {clearAfter}
-							containerStyle = {toastStyle}
+							containerStyle = {toastCss}
 							clearButton = {clearButton}
-							clearButtonStyle = {clearButtonStyle}
+							clearButtonStyle = {clearButtonCss}
 							icon = {icons![toast.type ?? "info"]}
+							iconContainerStyle = {iconContainerCss}
 							progressBar = {progressBar}
-							progressBarStyle = {progressBarStyle}
+							progressBarStyle = {progressBarCss}
 						>
 							{toast.contents}
 						</Toast>

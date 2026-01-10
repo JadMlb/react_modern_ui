@@ -1,20 +1,17 @@
 import TablePaginationProps from "./TablePaginationProps";
 import TablePagination from "./table_pagination";
-import { Style } from "../../../../types";
-import useStyle from "../../../../hooks/useStyle";
+import { StaticStyle } from "../../../../types";
 
 interface TableFooterProps extends TablePaginationProps
 {
 	children?: React.ReactNode;
-	paginationStyle?: Style;
+	paginationStyle?: StaticStyle;
 }
 
 export default function TableFooter ({children, style, paginationStyle, ...paginationProps}: TableFooterProps)
 {	
-	const css = useStyle ("table", style, undefined, "footerStyle");
-	
 	return (
-		<div css = {css}>
+		<div css = {style}>
 			{children}
 			<TablePagination {...paginationProps} style = {paginationStyle}/>
 		</div>

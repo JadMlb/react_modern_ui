@@ -1,7 +1,6 @@
 /** @jsxImportSource @emotion/react */
-import React, { useMemo } from "react";
-import { Style } from "../../../types";
-import useStyle from "../../../hooks/useStyle";
+import React from "react";
+import { StaticStyle } from "../../../types";
 
 interface DraggableListItemProps
 {
@@ -11,24 +10,16 @@ interface DraggableListItemProps
 	onDragEnd: React.DragEventHandler;
 	dragging?: boolean;
 	handle?: React.ReactNode | null;
-	style?: Style;
+	style?: StaticStyle;
 	children: React.ReactNode;
 };
 
 export default function DraggableListItem ({draggable, onDragStart, onDragEnter, onDragEnd, dragging, handle, style, children}: DraggableListItemProps)
 {
-	const injectedStyle = useMemo (
-		() => ({
-			opacity: dragging ? 0.5 : 1,
-		}),
-		[dragging]
-	);
-
-	const css = useStyle ("list", style, injectedStyle, "listItemStyle");
-
 	return (
 		<li
-			css = {css}
+			className = {dragging ? "rmui-list-item-dragging" : undefined}
+			css = {style}
 			onDragStart = {onDragStart}
 			onDragEnter = {onDragEnter}
 			onDragOver = {e => e.preventDefault()}

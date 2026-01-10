@@ -16,9 +16,10 @@ const StyledTextInput = styled.input
 `;
 
 const SingleLineTextInput = React.forwardRef<HTMLInputElement, SingleLineTextInputProps | NonTextTextualInputProps> (
-	(props, ref) =>
+	(instanceProps, ref) =>
 	{
-		const type = props.type;
+		const type = instanceProps.type;
+		const props = useProps (`input.${type}`, instanceProps);
 		const {
 			type: _,
 			pattern,
@@ -44,13 +45,13 @@ const SingleLineTextInput = React.forwardRef<HTMLInputElement, SingleLineTextInp
 			readonly,
 			leading,
 			...rest
-		} = useProps (`input.${type}`, props);
+		} = props;
 
-		const css = useStyle (`input.${type}`, style);
-		const fieldsetCss = useStyle (`input.${type}`, fieldsetStyle, undefined, "fieldsetStyle");
-		const labelCss = useStyle (`input.${type}`, labelStyle, undefined, "labelStyle");
-		const hintCss = useStyle (`input.${type}`, hintStyle, undefined, "hintStyle");
-		const errorCss = useStyle (`input.${type}`, errorTextStyle, undefined, "errorTextStyle");
+		const css = useStyle (`input.${type}`, props, style);
+		const fieldsetCss = useStyle (`input.${type}`, props, fieldsetStyle, "fieldsetStyle");
+		const labelCss = useStyle (`input.${type}`, props, labelStyle, "labelStyle");
+		const hintCss = useStyle (`input.${type}`, props, hintStyle, "hintStyle");
+		const errorCss = useStyle (`input.${type}`, props, errorTextStyle, "errorTextStyle");
 
 		const [shownValue, setShownValue] = React.useState (props.value ?? "");
 		const [displayType, setDisplayType] = React.useState (type);

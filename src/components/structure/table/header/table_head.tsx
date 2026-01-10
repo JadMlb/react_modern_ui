@@ -1,9 +1,7 @@
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import TableHeadCell from "./table_head_cell";
 import TableRowProps from "../body/TableRowProps";
-import useTableColumns from "../../../../hooks/useTableColumns";
 import { OnTableDataSortFunction } from "../../../../types";
-import useStyle from "../../../../hooks/useStyle";
 
 interface TableHeadProps extends TableRowProps
 {
@@ -12,7 +10,6 @@ interface TableHeadProps extends TableRowProps
 
 export default function TableHead ({columns, style, cellStyle, onSort}: TableHeadProps)
 {
-	const gridColumns = useTableColumns (columns);
 	const [sortingColumn, setSortingColumn] = useState<{column: string, desc?: boolean} | null> (null);
 
 	function handleSort (column: string)
@@ -53,16 +50,8 @@ export default function TableHead ({columns, style, cellStyle, onSort}: TableHea
 		};
 	}
 
-	const injectedStyles = useMemo (
-		() => ({
-			gridTemplateColumns: gridColumns
-		}),
-		[style, gridColumns]
-	);
-	const css = useStyle ("table", style, injectedStyles, "headerRowStyle");
-	
 	return (
-		<div css = {css}>{
+		<div css = {style}>{
 			columns.map (
 				col => <TableHeadCell
 							key = {col.name}

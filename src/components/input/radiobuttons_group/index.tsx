@@ -11,8 +11,9 @@ import useStyle from "../../../hooks/useStyle";
 /**
  * Renders a group of radio buttons showing multiple options
  */
-export default function RadioButtonsGroup (props: RadioButtonsGroupProps)
+export default function RadioButtonsGroup (instanceProps: RadioButtonsGroupProps)
 {
+	const props = useProps ("radioButtonsGroup", instanceProps);
 	const {
 		className,
 		id,
@@ -40,12 +41,12 @@ export default function RadioButtonsGroup (props: RadioButtonsGroupProps)
 		checkboxLabelStyle,
 		checkboxStyle,
 		onContextMenu
-	} = useProps ("radioButtonsGroup", props);
+	} = props;
 	
-	const css = useStyle ("radioButtonsGroup", style);
-	const checkboxCss = useStyle ("radioButtonsGroup", checkboxStyle, undefined, "checkboxStyle");
-	const checkboxActiveCss = useStyle ("radioButtonsGroup", checkboxActiveStyle, undefined, "checkboxActiveStyle");
-	const labelCss = useStyle ("radioButtonsGroup", checkboxLabelStyle, undefined, "checkboxLabelStyle");
+	const css = useStyle ("radioButtonsGroup", props, style);
+	const checkboxCss = useStyle ("radioButtonsGroup", checkboxStyle, props, "checkboxStyle");
+	const checkboxActiveCss = useStyle ("radioButtonsGroup", checkboxActiveStyle, props, "checkboxActiveStyle");
+	const labelCss = useStyle ("radioButtonsGroup", checkboxLabelStyle, props, "checkboxLabelStyle");
 	
 	const [checked, setChecked] = useState<number | null> (null);
 

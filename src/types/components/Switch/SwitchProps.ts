@@ -1,7 +1,8 @@
 import { BoxValueInputProps, OnChangeFunction } from "../input";
-import SwitchStylingProps from "./SwitchStylingProps";
+import { Props } from "../Props";
+import GenericSwitchStylingProps from "./SwitchStylingProps";
 
-export interface SwitchProps extends BoxValueInputProps, SwitchStylingProps
+export interface SwitchConfigProps extends BoxValueInputProps
 {
 	/**
 	 * The label to be displayed next to the checkbox
@@ -14,5 +15,8 @@ export interface SwitchProps extends BoxValueInputProps, SwitchStylingProps
 	value?: boolean;
 	onChange?: OnChangeFunction<boolean>;
 }
+
+export type SwitchStylingProps = GenericSwitchStylingProps<SwitchConfigProps>;
+export type SwitchProps = Props<SwitchConfigProps, SwitchStylingProps>;
 
 export type OverridableSwitchProps = never;

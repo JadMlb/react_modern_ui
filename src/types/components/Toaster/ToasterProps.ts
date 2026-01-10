@@ -1,7 +1,8 @@
+import { Props } from "../Props";
 import { PartialToastIconMap } from "./Toast";
-import ToasterStylingProps from "./ToasterStylingProps";
+import GenericToasterStylingProps from "./ToasterStylingProps";
 
-export default interface ToasterProps extends ToasterStylingProps
+export default interface ToasterConfigProps
 {
 	/**
 	 * Determines if the toast is automatically cleared after the value of `clearAfter`, or if it sticks until the close button in clicked. Defaults to `false`.
@@ -28,5 +29,8 @@ export default interface ToasterProps extends ToasterStylingProps
 	 */
 	icons?: PartialToastIconMap;
 }
+
+export type ToasterStylingProps = GenericToasterStylingProps<ToasterConfigProps>;
+export type ToasterProps = Props<ToasterConfigProps, ToasterStylingProps>;
 
 export type OverridableToasterProps = Pick<ToasterProps, "autoClear" | "clearAfter" | "position" | "clearButton" | "progressBar" | "icons">;

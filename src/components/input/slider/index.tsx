@@ -7,6 +7,8 @@ import SliderInput from "./input";
 import useProps from "../../../hooks/useProps";
 import SliderContainer from "./container";
 import Labels from "./labels";
+import useStyle from "../../../hooks/useStyle";
+import { translateSliderStyles, translateSliderThumbStyles } from "./translateSliderStyles";
 
 function labelsToMap (labels?: Option[])
 {
@@ -46,8 +48,9 @@ function generateDivisionsAtInterval (interval: number, min: number, max: number
 }
 
 const Slider = React.forwardRef<HTMLInputElement, SliderProps> (
-	(props, ref) =>
+	(instanceProps, ref) =>
 	{
+		const props = useProps ("slider", instanceProps);
 		const {
 			style,
 			min,
@@ -62,7 +65,28 @@ const Slider = React.forwardRef<HTMLInputElement, SliderProps> (
 			vertical,
 			parentStyle,
 			...inputProps
-		} = useProps ("slider", props);
+		} = props;
+
+		const parentCss = useStyle ("slider", props, parentStyle, "parentStyle");
+		const unprocessedThumbCss = useStyle ("slider", props, thumbStyle, "thumbStyle");
+		const thumbCss = React.useMemo (
+			() => translateSliderThumbStyles (unprocessedThumbCss),
+			[unprocessedThumbCss]
+		);
+
+		const unprocessedBackgroundCss = useStyle ("slider", props, style);
+		const backgroundCss = React.useMemo (
+			() => translateSliderStyles (unprocessedBackgroundCss),
+			[unprocessedBackgroundCss, value, min, max]
+		);
+
+		const css = React.useMemo (
+			() => ({
+				...thumbCss,
+				...backgroundCss
+			}),
+			[backgroundCss, thumbCss]
+		);
 
 		const [innerValue, setInnerValue] = React.useState (value ?? min!);
 		const innerRef = React.useRef<HTMLInputElement | null> (null);
@@ -101,7 +125,7 @@ const Slider = React.forwardRef<HTMLInputElement, SliderProps> (
 		);
 
 		return (
-			<SliderContainer style = {parentStyle}>
+			<SliderContainer style = {parentCss}>
 				<SliderInput
 					ref = {innerRef}
 					value = {innerValue}
@@ -109,8 +133,7 @@ const Slider = React.forwardRef<HTMLInputElement, SliderProps> (
 					max = {max!}
 					step = {step}
 					onChange = {handleChange}
-					style = {style}
-					thumbStyle = {thumbStyle}
+					style = {css}
 					{...inputProps}
 				/>
 				<Options divisions = {divisions}/>

@@ -1,20 +1,17 @@
-import useStyle from "../../../hooks/useStyle";
-import BlockSkeletonLoaderProps from "../../../types/components/SkeletonLoader/BlockSkeletonLoaderProps";
+import { StaticStyle } from "../../../types";
 
 interface AnimatedLoaderWrapperProps
 {
 	className?: string;
 	id?: string;
-	style?: BlockSkeletonLoaderProps["parentStyle"];
+	style?: StaticStyle;
 	children?: React.ReactNode;
 }
 
 export default function AnimatedLoaderWrapper ({id, className, style, children}: AnimatedLoaderWrapperProps)
 {
-	const css = useStyle ("skeletonLoader.block", style, undefined, "parentStyle");
-	
 	return (
-		<div css = {css} className = {className} id = {id}>
+		<div css = {style} className = {className} id = {id}>
 			{children}
 		</div>
 	);

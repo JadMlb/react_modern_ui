@@ -1,23 +1,23 @@
-import { Overridable, OverridableDialogProps, Style } from "../../../types";
-import PopupStylingProps from "../../../types/components/Popups/PopupStylingProps";
-import DEFAULT_POPUP_STYLE from "./popup";
+import { DialogStylingProps, Overridable, OverridableDialogProps } from "../../../types";
+import DEFAULT_POPUP_STYLE, { slideBottom } from "./popup";
 import DEFAULT_POPUPS_BACKDROP_STYLE from "./popups_backdrop";
+import DEFAULT_HEADER_FOOTER_STYLE from "./popups_headers_footers";
 
-const HEADER_FOOTER_STYLE: Style = {
-	display: "flex",
-	flexDirection: "row",
-	gap: "spacing.medium",
-	alignItems: "center",
-	justifyContent: "space-between",
-	width: "100%"
-};
-
-const DEFAULT_DIALOG_PROPS: Overridable<OverridableDialogProps, PopupStylingProps> = {
+const DEFAULT_DIALOG_PROPS: Overridable<OverridableDialogProps, DialogStylingProps> = {
 	styles: {
-		backdropStyle: DEFAULT_POPUPS_BACKDROP_STYLE,
-		style: DEFAULT_POPUP_STYLE,
-		headerStyle: HEADER_FOOTER_STYLE,
-		footerStyle: HEADER_FOOTER_STYLE
+		backdropStyle: {
+			...DEFAULT_POPUPS_BACKDROP_STYLE,
+			flexDirection: "row",
+			justifyContent: "center"
+		},
+		style: {
+			...DEFAULT_POPUP_STYLE,
+			width: "50dvw",
+			height: "fit-content",
+			animation: `${slideBottom} 0.25s ease-in-out`,
+		},
+		headerStyle: DEFAULT_HEADER_FOOTER_STYLE,
+		footerStyle: DEFAULT_HEADER_FOOTER_STYLE
 	}
 };
 

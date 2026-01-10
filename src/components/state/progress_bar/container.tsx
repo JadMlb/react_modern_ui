@@ -1,20 +1,17 @@
-import useStyle from "../../../hooks/useStyle";
-import { ProgressBarProps } from "../../../types";
+import { ProgressBarProps, StaticStyle } from "../../../types";
 
 interface ProgressBarContainerProps
 {
 	id?: ProgressBarProps["id"];
 	className?: ProgressBarProps["className"];
-	style?: ProgressBarProps["parentStyle"];
+	style?: StaticStyle;
 	children?: React.ReactNode;
 }
 
 export default function ProgressBarContainer ({id, className, style, children}: ProgressBarContainerProps)
 {
-	const css = useStyle ("progressBar", style, undefined, "parentStyle");
-
 	return (
-		<div id = {id} className = {className} css = {css}>
+		<div id = {id} className = {className} css = {style}>
 			{children}
 		</div>
 	);

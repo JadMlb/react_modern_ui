@@ -1,19 +1,17 @@
-import { useEffect, useMemo, useState } from "react";
-import BadgeProps from "../../../types/components/Badge/BadgeProps";
-import useStyle from "../../../hooks/useStyle";
-import useProps from "../../../hooks/useProps";
+import { useEffect, useState } from "react";
+import { BadgeProps } from "../../../types/components/Badge/BadgeProps";
+import { StaticStyle } from "../../../types";
 
-export default function BadgeBadge (props: Omit<BadgeProps, "children">)
+export default function BadgeBadge (props: Omit<BadgeProps, "children"> & {css: StaticStyle})
 {
 	const {
 		force,
 		id,
 		className,
 		max,
-		position,
-		style,
+		css,
 		value
-	} = useProps ("badge", props);
+	} = props;
 
 	const [display, setDisplay] = useState ("");
 
@@ -35,18 +33,6 @@ export default function BadgeBadge (props: Omit<BadgeProps, "children">)
 		},
 		[value, force, max]
 	);
-	
-	const internalStyles = useMemo (
-		() => ({
-			[position!.horizontal!]: 0,
-			[position!.vertical!]: 0,
-			transform: `translate(${position!.horizontal === "left" ? "-" : ""}50%, ${position!.vertical === "top" ? "-" : ""}50%)`,
-			height: display === "" ? undefined : 10,
-			minWidth: display === "" ? undefined : 10,
-		}),
-		[position, display]
-	);
-	const css = useStyle ("badge", style, internalStyles);
 
 	if (!force && !value)
 		return null;

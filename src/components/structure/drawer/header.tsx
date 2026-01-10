@@ -29,12 +29,11 @@ function CloseButton ({onClose}: OnCloseButtonProps)
 
 interface DrawerHeaderProps extends OnCloseButtonProps
 {
-	title?: React.ReactNode;
 	noCloseButton?: boolean;
 	children?: React.ReactNode;
 }
 
-export default function DrawerHeader ({title, noCloseButton, onClose, children}: DrawerHeaderProps)
+export default function DrawerHeader ({noCloseButton, onClose, children}: DrawerHeaderProps)
 {
 	const closeButtonAllowed = useMemo (
 		() => !noCloseButton,
@@ -43,7 +42,6 @@ export default function DrawerHeader ({title, noCloseButton, onClose, children}:
 
 	return (
 		<>
-			<span>{title && closeButtonAllowed ? title : ""}</span>
 			{children}
 			{closeButtonAllowed && <CloseButton onClose = {onClose}/>}
 		</>

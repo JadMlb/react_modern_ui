@@ -1,20 +1,17 @@
-import { Style } from "../../../types";
-import useStyle from "../../../hooks/useStyle";
+import { StaticStyle } from "../../../types";
 
 interface SwitchWrapperProps
 {
 	id?: string;
 	className?: string;
-	style?: Style;
+	style?: StaticStyle;
 	children: React.ReactNode;
 }
 
 export default function SwitchWrapper ({style, children}: SwitchWrapperProps)
 {
-	const css = useStyle ("switch", style, undefined, "parentStyle");
-
 	return (
-		<div css = {css}>
+		<div css = {style}>
 			{children}
 		</div>
 	);

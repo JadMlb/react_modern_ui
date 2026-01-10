@@ -2,9 +2,8 @@ import { useEffect, useMemo, useState } from "react";
 import TablePaginationProps from "./TablePaginationProps";
 import PaginationButtons from "./pagination_buttons";
 import PaginationPageSizes from "./page_sizes";
-import useStyle from "../../../../hooks/useStyle";
 
-const DEFAULT_PAGE_OPTIONS = [5, 10, 15, ];
+const DEFAULT_PAGE_OPTIONS = [5, 10, 15, 20];
 
 export default function TablePagination ({rowsPerPage, dataSize, pageSizesOptions = DEFAULT_PAGE_OPTIONS, page = 0, style, onPageChange, onPageSizeChange}: TablePaginationProps)
 {
@@ -39,13 +38,11 @@ export default function TablePagination ({rowsPerPage, dataSize, pageSizesOption
 		[dataSize, realRowsPerPage]
 	);
 
-	const css = useStyle ("table", style, undefined, "paginationStyle");
-
 	if (nbPages < 2)
 		return null;
 
 	return (
-		<div css = {css}>
+		<div css = {style}>
 			<PaginationPageSizes
 				current = {pageSize}
 				options = {pageSizesOptions}

@@ -1,6 +1,7 @@
 import StylingProps from "../../styles/StylingProps";
+import { Props } from "../Props";
 
-export interface LinkProps extends StylingProps
+export interface LinkConfigProps
 {
 	/**
 	 * The destination where the link should navigate to
@@ -22,5 +23,8 @@ export interface LinkProps extends StylingProps
 	onKeyDown?: React.KeyboardEventHandler<HTMLAnchorElement>;
 	onKeyUp?: React.KeyboardEventHandler<HTMLAnchorElement>;
 }
+
+export type LinkStylingProps = StylingProps<LinkConfigProps>
+export type LinkProps = Props<LinkConfigProps, LinkStylingProps>;
 
 export type OverridableLinkProps = never;

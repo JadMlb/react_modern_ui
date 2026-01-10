@@ -1,4 +1,4 @@
-import GenericDateTimeInputProps from "./GenericDateTimeInputProps";
+import { GenericDateTimeInputProps } from "./GenericDateTimeInputProps";
 
 export default interface DateInputProps extends GenericDateTimeInputProps
 {

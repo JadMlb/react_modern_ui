@@ -1,7 +1,6 @@
-import { Overridable, OverridableNumberInputProps } from "../../../types";
-import InputBaseStylingProps from "../../../types/components/input/Base/InputBaseStylingProps";
+import { NumberInputStylingProps, Overridable, OverridableNumberInputProps } from "../../../types";
 
-export const DEFAULT_NUMBER_INPUT_PROPS: Overridable<OverridableNumberInputProps, InputBaseStylingProps> = {
+export const DEFAULT_NUMBER_INPUT_PROPS: Overridable<OverridableNumberInputProps, NumberInputStylingProps> = {
 	styles: {
 		style: {
 			width: "fit-content"

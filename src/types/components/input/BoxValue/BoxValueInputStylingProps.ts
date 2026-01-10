@@ -1,9 +1,9 @@
 import { Style } from "../../../styles";
 
-export default interface BoxValueInputStylingProps
+export default interface BoxValueInputStylingProps<T>
 {
 	/**
 	 * The style to apply on the label
 	 */
-	labelStyle?: Style;
+	labelStyle?: Style<T>;
 }

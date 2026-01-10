@@ -1,18 +1,15 @@
-import { Style } from "../../../types";
-import useStyle from "../../../hooks/useStyle";
+import { StaticStyle } from "../../../types";
 
 interface ToastBackgroundProps
 {
-	style?: Style;
+	style?: StaticStyle;
 	children?: React.ReactNode;
 }
 
 export default function ToastBackground ({style, children}: ToastBackgroundProps)
 {
-	const css = useStyle  ("toaster", style, undefined, "toastStyle");
-	
 	return (
-		<div css = {css}>
+		<div css = {style}>
 			{children}
 		</div>
 	);

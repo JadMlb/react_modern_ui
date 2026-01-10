@@ -1,9 +1,14 @@
-import DialogProps from "./DialogProps";
+import { Props } from "../Props";
+import DialogConfigProps from "./DialogProps";
+import GenericPopupStylingProps from "./PopupStylingProps";
 
-export default interface DrawerProps extends DialogProps
+export default interface DrawerConfigProps extends DialogConfigProps
 {
 	position?: "right" | "left" | "bottom";
-	withHeader?: boolean;
+	hideCloseButton?: boolean;
 }
 
-export type OverridableDrawerProps = Pick<DrawerProps, "position" | "withHeader">;
+export type DrawerStylingProps = GenericPopupStylingProps<DrawerConfigProps>;
+export type DrawerProps = Props<DrawerConfigProps, DrawerStylingProps>;
+
+export type OverridableDrawerProps = Pick<DrawerProps, "position">;

@@ -3,12 +3,14 @@ import * as React from "react";
 import InputLabel from "./label";
 import InputHint from "./hint";
 import Fieldset from "./fieldset";
-import InputBaseProps from "../../../types/components/input/Base/InputBaseProps";
 import useStyle from "../../../hooks/useStyle";
+import { InputBaseProps } from "../../../types/components/input/Base";
+import useProps from "../../../hooks/useProps";
 
 const InputBase = React.forwardRef<HTMLDivElement, InputBaseProps> (
-	(props, ref) =>
+	(instanceProps, ref) =>
 	{
+		const props = useProps ("input.base", instanceProps);
 		const {
 			id,
 			className,
@@ -25,7 +27,6 @@ const InputBase = React.forwardRef<HTMLDivElement, InputBaseProps> (
 			isError = false,
 			hideLabel,
 			disabled,
-			readonly,
 			children,
 			onClick,
 			onFocus,
@@ -33,29 +34,18 @@ const InputBase = React.forwardRef<HTMLDivElement, InputBaseProps> (
 			onContextMenu
 		} = props;
 
-		const injectedStyles = React.useCallback (
-			(isDark: boolean) => ({
-				border: `1px solid ${isError ? "error" : "gray"}`,
-				color: disabled ? "gray" : undefined,
-				backgroundColor: disabled || readonly ? "unset" : `gray${isDark ? "Dark" : "Light"}`,
-				":hover": {
-					border: `1px solid ${disabled || readonly ? "gray" : `primary${isDark ? "Dark" : "Elevated"}`}`
-				},
-				":focus": {
-					border: `1px solid ${disabled || readonly ? "gray" : "primary"}`
-				}
-			}),
-			[isError, disabled, readonly]
-		);
-		const css = useStyle ("input.base", style, injectedStyles);
+		const css = useStyle ("input.base", props, style);
+		const fieldsetCss = useStyle ("input.base", props, fieldsetStyle, "fieldsetStyle");
+		const labelCss = useStyle ("input.base", props, labelStyle, "labelStyle");
+		const hintCss = useStyle ("input.base", props, hintStyle, "hintStyle");
+		const errorCss = useStyle ("input.base", props, errorTextStyle, "errorTextStyle");
 
 		return (
-			<Fieldset disabled = {disabled} style = {fieldsetStyle} onContextMenu = {onContextMenu}>
+			<Fieldset disabled = {disabled} style = {fieldsetCss} onContextMenu = {onContextMenu}>
 				<InputLabel
 					htmlFor = {inputId}
-					style = {labelStyle}
+					style = {labelCss}
 					hidden = {hideLabel}
-					disabled = {disabled}
 				>
 					{label}
 				</InputLabel>
@@ -75,9 +65,9 @@ const InputBase = React.forwardRef<HTMLDivElement, InputBaseProps> (
 				<InputHint
 					isError = {isError}
 					hint = {hint}
-					hintStyle = {hintStyle}
+					hintStyle = {hintCss}
 					textOnError = {textOnError}
-					errorTextStyle = {errorTextStyle}
+					errorTextStyle = {errorCss}
 				/>
 			</Fieldset>
 		);

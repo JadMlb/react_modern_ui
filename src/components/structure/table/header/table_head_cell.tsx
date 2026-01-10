@@ -2,7 +2,6 @@ import TableSortButton from "../sort_button";
 import TableCellProps from "../TableCellProps";
 import TableCell from "../table_cell";
 import { OnTableDataSortFunction } from "../../../../types";
-import useStyle from "../../../../hooks/useStyle";
 
 interface TableHeadCellProps extends TableCellProps
 {
@@ -15,8 +14,6 @@ interface TableHeadCellProps extends TableCellProps
 
 export default function TableHeadCell ({def, style, sorting, onSort}: TableHeadCellProps)
 {
-	const css = useStyle ("table", style, undefined, "headerCellStyle");
-
 	function handleSort ()
 	{
 		let direction : "asc" | "desc" | null = null;
@@ -28,7 +25,7 @@ export default function TableHeadCell ({def, style, sorting, onSort}: TableHeadC
 	return (
 		<TableCell
 			def = {def}
-			style = {css}
+			style = {style}
 		>
 			{def.displayName}
 			{

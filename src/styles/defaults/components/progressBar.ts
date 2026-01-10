@@ -1,5 +1,4 @@
-import { Overridable, OverridableProgressBarProps } from "../../../types";
-import ProgressBarStylingProps from "../../../types/components/ProgressBar/ProgressBarStylingProps";
+import { Overridable, OverridableProgressBarProps, ProgressBarStylingProps } from "../../../types";
 
 const DEFAULT_PROGRESS_BAR_PROPS: Overridable<OverridableProgressBarProps, ProgressBarStylingProps> = {
 	styles: {
@@ -10,18 +9,20 @@ const DEFAULT_PROGRESS_BAR_PROPS: Overridable<OverridableProgressBarProps, Progr
 			fontSize: "0.8em",
 			alignItems: "center"
 		},
-		backgroundStyle: isDark => ({
+		backgroundStyle: (isDark, {thin}) => ({
 			position: "relative",
 			width: "100%",
 			backgroundColor: `gray${isDark ? "Dark" : "Light"}`,
-			borderRadius: "radius.large"
+			borderRadius: "radius.large",
+			height: thin ? 3 : 10
 		}),
-		style: {
+		style: (_, {percentage}) => ({
 			height: "100%",
+			width: `${percentage}%`,
 			backgroundColor: "primary",
 			transition: "width 100ms",
-			borderRadius: "radius.large"
-		}
+			borderRadius: "radius.large",
+		})
 	}
 };
 

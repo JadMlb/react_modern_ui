@@ -1,34 +1,34 @@
 import { Style } from "../../styles";
-import StylingProps from "../../styles/StylingProps";
+import BasicCssStylingProps from "../../styles/BasicCssStylingProps";
 
-export default interface TableStylingProps extends Omit<StylingProps, "style">
+export default interface GenericTableStylingProps<T> extends BasicCssStylingProps
 {
 	/**
 	 * Defines the style of the table's header row
 	 */
-	headerRowStyle?: Style;
+	headerRowStyle?: Style<T>;
 	/**
 	 * Defines the style of each cell in the table's header row
 	 */
-	headerCellStyle?: Style;
+	headerCellStyle?: Style<T>;
 	/**
 	 * Defines the style of the table's data rows
 	 */
-	tableRowStyle?: Style;
+	tableRowStyle?: Style<T>;
 	/**
 	 * Defines the style of each cell in the table's data rows
 	 */
-	tableCellStyle?: Style;
+	tableCellStyle?: Style<T>;
 	/**
 	 * Defines the style of the table's heading
 	 */
-	headingStyle?: Style;
+	headingStyle?: Style<T>;
 	/**
 	 * Defines the style of the table's footer
 	 */
-	footerStyle?: Style;
+	footerStyle?: Style<T>;
 	/**
 	 * Defines the style of the table's pagination
 	 */
-	paginationStyle?: Style;
+	paginationStyle?: Style<T>;
 }

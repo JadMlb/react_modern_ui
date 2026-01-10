@@ -1,7 +1,6 @@
-import { Overridable, OverridableLinkProps } from "../../../types";
-import StylingProps from "../../../types/styles/StylingProps";
+import { LinkStylingProps, Overridable, OverridableLinkProps } from "../../../types";
 
-const DEFAULT_LINK_PROPS: Overridable<OverridableLinkProps, StylingProps> = {
+const DEFAULT_LINK_PROPS: Overridable<OverridableLinkProps, LinkStylingProps> = {
 	styles: {
 		style: isDark => ({
 			font: "inherit",

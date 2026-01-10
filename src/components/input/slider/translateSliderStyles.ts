@@ -1,4 +1,4 @@
-import { Style } from "../../../types";
+import { StaticStyle, Style } from "../../../types";
 
 
 function toString (value: number | string)
@@ -44,7 +44,7 @@ export function getMargin (style: Style): string
 	return `calc(${margin} + ${padding} + ${border})`;
 }
 
-export function translateSliderStyles (style?: Style): Style
+export function translateSliderStyles (style?: StaticStyle): StaticStyle
 {
 	const extractedKeys = new Set ([
 		"cursor",
@@ -99,7 +99,7 @@ export function translateSliderStyles (style?: Style): Style
 	};
 }
 
-export function translateSliderThumbStyles (style?: Style): Style
+export function translateSliderThumbStyles (style?: StaticStyle): StaticStyle
 {
 	return {
 		"&::-webkit-slider-thumb": {

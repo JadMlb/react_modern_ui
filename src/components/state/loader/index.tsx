@@ -1,5 +1,5 @@
-import BlockSkeletonLoaderProps from "../../../types/components/SkeletonLoader/BlockSkeletonLoaderProps";
-import TextSkeletonLoaderProps from "../../../types/components/SkeletonLoader/TextSkeletonLoaderProps";
+import { BlockSkeletonLoaderProps } from "../../../types/components/SkeletonLoader/BlockSkeletonLoaderProps";
+import { TextSkeletonLoaderProps } from "../../../types/components/SkeletonLoader/TextSkeletonLoaderProps";
 import BlockSkeletonLoader from "./block";
 import TextSkeletonLoader from "./text";
 

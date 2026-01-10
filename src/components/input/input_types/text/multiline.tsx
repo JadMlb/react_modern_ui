@@ -16,8 +16,9 @@ const StyledTextArea = styled.textarea
 `;
 
 const MultiLineTextInput = React.forwardRef<HTMLTextAreaElement, MultiLineTextInputProps> (
-	(props, ref) =>
+	(instanceProps, ref) =>
 	{
+		const props = useProps ("input.text", instanceProps);
 		const {
 			type,
 			pattern,
@@ -43,13 +44,13 @@ const MultiLineTextInput = React.forwardRef<HTMLTextAreaElement, MultiLineTextIn
 			readonly,
 			leading,
 			...rest
-		} = useProps ("input.text", props);
+		} = props;
 		
-		const css = useStyle ("input.text", style);
-		const fieldsetCss = useStyle ("input.text", fieldsetStyle, undefined, "fieldsetStyle");
-		const labelCss = useStyle ("input.text", labelStyle, undefined, "labelStyle");
-		const hintCss = useStyle ("input.text", hintStyle, undefined, "hintStyle");
-		const errorCss = useStyle ("input.text", errorTextStyle, undefined, "errorTextStyle");
+		const css = useStyle ("input.text", props, style);
+		const fieldsetCss = useStyle ("input.text", props, fieldsetStyle, "fieldsetStyle");
+		const labelCss = useStyle ("input.text", props, labelStyle, "labelStyle");
+		const hintCss = useStyle ("input.text", props, hintStyle, "hintStyle");
+		const errorCss = useStyle ("input.text", props, errorTextStyle, "errorTextStyle");
 
 		const [shownValue, setShownValue] = React.useState (props.value ?? "");
 

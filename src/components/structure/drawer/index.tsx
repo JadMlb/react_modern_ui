@@ -1,16 +1,43 @@
-import DrawerProps from "../../../types/components/Popups/DrawerProps";
-import DrawerWithDefaultHeaderProps from "../../../types/components/Popups/DrawerWithDefaultHeaderProps";
-import DrawerWithHeader from "./with_header";
-import DrawerNoHeader from "./base";
+import useProps from "../../../hooks/useProps";
+import useStyle from "../../../hooks/useStyle";
+import { DrawerProps } from "../../../types/components/Popups/DrawerProps";
+import Popup from "../popup_backdrop/popup";
+import DrawerHeader from "./header";
 
-function isWithHeader (props: DrawerProps | DrawerWithDefaultHeaderProps): props is DrawerWithDefaultHeaderProps
+export default function Drawer (instanceProps: DrawerProps)
 {
-	return !!props.withHeader;
-}
+	const props = useProps ("dialog", instanceProps);
+	const {
+		style,
+		backdropStyle,
+		headerStyle,
+		footerStyle,
+		position,
+		header,
+		hideCloseButton,
+		...rest
+	} = props;
 
-export default function Drawer (props: DrawerProps | DrawerWithDefaultHeaderProps)
-{
-	if (isWithHeader (props))
-		return <DrawerWithHeader {...props}/>;
-	return <DrawerNoHeader {...props}/>;
+	const css = useStyle ("dialog", props, style);	
+	const backdropCss = useStyle ("dialog", props, backdropStyle, "backdropStyle");
+	const headerCss = useStyle ("dialog", props, headerStyle, "headerStyle");
+	const footerCss = useStyle ("dialog", props, footerStyle, "footerStyle");
+
+	return (
+		<Popup
+			position = {position ?? "right"}
+			maxHeight
+			forComponent = "drawer"
+			header = {
+				<DrawerHeader noCloseButton = {hideCloseButton} onClose = {rest.onClose}>
+					{header}
+				</DrawerHeader>
+			}
+			{...rest}
+			style = {css}
+			backdropStyle = {backdropCss}
+			headerStyle = {headerCss}
+			footerStyle = {footerCss}
+		/>
+	);
 }

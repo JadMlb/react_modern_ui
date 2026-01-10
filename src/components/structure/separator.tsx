@@ -1,17 +1,18 @@
 /** @jsxImportSource @emotion/react */
 import useProps from "../../hooks/useProps";
 import useStyle from "../../hooks/useStyle";
-import SeparatorProps from "../../types/components/Separator/SeparatorProps";
+import { SeparatorProps } from "../../types/components/Separator/SeparatorProps";
 
 /**
  * Draws a horizontal separator with or without a title to distinguish parts
  */
-export default function Separator (props: SeparatorProps)
+export default function Separator (instanceProps: SeparatorProps)
 {
-	const {id, className, style, parentStyle, title} = useProps ("separator", props);
+	const props = useProps ("separator", instanceProps);
+	const {id, className, style, parentStyle, title} = props;
 	
-	const css = useStyle ("separator", style);
-	const parentCss = useStyle ("separator", parentStyle, undefined, "parentStyle");
+	const css = useStyle ("separator", props, style);
+	const parentCss = useStyle ("separator", props, parentStyle, "parentStyle");
 
 	return (
 		<div id = {id} className = {className} css = {parentCss}>

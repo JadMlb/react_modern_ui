@@ -1,13 +1,12 @@
-import { Overridable, OverridableListProps } from "../../../types";
-import ListStylingProps from "../../../types/components/List/ListStylingProps";
+import { ListStylingProps, Overridable, OverridableListProps } from "../../../types";
 import DefaultDragHandle from "./drag_handle";
 
 const DEFAULT_LIST_PROPS: Overridable<OverridableListProps, ListStylingProps> = {
 	props: {
-		dragHandle: <DefaultDragHandle/>
+		dragHandle: <DefaultDragHandle/>,
+		renderer: item => item.id
 	},
 	styles: {
-		renderer: item => item.id,
 		style: {
 			padding: "unset",
 			margin: "unset",
@@ -26,12 +25,18 @@ const DEFAULT_LIST_PROPS: Overridable<OverridableListProps, ListStylingProps> = 
 			alignItems: "center",
 			gap: "spacing.medium",
 			border: `1px solid ${isDark ? "grayDark" : "grayLight"}`,
-			boxShadow: `0 0 5px ${isDark ? "grayDark" : "grayLight"}`
+			boxShadow: `0 0 5px ${isDark ? "grayDark" : "grayLight"}`,
+			".rmui-list-item-dragging": {
+				opacity: "0.5 !important"
+			}
 		}),
-		listItemDropAreaStyle: {
+		listItemDropAreaStyle: isDark => ({
 			height: 5,
-			width: "100%"
-		}
+			width: "100%",
+			".rmui-list-drop-area-hovered": {
+				backgroundColor: `gray${isDark ? "Dark" : "Light"} !important`
+			}
+		})
 	}
 };
 

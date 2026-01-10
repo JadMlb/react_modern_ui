@@ -1,7 +1,6 @@
 import * as React from "react";
 import { NumberInputProps } from "../../types/components/input/number/NumberInputProps";
 import NumberInput from "./input_types/number";
-import TextInput from "./input_types/text";
 import NonTextTextualInputProps from "../../types/components/input/text/NonTextTextualInputProps";
 import DateInput from "./input_types/date";
 import DateInputProps from "../../types/components/input/datetime/DateInputProps";
@@ -9,6 +8,7 @@ import DateTimeInputProps from "../../types/components/input/datetime/DateTimeIn
 import TimeInputProps from "../../types/components/input/datetime/TimeInputProps";
 import SingleLineTextInputProps from "../../types/components/input/text/SingleLineTextInputProps";
 import MultiLineTextInputProps from "../../types/components/input/text/MultiLineTextInputProps";
+import TextInput from "./input_types/text/index";
 
 type InputProps = NumberInputProps |
 					SingleLineTextInputProps |

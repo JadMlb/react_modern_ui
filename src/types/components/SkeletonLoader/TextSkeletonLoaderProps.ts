@@ -1,6 +1,8 @@
-import SkeletonLoaderProps from "./SkeletonLoaderProps";
+import WrappedElementStylingProps from "../../styles/WrappedElementStylingProps";
+import { Props } from "../Props";
+import SkeletonLoaderConfigProps from "./SkeletonLoaderProps";
 
-export default interface TextSkeletonLoaderProps extends SkeletonLoaderProps
+export default interface TextSkeletonLoaderConfigProps extends SkeletonLoaderConfigProps
 {
 	type?: "text";
 	/**
@@ -8,5 +10,8 @@ export default interface TextSkeletonLoaderProps extends SkeletonLoaderProps
 	 */
 	lines?: number;
 }
+
+export type TextSkeletonLoaderStyleProps = WrappedElementStylingProps<TextSkeletonLoaderConfigProps>;
+export type TextSkeletonLoaderProps = Props<TextSkeletonLoaderConfigProps, TextSkeletonLoaderStyleProps>;
 
 export type OverridableTextSkeletonLoaderProps = Pick<TextSkeletonLoaderProps, "lines">;

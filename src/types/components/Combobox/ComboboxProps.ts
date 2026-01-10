@@ -1,10 +1,11 @@
 import { Option } from "../../Option";
 import { OnChangeFunction } from "../input/BoxValue";
 import { CommonInputProps } from "../input/CommonInput";
-import MenuProps from "../Menu/MenuProps";
-import ComboboxStylingProps from "./ComboboxStylingProps";
+import MenuConfigProps from "../Menu/MenuProps";
+import { Props } from "../Props";
+import GenericComboboxStylingProps from "./ComboboxStylingProps";
 
-export interface ComboboxProps extends Omit<CommonInputProps, "onKeyDown" | "onKeyUp">, ComboboxStylingProps
+export interface ComboboxConfigProps extends Omit<CommonInputProps, "onKeyDown" | "onKeyUp">
 {
 	/**
 	 * Sets the current value of the combobox. If an array is passed, the combobx is treated as having multiple values.
@@ -18,7 +19,7 @@ export interface ComboboxProps extends Omit<CommonInputProps, "onKeyDown" | "onK
 	/**
 	 * Forwards some props to the menu of the combobox
 	 */
-	menuProps?: Omit<MenuProps, "anchorElement" | "open" | "children" | "onClose" | "style">;
+	menuProps?: Omit<MenuConfigProps, "anchorElement" | "open" | "children" | "onClose">;
 	/**
 	 * Customizes the icon displayed instead of the classical arrow
 	 */
@@ -30,4 +31,8 @@ export interface ComboboxProps extends Omit<CommonInputProps, "onKeyDown" | "onK
 }
 
 export type RenderOptionFunction = (option: Option, selected?: boolean, onClick?: OnChangeFunction<Option>) => React.ReactNode;
+
+export type ComboboxStylingProps = GenericComboboxStylingProps<ComboboxConfigProps>;
+export type ComboboxProps = Props<ComboboxConfigProps, ComboboxStylingProps>;
+
 export type OverridableComboboxProps = Pick<ComboboxProps, "menuProps" | "arrowComponent" | "renderOption">;

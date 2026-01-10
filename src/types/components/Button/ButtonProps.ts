@@ -1,9 +1,10 @@
 import StylingProps from "../../styles/StylingProps";
+import { Props } from "../Props";
 
 export type ButtonRoles = "primary" | "alert" | "warn" | "normal";
 export type ButtonTypes = "filled" | "outlined" | "link";
 
-export interface ButtonProps extends StylingProps
+export interface ButtonConfigProps
 {
 	/**
 	 * The role the button will take
@@ -47,4 +48,7 @@ export interface ButtonProps extends StylingProps
 	onKeyUp?: React.KeyboardEventHandler<HTMLButtonElement>;
 }
 
-export type OverridableButtonProps = Pick<ButtonProps, "role" | "htmlType">;
+export type ButtonStylingProps = StylingProps<ButtonConfigProps>;
+export type ButtonProps = Props<ButtonConfigProps, ButtonStylingProps>;
+
+export type OverridableButtonProps = Pick<ButtonConfigProps, "role" | "htmlType">;

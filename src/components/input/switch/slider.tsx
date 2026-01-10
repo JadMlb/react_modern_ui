@@ -1,28 +1,25 @@
-import { Style } from "../../../types";
+import { StaticStyle } from "../../../types";
 import SwitchHandle from "./handle";
 import SwitchSliderBackground from "./slider_bg";
 
 interface SwitchSliderBackgroundProps
 {
 	value: boolean;
-	backgroundStyle?: Style;
-	activatedBackgroundStyle?: Style;
-	handleStyle?: Style;
-	activatedHandleStyle?: Style;
-	readonly?: boolean;
-	disabled?: boolean;
+	backgroundStyle?: StaticStyle;
+	activatedBackgroundStyle?: StaticStyle;
+	handleStyle?: StaticStyle;
+	activatedHandleStyle?: StaticStyle;
 	onClick?: () => void;
 	onContextMenu?: React.MouseEventHandler;
 }
 
-export default function SwitchSlider ({value, backgroundStyle, activatedBackgroundStyle, handleStyle, activatedHandleStyle, readonly, disabled, onClick, onContextMenu}: SwitchSliderBackgroundProps)
+export default function SwitchSlider ({value, backgroundStyle, activatedBackgroundStyle, handleStyle, activatedHandleStyle, onClick, onContextMenu}: SwitchSliderBackgroundProps)
 {
 	return (
 		<SwitchSliderBackground
 			value = {value}
 			style = {backgroundStyle}
 			activatedStyle = {activatedBackgroundStyle}
-			disabled = {disabled}
 			onClick = {onClick}
 			onContextMenu = {onContextMenu}
 		>
@@ -30,8 +27,6 @@ export default function SwitchSlider ({value, backgroundStyle, activatedBackgrou
 				value = {value}
 				style = {handleStyle}
 				activatedStyle = {activatedHandleStyle}
-				readonly = {readonly}
-				disabled = {disabled}
 			/>
 		</SwitchSliderBackground>
 	);

@@ -1,18 +1,15 @@
-import useStyle from "../../../hooks/useStyle";
-import { Style } from "../../../types";
+import { StaticStyle } from "../../../types";
 
 interface SliderContainerProps
 {
-	style?: Style;
+	style?: StaticStyle;
 	children?: React.ReactNode;
 }
 
 export default function SliderContainer ({style, children}: SliderContainerProps)
 {
-	const css = useStyle ("slider", style, undefined, "parentStyle");
-
 	return (
-		<div css = {css}>
+		<div css = {style}>
 			{children}
 		</div>
 	);

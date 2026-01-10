@@ -1,24 +1,13 @@
-import { useMemo } from "react";
-import { ProgressBarProps } from "../../../types";
-import useStyle from "../../../hooks/useStyle";
+import { StaticStyle } from "../../../types";
 
 interface ProgressBarValueProps
 {
-	value: ProgressBarProps["percentage"];
-	style?: ProgressBarProps["style"];
+	style?: StaticStyle;
 }
 
-export default function ProgressBarValue ({value, style}: ProgressBarValueProps)
+export default function ProgressBarValue ({style}: ProgressBarValueProps)
 {
-	const injectedStyles = useMemo (
-		() => ({
-			width: `${value}%`
-		}),
-		[value]
-	);
-	const css = useStyle ("progressBar", style, injectedStyles);
-	
 	return (
-		<div css = {css}/>
+		<div css = {style}/>
 	);
 }

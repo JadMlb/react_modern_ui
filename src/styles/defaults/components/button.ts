@@ -1,5 +1,4 @@
-import { Overridable, OverridableButtonProps, Style } from "../../../types";
-import StylingProps from "../../../types/styles/StylingProps";
+import { ButtonStylingProps, Overridable, OverridableButtonProps, Style } from "../../../types";
 
 const PROPS = {
 	role: "normal",
@@ -18,18 +17,33 @@ const BASE_BUTTON_STYLES = {
 	justifyContent: "center"
 } satisfies Style;
 
-export const DEFAULT_FILLED_BUTTON_PROPS: Overridable<OverridableButtonProps, StylingProps> = {
+export const DEFAULT_FILLED_BUTTON_PROPS: Overridable<OverridableButtonProps, ButtonStylingProps> = {
 	props: PROPS,
 	styles: {
-		style: isDark => ({
+		style: (isDark, {role}) => ({
 			...BASE_BUTTON_STYLES,
 			borderRadius: "radius.medium",
 			padding: "spacing.small",
-			backgroundColor: `gray${isDark ? "" : "Light"}`,
-			color: "black",
+			backgroundColor: role === "primary" ?
+										"primary" :
+										role === "warn" ?
+											"error" :
+											`gray${isDark ? "" : "Light"}`,
+			color: isDark || role && ["primary", "warn"].includes (role) ?
+									"white" :
+									role === "alert" ?
+										"error" :
+										"black",
+			fontWeight: role && ["primary", "transparent", "warn"].includes (role) ? "bold" : "normal",
 			":hover": {
-				backgroundColor: `primary${isDark ? "Dark": "Elevated"}`,
-				color: isDark ? "white" : "black",
+				backgroundColor: role === "warn" ?
+											"errorDark" :
+											role === "alert" ?
+												"error" :
+												role === "primary" ?
+													"primaryDark" :
+													"primaryElevated",
+				color: role === "normal" ? "black" : "white",
 			},
 			":disabled": {
 				color: "gray",
@@ -39,32 +53,42 @@ export const DEFAULT_FILLED_BUTTON_PROPS: Overridable<OverridableButtonProps, St
 	}
 };
 
-export const DEFAULT_OUTLINED_BUTTON_PROPS: Overridable<OverridableButtonProps, StylingProps> = {
+export const DEFAULT_OUTLINED_BUTTON_PROPS: Overridable<OverridableButtonProps, ButtonStylingProps> = {
 	props: PROPS,
 	styles: {
-		style: isDark => ({
+		style: (isDark, {role}) => ({
 			...BASE_BUTTON_STYLES,
 			borderRadius: "radius.medium",
-			border: `1.5px solid gray${isDark ? "Dark" : "Light"}`,
+			borderWidth: 1.5,
+			borderStyle: "solid",
+			borderColor: role === "primary" ? "primary" : role === "warn" ? "error" : `gray${isDark ? "Dark" : "Light"}`,
 			padding: `calc(spacing.small - 1.5px)`,
 			backgroundColor: "transparent",
-			color: "error",
+			color: role && ["primary", "normal"].includes (role) ?
+									"primary" :
+									"error",
 			":hover": {
-				backgroundColor: isDark ? "primaryDark": "primaryElevated",
+				backgroundColor: role && ["warn", "alert"].includes (role) ?
+											isDark ? "errorDark" : "errorElevated":
+											isDark ? "primaryDark": "primaryElevated",
 			}
 		})
 	}
 };
 
-export const DEFAULT_LINK_BUTTON_PROPS: Overridable<OverridableButtonProps, StylingProps> = {
+export const DEFAULT_LINK_BUTTON_PROPS: Overridable<OverridableButtonProps, ButtonStylingProps> = {
 	props: PROPS,
 	styles: {
-		style: isDark => ({
+		style: (isDark, {role}) => ({
 			...BASE_BUTTON_STYLES,
 			backgroundColor: "transparent",
 			border: "unset",
 			textDecoration: "none",
-			color: isDark ? "white" : "black",
+			color: role === "primary" ?
+						"primary" :
+						role === "warn" ?
+							"error" :
+							"inherit",
 			position: "relative",
 			zIndex: 0,
 			"::after": {
@@ -76,6 +100,9 @@ export const DEFAULT_LINK_BUTTON_PROPS: Overridable<OverridableButtonProps, Styl
 				zIndex: -1,
 				height: 2,
 				transition: "height 0.2s ease-in-out",
+				background: role === "normal" || role === "primary" ? 
+										`primary${isDark ? "Dark" : "Elevated"}` :
+										`error${isDark ? "Dark" : "Elevated"}`
 			},
 			":hover::after": {
 				height: "50%"

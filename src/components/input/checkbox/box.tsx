@@ -1,6 +1,5 @@
 import { useEffect, useMemo, useRef } from "react";
-import { CheckboxProps } from "../../../types";
-import useStyle from "../../../hooks/useStyle";
+import { CheckboxProps, StaticStyle } from "../../../types";
 
 interface CheckboxBoxProps
 {
@@ -8,19 +7,17 @@ interface CheckboxBoxProps
 	defaultValue?: CheckboxProps["defaultValue"];
 	checkedComponent?: CheckboxProps["checkedComponent"];
 	intermediateComponent?: CheckboxProps["intermediateComponent"];
-	style?: CheckboxProps["style"];
-	intermediateStyle?: CheckboxProps["intermediateStyle"];
-	checkedStyle?: CheckboxProps["checkedStyle"];
+	style?: StaticStyle;
+	intermediateStyle?: StaticStyle;
+	checkedStyle?: StaticStyle;
 	onBlur?: React.FocusEventHandler<HTMLDivElement>;
 	onFocus?: React.FocusEventHandler<HTMLDivElement>;
 	onKeyDown?: React.KeyboardEventHandler<HTMLDivElement>;
 	onKeyUp?: React.KeyboardEventHandler<HTMLDivElement>;
 	autoFocus?: boolean;
-	readonly?: boolean;
-	disabled?: boolean;
 }
 
-export default function CheckboxBox ({defaultValue, value, checkedComponent, intermediateComponent, style, checkedStyle, intermediateStyle, disabled, readonly, autoFocus, onBlur, onFocus, onKeyDown, onKeyUp}: CheckboxBoxProps)
+export default function CheckboxBox ({defaultValue, value, checkedComponent, intermediateComponent, style, checkedStyle, intermediateStyle, autoFocus, onBlur, onFocus, onKeyDown, onKeyUp}: CheckboxBoxProps)
 {
 	const ref = useRef<HTMLDivElement | null> (null);
 	
@@ -36,43 +33,18 @@ export default function CheckboxBox ({defaultValue, value, checkedComponent, int
 		[value, defaultValue]
 	);
 
-	const injectedBaseStyle = useMemo (
-		() => ({
-			":hover": {
-				borderColor: disabled || readonly ? "gray" : "primaryDark"
-			},
-			borderColor: disabled || readonly ? "gray" : "primary"
-		}),
-		[disabled, readonly]
-	);
-	const finalBaseStyle = useStyle ("checkbox", style, injectedBaseStyle);
-	const injectedCheckedStyle = useMemo (
-		() => ({
-			backgroundColor: readonly || disabled ? "transparent" : finalBaseStyle.backgroundColor,
-		}),
-		[disabled, readonly, finalBaseStyle.backgroundColor]
-	);
-	const finalCheckedStyle = useStyle ("checkbox", checkedStyle, injectedCheckedStyle, "checkedStyle");
-	const injectedIntermediateStyle = useMemo (
-		() => ({
-			backgroundColor: readonly || disabled ? "transparent" : finalBaseStyle.backgroundColor,
-		}),
-		[disabled, readonly, finalBaseStyle.backgroundColor]
-	);
-	const finalIntermediateStyle = useStyle ("checkbox", intermediateStyle, injectedIntermediateStyle, "intermediateStyle");
-
 	const finalStyle = useMemo (
 		() => ({
-			...finalBaseStyle,
+			...style,
 			...(
 				isFullyChecked ?
-					finalCheckedStyle :
+					checkedStyle :
 					isPartiallyChecked ?
-						finalIntermediateStyle :
+						intermediateStyle :
 						{}
 			)
 		}),
-		[isFullyChecked, isPartiallyChecked]
+		[isFullyChecked, isPartiallyChecked, style, checkedStyle, intermediateStyle]
 	);
 
 	useEffect (

@@ -1,9 +1,9 @@
 import { Style } from "../../styles";
 import StylingProps from "../../styles/StylingProps";
 
-export default interface PopupStylingProps extends StylingProps
+export default interface GenericPopupStylingProps<T> extends StylingProps<T>
 {
-	headerStyle?: Style;
-	footerStyle?: Style;
-	backdropStyle?: Style;
+	headerStyle?: Style<T>;
+	footerStyle?: Style<T>;
+	backdropStyle?: Style<T>;
 }

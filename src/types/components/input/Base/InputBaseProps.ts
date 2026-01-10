@@ -1,6 +1,7 @@
-import InputBaseStylingProps from "./InputBaseStylingProps";
+import { Props } from "../../Props";
+import GenericInputBaseStylingProps from "./InputBaseStylingProps";
 
-export default interface InputBaseProps extends InputBaseStylingProps
+export default interface InputBaseConfigProps
 {
 	inputId?: string;
 	label?: string;
@@ -19,5 +20,8 @@ export default interface InputBaseProps extends InputBaseStylingProps
 	onBlur?: React.FocusEventHandler;
 	onContextMenu?: React.MouseEventHandler;
 }
+
+export type InputBaseStylingProps = GenericInputBaseStylingProps<InputBaseConfigProps>;
+export type InputBaseProps = Props<InputBaseConfigProps, InputBaseStylingProps>;
 
 export type OverridableInputBaseProps = never;

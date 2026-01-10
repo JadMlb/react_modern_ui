@@ -1,7 +1,8 @@
 import { EdgePosition } from "../../Position";
 import WrappedElementStylingProps from "../../styles/WrappedElementStylingProps";
+import { Props } from "../Props";
 
-export default interface BadgeProps extends WrappedElementStylingProps
+export interface BadgeConfigProps
 {
 	/**
 	 * The value to show inside of the badge
@@ -28,4 +29,7 @@ export default interface BadgeProps extends WrappedElementStylingProps
 	children: React.ReactElement;
 }
 
-export type OverridableBadgeProps = Pick<BadgeProps, "force" | "position">;
+export type BadgeStylingProps = WrappedElementStylingProps<BadgeConfigProps>;
+export type BadgeProps = Props<BadgeConfigProps, BadgeStylingProps>; 
+
+export type OverridableBadgeProps = Pick<BadgeConfigProps, "force" | "position">;

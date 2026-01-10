@@ -1,26 +1,16 @@
 /** @jsxImportSource @emotion/react */
-import { useCallback, useEffect, useRef, useState } from "react";
-import useStyle from "../../../hooks/useStyle";
-import { Style } from "../../../types";
+import { useEffect, useRef, useState } from "react";
+import { StaticStyle } from "../../../types";
 
 interface ListDropAreaProps
 {
-	style?: Style;
+	style?: StaticStyle;
 }
 
 export default function ListDropArea ({style}: ListDropAreaProps)
 {
 	const [hover, setHover] = useState (false);
 	const ref = useRef<HTMLDivElement | null> (null);
-
-	const injectedStyles = useCallback (
-		(isDark: boolean) => ({
-			backgroundColor: hover ? `gray${isDark ? "Dark" : "Light"}` : "transparent"
-		}),
-		[hover]
-	);
-
-	const css = useStyle ("list", style, injectedStyles, "listItemDropAreaStyle");
 
 	useEffect (
 		() =>
@@ -57,7 +47,8 @@ export default function ListDropArea ({style}: ListDropAreaProps)
 	return (
 		<div
 			ref = {ref}
-			css = {css}
+			css = {style}
+			className = {hover ? "rmui-list-drop-area-hovered" : undefined}
 		/>
 	);
 }
