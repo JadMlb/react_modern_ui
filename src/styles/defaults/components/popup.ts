@@ -1,5 +1,5 @@
 import { keyframes } from "@emotion/react";
-import { Style } from "../../../types";
+import { DynamicStyleFunction } from "../../../types";
 
 export const slideRight = keyframes
 `
@@ -43,13 +43,14 @@ export const slideBottom = keyframes
 	}
 `;
 
-const DEFAULT_POPUP_STYLE: Style = isDark => ({
+const DEFAULT_POPUP_STYLE: DynamicStyleFunction = isDark => ({
 	display: "flex",
 	flexDirection: "column",
 	gap: "spacing.medium",
 	borderRadius: "radius.medium",
 	padding: "spacing.large",
-	backgroundColor: isDark ? "black" : "white"
+	backgroundColor: isDark ? "black" : "white",
+	color: isDark ? "white" : "black"
 });
 
 export default DEFAULT_POPUP_STYLE;

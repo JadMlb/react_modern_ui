@@ -32,10 +32,10 @@ const DEFAULT_CHECKBOX_PROPS: Overridable<OverridableCheckboxProps, CheckboxStyl
 		},
 		checkedStyle: (_, {readonly, disabled}) => ({
 			border: "2px solid transparent",
-			backgroundColor: readonly || disabled ? "transparent" : undefined
+			backgroundColor: readonly || disabled ? "transparent" : "primary"
 		}),
 		intermediateStyle: (_, {readonly, disabled}) => ({
-			backgroundColor: readonly || disabled ? "transparent" : undefined
+			backgroundColor: readonly || disabled ? "transparent" : "primary"
 		})
 	}
 };

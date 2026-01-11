@@ -11,7 +11,8 @@ interface OnCloseButtonProps
 const CLOSE_BUTTON_STYLE = {
 	width: 25,
 	height: 25,
-	borderRadius: "radius.round"
+	borderRadius: "radius.round",
+	marginLeft: "auto"
 } satisfies Style;
 
 function CloseButton ({onClose}: OnCloseButtonProps)

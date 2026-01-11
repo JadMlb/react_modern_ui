@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef } from "react";
 import { CheckboxProps, StaticStyle } from "../../../types";
+import { merge } from "lodash";
 
 interface CheckboxBoxProps
 {
@@ -34,16 +35,15 @@ export default function CheckboxBox ({defaultValue, value, checkedComponent, int
 	);
 
 	const finalStyle = useMemo (
-		() => ({
-			...style,
-			...(
-				isFullyChecked ?
+		() => merge (
+			{},
+			style,
+			isFullyChecked ?
 					checkedStyle :
 					isPartiallyChecked ?
 						intermediateStyle :
 						{}
-			)
-		}),
+		),
 		[isFullyChecked, isPartiallyChecked, style, checkedStyle, intermediateStyle]
 	);
 

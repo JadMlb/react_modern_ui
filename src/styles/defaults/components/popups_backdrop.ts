@@ -1,6 +1,6 @@
-import { Style } from "../../../types";
+import { StaticStyle } from "../../../types";
 
-const DEFAULT_POPUPS_BACKDROP_STYLE: Style = {
+const DEFAULT_POPUPS_BACKDROP_STYLE: StaticStyle = {
 	position: "absolute",
 	zIndex: 100000,
 	top: 0,

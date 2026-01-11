@@ -10,7 +10,7 @@ export default function Badge (instanceProps: BadgeProps)
 	const {style, parentStyle, ...rest} = props;
 	
 	const css = useStyle ("badge", rest, style);
-	const wrapperCss = useStyle ("badge", rest, parentStyle);
+	const wrapperCss = useStyle ("badge", rest, parentStyle, "parentStyle");
 	
 	return (
 		<BadgeWrapper style = {wrapperCss}>

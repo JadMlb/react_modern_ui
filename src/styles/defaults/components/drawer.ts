@@ -23,12 +23,12 @@ const DEFAULT_DRAWER_PROPS: Overridable<OverridableDrawerProps, DrawerStylingPro
 			justifyContent: JUSTIFY_CONTENT[position ?? "right"],
 			alignItems: position === "bottom" ? "stretch" : undefined
 		}),
-		style: (_, {position}) => ({
-			...DEFAULT_POPUP_STYLE,
+		style: (isDark, props) => ({
+			...DEFAULT_POPUP_STYLE (isDark, props),
 			maxHeight: "100dvh",
-			width: position === "bottom" ? "100dvw" : "50dvw",
-			animation: `${position === "right" ? slideRight : position === "left" ? slideLeft : slideBottom} 0.25s ease-in-out`,
-			flex: position === "bottom" ? 1 : undefined
+			width: props.position === "bottom" ? "100dvw" : "50dvw",
+			animation: `${props.position === "right" ? slideRight : props.position === "left" ? slideLeft : slideBottom} 0.25s ease-in-out`,
+			flex: props.position === "bottom" ? 1 : undefined
 		}),
 		headerStyle: DEFAULT_HEADER_FOOTER_STYLE,
 		footerStyle: DEFAULT_HEADER_FOOTER_STYLE

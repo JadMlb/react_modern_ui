@@ -66,7 +66,8 @@ const DEFAULT_TOASTER_PROPS: Overridable<OverridableToasterProps, ToasterStyling
 			gridTemplateColumns: "30px 1fr 30px",
 			gap: "spacing.small",
 			alignItems: "center",
-			backgroundColor: isDark ? "black" : "white"
+			backgroundColor: isDark ? "black" : "white",
+			color: isDark ? "white" : "black"
 		}),
 		clearButtonStyle: {
 			width: "30px",

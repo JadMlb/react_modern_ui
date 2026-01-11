@@ -6,7 +6,6 @@ import PopupContainer from "./container";
 interface PopupProps extends DialogProps
 {
 	position: "center" | "left" | "right" | "bottom";
-	maxHeight?: boolean;
 	forComponent: "dialog" | "drawer";
 	backdropStyle?: StaticStyle;
 	style?: StaticStyle;

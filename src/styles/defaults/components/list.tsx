@@ -26,14 +26,15 @@ const DEFAULT_LIST_PROPS: Overridable<OverridableListProps, ListStylingProps> = 
 			gap: "spacing.medium",
 			border: `1px solid ${isDark ? "grayDark" : "grayLight"}`,
 			boxShadow: `0 0 5px ${isDark ? "grayDark" : "grayLight"}`,
-			".rmui-list-item-dragging": {
-				opacity: "0.5 !important"
+			"&.rmui-list-item-dragging": {
+				opacity: "0.5 !important",
+				backgroundColor: "red !important"
 			}
 		}),
 		listItemDropAreaStyle: isDark => ({
 			height: 5,
 			width: "100%",
-			".rmui-list-drop-area-hovered": {
+			"&.rmui-list-drop-area-hovered": {
 				backgroundColor: `gray${isDark ? "Dark" : "Light"} !important`
 			}
 		})

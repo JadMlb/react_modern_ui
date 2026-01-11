@@ -6,7 +6,7 @@ import DrawerHeader from "./header";
 
 export default function Drawer (instanceProps: DrawerProps)
 {
-	const props = useProps ("dialog", instanceProps);
+	const props = useProps ("drawer", instanceProps);
 	const {
 		style,
 		backdropStyle,
@@ -18,15 +18,14 @@ export default function Drawer (instanceProps: DrawerProps)
 		...rest
 	} = props;
 
-	const css = useStyle ("dialog", props, style);	
-	const backdropCss = useStyle ("dialog", props, backdropStyle, "backdropStyle");
-	const headerCss = useStyle ("dialog", props, headerStyle, "headerStyle");
-	const footerCss = useStyle ("dialog", props, footerStyle, "footerStyle");
+	const css = useStyle ("drawer", props, style);	
+	const backdropCss = useStyle ("drawer", props, backdropStyle, "backdropStyle");
+	const headerCss = useStyle ("drawer", props, headerStyle, "headerStyle");
+	const footerCss = useStyle ("drawer", props, footerStyle, "footerStyle");
 
 	return (
 		<Popup
 			position = {position ?? "right"}
-			maxHeight
 			forComponent = "drawer"
 			header = {
 				<DrawerHeader noCloseButton = {hideCloseButton} onClose = {rest.onClose}>

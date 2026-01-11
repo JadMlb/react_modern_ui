@@ -11,6 +11,7 @@ const ShineAnimation = keyframes
 	to
 	{
 		right: 0;
+		transform: translateX(100%);
 	}
 `;
 
@@ -25,7 +26,7 @@ const PARENT_STYLE: DynamicStyleFunction = isDark => ({
 		position: "absolute",
 		backgroundColor: `color(from ${isDark ? "black" : "white"} srgb r g b / 0.3)`,
 		right: "-100%",
-		width: "10%",
+		width: 50,
 		height: "100%",
 		clipPath: "polygon(25% 0, 100% 0, 75% 100%, 0 100%)",
 		animation: `${ShineAnimation} 3s ease-in-out infinite`
@@ -45,15 +46,20 @@ export const DEFAULT_TEXT_LOADER_PROPS: Overridable<OverridableTextSkeletonLoade
 		parentStyle: PARENT_STYLE,
 		style: (isDark, props) => ({
 			...STYLE (isDark, props),
-			width: Math.random(),
-			height: 20
+			height: 20,
+			":last-of-type": {
+				width: "25%"
+			}
 		})
 	}
 };
 
 export const DEFAULT_BLOCK_LOADER_PROPS: Overridable<OverridableBlockSkeletonLoaderProps, BlockSkeletonLoaderStyleProps> = {
 	styles: {
-		parentStyle: PARENT_STYLE,
+		parentStyle: (isDark, props) => ({
+			...PARENT_STYLE (isDark, props),
+			width: "fit-content"
+		}),
 		style: (isDark, props) => ({
 			...STYLE (isDark, props),
 			width: 100,

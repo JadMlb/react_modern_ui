@@ -58,7 +58,8 @@ const DEFAULT_TABLE_PROPS: Overridable<OverridableTableProps, TableStylingProps>
 			},
 			paddingBlock: "spacing.xxsmall",
 			paddingInline: "spacing.xsmall",
-			display: "flex"
+			display: "flex",
+			textOverflow: "ellipsis"
 		},
 		footerStyle: {
 			display: "flex",
