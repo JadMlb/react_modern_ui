@@ -23,6 +23,12 @@ export default function useClassNameAndId<Component extends Components> (compone
 	const {theme: {defaults}} = useTheme();
 	const defaultsForComponent = at(defaults, [component])[0] as ComponentsOverridesTypeForComponent<Component>;
 
+	if (!defaultsForComponent?.styles)
+		return {
+			className: undefined,
+			id: undefined
+		};
+
 	const defaultClassName = defaultsForComponent.styles?.className as string | undefined;
 	const defaultId = defaultsForComponent.styles?.id as string | undefined;
 
