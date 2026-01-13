@@ -33,8 +33,6 @@ export default function ToastIcon ({style, icon}: DefaultToastIconProps)
 		[isDark, getColour, icon?.colour, style]
 	);
 
-	console.log (style, css);
-
 	return (
 		<div css = {css}>
 			{icon?.icon}

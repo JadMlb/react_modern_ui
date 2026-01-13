@@ -10,7 +10,6 @@ const DEFAULT_SLIDER_PROPS: Overridable<OverridableSliderProps, SliderStylingPro
 		style: (_, {value = 0, min = 0, max = 100}) =>
 		{
 			const percentage = ((value - min) / (max - min)) * 100;
-			console.log (`linear-gradient(to right, primary ${percentage}%, transparent ${percentage}%)`);
 			return {
 				cursor: "pointer",
 				color: "primary",

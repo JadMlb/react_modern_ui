@@ -88,8 +88,6 @@ const Slider = React.forwardRef<HTMLInputElement, SliderProps> (
 			[backgroundCss, thumbCss]
 		);
 
-		console.log (css);
-
 		// const [innerValue, setInnerValue] = React.useState (value ?? min!);
 		const innerRef = React.useRef<HTMLInputElement | null> (null);
 
