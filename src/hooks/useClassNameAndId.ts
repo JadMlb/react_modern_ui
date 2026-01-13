@@ -1,6 +1,7 @@
 import { at } from "lodash";
 import { useTheme } from "../styles";
 import { Components, ComponentsOverridesTypeForComponent } from "../types";
+import { useMemo } from "react";
 
 type ClassNameAndId = {
 	className: string | undefined;
@@ -21,19 +22,28 @@ function tryMergeStringsWithSpace (s1: string | undefined, s2: string | undefine
 export default function useClassNameAndId<Component extends Components> (component: Components, classNameOrId: Partial<ClassNameAndId>) : ClassNameAndId
 {
 	const {theme: {defaults}} = useTheme();
-	const defaultsForComponent = at(defaults, [component])[0] as ComponentsOverridesTypeForComponent<Component>;
+	const defaultsForComponent = useMemo (
+		() => at(defaults, [component])[0] as ComponentsOverridesTypeForComponent<Component>,
+		[defaults, component]
+	);
 
-	if (!defaultsForComponent?.styles)
-		return {
-			className: undefined,
-			id: undefined
-		};
+	return useMemo (
+		() =>
+		{
+			if (!defaultsForComponent?.styles)
+				return {
+					className: undefined,
+					id: undefined
+				};
 
-	const defaultClassName = defaultsForComponent.styles?.className as string | undefined;
-	const defaultId = defaultsForComponent.styles?.id as string | undefined;
+			const defaultClassName = defaultsForComponent.styles?.className as string | undefined;
+			const defaultId = defaultsForComponent.styles?.id as string | undefined;
 
-	return {
-		className: tryMergeStringsWithSpace (defaultClassName, classNameOrId.className),
-		id: classNameOrId.id ?? defaultId
-	};
+			return {
+				className: tryMergeStringsWithSpace (defaultClassName, classNameOrId.className),
+				id: classNameOrId.id ?? defaultId
+			};
+		},
+		[defaultsForComponent, classNameOrId.id, classNameOrId.className]
+	);
 }
