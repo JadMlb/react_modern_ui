@@ -10,7 +10,7 @@ export interface ComboboxConfigProps extends Omit<CommonInputProps, "onKeyDown" 
 	/**
 	 * Sets the current value of the combobox. If an array is passed, the combobx is treated as having multiple values.
 	 */
-	value: string | string[];
+	value?: string | string[];
 	/**
 	 * The list of options to offer for selection
 	 */

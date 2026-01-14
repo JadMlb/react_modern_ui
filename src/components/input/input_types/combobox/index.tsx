@@ -116,7 +116,12 @@ export default function Combobox (instanceProps: ComboboxProps)
 	);
 
 	const formattedValue = useMemo (
-		() => formatValue (value),
+		() =>
+		{
+			if (value)
+				return formatValue (value);
+			return undefined;
+		},
 		[formatValue, value, readonly, disabled]
 	);
 
