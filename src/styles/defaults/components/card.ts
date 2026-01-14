@@ -1,45 +1,54 @@
 import { CardProps, CardStylingProps, Overridable, OverridableCardProps } from "../../../types";
 
+function line (contents: string, condition: boolean)
+{
+	if (!condition)
+		return "";
+	return contents;
+}
+
 function quote (contents: string, condition: boolean)
 {
 	const quote = condition ? '"' : "";
 	return `${quote}${contents}${quote}`;
 }
 
-function getGridAreas (mediaPosition: CardProps["mediaPosition"] = "left", media: CardProps["media"], title: CardProps["title"], subtitle: CardProps["subtitle"])
+function getGridAreas (mediaPosition: CardProps["mediaPosition"] = "left", media: CardProps["media"], title: CardProps["title"], subtitle: CardProps["subtitle"], children: CardProps["children"])
 {
 	const mediaExists = !!media;
 	const titleExists = !!title;
 	const subtitleExists = !!subtitle;
+	const contentsExist = !!children;
 	const mediaArea = media ? "media" : "";
 	const titleArea = title ? "title" : "";
 	const subtitleArea = subtitle ? "subtitle" : "";
-	const mediaOrTitle = !!media || !!title;
-	const mediaOrSubtitle = !!media || !!subtitle;
+	const mediaOrTitle = mediaExists || titleExists;
+	const mediaOrSubtitle = mediaExists || subtitleExists;
+	const mediaOrContents = mediaExists || contentsExist;
 
 	switch (mediaPosition)
 	{
 		case "left":
-			return `${quote (`${mediaArea} ${titleArea}`, mediaOrTitle)}
-			${quote (`${mediaArea} ${subtitleArea}`, mediaOrSubtitle)}
-			"${mediaArea} contents"
+			return `${line (quote (`${mediaArea} ${titleArea}`, mediaOrTitle), titleExists)}
+			${line (quote (`${mediaArea} ${subtitleArea}`, mediaOrSubtitle), subtitleExists)}
+			${line (quote (`${mediaArea} contents`, mediaOrContents), contentsExist)}
 			`;
 		case "right":
-			return `${quote (`${titleArea} ${mediaArea}`, mediaOrTitle)}
-			${quote (`${subtitleArea} ${mediaArea}`, mediaOrSubtitle)}
-			"contents ${mediaArea}"
+			return `${line (quote (`${titleArea} ${mediaArea}`, mediaOrTitle), titleExists)}
+			${line (quote (`${subtitleArea} ${mediaArea}`, mediaOrSubtitle), subtitleExists)}
+			${line (quote (`contents ${mediaArea}`, mediaOrContents), contentsExist)}
 			`;
 		case "top":
-			return `${quote (mediaArea, mediaExists)}
-			${quote (titleArea, titleExists)}
-			${quote (subtitleArea, subtitleExists)}
-			"contents"
+			return `${line (quote (mediaArea, mediaExists), mediaExists)}
+			${line (quote (titleArea, titleExists), titleExists)}
+			${line (quote (subtitleArea, subtitleExists), subtitleExists)}
+			${line ("contents", contentsExist)}
 			`;
 		case "bottom":
-			return `${quote (titleArea, titleExists)}
-			${quote (subtitleArea, subtitleExists)}
-			"contents"
-			${quote (mediaArea, mediaExists)}
+			return `${line (quote (titleArea, titleExists), titleExists)}
+			${line (quote (subtitleArea, subtitleExists), subtitleExists)}
+			${line ("contents", contentsExist)}
+			${line (quote (mediaArea, mediaExists), mediaExists)}
 			`;
 	}
 }
@@ -56,7 +65,7 @@ const DEFAULT_CARD_PROPS: Overridable<OverridableCardProps, CardStylingProps> = 
 			color: "gray",
 			margin: "unset"
 		},
-		style: (isDark, {onClick, mediaPosition, media, title, subtitle}) => ({
+		style: (isDark, {onClick, mediaPosition, media, title, subtitle, children}) => ({
 			position: "relative",
 			overflow: "hidden",
 			gap: "spacing.small",
@@ -71,7 +80,7 @@ const DEFAULT_CARD_PROPS: Overridable<OverridableCardProps, CardStylingProps> = 
 			":hover": {
 				border: onClick ? "1px solid primary" : undefined
 			},
-			gridTemplateAreas: getGridAreas (mediaPosition, media, title, subtitle)
+			gridTemplateAreas: getGridAreas (mediaPosition, media, title, subtitle, children)
 		})
 	}
 };

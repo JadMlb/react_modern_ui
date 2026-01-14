@@ -32,10 +32,6 @@ export default function Card (instanceProps: CardProps)
 	
 	return (
 		<CardContainer
-			title = {title}
-			subtitle = {subtitle}
-			media = {media}
-			mediaPosition = {mediaPosition}
 			{...rest}
 			css = {css}
 		>
