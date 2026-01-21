@@ -3,3 +3,4 @@ export * from "./components/structure";
 export * from "./components/state";
 export * from "./styles";
 export * from "./types";
+export * from "./components/animated";

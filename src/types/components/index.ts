@@ -24,3 +24,4 @@ export * from "./Switch/SwitchProps";
 export * from "./Tag/TagProps";
 export * from "./Badge/BadgeProps";
 export {default as TableColumn} from "./Table/TableColumn";
+export * from "./Animation";

@@ -22,7 +22,7 @@ import { Components, ComponentsOverridesTypeForComponent, Style } from "../types
 // 	return staticStyle;
 // }
 
-function useStaticStyleWrapper<T> (style?: Style<T>)
+export function useStaticStyleWrapper<T> (style?: Style<T>)
 {
 	return useCallback (
 		(isDark: boolean, props: T) =>
