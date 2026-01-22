@@ -1,5 +1,17 @@
 # Change Log
 
+## v2.0.0-beta.13
+
+### Animations
+Added animated components with some basic animations:
+- Bounce
+- Fade
+- Slide
+- Zoom
+
+### Known bugs & issues
+- `Table` component renders misaligned columns when squeezed (e.g. when inspection window is open)
+
 ## v2.0.0-beta.12
 
 ### Bug fixes

@@ -61,8 +61,8 @@ Click [here](docs.md) to read the full docs.
 
 ## Change Log
 
-### v2.0.0 is in beta 12
-Check the [change log](changelog.md#v200-beta12) to see what will change in the upcoming major version.
+### v2.0.0 is in beta 13
+Check the [change log](changelog.md#v200-beta13) to see what will change in the upcoming major version.
 
 ### v1.1.0 is out
 Check the [change log](changelog.md#v110) to see everything new
