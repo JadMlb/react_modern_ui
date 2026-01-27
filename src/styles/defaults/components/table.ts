@@ -31,7 +31,8 @@ const DEFAULT_TABLE_PROPS: Overridable<OverridableTableProps, TableStylingProps>
 			backgroundColor: "primary",
 			color: "white",
 			borderTopLeftRadius: "radius.medium",
-			borderTopRightRadius: "radius.medium"
+			borderTopRightRadius: "radius.medium",
+			overflow: "hidden"
 		}),
 		headerCellStyle: {
 			fontWeight: "bold",

@@ -1,6 +1,5 @@
 import { useMemo } from "react";
 import TableCellProps from "./TableCellProps";
-import useStyle from "../../../hooks/useStyle";
 
 interface DataTableCellProps extends TableCellProps
 {
@@ -17,7 +16,13 @@ export default function TableCell ({def, style, children}: DataTableCellProps)
 		}),
 		[def.spanH, def.align]
 	);
-	const css = useStyle ("table", style, injectedStyle, "tableCellStyle");
+	const css = useMemo (
+		() => ({
+			...style,
+			...injectedStyle
+		}),
+		[style, injectedStyle]
+	);
 
 	return (
 		<div css = {css}>
