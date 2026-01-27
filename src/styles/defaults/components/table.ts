@@ -13,7 +13,6 @@ function getColumnGrid (columns: TableColumn[])
 }
 
 const DEFAULT_TABLE_PROPS: Overridable<OverridableTableProps, TableStylingProps> = {
-	// FIXME: must be overridden and not merged
 	props: {
 		pageSizes: [5, 10, 15, 20]
 	},

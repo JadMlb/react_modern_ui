@@ -89,7 +89,6 @@ const Slider = React.forwardRef<HTMLInputElement, SliderProps> (
 			[backgroundCss, thumbCss]
 		);
 
-		// const [innerValue, setInnerValue] = React.useState (value ?? min!);
 		const innerRef = React.useRef<HTMLInputElement | null> (null);
 
 		React.useImperativeHandle (
@@ -106,7 +105,6 @@ const Slider = React.forwardRef<HTMLInputElement, SliderProps> (
 			if (Number.isNaN (val))
 				return;
 
-			// setInnerValue  (val);
 			onChange?. (e, val);
 		}
 
