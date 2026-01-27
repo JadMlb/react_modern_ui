@@ -22,6 +22,7 @@ export default function Panel (instanceProps: PanelProps)
 		headerStyle,
 		toggleCollapseButtonStyle,
 		children,
+		as,
 		...rest
 	} = props;
 	
@@ -39,8 +40,10 @@ export default function Panel (instanceProps: PanelProps)
 		[setIsCollapsed]
 	);
 
+	const Component = as ?? "div";
+
 	return (
-		<div
+		<Component
 			css = {css}
 			className = {className}
 			id = {id}
@@ -58,6 +61,6 @@ export default function Panel (instanceProps: PanelProps)
 				(!collapsible || !isCollapsed) &&
 				<ScrollArea>{children}</ScrollArea>
 			}
-		</div>
+		</Component>
 	);
 }

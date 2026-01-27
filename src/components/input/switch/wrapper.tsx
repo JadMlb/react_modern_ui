@@ -6,13 +6,15 @@ interface SwitchWrapperProps
 	className?: string;
 	style?: StaticStyle;
 	children: React.ReactNode;
+	as?: keyof HTMLElementTagNameMap;
 }
 
-export default function SwitchWrapper ({style, children}: SwitchWrapperProps)
+export default function SwitchWrapper ({as, id, className, style, children}: SwitchWrapperProps)
 {
+	const Component = as ?? "div"
 	return (
-		<div css = {style}>
+		<Component css = {style} id = {id} className = {className}>
 			{children}
-		</div>
+		</Component>
 	);
 }

@@ -26,7 +26,8 @@ export default function Toaster (instanceProps: ToasterProps)
 		icons,
 		iconContainerStyle,
 		progressBar,
-		progressBarStyle
+		progressBarStyle,
+		...aria
 	} = props;
 
 	const containerCss = useStyle ("toaster", props, containerStyle, "containerStyle");
@@ -42,6 +43,7 @@ export default function Toaster (instanceProps: ToasterProps)
 			id = {id}
 			className = {className}
 			style = {containerCss}
+			{...aria}
 		>{
 			toasts.length > 0 &&
 			toasts.map (

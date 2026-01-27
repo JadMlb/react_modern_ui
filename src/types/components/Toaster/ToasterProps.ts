@@ -1,8 +1,9 @@
+import AriaProps from "../AriaProps";
 import { Props } from "../Props";
 import { PartialToastIconMap } from "./Toast";
 import GenericToasterStylingProps from "./ToasterStylingProps";
 
-export default interface ToasterConfigProps
+export default interface ToasterConfigProps extends AriaProps
 {
 	/**
 	 * Determines if the toast is automatically cleared after the value of `clearAfter`, or if it sticks until the close button in clicked. Defaults to `false`.

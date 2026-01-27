@@ -1,7 +1,8 @@
 import StylingProps from "../../styles/StylingProps";
+import AriaProps from "../AriaProps";
 import { Props } from "../Props";
 
-export interface LinkConfigProps
+export interface LinkConfigProps extends AriaProps
 {
 	/**
 	 * The destination where the link should navigate to

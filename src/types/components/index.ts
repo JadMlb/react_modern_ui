@@ -1,4 +1,3 @@
-export * from "./GenericProps";
 export * from "./Button/ButtonProps";
 export * from "./Card/CardProps";
 export * from "./Checkbox/CheckboxProps";

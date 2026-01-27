@@ -15,7 +15,9 @@ export default function ProgressBar (instanceProps: ProgressBarProps)
 		className,
 		id,
 		showPercentage,
-		percentage
+		percentage,
+		as,
+		...aria
 	} = props;
 
 	const css = useStyle ("progressBar", props, style);
@@ -27,10 +29,13 @@ export default function ProgressBar (instanceProps: ProgressBarProps)
 			style = {parentCss}
 			id = {id}
 			className = {className}
+			as = {as}
 		>
 			<ProgressBarBar
 				backgroundStyle = {backgroundCss}
 				style = {css}
+				percentage = {percentage}
+				{...aria}
 			/>
 			<ProgressBarPercentage value = {percentage} show = {showPercentage}/>
 		</ProgressBarContainer>

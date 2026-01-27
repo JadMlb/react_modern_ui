@@ -1,7 +1,8 @@
+import BaseProps from "../BaseProps";
 import { Props } from "../Props";
 import GenericProgressBarStylingProps from "./ProgressBarStylingProps";
 
-export interface ProgressBarConfigProps
+export interface ProgressBarConfigProps extends BaseProps
 {
 	/**
 	 * The percentage from completion. This value must be a number **between 0 and 100** otherwise an error is thrown.

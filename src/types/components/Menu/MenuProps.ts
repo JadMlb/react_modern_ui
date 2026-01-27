@@ -2,8 +2,9 @@ import React from "react";
 import { Position } from "../../Position";
 import StylingProps from "../../styles/StylingProps";
 import { Props } from "../Props";
+import AriaProps from "../AriaProps";
 
-export default interface MenuConfigProps
+export default interface MenuConfigProps extends AriaProps
 {
 	/**
 	 * A ref to the html parent element of the menu

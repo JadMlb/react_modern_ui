@@ -1,7 +1,8 @@
+import BaseProps from "../../BaseProps";
 import { Props } from "../../Props";
 import GenericInputBaseStylingProps from "./InputBaseStylingProps";
 
-export default interface InputBaseConfigProps
+export default interface InputBaseConfigProps extends BaseProps
 {
 	inputId?: string;
 	label?: string;

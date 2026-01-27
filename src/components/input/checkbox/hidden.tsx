@@ -2,13 +2,14 @@
 import styled from "@emotion/styled";
 import * as React from "react";
 import { CheckboxProps } from "../../../types";
+import BaseProps from "../../../types/components/BaseProps";
 
 const Input = styled.input
 `
 	display: none;
 `;
 
-interface HiddenInputProps
+interface HiddenInputProps extends BaseProps
 {
 	name?: CheckboxProps["name"];
 	defaultValue?: CheckboxProps["defaultValue"];
@@ -33,7 +34,8 @@ const HiddenInput = React.forwardRef<HTMLInputElement, HiddenInputProps> (
 			onKeyDown,
 			disabled,
 			readonly,
-			form
+			form,
+			...rest
 		} = props;
 
 		const defaultChecked = React.useMemo (
@@ -69,6 +71,7 @@ const HiddenInput = React.forwardRef<HTMLInputElement, HiddenInputProps> (
 				form = {form}
 				disabled = {disabled}
 				readOnly = {readonly}
+				{...rest}
 			/>
 		);
 	}

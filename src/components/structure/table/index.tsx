@@ -31,7 +31,8 @@ export default function Table (instanceProps: TableProps)
 		onPageChange,
 		onPageSizeChange,
 		onContextMenu,
-		onRowContextMenu
+		onRowContextMenu,
+		...rest
 	} = props;
 	
 	const headingCss = useStyle ("table", props, headingStyle, "headingStyle");
@@ -51,7 +52,7 @@ export default function Table (instanceProps: TableProps)
 	}
 	
 	return (
-		<TableContainer onContextMenu = {onContextMenu}>
+		<TableContainer onContextMenu = {onContextMenu} {...rest}>
 			{/* heading */}
 			<TableHeading style = {headingCss}>{heading}</TableHeading>
 			{/* header */}

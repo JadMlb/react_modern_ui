@@ -1,8 +1,9 @@
 import * as React from "react";
 import { SliderProps } from "../../../types/components/Slider/SliderProps";
 import { StaticStyle } from "../../../types";
+import AriaProps from "../../../types/components/AriaProps";
 
-interface SliderInputProps
+interface SliderInputProps extends AriaProps
 {
 	id?: string;
 	className?: string;

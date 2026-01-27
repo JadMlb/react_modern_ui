@@ -11,7 +11,7 @@ interface AnimatedProps extends GenericAnimationProps
 	infinite?: boolean;
 }
 
-export default function Animated ({as = "div", visible, style, children, animation, exitAnimation, duration = "1s", infinite}: AnimatedProps)
+export default function Animated ({as = "div", visible, style, children, animation, exitAnimation, duration = "1s", infinite, ...aria}: AnimatedProps)
 {
 	const [shouldRender, setShouldRender] = useState (visible);
 	const Component = as;
@@ -55,6 +55,7 @@ export default function Animated ({as = "div", visible, style, children, animati
 		<Component
 			onAnimationEnd = {onAnimationEnd}
 			css = {css}
+			{...aria}
 		>
 			{children}
 		</Component>

@@ -31,7 +31,8 @@ const InputBase = React.forwardRef<HTMLDivElement, InputBaseProps> (
 			onClick,
 			onFocus,
 			onBlur,
-			onContextMenu
+			onContextMenu,
+			...aria
 		} = props;
 
 		const css = useStyle ("input.base", props, style);
@@ -41,7 +42,7 @@ const InputBase = React.forwardRef<HTMLDivElement, InputBaseProps> (
 		const errorCss = useStyle ("input.base", props, errorTextStyle, "errorTextStyle");
 
 		return (
-			<Fieldset disabled = {disabled} style = {fieldsetCss} onContextMenu = {onContextMenu}>
+			<Fieldset disabled = {disabled} style = {fieldsetCss} onContextMenu = {onContextMenu} {...aria}>
 				<InputLabel
 					htmlFor = {inputId}
 					style = {labelCss}

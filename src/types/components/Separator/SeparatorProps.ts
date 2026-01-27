@@ -1,8 +1,9 @@
 import { Style } from "../../styles";
 import WrappedElementStylingProps from "../../styles/WrappedElementStylingProps";
+import AriaProps from "../AriaProps";
 import { Props } from "../Props";
 
-export default interface SeparatorConfigProps
+export default interface SeparatorConfigProps extends AriaProps
 {
 	/**
 	 * The title of the following section

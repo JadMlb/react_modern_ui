@@ -21,14 +21,16 @@ export default function List (instanceProps: ListProps)
 		onDrag,
 		onDrop,
 		renderer,
-		style
+		style,
+		items,
+		...aria
 	} = props;
 
 	const css = useStyle ("list", props, style);
 	const listItemDropAreaCss = useStyle ("list", props, listItemDropAreaStyle, "listItemDropAreaStyle");
 	const listItemCss = useStyle ("list", props, listItemStyle, "listItemStyle");
 
-	const [list, setList] = useState (props.items);
+	const [list, setList] = useState (items);
 
 	const draggedIndex = useRef<number | null> (null);
 	const draggedOverIndex = useRef<number | null> (null);
@@ -70,6 +72,7 @@ export default function List (instanceProps: ListProps)
 			id = {id}
 			className = {className}
 			style = {css}
+			{...aria}
 		>
 			{draggable && <ListDropArea style = {listItemDropAreaCss}/>}
 			{

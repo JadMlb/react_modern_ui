@@ -6,13 +6,16 @@ interface ProgressBarContainerProps
 	className?: ProgressBarProps["className"];
 	style?: StaticStyle;
 	children?: React.ReactNode;
+	as?: keyof HTMLElementTagNameMap;
 }
 
-export default function ProgressBarContainer ({id, className, style, children}: ProgressBarContainerProps)
+export default function ProgressBarContainer ({as, id, className, style, children}: ProgressBarContainerProps)
 {
+	const Component = as ?? "label";
+
 	return (
-		<div id = {id} className = {className} css = {style}>
+		<Component id = {id} className = {className} css = {style}>
 			{children}
-		</div>
+		</Component>
 	);
 }

@@ -14,6 +14,7 @@ export default function Checkbox (instanceProps: CheckboxProps)
 	const props = useProps ("checkbox", instanceProps);
 	
 	const {
+		as,
 		autoFocus,
 		checkedComponent,
 		checkedStyle,
@@ -36,7 +37,8 @@ export default function Checkbox (instanceProps: CheckboxProps)
 		onKeyUp,
 		readonly,
 		style,
-		value
+		value,
+		...aria
 	} = props;
 	
 	const labelCss = useStyle ("checkbox", props, labelStyle, "labelStyle");
@@ -170,6 +172,7 @@ export default function Checkbox (instanceProps: CheckboxProps)
 			style = {labelCss}
 			id = {id}
 			onContextMenu = {onContextMenu}
+			as = {as}
 		>
 			<CheckboxBox
 				value = {value}
@@ -196,6 +199,7 @@ export default function Checkbox (instanceProps: CheckboxProps)
 				form = {form}
 				disabled = {disabled}
 				readonly = {readonly}
+				{...aria}
 			/>
 		</CheckboxLabel>
 	);

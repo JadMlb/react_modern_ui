@@ -5,17 +5,17 @@ import useStyle from "../../hooks/useStyle";
 export default function Tag (instanceProps: TagProps)
 {
 	const props = useProps ("tag", instanceProps);
-	const {id, className, style, onClick, children} = props;
+	const {style, children, as, colour: _,  ...rest} = props;
 	const css = useStyle ("tag", props, style);
 
+	const Component = as ?? "div";
+
 	return (
-		<div
+		<Component
 			css = {css}
-			className = {className}
-			id = {id}
-			onClick = {onClick}
+			{...rest}
 		>
 			{children}
-		</div>
+		</Component>
 	);
 }

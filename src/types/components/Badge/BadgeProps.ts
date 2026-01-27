@@ -1,8 +1,9 @@
 import { EdgePosition } from "../../Position";
 import WrappedElementStylingProps from "../../styles/WrappedElementStylingProps";
+import AriaProps from "../AriaProps";
 import { Props } from "../Props";
 
-export interface BadgeConfigProps
+export interface BadgeConfigProps extends AriaProps
 {
 	/**
 	 * The value to show inside of the badge

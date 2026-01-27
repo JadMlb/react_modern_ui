@@ -12,7 +12,8 @@ export default function Link (instanceProps: LinkProps)
 		...rest
 	} = props;
 	const css = useStyle ("link", props, style);
-	
+
+
 	return (
 		<a
 			href = {to}

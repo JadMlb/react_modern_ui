@@ -2,15 +2,14 @@ import { useEffect, useState } from "react";
 import { BadgeProps } from "../../../types/components/Badge/BadgeProps";
 import { StaticStyle } from "../../../types";
 
-export default function BadgeBadge (props: Omit<BadgeProps, "children"> & {css: StaticStyle})
+export default function BadgeBadge (props: Omit<BadgeProps, "children" | "parentStyle" | "style" | "position"> & {css: StaticStyle})
 {
 	const {
 		force,
-		id,
-		className,
 		max,
 		css,
-		value
+		value,
+		...rest
 	} = props;
 
 	const [display, setDisplay] = useState ("");
@@ -40,8 +39,7 @@ export default function BadgeBadge (props: Omit<BadgeProps, "children"> & {css: 
 	return (
 		<div
 			css = {css}
-			className = {className}
-			id = {id}
+			{...rest}
 		>
 			{display}
 		</div>

@@ -40,7 +40,8 @@ export default function RadioButtonsGroup (instanceProps: RadioButtonsGroupProps
 		checkboxActiveStyle,
 		checkboxLabelStyle,
 		checkboxStyle,
-		onContextMenu
+		onContextMenu,
+		...rest
 	} = props;
 	
 	const css = useStyle ("radioButtonsGroup", props, style);
@@ -114,6 +115,7 @@ export default function RadioButtonsGroup (instanceProps: RadioButtonsGroupProps
 					clearSelection = {clearSelection}
 				/>
 			}
+			{...rest}
 		>{
 			options?.map (
 				(l, index) => <Checkbox

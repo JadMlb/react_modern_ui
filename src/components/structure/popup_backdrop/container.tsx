@@ -2,8 +2,9 @@
 import PopupProps from "../../../types/components/Popups/PopupProps";
 import { StaticStyle } from "../../../types";
 import Horizontal from "./horizontal";
+import BaseProps from "../../../types/components/BaseProps";
 
-interface PopupWithChildrenProps extends PopupProps
+interface PopupWithChildrenProps extends PopupProps, BaseProps
 {
 	children: React.ReactNode;
 	id?: string;
@@ -13,10 +14,12 @@ interface PopupWithChildrenProps extends PopupProps
 	footerStyle?: StaticStyle;
 }
 
-export default function PopupContainer ({id, className, style, header, headerStyle, footer, footerStyle, children}: PopupWithChildrenProps)
+export default function PopupContainer ({as, style, header, headerStyle, footer, footerStyle, children, ...rest}: PopupWithChildrenProps)
 {
+	const Component = as ?? "dialog";
+
 	return (
-		<div id = {id} className = {className} css = {style}>
+		<Component css = {style} {...rest}>
 			<Horizontal style = {headerStyle}>
 				{header}
 			</Horizontal>
@@ -24,6 +27,6 @@ export default function PopupContainer ({id, className, style, header, headerSty
 			<Horizontal style = {footerStyle}>
 				{footer}
 			</Horizontal>
-		</div>
+		</Component>
 	);
 }

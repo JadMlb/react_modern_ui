@@ -19,7 +19,7 @@ export default function Button (instanceProps: ButtonProps)
 	} = props;
 	
 	const css = useStyle (`button.${type}`, props, style);
-	
+
 	return (
 		<button
 			type = {htmlType}

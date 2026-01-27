@@ -1,6 +1,7 @@
 import { StaticStyle } from "../../../types";
+import BaseProps from "../../../types/components/BaseProps";
 
-interface FieldsetProps
+interface FieldsetProps extends BaseProps
 {
 	disabled?: boolean;
 	style?: StaticStyle;
@@ -8,11 +9,13 @@ interface FieldsetProps
 	onContextMenu?: React.MouseEventHandler;
 }
 
-export default function Fieldset ({disabled, style, onContextMenu, children}: FieldsetProps)
+export default function Fieldset ({disabled, style, onContextMenu, children, as, ...rest}: FieldsetProps)
 {
+	const Component = as ?? "fieldset";
+
 	return (
-		<fieldset css = {style} aria-disabled = {disabled} onContextMenu = {onContextMenu}>
+		<Component css = {style} aria-disabled = {disabled} onContextMenu = {onContextMenu} {...rest}>
 			{children}
-		</fieldset>
+		</Component>
 	);
 }

@@ -7,13 +7,13 @@ import useStyle from "../../../hooks/useStyle";
 export default function BlockSkeletonLoader (instanceProps: BlockSkeletonLoaderProps)
 {
 	const props = useProps ("skeletonLoader.block", instanceProps);
-	const {id, className, style, parentStyle} = props;
+	const {style, parentStyle, ...rest} = props;
 	
 	const css = useStyle ("skeletonLoader.block", props, style);
 	const parentCss = useStyle ("skeletonLoader.block", props, parentStyle, "parentStyle");
 	
 	return (
-		<AnimatedLoaderWrapper style = {parentCss} className = {className} id = {id}>
+		<AnimatedLoaderWrapper style = {parentCss} {...rest}>
 			<TextLineLoader style = {css}/>
 		</AnimatedLoaderWrapper>
 	);

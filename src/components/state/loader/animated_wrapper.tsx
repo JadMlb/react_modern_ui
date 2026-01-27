@@ -1,6 +1,7 @@
 import { StaticStyle } from "../../../types";
+import BaseProps from "../../../types/components/BaseProps";
 
-interface AnimatedLoaderWrapperProps
+interface AnimatedLoaderWrapperProps extends BaseProps
 {
 	className?: string;
 	id?: string;
@@ -8,11 +9,13 @@ interface AnimatedLoaderWrapperProps
 	children?: React.ReactNode;
 }
 
-export default function AnimatedLoaderWrapper ({id, className, style, children}: AnimatedLoaderWrapperProps)
+export default function AnimatedLoaderWrapper ({style, children, as, ...rest}: AnimatedLoaderWrapperProps)
 {
+	const Component = as ?? "div";
+
 	return (
-		<div css = {style} className = {className} id = {id}>
+		<Component css = {style} {...rest}>
 			{children}
-		</div>
+		</Component>
 	);
 }

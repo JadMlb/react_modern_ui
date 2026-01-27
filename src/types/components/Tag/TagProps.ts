@@ -1,4 +1,5 @@
 import StylingProps from "../../styles/StylingProps";
+import BaseProps from "../BaseProps";
 import { Props } from "../Props";
 
 export type TagColour = "success" | "warning" | "error" | "neutral";
@@ -10,10 +11,10 @@ export const TAG_LEVEL_MAPPING: TagColour[] = [
 	"success"
 ];
 
-export interface TagConfigProps
+export interface TagConfigProps extends BaseProps
 {
 	colour?: TagColour;
-	onClick?: React.MouseEventHandler<HTMLDivElement>;
+	onClick?: React.MouseEventHandler<HTMLElement>;
 	children: React.ReactNode;
 }
 

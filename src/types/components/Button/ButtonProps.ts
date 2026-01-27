@@ -1,10 +1,11 @@
 import StylingProps from "../../styles/StylingProps";
+import AriaProps from "../AriaProps";
 import { Props } from "../Props";
 
 export type ButtonRoles = "primary" | "alert" | "warn" | "normal";
 export type ButtonTypes = "filled" | "outlined" | "link";
 
-export interface ButtonConfigProps
+export interface ButtonConfigProps extends AriaProps
 {
 	/**
 	 * The role the button will take

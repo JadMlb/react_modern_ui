@@ -8,7 +8,7 @@ import useStyle from "../../../hooks/useStyle";
 export default function TextSkeletonLoader (instanceProps: TextSkeletonLoaderProps)
 {
 	const props = useProps ("skeletonLoader.text", instanceProps);
-	const {id, className, style, parentStyle, lines = 5} = props;
+	const {style, parentStyle, lines = 5, as, ...rest} = props;
 	
 	const css = useStyle ("skeletonLoader.text", props, style);
 	const parentCss = useStyle ("skeletonLoader.text", props, parentStyle, "parentStyle");
@@ -19,7 +19,7 @@ export default function TextSkeletonLoader (instanceProps: TextSkeletonLoaderPro
 	);
 
 	return (
-		<AnimatedLoaderWrapper style = {parentCss} className = {className} id = {id}>{
+		<AnimatedLoaderWrapper style = {parentCss} {...rest}>{
 			mapperArray.map (
 				i => <TextLineLoader
 						key = {`rmui-line-loader-${i}`}

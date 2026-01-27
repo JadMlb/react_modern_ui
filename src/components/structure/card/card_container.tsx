@@ -1,12 +1,14 @@
 import { CardProps, StaticStyle } from "../../../types";
 
-type CardContainerProps = Omit<CardProps, "level" | "titleStyle" | "subtitleStyle" | "style"> & {css: StaticStyle};
+type CardContainerProps = Omit<CardProps, "style" | "level" | "title" | "titleStyle" | "subtitle" | "subtitleStyle" | "media" | "mediaPosition"> & {css: StaticStyle};
 
-export default function CardContainer ({children, ...rest}: CardContainerProps)
-{	
+export default function CardContainer ({children, as, ...rest}: CardContainerProps)
+{
+	const Component = as ?? "div";
+
 	return (
-		<div {...rest}>
+		<Component {...rest}>
 			{children}
-		</div>
+		</Component>
 	);
 }

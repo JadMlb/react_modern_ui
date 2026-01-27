@@ -2,8 +2,9 @@ import { TableRowData } from "./TableRowData";
 import TableColumn from "./TableColumn";
 import GenericTableStylingProps from "./TableStylingProps";
 import { Props } from "../Props";
+import AriaProps from "../AriaProps";
 
-export default interface TableConfigProps
+export default interface TableConfigProps extends AriaProps
 {
 	/**
 	 * Defines the table's columns and types

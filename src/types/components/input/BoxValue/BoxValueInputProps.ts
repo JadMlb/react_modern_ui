@@ -1,6 +1,8 @@
+import BaseProps from "../../BaseProps";
+
 type InputType = HTMLInputElement | HTMLTextAreaElement;
 
-export interface BoxValueInputProps
+export interface BoxValueInputProps extends BaseProps
 {
 	/**
 	 * The value of this input

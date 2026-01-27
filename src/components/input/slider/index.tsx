@@ -64,6 +64,7 @@ const Slider = React.forwardRef<HTMLInputElement, SliderProps> (
 			readonly,
 			vertical,
 			parentStyle,
+			as,
 			...inputProps
 		} = props;
 
@@ -125,7 +126,7 @@ const Slider = React.forwardRef<HTMLInputElement, SliderProps> (
 		);
 
 		return (
-			<SliderContainer style = {parentCss}>
+			<SliderContainer style = {parentCss} as = {as}>
 				<SliderInput
 					ref = {innerRef}
 					value = {value ?? min ?? 0}

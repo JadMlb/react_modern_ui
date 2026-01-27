@@ -26,7 +26,9 @@ export default function Switch (instanceProps: SwitchProps)
 		disabled,
 		form,
 		onChange,
-		onContextMenu
+		onContextMenu,
+		as,
+		...aria
 	} = props;
 
 	const parentCss = useStyle ("switch", props, parentStyle, "parentStyle");
@@ -60,6 +62,7 @@ export default function Switch (instanceProps: SwitchProps)
 			id = {id}
 			className = {className}
 			style = {parentCss}
+			as = {as}
 		>
 			<SwitchSlider
 				value = {isSwitched}
@@ -87,6 +90,7 @@ export default function Switch (instanceProps: SwitchProps)
 				disabled = {disabled}
 				form = {form}
 				hidden
+				{...aria}
 			/>
 		</SwitchWrapper>
 	);

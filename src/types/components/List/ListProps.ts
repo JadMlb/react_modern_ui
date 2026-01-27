@@ -1,10 +1,11 @@
+import BaseProps from "../BaseProps";
 import { Props } from "../Props";
 import { TableRowData } from "../Table/TableRowData";
 import GenericListStylingProps from "./ListStylingProps";
 
 export type ListItemContents = TableRowData & {id: string | number};
 
-export default interface ListConfigProps
+export default interface ListConfigProps extends BaseProps
 {
 	/**
 	 * The list of items characterized by an id and key-value content
