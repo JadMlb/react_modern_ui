@@ -65,6 +65,7 @@ const Slider = React.forwardRef<HTMLInputElement, SliderProps> (
 			vertical,
 			parentStyle,
 			as,
+			forceMode: _,
 			...inputProps
 		} = props;
 

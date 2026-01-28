@@ -28,6 +28,7 @@ export default function Toaster (instanceProps: ToasterProps)
 		progressBar,
 		progressBarStyle,
 		position,
+		forceMode: _,
 		...aria
 	} = props;
 

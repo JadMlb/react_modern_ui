@@ -4,4 +4,5 @@ export default interface PaginationBarProps extends PaginationBarPropsBase
 {
 	pages: number;
 	chevronColour?: string;
+	forceMode?: "light" | "dark";
 }

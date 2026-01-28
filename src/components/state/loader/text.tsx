@@ -8,7 +8,7 @@ import useStyle from "../../../hooks/useStyle";
 export default function TextSkeletonLoader (instanceProps: TextSkeletonLoaderProps)
 {
 	const props = useProps ("skeletonLoader.text", instanceProps);
-	const {style, parentStyle, lines = 5, as, ...rest} = props;
+	const {style, parentStyle, lines = 5, as, forceMode: _, ...rest} = props;
 	
 	const css = useStyle ("skeletonLoader.text", props, style);
 	const parentCss = useStyle ("skeletonLoader.text", props, parentStyle, "parentStyle");

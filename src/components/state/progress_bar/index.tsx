@@ -17,6 +17,7 @@ export default function ProgressBar (instanceProps: ProgressBarProps)
 		showPercentage,
 		percentage,
 		as,
+		forceMode: _,
 		...aria
 	} = props;
 

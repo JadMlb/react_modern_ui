@@ -9,7 +9,7 @@ import { SeparatorProps } from "../../types/components/Separator/SeparatorProps"
 export default function Separator (instanceProps: SeparatorProps)
 {
 	const props = useProps ("separator", instanceProps);
-	const {style, parentStyle, title, ...rest} = props;
+	const {style, parentStyle, title, forceMode: _, ...rest} = props;
 	
 	const css = useStyle ("separator", props, style);
 	const parentCss = useStyle ("separator", props, parentStyle, "parentStyle");

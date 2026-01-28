@@ -24,6 +24,7 @@ export default function Panel (instanceProps: PanelProps)
 		toggleCollapseButtonChevronColour,
 		children,
 		as,
+		forceMode,
 		...rest
 	} = props;
 	
@@ -57,6 +58,7 @@ export default function Panel (instanceProps: PanelProps)
 				style = {headerCss}
 				toggleCollapseButtonStyle = {toggleCollapseButtonCss}
 				toggleCollapseButtonChevronColour = {toggleCollapseButtonChevronColour}
+				toggleCollapseButtonChevronForceMode = {forceMode}
 				title = {title}
 			/>
 			{

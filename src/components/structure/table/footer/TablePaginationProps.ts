@@ -10,4 +10,5 @@ export default interface TablePaginationProps
 	onPageChange?: OnPageChangeFunction;
 	onPageSizeChange?: OnPageSizeChangeFunction;
 	chevronColour?: string;
+	forceMode?: "light" | "dark";
 }

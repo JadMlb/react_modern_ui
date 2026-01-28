@@ -7,7 +7,7 @@ import useStyle from "../../../hooks/useStyle";
 export default function Badge (instanceProps: BadgeProps)
 {
 	const props = useProps ("badge", instanceProps);
-	const {style, parentStyle, ...rest} = props;
+	const {style, parentStyle, forceMode: _, ...rest} = props;
 	
 	const css = useStyle ("badge", rest, style);
 	const wrapperCss = useStyle ("badge", rest, parentStyle, "parentStyle");

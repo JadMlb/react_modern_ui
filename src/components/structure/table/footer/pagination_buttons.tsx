@@ -3,7 +3,7 @@ import FullPaginationButtons from "./full_pagination_buttons";
 import PaginationButtonsBase from "./pagination_buttons_base";
 import WindowedPaginationButtons from "./window_pagination_buttons";
 
-export default function PaginationButtons ({chevronColour, ...props}: PaginationBarProps)
+export default function PaginationButtons ({chevronColour, forceMode, ...props}: PaginationBarProps)
 {
 	return (
 		<PaginationButtonsBase
@@ -11,10 +11,11 @@ export default function PaginationButtons ({chevronColour, ...props}: Pagination
 			totalNbPages = {props.pages}
 			onPageChange = {props.onPageChange}
 			chevronColour = {chevronColour}
+			forceMode = {forceMode}
 		>{
 			props.pages <= 4 ?
-				<FullPaginationButtons {...props}/> :
-				<WindowedPaginationButtons {...props}/>
+				<FullPaginationButtons forceMode = {forceMode} {...props}/> :
+				<WindowedPaginationButtons forceMode = {forceMode} {...props}/>
 		}</PaginationButtonsBase>
 	);
 }

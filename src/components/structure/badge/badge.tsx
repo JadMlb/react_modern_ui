@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { BadgeProps } from "../../../types/components/Badge/BadgeProps";
 import { StaticStyle } from "../../../types";
 
-export default function BadgeBadge (props: Omit<BadgeProps, "children" | "parentStyle" | "style" | "position"> & {css: StaticStyle})
+export default function BadgeBadge (props: Omit<BadgeProps, "children" | "parentStyle" | "style" | "position" | "forceMode"> & {css: StaticStyle})
 {
 	const {
 		force,

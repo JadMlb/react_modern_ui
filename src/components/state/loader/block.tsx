@@ -7,7 +7,7 @@ import useStyle from "../../../hooks/useStyle";
 export default function BlockSkeletonLoader (instanceProps: BlockSkeletonLoaderProps)
 {
 	const props = useProps ("skeletonLoader.block", instanceProps);
-	const {style, parentStyle, ...rest} = props;
+	const {style, parentStyle, forceMode: _, ...rest} = props;
 	
 	const css = useStyle ("skeletonLoader.block", props, style);
 	const parentCss = useStyle ("skeletonLoader.block", props, parentStyle, "parentStyle");

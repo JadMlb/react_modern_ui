@@ -56,6 +56,7 @@ export default function Menu (instanceProps: MenuProps)
 		position,
 		direction,
 		onClose,
+		forceMode: _,
 		...rest
 	} = props;
 

@@ -28,6 +28,7 @@ export default function Switch (instanceProps: SwitchProps)
 		onChange,
 		onContextMenu,
 		as,
+		forceMode: _,
 		...aria
 	} = props;
 

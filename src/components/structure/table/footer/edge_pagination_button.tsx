@@ -9,7 +9,7 @@ interface EdgePaginationButtonProps extends PaginationButtonProps
 	chevronColour?: string;
 }
 
-export default function EdgePaginationButton ({currentActivePage, page, totalNbPages, onPageChange, chevronColour = "primary"}: EdgePaginationButtonProps)
+export default function EdgePaginationButton ({currentActivePage, page, totalNbPages, onPageChange, chevronColour = "primary", forceMode}: EdgePaginationButtonProps)
 {
 	if (page >= 0)
 		return null;
@@ -30,11 +30,13 @@ export default function EdgePaginationButton ({currentActivePage, page, totalNbP
 		<Button
 			disabled = {isDisabled}
 			onClick = {handlePageChange}
+			forceMode = {forceMode}
 		>
 			<Chevron
 				orientation = {page === -1 ? "left" : "right"}
 				colour = {chevronColour}
 				inactive = {isDisabled}
+				forceMode = {forceMode}
 			/>
 		</Button>
 	);

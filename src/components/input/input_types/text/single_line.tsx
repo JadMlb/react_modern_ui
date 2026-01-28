@@ -44,6 +44,7 @@ const SingleLineTextInput = React.forwardRef<HTMLInputElement, SingleLineTextInp
 			disabled,
 			readOnly,
 			leading,
+			forceMode: __,
 			...rest
 		} = props;
 

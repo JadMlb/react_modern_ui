@@ -1,7 +1,7 @@
 import { Button } from "../../../input";
 import PaginationButtonProps from "./PaginationButtonProps";
 
-export default function PaginationButton ({page, currentActivePage, onPageChange}: PaginationButtonProps)
+export default function PaginationButton ({page, currentActivePage, onPageChange, forceMode}: PaginationButtonProps)
 {
 	function handlePageChange (newPage: number)
 	{
@@ -12,6 +12,7 @@ export default function PaginationButton ({page, currentActivePage, onPageChange
 		<Button
 			type = {currentActivePage === page - 1 ? "filled" : "outlined"}
 			onClick = {() => handlePageChange (page)}
+			forceMode = {forceMode}
 		>
 			{page}
 		</Button>

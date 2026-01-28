@@ -34,6 +34,7 @@ export default function Table (instanceProps: TableProps)
 		onRowContextMenu,
 		paginationNavigationButtonChevronColour,
 		sortButtonChevronColour,
+		forceMode,
 		...rest
 	} = props;
 	
@@ -87,6 +88,7 @@ export default function Table (instanceProps: TableProps)
 						style = {footerCss}
 						paginationStyle = {paginationCss}
 						chevronColour = {paginationNavigationButtonChevronColour}
+						forceMode = {forceMode}
 					>
 						{footer}
 					</TableFooter>

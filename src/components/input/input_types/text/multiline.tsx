@@ -43,6 +43,7 @@ const MultiLineTextInput = React.forwardRef<HTMLTextAreaElement, MultiLineTextIn
 			disabled,
 			readOnly,
 			leading,
+			forceMode: _,
 			...rest
 		} = props;
 		

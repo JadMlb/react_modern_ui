@@ -15,6 +15,7 @@ export default function Drawer (instanceProps: DrawerProps)
 		position,
 		header,
 		hideCloseButton,
+		forceMode: _,
 		...rest
 	} = props;
 

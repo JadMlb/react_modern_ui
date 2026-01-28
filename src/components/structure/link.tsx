@@ -9,6 +9,7 @@ export default function Link (instanceProps: LinkProps)
 		style,
 		to,
 		children,
+		forceMode: _,
 		...rest
 	} = props;
 	const css = useStyle ("link", props, style);

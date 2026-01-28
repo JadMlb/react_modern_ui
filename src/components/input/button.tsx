@@ -15,6 +15,7 @@ export default function Button (instanceProps: ButtonProps)
 		type = "filled",
 		htmlType,
 		style,
+		forceMode: _,
 		...rest
 	} = props;
 	

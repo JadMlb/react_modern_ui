@@ -32,6 +32,7 @@ const InputBase = React.forwardRef<HTMLDivElement, InputBaseProps> (
 			onFocus,
 			onBlur,
 			onContextMenu,
+			forceMode: _,
 			...aria
 		} = props;
 

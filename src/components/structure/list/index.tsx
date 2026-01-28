@@ -23,6 +23,7 @@ export default function List (instanceProps: ListProps)
 		renderer,
 		style,
 		items,
+		forceMode: _,
 		...aria
 	} = props;
 

@@ -2,7 +2,7 @@ import { useMemo } from "react";
 import PaginationBarProps from "./PaginationBarProps";
 import PaginationButton from "./pagination_button";
 
-export default function FullPaginationButtons ({pages, activePage = 0, onPageChange}: PaginationBarProps)
+export default function FullPaginationButtons ({pages, activePage = 0, onPageChange, forceMode}: PaginationBarProps)
 {
 	const pagesArray = useMemo (
 		() => Array.from ({length: pages}, (_, i) => i + 1),
@@ -16,6 +16,7 @@ export default function FullPaginationButtons ({pages, activePage = 0, onPageCha
 					page = {p}
 					currentActivePage = {activePage}
 					onPageChange = {onPageChange}
+					forceMode = {forceMode}
 				/>
 		)
 	);

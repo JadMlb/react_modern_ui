@@ -51,6 +51,7 @@ const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps> (
 			range,
 			precision,
 			step,
+			forceMode: _,
 			...rest
 		} = props;
 		const css = useStyle ("input.number", props, style);

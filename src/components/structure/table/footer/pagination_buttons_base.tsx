@@ -8,7 +8,7 @@ interface PaginationButtonsBaseProps extends Omit<PaginationButtonProps, "page">
 	chevronColour?: string;
 }
 
-export default function PaginationButtonsBase ({children, currentActivePage, totalNbPages, onPageChange, chevronColour}: PaginationButtonsBaseProps)
+export default function PaginationButtonsBase ({children, currentActivePage, totalNbPages, onPageChange, chevronColour, forceMode}: PaginationButtonsBaseProps)
 {
 	return (
 		<>
@@ -18,6 +18,7 @@ export default function PaginationButtonsBase ({children, currentActivePage, tot
 				totalNbPages = {totalNbPages}
 				onPageChange = {onPageChange}
 				chevronColour = {chevronColour}
+				forceMode = {forceMode}
 			/>
 			{children}
 			<EdgePaginationButton
@@ -26,6 +27,7 @@ export default function PaginationButtonsBase ({children, currentActivePage, tot
 				totalNbPages = {totalNbPages}
 				onPageChange = {onPageChange}
 				chevronColour = {chevronColour}
+				forceMode = {forceMode}
 			/>
 		</>
 	);

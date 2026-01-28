@@ -8,12 +8,13 @@ interface PanelHeaderProps
 	style?: StaticStyle;
 	toggleCollapseButtonStyle?: StaticStyle;
 	toggleCollapseButtonChevronColour?: string;
+	toggleCollapseButtonChevronForceMode?: "light" | "dark";
 	collapsible?: PanelProps["collapsible"];
 	collapsed?: boolean;
 	onCollapseToggle?: () => void;
 }
 
-export default function PanelHeader ({title, style, collapsible, collapsed, onCollapseToggle, toggleCollapseButtonStyle, toggleCollapseButtonChevronColour}: PanelHeaderProps)
+export default function PanelHeader ({title, style, collapsible, collapsed, onCollapseToggle, toggleCollapseButtonStyle, toggleCollapseButtonChevronColour, toggleCollapseButtonChevronForceMode}: PanelHeaderProps)
 {
 	if (!title)
 		return null;
@@ -30,6 +31,7 @@ export default function PanelHeader ({title, style, collapsible, collapsed, onCo
 					<Chevron
 						orientation = {collapsed ? "down" : "up"}
 						colour = {toggleCollapseButtonChevronColour}
+						forceMode = {toggleCollapseButtonChevronForceMode}
 					/>
 				</Button>
 			}

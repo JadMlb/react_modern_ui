@@ -23,6 +23,7 @@ export default function Card (instanceProps: CardProps)
 		media,
 		mediaPosition,
 		children,
+		forceMode: _,
 		...rest
 	} = props;
 

@@ -14,11 +14,11 @@ import useStyle from "../../../../hooks/useStyle";
 import Chevron from "../../../chevron";
 import { merge } from "lodash";
 
-function getDefaultArrowComponent (colour?: string): ComboboxArrow
+function getDefaultArrowComponent (colour?: string, forceMode?: "light" | "dark"): ComboboxArrow
 {
 	return {
-		open: <Chevron orientation = "up" colour = {colour}/>,
-		closed: <Chevron colour = {colour}/>
+		open: <Chevron orientation = "up" colour = {colour} forceMode = {forceMode}/>,
+		closed: <Chevron colour = {colour} forceMode = {forceMode}/>
 	};
 };
 
@@ -57,12 +57,13 @@ export default function Combobox (instanceProps: ComboboxProps)
 		errorTextStyle,
 		onChange,
 		renderOption = defaultRenderOption,
+		forceMode,
 		...baseProps
 	} = props;
 
 	const finalArrowComponent: ComboboxArrow = useMemo (
-		() => merge ({}, getDefaultArrowComponent (defaultArrowComponentColour), arrowComponent),
-		[arrowComponent, defaultArrowComponentColour]
+		() => merge ({}, getDefaultArrowComponent (defaultArrowComponentColour, forceMode), arrowComponent),
+		[arrowComponent, defaultArrowComponentColour, forceMode]
 	);
 
 	const css = useStyle ("combobox", props, style);

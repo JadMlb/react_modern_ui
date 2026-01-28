@@ -5,7 +5,7 @@ import PaginationPageSizes from "./page_sizes";
 
 const DEFAULT_PAGE_OPTIONS = [5, 10, 15, 20];
 
-export default function TablePagination ({rowsPerPage, dataSize, pageSizesOptions = DEFAULT_PAGE_OPTIONS, page = 0, style, onPageChange, onPageSizeChange, chevronColour}: TablePaginationProps)
+export default function TablePagination ({rowsPerPage, dataSize, pageSizesOptions = DEFAULT_PAGE_OPTIONS, page = 0, style, onPageChange, onPageSizeChange, chevronColour, forceMode}: TablePaginationProps)
 {
 	const [activePage, setActivePage] = useState (page);
 	const [pageSize, setPageSize] = useState (rowsPerPage);
@@ -53,6 +53,7 @@ export default function TablePagination ({rowsPerPage, dataSize, pageSizesOption
 				activePage = {activePage}
 				onPageChange = {onPageChange}
 				chevronColour = {chevronColour}
+				forceMode = {forceMode}
 			/>
 		</div>
 	);

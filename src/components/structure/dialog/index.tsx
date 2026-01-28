@@ -11,6 +11,7 @@ export default function Dialog (instanceProps: DialogProps)
 		backdropStyle,
 		headerStyle,
 		footerStyle,
+		forceMode: _,
 		...rest
 	} = props;
 

@@ -49,6 +49,7 @@ const DateInput = React.forwardRef<HTMLInputElement, DateTimeInputProps | TimeIn
 			fieldsetStyle,
 			hintStyle,
 			errorTextStyle,
+			forceMode: __,
 			...rest
 		} = props;
 		
