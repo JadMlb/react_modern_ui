@@ -1,29 +1,4 @@
-import { keyframes } from "@emotion/react";
 import { Overridable, OverridableToasterProps, ToasterStylingProps } from "../../../types";
-
-const toastFromRight = keyframes
-`
-	from
-	{
-		transform: translateX(100%);
-	}
-	to
-	{
-		transform: translateX(0);
-	}
-`;
-
-const toastFromLeft = keyframes
-`
-	from
-	{
-		transform: translateX(-100%);
-	}
-	to
-	{
-		transform: translateX(0);
-	}
-`;
 
 const DEFAULT_TOASTER_PROPS: Overridable<OverridableToasterProps, ToasterStylingProps> = {
 	props: {
@@ -49,11 +24,7 @@ const DEFAULT_TOASTER_PROPS: Overridable<OverridableToasterProps, ToasterStyling
 			gap: "spacing.medium",
 			flexDirection: `column${position.startsWith ("bottom") ? "-reverse" : ""}`,
 			[position.split("-")[0]]: 0,
-			[position.split("-")[1]]: 0,
-			"> *": {
-				animation: `${position.split("-")[1] === "left" ? toastFromLeft : toastFromRight} 250ms`,
-				transition: `transform 250ms, opacity 250ms, box-shadow 250ms ease-in-out`
-			}
+			[position.split("-")[1]]: 0
 		}),
 		toastStyle: isDark => ({
 			padding: "spacing.xsmall",

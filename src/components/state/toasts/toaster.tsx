@@ -27,6 +27,7 @@ export default function Toaster (instanceProps: ToasterProps)
 		iconContainerStyle,
 		progressBar,
 		progressBarStyle,
+		position,
 		...aria
 	} = props;
 
@@ -48,6 +49,7 @@ export default function Toaster (instanceProps: ToasterProps)
 			toasts.length > 0 &&
 			toasts.map (
 				toast => <Toast
+							toasterPosition = {position!}
 							key = {toast.id}
 							onClose = {() => clearToast (toast.id)}	
 							autoClear = {autoClear}

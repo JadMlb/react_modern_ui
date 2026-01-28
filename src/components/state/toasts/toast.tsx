@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 /** @jsxImportSource @emotion/react */
 import styled from "@emotion/styled";
 import { type ToastIconType } from "../../../types/components/Toaster/Toast";
-import { StaticStyle } from "../../../types";
+import { StaticStyle, ToasterProps } from "../../../types";
 import ToastProgressBar from "./progress_bar";
 import ToastIcon from "./toast_icon";
 import ToastClearButton from "./clear_button";
@@ -17,6 +17,7 @@ const ProgressBarContainer = styled.div
 `;
 
 type ToastProps = {
+	toasterPosition: Exclude<ToasterProps["position"], undefined>,
 	onClose?: () => void,
 	autoClear?: boolean,
 	clearAfter?: number,
@@ -30,9 +31,15 @@ type ToastProps = {
 	icon?: Partial<ToastIconType>
 };
 
-export default function Toast ({onClose, autoClear, clearAfter = 5, containerStyle, clearButton, clearButtonStyle, icon, progressBar, progressBarStyle, iconContainerStyle, children}: ToastProps)
+export default function Toast ({toasterPosition, onClose, autoClear, clearAfter = 5, containerStyle, clearButton, clearButtonStyle, icon, progressBar, progressBarStyle, iconContainerStyle, children}: ToastProps)
 {
 	const [countdown, setCountdown] = useState (100);
+	const [isVisible, setIsVisible] = useState (true);
+
+	function handleClose ()
+	{
+		setIsVisible (false);
+	}
 
 	useEffect (
 		() =>
@@ -44,10 +51,14 @@ export default function Toast ({onClose, autoClear, clearAfter = 5, containerSty
 
 			if (autoClear && onClose)
 			{	
-				const timeoutId = setTimeout (onClose, clearAfter * 1000);
+				const timeoutId = setTimeout (handleClose, clearAfter * 1000);
 				const intervalId = setInterval (decrementCountdown, clearAfter * 10);
 
-				return () => {clearTimeout (timeoutId); clearInterval (intervalId);};
+				return () =>
+				{
+					clearTimeout (timeoutId);
+					clearInterval (intervalId);
+				};
 			}
 
 			return () => {};
@@ -56,7 +67,12 @@ export default function Toast ({onClose, autoClear, clearAfter = 5, containerSty
 	);
 
 	return (
-		<ToastBackground style = {containerStyle}>
+		<ToastBackground
+			style = {containerStyle}
+			toasterPosition = {toasterPosition}
+			visible = {isVisible}
+			onAnimationEnd = {onClose}
+		>
 			<ToastIcon icon = {icon} style = {iconContainerStyle}/>
 			{children}
 			{
