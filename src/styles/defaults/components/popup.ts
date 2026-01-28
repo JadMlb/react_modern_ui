@@ -50,7 +50,10 @@ const DEFAULT_POPUP_STYLE: DynamicStyleFunction = isDark => ({
 	borderRadius: "radius.medium",
 	padding: "spacing.large",
 	backgroundColor: isDark ? "black" : "white",
-	color: isDark ? "white" : "black"
+	color: isDark ? "white" : "black",
+	border: "unset",
+	margin: "unset",
+	position: "initial"
 });
 
 export default DEFAULT_POPUP_STYLE;

@@ -26,7 +26,6 @@ export default function Drawer (instanceProps: DrawerProps)
 	return (
 		<Popup
 			position = {position ?? "right"}
-			forComponent = "drawer"
 			header = {
 				<DrawerHeader noCloseButton = {hideCloseButton} onClose = {rest.onClose}>
 					{header}

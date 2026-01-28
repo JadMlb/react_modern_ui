@@ -1,5 +1,5 @@
 import { DrawerStylingProps, Overridable, OverridableDrawerProps } from "../../../types";
-import DEFAULT_POPUP_STYLE, { slideBottom, slideLeft, slideRight } from "./popup";
+import DEFAULT_POPUP_STYLE from "./popup";
 import DEFAULT_POPUPS_BACKDROP_STYLE from "./popups_backdrop";
 import DEFAULT_HEADER_FOOTER_STYLE from "./popups_headers_footers";
 
@@ -21,14 +21,14 @@ const DEFAULT_DRAWER_PROPS: Overridable<OverridableDrawerProps, DrawerStylingPro
 			...DEFAULT_POPUPS_BACKDROP_STYLE,
 			flexDirection: FLEX_DIRECTION[position ?? "right"],
 			justifyContent: JUSTIFY_CONTENT[position ?? "right"],
-			alignItems: position === "bottom" ? "stretch" : undefined
+			alignItems: "stretch"
 		}),
 		style: (isDark, props) => ({
 			...DEFAULT_POPUP_STYLE (isDark, props),
-			maxHeight: "100dvh",
-			width: props.position === "bottom" ? "100dvw" : "50dvw",
-			animation: `${props.position === "right" ? slideRight : props.position === "left" ? slideLeft : slideBottom} 0.25s ease-in-out`,
-			flex: props.position === "bottom" ? 1 : undefined
+			maxHeight: "100%",
+			width: props.position === "bottom" ? "100%" : "50%",
+			flex: props.position === "bottom" ? 1 : undefined,
+			height: "calc(100dvh - 2 * spacing.large)"
 		}),
 		headerStyle: DEFAULT_HEADER_FOOTER_STYLE,
 		footerStyle: DEFAULT_HEADER_FOOTER_STYLE

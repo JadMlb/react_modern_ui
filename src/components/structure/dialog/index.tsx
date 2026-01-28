@@ -22,7 +22,6 @@ export default function Dialog (instanceProps: DialogProps)
 	return (
 		<Popup
 			position = "center"
-			forComponent = "dialog"
 			{...rest}
 			style = {css}
 			backdropStyle = {backdropCss}
