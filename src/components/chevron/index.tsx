@@ -46,7 +46,7 @@ export default function Chevron ({orientation = "down", inactive, colour, forceM
 				<title></title>
 				<g id="Complete">
 					<g id="F-Chevron">
-						<polyline fill="none" id="Down" points="5 8.5 12 15.5 19 8.5" stroke={stroke} stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></polyline>
+						<polyline fill="none" id="Down" points="5 8.5 12 15.5 19 8.5" stroke={stroke} strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"></polyline>
 					</g>
 				</g>
 			</g>
