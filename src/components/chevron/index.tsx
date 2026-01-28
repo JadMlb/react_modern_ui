@@ -15,13 +15,15 @@ interface ChevronProps
 	orientation?: "up" | "down" | "right" | "left";
 	colour?: string;
 	inactive?: boolean;
+	forceMode?: "light" | "dark";
 }
 
 // Chevron svg from: https://www.svgrepo.com/svg/513816/chevron-down
-export default function Chevron ({orientation = "down", inactive, colour}: ChevronProps)
+export default function Chevron ({orientation = "down", inactive, colour, forceMode}: ChevronProps)
 {
 	const getColour = useColour();
-	const isDark = useDarkMode();
+	const isSystemDark = useDarkMode();
+	const isDark = forceMode ? forceMode === "dark" : isSystemDark;
 
 	const style = useMemo (
 		() => ({

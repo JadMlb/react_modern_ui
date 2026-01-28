@@ -2,6 +2,7 @@ import { useCallback, useMemo } from "react";
 import { useDarkMode, useTheme, useThemeParser } from "../styles";
 import { at, merge } from "lodash";
 import { Components, ComponentsOverridesTypeForComponent, Style } from "../types";
+import BasicCssStylingProps from "../types/styles/BasicCssStylingProps";
 
 export function useStaticStyleWrapper<T> (style?: Style<T>)
 {
@@ -50,9 +51,10 @@ function useComponentDefaultStyles<Component extends Components, T> (component: 
 }
 
 // useStyle for component using these modifications on this prop, and inject the component's props
-export default function useStyle<InstancePropsType> (component: Components, instanceProps: InstancePropsType, modifications?: Style<InstancePropsType>, prop?: "style" | `${string}Style`)
+export default function useStyle<InstancePropsType extends BasicCssStylingProps> (component: Components, instanceProps: InstancePropsType, modifications?: Style<InstancePropsType>, prop?: "style" | `${string}Style`)
 {
-	const isDark = useDarkMode();
+	const isSystemDark = useDarkMode(); // prevent react from panicking when hooks call order change
+	const isDark = instanceProps?.forceMode ? instanceProps.forceMode === "dark" : isSystemDark;
 	const parseCss = useThemeParser();
 	// get default styles for component (props can be injected)
 	const defaultStylesFunction = useComponentDefaultStyles<Components, InstancePropsType> (component, prop);
