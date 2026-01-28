@@ -1,10 +1,9 @@
 /** @jsxImportSource @emotion/react */
 import PopupProps from "../../../types/components/Popups/PopupProps";
 import { StaticStyle } from "../../../types";
-import Horizontal from "./horizontal";
 import BaseProps from "../../../types/components/BaseProps";
-import SlideAnimation from "../../animated/slide";
-import { useMemo } from "react";
+import PopupAnimation from "./animation";
+import PopupStructure from "./struct";
 
 interface PopupWithChildrenProps extends PopupProps, BaseProps
 {
@@ -15,34 +14,22 @@ interface PopupWithChildrenProps extends PopupProps, BaseProps
 	style?: StaticStyle;
 	headerStyle?: StaticStyle;
 	footerStyle?: StaticStyle;
-	position?: "center" | "left" | "right" | "bottom";
+	position: "center" | "left" | "right" | "bottom";
 	onAnimationEnd?: () => void;
 }
 
-export default function PopupContainer ({open, as, style, header, headerStyle, footer, footerStyle, children, position, onAnimationEnd, ...rest}: PopupWithChildrenProps)
+export default function PopupContainer ({header, headerStyle, footer, footerStyle, children, ...rest}: PopupWithChildrenProps)
 {
-	const from = useMemo (
-		() => position === "center" ? "bottom" : position,
-		[position]
-	);
-
 	return (
-		<SlideAnimation
-			as = {as ?? "dialog"}
-			from = {from}
-			css = {style}
-			{...rest}
-			visible = {open}
-			duration = "0.25s"
-			onAnimationEnd = {onAnimationEnd}
-		>
-			<Horizontal style = {headerStyle}>
-				{header}
-			</Horizontal>
-			{children}
-			<Horizontal style = {footerStyle}>
-				{footer}
-			</Horizontal>
-		</SlideAnimation>
+		<PopupAnimation {...rest}>
+			<PopupStructure
+				header = {header}
+				headerStyle = {headerStyle}
+				footer = {footer}
+				footerStyle = {footerStyle}
+			>
+				{children}
+			</PopupStructure>
+		</PopupAnimation>
 	);
 }
