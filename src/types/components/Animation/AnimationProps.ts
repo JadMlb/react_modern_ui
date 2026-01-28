@@ -17,4 +17,8 @@ export default interface GenericAnimationProps extends BaseProps
 	 * The style applied to the component
 	 */
 	style?: Style;
+	/**
+	 * Callback function to be executed when the animation finishes playing
+	 */
+	onAnimationEnd?: () => void;
 }

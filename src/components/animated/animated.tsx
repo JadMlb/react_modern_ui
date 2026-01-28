@@ -11,7 +11,7 @@ interface AnimatedProps extends GenericAnimationProps
 	infinite?: boolean;
 }
 
-export default function Animated ({as = "div", visible, style, children, animation, exitAnimation, duration = "1s", infinite, ...aria}: AnimatedProps)
+export default function Animated ({as = "div", visible, style, children, animation, exitAnimation, duration = "1s", infinite, onAnimationEnd, ...aria}: AnimatedProps)
 {
 	const [shouldRender, setShouldRender] = useState (visible);
 	const Component = as;
@@ -42,10 +42,13 @@ export default function Animated ({as = "div", visible, style, children, animati
 		[visible]
 	);
 
-	function onAnimationEnd ()
+	function handleAnimationEnd ()
 	{
 		if (!visible)
+		{
 			setShouldRender (false);
+			onAnimationEnd?.();
+		}
 	}
 
 	if (!shouldRender && !visible)
@@ -53,7 +56,7 @@ export default function Animated ({as = "div", visible, style, children, animati
 
 	return (
 		<Component
-			onAnimationEnd = {onAnimationEnd}
+			onAnimationEnd = {handleAnimationEnd}
 			css = {css}
 			{...aria}
 		>
