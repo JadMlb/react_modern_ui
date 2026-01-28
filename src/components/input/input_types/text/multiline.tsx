@@ -41,7 +41,7 @@ const MultiLineTextInput = React.forwardRef<HTMLTextAreaElement, MultiLineTextIn
 			style,
 			fieldsetStyle,
 			disabled,
-			readonly,
+			readOnly,
 			leading,
 			...rest
 		} = props;
@@ -136,7 +136,7 @@ const MultiLineTextInput = React.forwardRef<HTMLTextAreaElement, MultiLineTextIn
 				style = {css}
 				fieldsetStyle = {fieldsetCss}
 				disabled = {disabled}
-				readonly = {readonly}
+				readOnly = {readOnly}
 				onClick = {handleClick}
 				onFocus = {handleFocus}
 				onBlur = {handleBlur}
@@ -150,7 +150,7 @@ const MultiLineTextInput = React.forwardRef<HTMLTextAreaElement, MultiLineTextIn
 					onChange = {handleChange}
 					maxLength = {maxLength}
 					autoCorrect = {props.type === "text" ? props.autoCorrect : undefined}
-					readOnly = {readonly}
+					readOnly = {readOnly}
 					disabled = {disabled}
 					{...rest}
 				/>

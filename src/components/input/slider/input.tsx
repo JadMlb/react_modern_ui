@@ -14,7 +14,7 @@ interface SliderInputProps extends AriaProps
 	min: number;
 	max: number;
 	step?: number;
-	readonly?: boolean;
+	readOnly?: boolean;
 	disabled?: boolean;
 	style?: StaticStyle;
 	autoFocus?: SliderProps["autoFocus"];

@@ -44,7 +44,7 @@ export default function Combobox (instanceProps: ComboboxProps)
 		value,
 		hintStyle,
 		leading,
-		readonly,
+		readOnly,
 		disabled,
 		menuProps,
 		optional,
@@ -114,13 +114,13 @@ export default function Combobox (instanceProps: ComboboxProps)
 										e =>
 										{
 											e.stopPropagation();
-											if (!readonly && !disabled)
+											if (!readOnly && !disabled)
 												handleChange (null, option);
 										}
 									}
 									style = {tagCss}
 								>
-									{option.display} {!readonly && !disabled && <X/>}
+									{option.display} {!readOnly && !disabled && <X/>}
 								</Tag>;
 					}
 				)
@@ -138,13 +138,13 @@ export default function Combobox (instanceProps: ComboboxProps)
 				return formatValue (value);
 			return undefined;
 		},
-		[formatValue, value, readonly, disabled]
+		[formatValue, value, readOnly, disabled]
 	);
 
 	function expand (e: React.SyntheticEvent)
 	{
 		e.stopPropagation();
-		setIsExpanded (!disabled && !readonly);
+		setIsExpanded (!disabled && !readOnly);
 	}
 
 	useEffect (
@@ -177,7 +177,7 @@ export default function Combobox (instanceProps: ComboboxProps)
 						expanded = {isExpanded}
 						optional = {optional}
 						value = {value}
-						readonly = {readonly}
+						readonly = {readOnly}
 						disabled = {disabled}
 						onChange = {onChange}
 					/>
@@ -185,7 +185,7 @@ export default function Combobox (instanceProps: ComboboxProps)
 				style = {css}
 				onClick = {expand}
 				disabled = {disabled}
-				readonly = {readonly}
+				readOnly = {readOnly}
 				{...baseProps}
 			>
 				{leading}
@@ -202,7 +202,7 @@ export default function Combobox (instanceProps: ComboboxProps)
 					options = {options}
 					renderOption = {renderOption}
 					disabled = {disabled}
-					readonly = {readonly}
+					readonly = {readOnly}
 					onClick = {handleChange}
 					value = {value}
 				/>

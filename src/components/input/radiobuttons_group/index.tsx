@@ -30,7 +30,7 @@ export default function RadioButtonsGroup (instanceProps: RadioButtonsGroupProps
 		hint,
 		isError,
 		textOnError,
-		readonly,
+		readOnly,
 		disabled,
 		form,
 		fieldsetStyle,
@@ -41,13 +41,15 @@ export default function RadioButtonsGroup (instanceProps: RadioButtonsGroupProps
 		checkboxLabelStyle,
 		checkboxStyle,
 		onContextMenu,
+		forceMode: _,
 		...rest
 	} = props;
 	
 	const css = useStyle ("radioButtonsGroup", props, style);
-	const checkboxCss = useStyle ("radioButtonsGroup", checkboxStyle, props, "checkboxStyle");
-	const checkboxActiveCss = useStyle ("radioButtonsGroup", checkboxActiveStyle, props, "checkboxActiveStyle");
-	const labelCss = useStyle ("radioButtonsGroup", checkboxLabelStyle, props, "checkboxLabelStyle");
+	const checkboxCss = useStyle ("radioButtonsGroup", props, checkboxStyle, "checkboxStyle");
+	const checkboxActiveCss = useStyle ("radioButtonsGroup", props, checkboxActiveStyle, "checkboxActiveStyle");
+	const labelCss = useStyle ("radioButtonsGroup", props, checkboxLabelStyle, "checkboxLabelStyle");
+	const clearButtonCss = useStyle ("radioButtonsGroup", props, clearButtonStyle, "clearButtonStyle");
 	
 	const [checked, setChecked] = useState<number | null> (null);
 
@@ -100,7 +102,7 @@ export default function RadioButtonsGroup (instanceProps: RadioButtonsGroupProps
 			textOnError = {textOnError}
 			isError = {isError}
 			disabled = {disabled}
-			readonly = {readonly}
+			readOnly = {readOnly}
 			className = {className}
 			id = {id}
 			style = {css}
@@ -111,7 +113,7 @@ export default function RadioButtonsGroup (instanceProps: RadioButtonsGroupProps
 			trailing = {
 				<Trailing
 					optional = {optional}
-					style = {clearButtonStyle}
+					style = {clearButtonCss}
 					clearSelection = {clearSelection}
 				/>
 			}
@@ -127,7 +129,7 @@ export default function RadioButtonsGroup (instanceProps: RadioButtonsGroupProps
 									style = {checkboxCss}
 									checkedStyle = {checkboxActiveCss}
 									labelStyle = {labelCss}
-									readonly = {readonly}
+									readOnly = {readOnly}
 									disabled = {disabled}
 									form = {form}
 									{...checkboxProps}

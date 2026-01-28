@@ -61,7 +61,7 @@ const Slider = React.forwardRef<HTMLInputElement, SliderProps> (
 			thumbStyle,
 			onChange,
 			disabled,
-			readonly,
+			readOnly,
 			vertical,
 			parentStyle,
 			as,
@@ -98,7 +98,7 @@ const Slider = React.forwardRef<HTMLInputElement, SliderProps> (
 
 		function handleChange (e: React.ChangeEvent<HTMLInputElement>)
 		{
-			if (readonly || disabled)
+			if (readOnly || disabled)
 				return;
 
 			const val = +e.target.value;

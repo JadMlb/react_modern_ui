@@ -42,7 +42,7 @@ const SingleLineTextInput = React.forwardRef<HTMLInputElement, SingleLineTextInp
 			style,
 			fieldsetStyle,
 			disabled,
-			readonly,
+			readOnly,
 			leading,
 			...rest
 		} = props;
@@ -137,7 +137,7 @@ const SingleLineTextInput = React.forwardRef<HTMLInputElement, SingleLineTextInp
 				style = {css}
 				fieldsetStyle = {fieldsetCss}
 				disabled = {disabled}
-				readonly = {readonly}
+				readOnly = {readOnly}
 				onClick = {handleClick}
 				onFocus = {handleFocus}
 				onBlur = {handleBlur}
@@ -153,7 +153,7 @@ const SingleLineTextInput = React.forwardRef<HTMLInputElement, SingleLineTextInp
 					maxLength = {maxLength}
 					pattern = {pattern}
 					autoCorrect = {props.type === "text" ? props.autoCorrect : undefined}
-					readOnly = {readonly}
+					readOnly = {readOnly}
 					disabled = {disabled}
 					{...rest}
 				/>

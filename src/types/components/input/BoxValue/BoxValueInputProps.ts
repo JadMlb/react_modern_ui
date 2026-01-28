@@ -48,7 +48,7 @@ export interface BoxValueInputProps extends BaseProps
 	/**
 	 * Disables editing of this input even if no value is provided. Defaults to `false`.
 	 */
-	readonly?: boolean;
+	readOnly?: boolean;
 	/**
 	 * Disables this input completely. Defaults to `false`.
 	 */

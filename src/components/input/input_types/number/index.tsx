@@ -46,7 +46,7 @@ const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps> (
 			style,
 			fieldsetStyle,
 			disabled,
-			readonly,
+			readOnly,
 			leading,
 			range,
 			precision,
@@ -171,7 +171,7 @@ const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps> (
 				style = {css}
 				fieldsetStyle = {fieldsetCss}
 				disabled = {disabled}
-				readonly = {readonly}
+				readOnly = {readOnly}
 				onClick = {handleClick}
 				onFocus = {handleFocus}
 				onBlur = {handleBlur}
@@ -189,7 +189,7 @@ const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps> (
 					type = {type}
 					value = {shownValue}
 					onChange = {handleChange}
-					readOnly = {readonly}
+					readOnly = {readOnly}
 					disabled = {disabled}
 					onWheel = {handleWheel}
 					{...rest}

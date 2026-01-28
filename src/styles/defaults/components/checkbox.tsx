@@ -8,7 +8,7 @@ const DEFAULT_CHECKBOX_PROPS: Overridable<OverridableCheckboxProps, CheckboxStyl
 		intermediateComponent: <DefaultIntermediate/>
 	},
 	styles: {
-		style: (_, {disabled, readonly}) => ({
+		style: (_, {disabled, readOnly}) => ({
 			width: 17,
 			height: 17,
 			border: "2px solid primary",
@@ -21,21 +21,21 @@ const DEFAULT_CHECKBOX_PROPS: Overridable<OverridableCheckboxProps, CheckboxStyl
 				outline: "none"
 			},
 			":hover": {
-				borderColor: disabled || readonly ? "gray" : "primaryDark"
+				borderColor: disabled || readOnly ? "gray" : "primaryDark"
 			},
-			borderColor: disabled || readonly ? "gray" : "primary"
+			borderColor: disabled || readOnly ? "gray" : "primary"
 		}),
 		labelStyle: {
 			display: "flex",
 			alignItems: "center",
 			gap: "spacing.xsmall"
 		},
-		checkedStyle: (_, {readonly, disabled}) => ({
+		checkedStyle: (_, {readOnly, disabled}) => ({
 			border: "2px solid transparent",
-			backgroundColor: readonly || disabled ? "transparent" : "primary"
+			backgroundColor: readOnly || disabled ? "transparent" : "primary"
 		}),
-		intermediateStyle: (_, {readonly, disabled}) => ({
-			backgroundColor: readonly || disabled ? "transparent" : "primary"
+		intermediateStyle: (_, {readOnly, disabled}) => ({
+			backgroundColor: readOnly || disabled ? "transparent" : "primary"
 		})
 	}
 };

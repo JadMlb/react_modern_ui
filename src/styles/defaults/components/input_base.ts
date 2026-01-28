@@ -9,7 +9,7 @@ const DEFAULT_INPUT_BASE_PROPS: Overridable<OverridableInputBaseProps, InputBase
 			marginLeft: "calc(2 * spacing.xsmall)",
 			color: disabled ? "gray" : "inherit"
 		}),
-		style: (isDark, {isError, disabled, readonly}) => ({
+		style: (isDark, {isError, disabled, readOnly}) => ({
 			borderRadius: "radius.medium",
 			padding: "spacing.small",
 			display: "flex",
@@ -18,12 +18,12 @@ const DEFAULT_INPUT_BASE_PROPS: Overridable<OverridableInputBaseProps, InputBase
 			gap: "spacing.small",
 			border: `1px solid ${isError ? "error" : "gray"}`,
 			color: disabled ? "gray" : undefined,
-			backgroundColor: disabled || readonly ? "unset" : `gray${isDark ? "Dark" : "Light"}`,
+			backgroundColor: disabled || readOnly ? "unset" : `gray${isDark ? "Dark" : "Light"}`,
 			":hover": {
-				border: `1px solid ${disabled || readonly ? "gray" : `primary${isDark ? "Dark" : "Elevated"}`}`
+				border: `1px solid ${disabled || readOnly ? "gray" : `primary${isDark ? "Dark" : "Elevated"}`}`
 			},
 			":focus": {
-				border: `1px solid ${disabled || readonly ? "gray" : "primary"}`
+				border: `1px solid ${disabled || readOnly ? "gray" : "primary"}`
 			}
 		}),
 		hintStyle: {

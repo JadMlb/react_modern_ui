@@ -45,7 +45,7 @@ const DateInput = React.forwardRef<HTMLInputElement, DateTimeInputProps | TimeIn
 			style,
 			optional,
 			disabled,
-			readonly,
+			readOnly,
 			fieldsetStyle,
 			hintStyle,
 			errorTextStyle,
@@ -89,7 +89,7 @@ const DateInput = React.forwardRef<HTMLInputElement, DateTimeInputProps | TimeIn
 		function expand (e: React.FocusEvent)
 		{
 			e.stopPropagation();
-			if (!disabled && !readonly)
+			if (!disabled && !readOnly)
 			{
 				inputRef.current?.showPicker?.();
 				inputRef.current?.click();
@@ -149,7 +149,7 @@ const DateInput = React.forwardRef<HTMLInputElement, DateTimeInputProps | TimeIn
 				onFocus = {expand}
 				onBlur = {close}
 				disabled = {disabled}
-				readonly = {readonly}
+				readOnly = {readOnly}
 			>
 				{leading}
 				<Input
@@ -160,7 +160,7 @@ const DateInput = React.forwardRef<HTMLInputElement, DateTimeInputProps | TimeIn
 					min = {(range && range[0] && formatDate (range[0])) || undefined}
 					max = {(range && range[1] && formatDate (range[1])) || undefined}
 					disabled = {disabled}
-					readOnly = {readonly}
+					readOnly = {readOnly}
 					{...rest}
 				/>
 			</InputBase>

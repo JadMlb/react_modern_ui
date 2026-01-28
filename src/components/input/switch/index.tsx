@@ -22,7 +22,7 @@ export default function Switch (instanceProps: SwitchProps)
 		parentStyle,
 		name,
 		value,
-		readonly,
+		readOnly,
 		disabled,
 		form,
 		onChange,
@@ -85,8 +85,8 @@ export default function Switch (instanceProps: SwitchProps)
 				name = {name}
 				type = "checkbox"
 				checked = {isSwitched}
-				onChange = {readonly || disabled ? undefined : handleChange}
-				readOnly = {readonly}
+				onChange = {readOnly || disabled ? undefined : handleChange}
+				readOnly = {readOnly}
 				disabled = {disabled}
 				form = {form}
 				hidden

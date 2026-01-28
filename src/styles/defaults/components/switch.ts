@@ -8,13 +8,13 @@ const DEFAULT_SWITCH_PROPS: Overridable<OverridableSwitchProps, SwitchStylingPro
 			alignItems: "center",
 			width: "fit-content"
 		},
-		handleStyle: (isDark, {readonly, disabled}) => ({
+		handleStyle: (isDark, {readOnly, disabled}) => ({
 			height: 20,
 			width: 20,
 			borderRadius: "radius.large",
 			border: "1px solid gray",
 			transition: "transform 0.3s ease-in-out",
-			backgroundColor: readonly || disabled ? `gray${isDark ? "Dark" : "Light"}` : "white"
+			backgroundColor: readOnly || disabled ? `gray${isDark ? "Dark" : "Light"}` : "white"
 		}),
 		activatedHandleStyle: {
 			transform: `translateX(20px)`

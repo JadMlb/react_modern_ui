@@ -35,9 +35,10 @@ export default function Checkbox (instanceProps: CheckboxProps)
 		onFocus,
 		onKeyDown,
 		onKeyUp,
-		readonly,
+		readOnly,
 		style,
 		value,
+		forceMode: _,
 		...aria
 	} = props;
 	
@@ -198,7 +199,7 @@ export default function Checkbox (instanceProps: CheckboxProps)
 				onKeyUp = {onKeyUp}
 				form = {form}
 				disabled = {disabled}
-				readonly = {readonly}
+				readonly = {readOnly}
 				{...aria}
 			/>
 		</CheckboxLabel>

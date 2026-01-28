@@ -15,7 +15,7 @@ export default interface InputBaseConfigProps extends BaseProps
 	className?: string;
 	id?: string;
 	disabled?: boolean;
-	readonly?: boolean;
+	readOnly?: boolean;
 	onClick?: React.MouseEventHandler;
 	onFocus?: React.FocusEventHandler;
 	onBlur?: React.FocusEventHandler;
