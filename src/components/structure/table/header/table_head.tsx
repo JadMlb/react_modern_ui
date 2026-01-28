@@ -6,9 +6,10 @@ import { OnTableDataSortFunction } from "../../../../types";
 interface TableHeadProps extends TableRowProps
 {
 	onSort?: OnTableDataSortFunction;
+	chevronColour?: string;
 }
 
-export default function TableHead ({columns, style, cellStyle, onSort}: TableHeadProps)
+export default function TableHead ({columns, style, cellStyle, onSort, chevronColour}: TableHeadProps)
 {
 	const [sortingColumn, setSortingColumn] = useState<{column: string, desc?: boolean} | null> (null);
 
@@ -59,6 +60,7 @@ export default function TableHead ({columns, style, cellStyle, onSort}: TableHea
 							style = {cellStyle}
 							sorting = {getSortingValueOfColumn (col.name)}
 							onSort = {handleSort}
+							chevronColour = {chevronColour}
 						/>
 			)
 		}</div>

@@ -9,4 +9,5 @@ export default interface TablePaginationProps
 	style?: StaticStyle;
 	onPageChange?: OnPageChangeFunction;
 	onPageSizeChange?: OnPageSizeChangeFunction;
+	chevronColour?: string;
 }

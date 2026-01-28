@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { ComboboxProps } from "../../../../types/components/Combobox/ComboboxProps";
+import { ComboboxArrow, ComboboxProps } from "../../../../types/components/Combobox/ComboboxProps";
 import InputBase from "../input_base";
 import ComboboxOption from "./option";
 import { OnChangeFunction, Option } from "../../../../types";
@@ -11,6 +11,16 @@ import Menu from "../../../structure/menu";
 import ValueWrapper from "./value_wrapper";
 import useProps from "../../../../hooks/useProps";
 import useStyle from "../../../../hooks/useStyle";
+import Chevron from "../../../chevron";
+import { merge } from "lodash";
+
+function getDefaultArrowComponent (colour?: string): ComboboxArrow
+{
+	return {
+		open: <Chevron orientation = "up" colour = {colour}/>,
+		closed: <Chevron colour = {colour}/>
+	};
+};
 
 function defaultRenderOption (option: Option, selected?: boolean, onClick?: OnChangeFunction<Option>)
 {
@@ -41,6 +51,7 @@ export default function Combobox (instanceProps: ComboboxProps)
 		style,
 		fieldsetStyle,
 		arrowComponent,
+		defaultArrowComponentColour,
 		menuStyle,
 		tagsStyle,
 		errorTextStyle,
@@ -48,6 +59,11 @@ export default function Combobox (instanceProps: ComboboxProps)
 		renderOption = defaultRenderOption,
 		...baseProps
 	} = props;
+
+	const finalArrowComponent: ComboboxArrow = useMemo (
+		() => merge ({}, getDefaultArrowComponent (defaultArrowComponentColour), arrowComponent),
+		[arrowComponent, defaultArrowComponentColour]
+	);
 
 	const css = useStyle ("combobox", props, style);
 	const fieldsetCss = useStyle ("combobox", props, fieldsetStyle, "fieldsetStyle");
@@ -157,7 +173,7 @@ export default function Combobox (instanceProps: ComboboxProps)
 				errorTextStyle = {errorCss}
 				trailing = {
 					<ComboboxTrailing
-						arrowComponent = {arrowComponent!}
+						arrowComponent = {finalArrowComponent}
 						expanded = {isExpanded}
 						optional = {optional}
 						value = {value}

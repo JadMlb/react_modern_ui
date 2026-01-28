@@ -7,13 +7,14 @@ interface TableSortButtonProps
 	order?: "a" | "d";
 	active?: boolean;
 	onSort?: () => void;
+	chevronColour?: string;
 }
 
 const DEFAULT_SORT_BUTTON_STYLE = {
 	backgroundColor: "unset"
 } satisfies Style;
 
-export default function TableSortButton ({order, active = false, onSort}: TableSortButtonProps)
+export default function TableSortButton ({order, active = false, onSort, chevronColour = "primary"}: TableSortButtonProps)
 {
 	return (
 		<Button
@@ -21,7 +22,12 @@ export default function TableSortButton ({order, active = false, onSort}: TableS
 			style = {DEFAULT_SORT_BUTTON_STYLE}
 			onClick = {onSort}
 		>{
-			order && <Chevron orientation = {order === "a" ? "up" : "down"} inline inactive = {!active}/>
+			order &&
+			<Chevron
+				orientation = {order === "a" ? "up" : "down"}
+				colour = {chevronColour}
+				inactive = {!active}
+			/>
 		}</Button>
 	);
 }

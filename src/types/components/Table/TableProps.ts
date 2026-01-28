@@ -37,6 +37,16 @@ export default interface TableConfigProps extends AriaProps
 	 */
 	footer?: React.ReactNode;
 	/**
+	 * Sets the colour of the chevron inside of sort buttons in the head of the table
+	 * @default "primary"
+	 */
+	sortButtonChevronColour?: string;
+	/**
+	 * Sets the colour of the chevron inside of navigation buttons in the pagination of the table
+	 * @default "primary"
+	 */
+	paginationNavigationButtonChevronColour?: string;
+	/**
 	 * Event fired when an entire row is clicked 
 	 */
 	onRowClick?: OnTableRowClickFunction;
@@ -65,4 +75,4 @@ export type OnRowContextMenu = (e: React.MouseEvent, row: TableRowData) => void;
 export type TableStylingProps = GenericTableStylingProps<TableConfigProps>;
 export type TableProps = Props<TableConfigProps, TableStylingProps>;
 
-export type OverridableTableProps = Pick<TableProps, "onRowClick" | "onContextMenu" | "onRowContextMenu" | "onPageChange" | "onPageSizeChange" | "pageSizes" | "heading" | "footer">;
+export type OverridableTableProps = Pick<TableProps, "onRowClick" | "onContextMenu" | "onRowContextMenu" | "onPageChange" | "onPageSizeChange" | "pageSizes" | "heading" | "footer" | "paginationNavigationButtonChevronColour" | "sortButtonChevronColour">;

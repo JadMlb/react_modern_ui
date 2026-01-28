@@ -5,6 +5,7 @@ import { OnTableDataSortFunction } from "../../../../types";
 
 interface TableHeadCellProps extends TableCellProps
 {
+	chevronColour?: string;
 	onSort?: OnTableDataSortFunction;
 	sorting?: {
 		isActive: boolean,
@@ -12,7 +13,7 @@ interface TableHeadCellProps extends TableCellProps
 	}
 }
 
-export default function TableHeadCell ({def, style, sorting, onSort}: TableHeadCellProps)
+export default function TableHeadCell ({def, style, sorting, onSort, chevronColour}: TableHeadCellProps)
 {
 	function handleSort ()
 	{
@@ -34,6 +35,7 @@ export default function TableHeadCell ({def, style, sorting, onSort}: TableHeadC
 					onSort = {handleSort}
 					order = {sorting?.desc ? "d" : "a"}
 					active = {sorting?.isActive}
+					chevronColour = {chevronColour}
 				/>
 			}
 		</TableCell>

@@ -1,55 +1,53 @@
 /** @jsxImportSource @emotion/react */
-import { useThemeParser } from "../../styles";
-import { useMemo } from "react";
-import { Style } from "../../types";
-
-interface ChevronArrowProps
-{
-	orientation?: "up" | "down" | "right" | "left";
-	inline?: boolean;
-	inactive?: boolean;
-}
+import { CSSProperties, useMemo } from "react";
+import useColour from "./useColour";
+import { useDarkMode } from "../../styles";
 
 const ORIENTATION_ANGLE = {
-	"up": -135,
-	"down": 45,
-	"left": 135,
-	"right": -45
+	"up": 180,
+	"down": 0,
+	"left": 90,
+	"right": 270
 };
-
-const DEFAULT_ARROW_STYLE = {
-	width: 10,
-	height: 10,
-	transform: "rotate(-45deg) translate(-2.5px, -2.5px)"
-} as Style;
-
-function ChevronArrow ({orientation = "right", inactive, inline}: ChevronArrowProps)
-{
-	const parseCss = useThemeParser();
-
-	const css = useMemo (
-		() => parseCss ({
-				...DEFAULT_ARROW_STYLE,
-				transform: `rotate(${ORIENTATION_ANGLE[orientation]}deg) translate(-2.5px, -2.5px)`,
-				borderBottom: `2px solid ${inline ? inactive ? "gray" : "black" : "primary"}`,
-				borderRight: `2px solid ${inline ? inactive ? "gray" : "black" : "primary"}`
-			}),
-		[parseCss, orientation, inline, inactive]
-	);
-
-	return <div css = {css}/>;
-}
 
 interface ChevronProps
 {
 	orientation?: "up" | "down" | "right" | "left";
-	inline?: boolean;
+	colour?: string;
 	inactive?: boolean;
 }
 
-export default function Chevron ({orientation = "up", inline, inactive}: ChevronProps)
+// Chevron svg from: https://www.svgrepo.com/svg/513816/chevron-down
+export default function Chevron ({orientation = "down", inactive, colour}: ChevronProps)
 {
+	const getColour = useColour();
+	const isDark = useDarkMode();
+
+	const style = useMemo (
+		() => ({
+			transform: `rotate(${ORIENTATION_ANGLE[orientation]}deg)`,
+			width: 20
+		} satisfies CSSProperties),
+		[getColour, orientation]
+	);
+
+	const stroke = useMemo (
+		() => getColour (inactive ? "gray" : colour ?? (isDark ? "white" : "black")),
+		[inactive, colour, isDark]
+	);
+
 	return (
-		<ChevronArrow orientation = {orientation} inactive = {inactive} inline = {inline}/>
+		<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style = {style}>
+			<g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+			<g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+			<g id="SVGRepo_iconCarrier">
+				<title></title>
+				<g id="Complete">
+					<g id="F-Chevron">
+						<polyline fill="none" id="Down" points="5 8.5 12 15.5 19 8.5" stroke={stroke} stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></polyline>
+					</g>
+				</g>
+			</g>
+		</svg>
 	);
 }

@@ -14,6 +14,10 @@ export interface PanelConfigProps extends DivProps
 	 */
 	collapsible?: boolean;
 	/**
+	 * Styles the colour of the panel's toggle button's chevron
+	 */
+	toggleCollapseButtonChevronColour?: string;
+	/**
 	 * The content of the panel
 	 */
 	children: React.ReactNode;
@@ -22,4 +26,4 @@ export interface PanelConfigProps extends DivProps
 export type PanelStylingProps = GenericPanelStylingProps<PanelConfigProps>;
 export type PanelProps = Props<PanelConfigProps, PanelStylingProps>;
 
-export type OverridablePanelProps = Pick<PanelProps, "collapsible">
+export type OverridablePanelProps = Pick<PanelProps, "collapsible" | "toggleCollapseButtonChevronColour">

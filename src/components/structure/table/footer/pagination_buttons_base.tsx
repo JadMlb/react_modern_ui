@@ -5,9 +5,10 @@ interface PaginationButtonsBaseProps extends Omit<PaginationButtonProps, "page">
 {
 	children?: React.ReactNode;
 	totalNbPages: number;
+	chevronColour?: string;
 }
 
-export default function PaginationButtonsBase ({children, currentActivePage, totalNbPages, onPageChange}: PaginationButtonsBaseProps)
+export default function PaginationButtonsBase ({children, currentActivePage, totalNbPages, onPageChange, chevronColour}: PaginationButtonsBaseProps)
 {
 	return (
 		<>
@@ -16,6 +17,7 @@ export default function PaginationButtonsBase ({children, currentActivePage, tot
 				page = {-1}
 				totalNbPages = {totalNbPages}
 				onPageChange = {onPageChange}
+				chevronColour = {chevronColour}
 			/>
 			{children}
 			<EdgePaginationButton
@@ -23,6 +25,7 @@ export default function PaginationButtonsBase ({children, currentActivePage, tot
 				page = {-2}
 				totalNbPages = {totalNbPages}
 				onPageChange = {onPageChange}
+				chevronColour = {chevronColour}
 			/>
 		</>
 	);

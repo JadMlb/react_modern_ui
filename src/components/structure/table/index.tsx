@@ -32,6 +32,8 @@ export default function Table (instanceProps: TableProps)
 		onPageSizeChange,
 		onContextMenu,
 		onRowContextMenu,
+		paginationNavigationButtonChevronColour,
+		sortButtonChevronColour,
 		...rest
 	} = props;
 	
@@ -61,6 +63,7 @@ export default function Table (instanceProps: TableProps)
 				onSort = {onSort}
 				style = {headerRowCss}
 				cellStyle = {headerCellCss}
+				chevronColour = {sortButtonChevronColour}
 			/>
 			{/* body */}
 			<TableBody
@@ -83,6 +86,7 @@ export default function Table (instanceProps: TableProps)
 						onPageSizeChange = {onPageSizeChange}
 						style = {footerCss}
 						paginationStyle = {paginationCss}
+						chevronColour = {paginationNavigationButtonChevronColour}
 					>
 						{footer}
 					</TableFooter>

@@ -5,6 +5,11 @@ import MenuConfigProps from "../Menu/MenuProps";
 import { Props } from "../Props";
 import GenericComboboxStylingProps from "./ComboboxStylingProps";
 
+export type ComboboxArrow = {
+	open: React.ReactNode;
+	closed: React.ReactNode;
+};
+
 export interface ComboboxConfigProps extends Omit<CommonInputProps, "onKeyDown" | "onKeyUp">
 {
 	/**
@@ -23,7 +28,11 @@ export interface ComboboxConfigProps extends Omit<CommonInputProps, "onKeyDown" 
 	/**
 	 * Customizes the icon displayed instead of the classical arrow
 	 */
-	arrowComponent?: {open: React.ReactNode, closed: React.ReactNode};
+	arrowComponent?: Partial<ComboboxArrow>;
+	/**
+	 * Sets the colour of the default arrow used. If no value is provided, the colour follows the current mode ("light" or "dark")
+	 */
+	defaultArrowComponentColour?: string;
 	/**
 	 * Renders the options of the combobox
 	 */
@@ -35,4 +44,4 @@ export type RenderOptionFunction = (option: Option, selected?: boolean, onClick?
 export type ComboboxStylingProps = GenericComboboxStylingProps<ComboboxConfigProps>;
 export type ComboboxProps = Props<ComboboxConfigProps, ComboboxStylingProps>;
 
-export type OverridableComboboxProps = Pick<ComboboxProps, "menuProps" | "arrowComponent" | "renderOption">;
+export type OverridableComboboxProps = Pick<ComboboxProps, "menuProps" | "arrowComponent" | "defaultArrowComponentColour" | "renderOption">;

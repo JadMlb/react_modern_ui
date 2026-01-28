@@ -21,6 +21,7 @@ export default function Panel (instanceProps: PanelProps)
 		collapsible = false,
 		headerStyle,
 		toggleCollapseButtonStyle,
+		toggleCollapseButtonChevronColour,
 		children,
 		as,
 		...rest
@@ -55,6 +56,7 @@ export default function Panel (instanceProps: PanelProps)
 				onCollapseToggle = {handleCollapseToggle}
 				style = {headerCss}
 				toggleCollapseButtonStyle = {toggleCollapseButtonCss}
+				toggleCollapseButtonChevronColour = {toggleCollapseButtonChevronColour}
 				title = {title}
 			/>
 			{

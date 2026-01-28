@@ -7,12 +7,13 @@ interface PanelHeaderProps
 	title?: PanelProps["title"];
 	style?: StaticStyle;
 	toggleCollapseButtonStyle?: StaticStyle;
+	toggleCollapseButtonChevronColour?: string;
 	collapsible?: PanelProps["collapsible"];
 	collapsed?: boolean;
 	onCollapseToggle?: () => void;
 }
 
-export default function PanelHeader ({title, style, collapsible, collapsed, onCollapseToggle, toggleCollapseButtonStyle}: PanelHeaderProps)
+export default function PanelHeader ({title, style, collapsible, collapsed, onCollapseToggle, toggleCollapseButtonStyle, toggleCollapseButtonChevronColour}: PanelHeaderProps)
 {
 	if (!title)
 		return null;
@@ -26,7 +27,10 @@ export default function PanelHeader ({title, style, collapsible, collapsed, onCo
 					onClick = {onCollapseToggle}
 					style = {toggleCollapseButtonStyle}
 				>
-					<Chevron orientation = {collapsed ? "down" : "up"}/>
+					<Chevron
+						orientation = {collapsed ? "down" : "up"}
+						colour = {toggleCollapseButtonChevronColour}
+					/>
 				</Button>
 			}
 		</div>
