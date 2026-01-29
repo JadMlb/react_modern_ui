@@ -1,5 +1,38 @@
 # Change Log
 
+## v2.0.0-beta.14
+
+### Accessibility
+- Added ARIA and Data props to all components
+- Added mutability using the `as` prop to some components to allow rendering using the specified tag
+- Improved semantics using dedicated HTML tags, especially in:
+	- `Dialog`
+	- `Drawer`
+	- `ProgressBar`
+
+### Animations
+All animation components now expose a callback function executed when the dismount animation has finished playing.
+
+### Chevron
+This hidden component is widely used internally as the:
+- default arrow component for `Combobox`
+- navigation buttons chevrons in `Table` pagination
+- toggle button in `Panel` when `collapsible` is enabled
+
+The previous approach of using pure CSS, resulting in wrong dimentions and weird renders is now fixed due to the replacement by an svg from [SVG Repo](https://www.svgrepo.com/svg/513816/chevron-down).
+
+### Inputs and Input-like components
+All inputs and components that rely on an input-like props interface (`BoxValueProps`, `CommonInputProps`, etc) have their `readonly` prop renamed to `readOnly` for better compliance with React's naming conventions.
+
+### Table
+Fixed bug in previous beta and `Table` renders correctly again.
+
+### Theme
+Added ability to force theme mode on each component, locking them in that mode rather than relying on the theme.
+
+### Final thoughts
+The planned features for v2.0.0 are done. The library is moving to being polished and prepared for release.
+
 ## v2.0.0-beta.13
 
 ### Animations
