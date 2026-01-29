@@ -1,9 +1,7 @@
 import { ListStylingProps, Overridable, OverridableListProps } from "../../../types";
-import DefaultDragHandle from "./drag_handle";
 
 const DEFAULT_LIST_PROPS: Overridable<OverridableListProps, ListStylingProps> = {
 	props: {
-		dragHandle: <DefaultDragHandle/>,
 		renderer: item => item.id
 	},
 	styles: {

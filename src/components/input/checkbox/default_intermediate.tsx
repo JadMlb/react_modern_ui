@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import styled from "@emotion/styled";
-import { useThemeColours } from "../../../styles";
+import { useThemeColours } from "../../../styles/theme";
 import { useMemo } from "react";
 
 const Dash = styled.div

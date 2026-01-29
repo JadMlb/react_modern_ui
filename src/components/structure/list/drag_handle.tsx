@@ -1,7 +1,8 @@
 /** @jsxImportSource @emotion/react */
 
 import styled from "@emotion/styled";
-import { ThemeColourFunction, useDarkMode, useThemeColours } from "../..";
+import { ThemeColourFunction, useThemeColours } from "../../../styles/theme";
+import { useDarkMode } from "../../../styles/mode";
 import { useEffect, useRef, useState } from "react";
 
 const Wrapper = styled.div<{$dragging: boolean}>

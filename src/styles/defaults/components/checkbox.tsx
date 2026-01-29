@@ -1,12 +1,6 @@
 import { CheckboxStylingProps, Overridable, OverridableCheckboxProps } from "../../../types";
-import DefaultCheck from "./default_check";
-import DefaultIntermediate from "./default_intermediate";
 
 const DEFAULT_CHECKBOX_PROPS: Overridable<OverridableCheckboxProps, CheckboxStylingProps> = {
-	props: {
-		checkedComponent: <DefaultCheck/>,
-		intermediateComponent: <DefaultIntermediate/>
-	},
 	styles: {
 		style: (_, {disabled, readOnly}) => ({
 			width: 17,

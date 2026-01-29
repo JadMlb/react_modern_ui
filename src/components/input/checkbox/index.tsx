@@ -5,6 +5,8 @@ import HiddenInput from "./hidden";
 import CheckboxBox from "./box";
 import useProps from "../../../hooks/useProps";
 import useStyle from "../../../hooks/useStyle";
+import DefaultIntermediate from "./default_intermediate";
+import DefaultCheck from "./default_check";
 
 /**
  * Renders a Checkbox component with specified value, either in normal checked/unchecked, or in tri-value
@@ -16,7 +18,7 @@ export default function Checkbox (instanceProps: CheckboxProps)
 	const {
 		as,
 		autoFocus,
-		checkedComponent,
+		checkedComponent = <DefaultCheck/>,
 		checkedStyle,
 		className,
 		defaultValue,
@@ -24,7 +26,7 @@ export default function Checkbox (instanceProps: CheckboxProps)
 		form,
 		hideLabel,
 		id,
-		intermediateComponent,
+		intermediateComponent = <DefaultIntermediate/>,
 		intermediateStyle,
 		label,
 		labelStyle,

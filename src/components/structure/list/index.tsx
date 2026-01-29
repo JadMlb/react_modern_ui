@@ -6,13 +6,14 @@ import { ListProps } from "../../../types/components/List/ListProps";
 import { ListContainer } from "./container";
 import useProps from "../../../hooks/useProps";
 import useStyle from "../../../hooks/useStyle";
+import DefaultDragHandle from "./drag_handle";
 
 export default function List (instanceProps: ListProps)
 {
 	const props = useProps ("list", instanceProps);
 	const {
 		className,
-		dragHandle,
+		dragHandle = <DefaultDragHandle/>,
 		draggable,
 		id,
 		listItemDropAreaStyle,
