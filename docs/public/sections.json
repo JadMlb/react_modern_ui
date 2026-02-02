@@ -1,0 +1,37 @@
+{
+	"getting-started": [
+		"overview",
+		"installation",
+		"usage"
+	],
+	"inputs": [
+		"Button",
+		"Checkbox",
+		"Combobox",
+		"Input",
+		"RadioButtonsGroup",
+		"Slider",
+		"Switch"
+	],
+	"feedback": [
+		"Badge",
+		"Dialog",
+		"Drawer",
+		"Menu",
+		"ProgressBar",
+		"SkeletonLoader",
+		"Toaster"
+	],
+	"structure": [
+		"Animation",
+		"Card",
+		"List",
+		"Panel",
+		"Separator",
+		"Table",
+		"Tag"
+	],
+	"utils": [
+		"Theme"
+	]
+}

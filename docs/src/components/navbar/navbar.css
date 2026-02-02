@@ -1,4 +1,18 @@
 aside
 {
 	grid-area: aside;
+	overflow-y: auto;
+}
+
+.tree-node
+{
+	padding: unset !important;
+	border: none !important;
+}
+
+.tree-node span
+{
+	/* text-transform: uppercase; */
+	font-size: 0.8em;
+	font-weight: bold;
 }
