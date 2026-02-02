@@ -1,0 +1,26 @@
+header
+{
+	grid-area: header;
+}
+
+header, header #left, header #right
+{
+	padding: unset;
+}
+
+header .rmui-panel-scroll-area, header #left .rmui-panel-scroll-area, header #right .rmui-panel-scroll-area
+{
+	flex-direction: row;
+	align-items: center;
+}
+
+header .rmui-panel-scroll-area
+{
+	justify-content: space-between;
+}
+
+header h1
+{
+	margin: unset;
+	font-size: 1.1em;
+}
