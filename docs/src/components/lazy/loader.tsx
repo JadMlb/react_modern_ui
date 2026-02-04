@@ -1,10 +1,12 @@
-import { SkeletonLoader } from "@jad-mlb/react-modern-ui";
+import { Panel, SkeletonLoader } from "@jad-mlb/react-modern-ui";
 
 export default function Loader ()
 {
 	return (
-		<SkeletonLoader
-			lines = {10}
-		/>
+		<Panel id = "loader">
+			<SkeletonLoader
+				lines = {10}
+			/>
+		</Panel>
 	);
 }

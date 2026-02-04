@@ -21,9 +21,15 @@ body
 	display: grid;
 	grid-template-areas: "header header"
 							"aside main";
-	grid-template-columns: 25dvh 1fr;
+	grid-template-columns: 20dvw 1fr;
 	grid-template-rows: auto 1fr;
 	max-height: 100dvh;
 	height: 100dvh;
 	overflow: hidden;
+}
+
+#loader
+{
+	grid-row: header / aside;
+	grid-column: header / main;
 }
