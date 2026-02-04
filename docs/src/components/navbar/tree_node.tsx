@@ -14,7 +14,7 @@ export default function TreeNode ({titleKey, links}: TreeNodeProps)
 
 	return (
 		<Panel title = {t (titleKey)} collapsible className = "tree-node">
-			<TreeLinksRenderer>{links}</TreeLinksRenderer>
+			<TreeLinksRenderer parent = {titleKey}>{links}</TreeLinksRenderer>
 		</Panel>
 	);
 }

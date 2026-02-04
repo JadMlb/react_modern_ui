@@ -6,7 +6,7 @@ export default function useAppNavigationPath ()
 	const [usedLang] = useLanguagePath();
 
 	return useCallback (
-		(to: string) => `/${usedLang}/${to}`,
+		(...to: string[]) => `/${usedLang}/${to.join ("/")}`,
 		[usedLang]
 	);
 }

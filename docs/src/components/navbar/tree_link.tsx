@@ -7,17 +7,18 @@ import { useTranslation } from "react-i18next";
 
 interface TreeLinkProps
 {
+	parent: string;
 	children: string;
 }
 
-export default function TreeLink ({children}: TreeLinkProps)
+export default function TreeLink ({parent, children}: TreeLinkProps)
 {
 	const {t} = useTranslation ("nav");
 
 	const getPath = useAppNavigationPath();
 	const destination = useMemo (
-		() => getPath (camelCaseToDashed (children)),
-		[children, getPath]
+		() => getPath (camelCaseToDashed (parent), camelCaseToDashed (children)),
+		[children, getPath, parent]
 	);
 	const style = useNavLinkStyle();
 
