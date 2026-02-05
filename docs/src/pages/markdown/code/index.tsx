@@ -1,6 +1,6 @@
 import { type HTMLAttributes } from "react";
 import type { Element, ElementContent } from "hast";
-import useCodeParser from "./useCodeParser";
+import useCleaner from "../../../hooks/useCleaner";
 import { Panel, type Style } from "@jad-mlb/react-modern-ui";
 import Demo from "./demo";
 import CodeContents from "./code";
@@ -18,7 +18,7 @@ type CodeProps = {node?: Element} & HTMLAttributes<HTMLPreElement>;
 
 export default function Code ({node, ...props}: CodeProps)
 {
-	const {cleanCode, demoKey} = useCodeParser (((node?.children[0] as Element).children[0] as ElementContent & {type: "text"}).value);
+	const {cleanValue: cleanCode, key: demoKey} = useCleaner (((node?.children[0] as Element).children[0] as ElementContent & {type: "text"}).value, "///");
 	
 	return (
 		<Panel className = "code" style = {STYLE}>

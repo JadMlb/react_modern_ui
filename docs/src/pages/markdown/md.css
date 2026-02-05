@@ -2,3 +2,8 @@
 {
 	margin: unset;
 }
+
+.panel-block-quote > div > span > *, .panel-block-quote .rmui-panel-scroll-area > *
+{
+	margin: unset;
+}

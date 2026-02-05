@@ -4,10 +4,10 @@ const theme = createTheme ({
 	overrides: {
 		panel: {
 			styles: {
-				style: isDark => ({
+				style: (isDark, {collapsible}) => ({
 					backgroundColor: isDark ? "black" : "white",
 					color: isDark ? "white" : "black",
-					borderRadius: 0,
+					borderRadius: collapsible ? undefined : 0,
 					colorScheme: isDark ? "dark" : "light"
 				})
 			}

@@ -2,6 +2,7 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { useLoaderData } from "react-router";
 import Code from "./code";
+import BlockQuote from "./blockquotes";
 import "./md.css";
 
 export default function MarkdownPage ()
@@ -12,7 +13,8 @@ export default function MarkdownPage ()
 		<ReactMarkdown
 			remarkPlugins = {[remarkGfm]}
 			components = {{
-				pre: Code
+				pre: Code,
+				blockquote: BlockQuote
 			}}
 		>
 			{data}
