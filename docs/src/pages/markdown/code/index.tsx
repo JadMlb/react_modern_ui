@@ -16,7 +16,7 @@ const STYLE: Style = isDark => ({
 
 type CodeProps = {node?: Element} & HTMLAttributes<HTMLPreElement>;
 
-export default function Code ({node, ...props}: CodeProps)
+export default function CodeRenderer ({node, ...props}: CodeProps)
 {
 	const {cleanValue: cleanCode, key: demoKey} = useCleaner (((node?.children[0] as Element).children[0] as ElementContent & {type: "text"}).value, "///");
 	

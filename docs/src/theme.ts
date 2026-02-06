@@ -28,6 +28,13 @@ const theme = createTheme ({
 					}
 				})
 			},
+		},
+		tag: {
+			styles: {
+				style: {
+					display: "inline-flex"
+				}
+			}
 		}
 	}
 });

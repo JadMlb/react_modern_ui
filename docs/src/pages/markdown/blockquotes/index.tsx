@@ -32,7 +32,7 @@ interface BlockQuoteProps extends React.BlockquoteHTMLAttributes<HTMLQuoteElemen
 	node?: Element;
 }
 
-export default function BlockQuote ({node, children, ...props}: BlockQuoteProps)
+export default function BlockQuoteRenderer ({node, children, ...props}: BlockQuoteProps)
 {
 	const firstLine = React.useMemo (
 		() => tryGetFirstText (node),

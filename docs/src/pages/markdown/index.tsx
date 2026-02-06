@@ -1,8 +1,9 @@
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { useLoaderData } from "react-router";
-import Code from "./code";
-import BlockQuote from "./blockquotes";
+import CodeRenderer from "./code";
+import BlockQuoteRenderer from "./blockquotes";
+import RawCodeRenderer from "./rawCode";
 import "./md.css";
 
 export default function MarkdownPage ()
@@ -13,8 +14,9 @@ export default function MarkdownPage ()
 		<ReactMarkdown
 			remarkPlugins = {[remarkGfm]}
 			components = {{
-				pre: Code,
-				blockquote: BlockQuote
+				pre: CodeRenderer,
+				blockquote: BlockQuoteRenderer,
+				code: RawCodeRenderer
 			}}
 		>
 			{data}
