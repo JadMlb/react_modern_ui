@@ -1,15 +1,14 @@
-import { Button, Link, Panel } from "@jad-mlb/react-modern-ui";
+import { Button, Panel } from "@jad-mlb/react-modern-ui";
 import * as STYLE from "./style";
-import { FaGear, FaGithub } from "react-icons/fa6";
+import { FaGear } from "react-icons/fa6";
+import GithubLink from "./github";
 
 export default function RightHeader ()
 {
 	return (
 		<Panel id = "right" style = {STYLE}>
 			<Button><FaGear/></Button>
-			<Link to = "https://github.com/JadMlb/react_modern_ui">
-				<FaGithub/>
-			</Link>
+			<GithubLink/>
 		</Panel>
 	);
 }

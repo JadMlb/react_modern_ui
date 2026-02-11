@@ -14,19 +14,11 @@ const theme = createTheme ({
 		},
 		link: {
 			styles: {
-				style: (isDark) => ({
-					display: "flex",
-					alignItems: "center",
-					justifyContent: "center",
-					borderRadius: "radius.medium",
-					padding: "spacing.small",
-					backgroundColor: `gray${isDark ? "" : "Light"}`,
-					color: isDark ? "white" : "black",
-					":hover": {
-						backgroundColor: "primaryElevated",
-						color: "black"
+				style: {
+					":after": {
+						backgroundColor: "primary"
 					}
-				})
+				}
 			},
 		},
 		tag: {
