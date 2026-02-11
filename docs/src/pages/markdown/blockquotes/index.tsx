@@ -2,6 +2,7 @@ import * as React from "react";
 import type { Element, ElementContent } from "hast";
 import PanelBlockQuote from "./panel";
 import DefaultBlockquote from "./default";
+import TagBlockquote from "./tag";
 
 function tryGetTextContentFromElement (element?: ElementContent): string
 {
@@ -24,6 +25,7 @@ function tryGetFirstText (node?: Element): string
 
 const TYPES = {
 	"PANEL": PanelBlockQuote,
+	"TAG": TagBlockquote,
 	"": DefaultBlockquote
 };
 

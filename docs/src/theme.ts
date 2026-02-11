@@ -27,6 +27,39 @@ const theme = createTheme ({
 					display: "inline-flex"
 				}
 			}
+		},
+		table: {
+			styles: {
+				headerRowStyle: isDark => ({
+					borderTopLeftRadius: "radius.small",
+					borderTopRightRadius: "radius.small",
+					backgroundColor: "transparent",
+					color: isDark ? "white" : "black",
+					border: `1px solid gray${isDark ? "Dark" : "Light"}`
+				}),
+				headerCellStyle: isDark => ({
+					padding: "2px 5px",
+					":not(:first-of-type)": {
+						borderLeft: `1px solid gray${isDark ? "Dark" : "Light"}`
+					}
+				}),
+				tableRowStyle: isDark => ({
+					border: `1px solid gray${isDark ? "Dark" : "Light"}`,
+					":last-of-type": {
+						borderBottomLeftRadius: "radius.small",
+						borderBottomRightRadius: "radius.small",
+					}
+				}),
+				tableCellStyle: isDark => ({
+					":first-of-type": {
+						color: `primary${isDark ? "Elevated" : ""}`,
+						fontWeight: "bold"
+					},
+					":not(:first-of-type)": {
+						borderLeft: `1px solid gray${isDark ? "Dark" : "Light"}`
+					}
+				})
+			}
 		}
 	}
 });
