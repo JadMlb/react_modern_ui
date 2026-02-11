@@ -17,7 +17,6 @@
 		"Badge",
 		"Dialog",
 		"Drawer",
-		"Menu",
 		"ProgressBar",
 		"SkeletonLoader",
 		"Toaster"
@@ -26,12 +25,18 @@
 		"Animation",
 		"Card",
 		"List",
+		"Menu",
 		"Panel",
 		"Separator",
 		"Table",
 		"Tag"
 	],
-	"utils": [
-		"Theme"
+	"styling": [
+		"Theme",
+		"Components",
+		"Inline"
+	],
+	"types": [
+		""
 	]
 }
