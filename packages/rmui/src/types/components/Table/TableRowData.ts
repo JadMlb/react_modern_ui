@@ -1,1 +1,1 @@
-export type TableRowData = {[key: string]: string | number};
+export type TableRowData = {[key: string]: React.ReactNode};

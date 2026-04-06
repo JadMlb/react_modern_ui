@@ -10,7 +10,7 @@ interface TableBodyProps extends TableRowProps
 	onRowContextMenu?: OnRowContextMenu;
 }
 
-export default function TableBody ({rows, columns, cellStyle, style, onRowClick, onRowContextMenu}: TableBodyProps)
+export default function TableBody ({rows, columns, cellStyle, cellContentStyle, style, onRowClick, onRowContextMenu}: TableBodyProps)
 {
 	return (
 		<div>{
@@ -20,6 +20,7 @@ export default function TableBody ({rows, columns, cellStyle, style, onRowClick,
 							columns = {columns}
 							style = {style}
 							cellStyle = {cellStyle}
+							cellContentStyle = {cellContentStyle}
 							row = {row}
 							onClick = {onRowClick}
 							onContextMenu = {onRowContextMenu}

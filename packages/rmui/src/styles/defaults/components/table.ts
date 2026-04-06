@@ -34,9 +34,22 @@ const DEFAULT_TABLE_PROPS: Overridable<OverridableTableProps, TableStylingProps>
 			overflow: "hidden"
 		}),
 		headerCellStyle: {
+			":not(:first-of-type)": {
+				borderLeft: "1px solid gray",
+			},
+			display: "flex",
+			gap: "spacing.small",
 			fontWeight: "bold",
 			alignItems: "center",
-			cursor: "default"
+			cursor: "default",
+			"button": {
+				width: 30,
+				height: 30
+			}
+		},
+		headerCellContentStyle: {
+			display: "flex",
+			alignItems: "center"
 		},
 		tableRowStyle: (_, {columns}) => ({
 			display: "grid",
@@ -60,6 +73,10 @@ const DEFAULT_TABLE_PROPS: Overridable<OverridableTableProps, TableStylingProps>
 			paddingInline: "spacing.xsmall",
 			display: "flex",
 			textOverflow: "ellipsis"
+		},
+		cellContentStyle: {
+			display: "flex",
+			alignItems: "center"
 		},
 		footerStyle: {
 			display: "flex",
