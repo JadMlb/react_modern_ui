@@ -5,4 +5,5 @@ export default interface TableRowProps
 	columns: TableColumn[];
 	cellStyle?: StaticStyle;
 	style?: StaticStyle;
+	cellContentStyle?: StaticStyle;
 }

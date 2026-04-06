@@ -13,7 +13,7 @@ interface TableHeadCellProps extends TableCellProps
 	}
 }
 
-export default function TableHeadCell ({def, style, sorting, onSort, chevronColour}: TableHeadCellProps)
+export default function TableHeadCell ({def, style, contentStyle, sorting, onSort, chevronColour}: TableHeadCellProps)
 {
 	function handleSort ()
 	{
@@ -27,6 +27,7 @@ export default function TableHeadCell ({def, style, sorting, onSort, chevronColo
 		<TableCell
 			def = {def}
 			style = {style}
+			contentStyle = {contentStyle}
 		>
 			{def.displayName}
 			{

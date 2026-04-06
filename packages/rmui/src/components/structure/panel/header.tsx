@@ -16,12 +16,9 @@ interface PanelHeaderProps
 
 export default function PanelHeader ({title, style, collapsible, collapsed, onCollapseToggle, toggleCollapseButtonStyle, toggleCollapseButtonChevronColour, toggleCollapseButtonChevronForceMode}: PanelHeaderProps)
 {
-	if (!title)
-		return null;
-
 	return (
 		<div css = {style}>
-			<span>{title}</span>
+			<span className = "rmui-panel-header-title">{title}</span>
 			{
 				collapsible &&
 				<Button

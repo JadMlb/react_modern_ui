@@ -10,7 +10,7 @@ interface TableDataRowProps extends TableRowProps
 	onContextMenu?: OnRowContextMenu;
 }
 
-export default function TableRow ({row, columns, cellStyle, style, onClick, onContextMenu}: TableDataRowProps)
+export default function TableRow ({row, columns, cellStyle, style, cellContentStyle, onClick, onContextMenu}: TableDataRowProps)
 {
 	function handleClick ()
 	{
@@ -33,6 +33,7 @@ export default function TableRow ({row, columns, cellStyle, style, onClick, onCo
 							key = {col.name}
 							def = {col}
 							style = {cellStyle}
+							contentStyle = {cellContentStyle}
 						>
 							{row[col.name]}
 						</TableCell>

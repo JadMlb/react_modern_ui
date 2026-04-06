@@ -6,7 +6,7 @@ interface DataTableCellProps extends TableCellProps
 	children?: React.ReactNode;
 }
 
-export default function TableCell ({def, style, children}: DataTableCellProps)
+export default function TableCell ({def, style, contentStyle, children}: DataTableCellProps)
 {
 	const injectedStyle = useMemo (
 		() => ({
@@ -26,7 +26,7 @@ export default function TableCell ({def, style, children}: DataTableCellProps)
 
 	return (
 		<div css = {css}>
-			{children}
+			<span css = {contentStyle}>{children}</span>
 		</div>
 	);
 }

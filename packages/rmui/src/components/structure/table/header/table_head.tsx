@@ -9,7 +9,7 @@ interface TableHeadProps extends TableRowProps
 	chevronColour?: string;
 }
 
-export default function TableHead ({columns, style, cellStyle, onSort, chevronColour}: TableHeadProps)
+export default function TableHead ({columns, style, cellStyle, cellContentStyle, onSort, chevronColour}: TableHeadProps)
 {
 	const [sortingColumn, setSortingColumn] = useState<{column: string, desc?: boolean} | null> (null);
 
@@ -58,6 +58,7 @@ export default function TableHead ({columns, style, cellStyle, onSort, chevronCo
 							key = {col.name}
 							def = {col}
 							style = {cellStyle}
+							contentStyle = {cellContentStyle}
 							sorting = {getSortingValueOfColumn (col.name)}
 							onSort = {handleSort}
 							chevronColour = {chevronColour}

@@ -17,9 +17,11 @@ export default function Table (instanceProps: TableProps)
 		columns,
 		headerRowStyle,
 		headerCellStyle,
+		headerCellContentStyle,
 		rows,
 		tableRowStyle,
 		tableCellStyle,
+		cellContentStyle,
 		footer,
 		footerStyle,
 		pageSizes,
@@ -41,8 +43,10 @@ export default function Table (instanceProps: TableProps)
 	const headingCss = useStyle ("table", props, headingStyle, "headingStyle");
 	const headerRowCss = useStyle ("table", props, headerRowStyle, "headerRowStyle");
 	const headerCellCss = useStyle ("table", props, headerCellStyle, "headerCellStyle");
+	const headerCellContentCss = useStyle ("table", props, headerCellContentStyle, "headerCellContentStyle");
 	const tableRowCss = useStyle ("table", props, tableRowStyle, "tableRowStyle");
 	const tableCellCss = useStyle ("table", props, tableCellStyle, "tableCellStyle");
+	const cellContentCss = useStyle ("table", props, cellContentStyle, "cellContentStyle");
 	const footerCss = useStyle ("table", props, footerStyle, "footerStyle");
 	const paginationCss = useStyle ("table", props, paginationStyle, "paginationStyle");
 	
@@ -64,6 +68,7 @@ export default function Table (instanceProps: TableProps)
 				onSort = {onSort}
 				style = {headerRowCss}
 				cellStyle = {headerCellCss}
+				cellContentStyle = {headerCellContentCss}
 				chevronColour = {sortButtonChevronColour}
 			/>
 			{/* body */}
@@ -72,6 +77,7 @@ export default function Table (instanceProps: TableProps)
 				rows = {rows ?? []}
 				style = {tableRowCss}
 				cellStyle = {tableCellCss}
+				cellContentStyle = {cellContentCss}
 				onRowClick = {onRowClick}
 				onRowContextMenu = {onRowContextMenu}
 			/>

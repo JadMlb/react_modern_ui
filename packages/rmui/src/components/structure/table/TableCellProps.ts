@@ -1,7 +1,8 @@
-import { Style, TableColumn } from "../../../types";
+import { StaticStyle, Style, TableColumn } from "../../../types";
 
 export default interface TableCellProps
 {
 	def: TableColumn;
 	style?: Style;
+	contentStyle?: StaticStyle;
 }
